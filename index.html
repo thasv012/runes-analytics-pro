@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Rastreador de Baleias</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="assets/logo.svg" alt="RUNES Whale Tracker" class="logo-img">
+                <h1>RUNES Analytics Pro</h1>
+            </div>
+            <div class="search-container">
+                <input type="text" id="token-search" placeholder="Buscar token (ex: DOG, PEPE, MEME)">
+                <div class="search-results" id="search-results"></div>
+            </div>
+            <div class="user-controls">
+                <button id="favorites-btn" class="icon-btn">
+                    <i class="fas fa-star"></i>
+                    <span>Favoritos</span>
+                </button>
+                <button id="theme-toggle" class="icon-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Página Inicial - Lista de Tokens -->
+        <section id="tokens-list-section" class="active-section">
+            <div class="section-header">
+                <h2>Tokens RUNES por Volume</h2>
+                <div class="timeframe-selector">
+                    <button data-timeframe="1h" class="timeframe-btn">1h</button>
+                    <button data-timeframe="24h" class="timeframe-btn active">24h</button>
+                    <button data-timeframe="7d" class="timeframe-btn">7d</button>
+                    <button data-timeframe="30d" class="timeframe-btn">30d</button>
+                    <button data-timeframe="all" class="timeframe-btn">Total</button>
+                </div>
+            </div>
+
+            <div class="tokens-grid">
+                <div class="tokens-table-container">
+                    <table class="tokens-table">
+                        <thead>
+                            <tr>
+                                <th class="favorite-col"></th>
+                                <th class="rank-col">#</th>
+                                <th class="name-col">Token</th>
+                                <th class="price-col">Preço (BTC)</th>
+                                <th class="change-col">Variação 24h</th>
+                                <th class="volume-col">Volume</th>
+                                <th class="market-cap-col">Market Cap</th>
+                                <th class="holders-col">Holders</th>
+                                <th class="whale-alert-col">Alerta Baleias</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tokens-table-body">
+                            <!-- Preenchido via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="top-movers">
+                <div class="movers-header">
+                    <h3>Maiores Movimentações</h3>
+                </div>
+                <div class="movers-grid">
+                    <div class="movers-card gainers">
+                        <h4>Maiores Altas</h4>
+                        <div class="movers-list" id="top-gainers">
+                            <!-- Preenchido via JavaScript -->
+                        </div>
+                    </div>
+                    <div class="movers-card losers">
+                        <h4>Maiores Quedas</h4>
+                        <div class="movers-list" id="top-losers">
+                            <!-- Preenchido via JavaScript -->
+                        </div>
+                    </div>
+                    <div class="movers-card volume">
+                        <h4>Maior Volume</h4>
+                        <div class="movers-list" id="top-volume">
+                            <!-- Preenchido via JavaScript -->
+                        </div>
+                    </div>
+                    <div class="movers-card whales">
+                        <h4>Atividade de Baleias</h4>
+                        <div class="movers-list" id="whale-activity">
+                            <!-- Preenchido via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página de Análise Individual de Token -->
+        <section id="token-analysis-section" class="hidden-section">
+            <div class="back-button">
+                <button id="back-to-list">
+                    <i class="fas fa-arrow-left"></i> Voltar para Lista
+                </button>
+            </div>
+            
+            <!-- Conteúdo da análise individual será carregado aqui -->
+            <div id="token-dashboard"></div>
+        </section>
+
+        <!-- Painel de Favoritos -->
+        <div id="favorites-panel" class="favorites-panel">
+            <div class="favorites-header">
+                <h3>Seus Tokens Favoritos</h3>
+                <button id="close-favorites" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="favorites-list" id="favorites-list">
+                <!-- Preenchido via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023 RUNES Analytics Pro. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Termos de Uso</a>
+                <a href="#">Privacidade</a>
+                <a href="#">Contato</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,483 @@
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --accent-color: #3498db;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f1c40f;
+    --border-color: rgba(255,255,255,0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+}
+
+.search-container {
+    position: relative;
+    width: 300px;
+}
+
+#token-search {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+}
+
+.search-results.active {
+    display: block;
+}
+
+.search-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.user-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.icon-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Main Content */
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.timeframe-selector {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.timeframe-btn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.timeframe-btn.active {
+    background: var(--accent-color);
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+}
+
+/* Tokens Table */
+.tokens-table-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.tokens-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tokens-table th,
+.tokens-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tokens-table th {
+    color: var(--text-secondary);
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.tokens-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tokens-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.favorite-col {
+    width: 40px;
+    text-align: center;
+}
+
+.rank-col {
+    width: 60px;
+    text-align: center;
+}
+
+.name-col {
+    min-width: 200px;
+}
+
+.token-name {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.token-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.token-symbol {
+    font-weight: bold;
+}
+
+.token-fullname {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.price-col {
+    min-width: 120px;
+    text-align: right;
+}
+
+.change-col {
+    min-width: 100px;
+    text-align: right;
+}
+
+.volume-col, .market-cap-col, .holders-col {
+    min-width: 120px;
+    text-align: right;
+}
+
+.whale-alert-col {
+    min-width: 120px;
+    text-align: center;
+}
+
+.positive {
+    color: var(--success-color);
+}
+
+.negative {
+    color: var(--danger-color);
+}
+
+.neutral {
+    color: var(--text-secondary);
+}
+
+.favorite-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.favorite-btn:hover, .favorite-btn.active {
+    color: var(--warning-color);
+}
+
+.whale-indicator {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.whale-indicator.high {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--danger-color);
+}
+
+.whale-indicator.medium {
+    background: rgba(241, 196, 15, 0.2);
+    color: var(--warning-color);
+}
+
+.whale-indicator.low {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--success-color);
+}
+
+/* Top Movers */
+.top-movers {
+    margin-top: 2rem;
+}
+
+.movers-header {
+    margin-bottom: 1rem;
+}
+
+.movers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.movers-card {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.movers-card h4 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.movers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mover-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+}
+
+.mover-token {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mover-change {
+    font-weight: bold;
+}
+
+/* Favorites Panel */
+.favorites-panel {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100vh;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
+.favorites-panel.active {
+    right: 0;
+}
+
+.favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.favorites-list {
+    padding: 1rem;
+}
+
+.favorite-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.favorite-item:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.favorite-token {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.favorite-price {
+    text-align: right;
+}
+
+.favorite-change {
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+/* Token Analysis Section */
+.back-button {
+    margin-bottom: 1.5rem;
+}
+
+#back-to-list {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#back-to-list:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.hidden-section {
+    display: none;
+}
+
+.active-section {
+    display: block;
+}
+
+/* Footer */
+footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
