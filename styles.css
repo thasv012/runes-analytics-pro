@@ -481,3 +481,145 @@ footer {
     50% { opacity: 0.5; }
     100% { opacity: 1; }
 }
+
+/* Pain�is de teste */
+.sound-test-panel, .test-alerts-panel {
+    background-color: #1a2233;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.sound-buttons, .alert-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.sound-buttons button, .alert-buttons button {
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sound-buttons button:hover, .alert-buttons button:hover {
+    background-color: #3498db;
+}
+
+/* Estilos para o painel de alertas */
+.alert-dashboard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.alert-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: #555;
+}
+
+.tab-btn.active {
+    border-bottom-color: #3498db;
+    color: #3498db;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.alerts-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.alert-item {
+    border-left: 4px solid #ddd;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.alert-item.low { border-left-color: #3498db; }
+.alert-item.medium { border-left-color: #f39c12; }
+.alert-item.high { border-left-color: #e67e22; }
+.alert-item.critical { border-left-color: #e74c3c; }
+
+/* Estilos para garantir visibilidade correta das seções */
+section.hidden {
+    display: none !important;
+}
+
+section:not(.hidden) {
+    display: block !important;
+}
+
+/* Estilos para links de conteúdo */
+.content-link {
+    color: #3498db;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.content-link:hover {
+    text-decoration: underline;
+}
+
+/* Garantir que o painel de alertas tenha altura suficiente */
+#alerts {
+    min-height: 500px;
+}
+
+.alert-panel-container {
+    margin-top: 20px;
+}
+
+/* Estilos para tornar elementos clicáveis */
+.clickable {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.clickable:hover {
+    opacity: 0.8;
+}
+
+/* Estilo para indicar que elementos são clicáveis */
+h2.clickable::after, h3.clickable::after {
+    content: " 🔍";
+    font-size: 0.8em;
+    opacity: 0.5;
+}
+
+/* Garantir que o painel do Sistema de Alertas apareça corretamente */
+#Sistema-de-Alertas, #alerts {
+    display: block;
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}

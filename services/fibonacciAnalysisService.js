@@ -1,171 +1,365 @@
 class FibonacciAnalysisService {
     constructor() {
-        this.levels = {
-            extensions: [4.236, 2.618, 1.618],
-            retracements: [1.000, 0.786, 0.618, 0.500, 0.382, 0.236],
-            projections: [1.272, 1.414, 1.618, 2.000, 2.414, 2.618]
+        this.retracementLevels = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1];
+        this.extensionLevels = [1.272, 1.414, 1.618, 2, 2.272, 2.414, 2.618, 3, 3.618, 4.236];
+    }
+    
+    analyzeTrend(priceData) {
+        // Determinar tendência atual
+        const prices = priceData.map(p => p.close);
+        const periods = [7, 14, 30]; // Períodos para análise
+        
+        const trends = periods.map(period => {
+            const relevantPrices = prices.slice(-period);
+            if (relevantPrices.length < period) return null;
+            
+            const firstPrice = relevantPrices[0];
+            const lastPrice = relevantPrices[relevantPrices.length - 1];
+            const change = (lastPrice - firstPrice) / firstPrice * 100;
+            
+            return {
+                period,
+                change,
+                direction: change > 0 ? 'uptrend' : change < 0 ? 'downtrend' : 'sideways'
+            };
+        }).filter(t => t !== null);
+        
+        // Determinar tendência dominante
+        const dominantTrend = this.getDominantTrend(trends);
+        
+        return {
+            trends,
+            dominantTrend
         };
-        this.trendData = null;
-        this.setupListeners();
     }
-
-    setupListeners() {
-        document.getElementById('fib-trend').addEventListener('change', (e) => {
-            this.updateTrendDirection(e.target.value);
+    
+    getDominantTrend(trends) {
+        if (trends.length === 0) return { direction: 'sideways', confidence: 0 };
+        
+        // Pesos para diferentes períodos (mais recente tem mais peso)
+        const weights = {
+            7: 0.5,  // 50% de peso para tendência de 7 dias
+            14: 0.3, // 30% de peso para tendência de 14 dias
+            30: 0.2  // 20% de peso para tendência de 30 dias
+        };
+        
+        let uptrendScore = 0;
+        let downtrendScore = 0;
+        
+        trends.forEach(trend => {
+            const weight = weights[trend.period] || 0;
+            const score = Math.min(Math.abs(trend.change), 20) / 20; // Normalizar para 0-1
+            
+            if (trend.direction === 'uptrend') {
+                uptrendScore += score * weight;
+            } else if (trend.direction === 'downtrend') {
+                downtrendScore += score * weight;
+            }
         });
-
-        document.getElementById('refresh-fib').addEventListener('click', () => {
-            this.recalculateLevels();
-        });
+        
+        const totalScore = uptrendScore + downtrendScore;
+        
+        if (totalScore < 0.2) {
+            return { direction: 'sideways', confidence: Math.round((1 - totalScore) * 100) };
+        } else if (uptrendScore > downtrendScore) {
+            return { direction: 'uptrend', confidence: Math.round((uptrendScore / totalScore) * 100) };
+        } else {
+            return { direction: 'downtrend', confidence: Math.round((downtrendScore / totalScore) * 100) };
+        }
     }
-
-    async analyzeTrend(priceData) {
-        const high = Math.max(...priceData.map(p => p.high));
-        const low = Math.min(...priceData.map(p => p.low));
-        const current = priceData[priceData.length - 1].close;
-
-        this.trendData = {
+    
+    calculateFibonacciLevels(high, low, currentPrice, trend) {
+        const range = high - low;
+        const levels = {};
+        
+        // Calcular níveis de retração
+        this.retracementLevels.forEach(level => {
+            levels[`retracement_${level}`] = {
+                level: level,
+                price: high - (range * level),
+                type: 'retracement'
+            };
+        });
+        
+        // Calcular níveis de extensão
+        this.extensionLevels.forEach(level => {
+            const extensionLevel = level - 1; // Ajustar para cálculo correto
+            levels[`extension_${level}`] = {
+                level: level,
+                price: high + (range * extensionLevel),
+                type: 'extension'
+            };
+        });
+        
+        // Identificar níveis próximos ao preço atual
+        const nearLevels = this.findNearLevels(levels, currentPrice);
+        
+        // Identificar suportes e resistências baseados na tendência
+        const supports = this.identifySupports(levels, currentPrice, trend);
+        const resistances = this.identifyResistances(levels, currentPrice, trend);
+        
+        // Identificar alvos potenciais
+        const targets = this.identifyTargets(levels, currentPrice, trend);
+        
+        return {
             high,
             low,
-            current,
-            range: high - low,
-            trend: current > (high + low) / 2 ? 'uptrend' : 'downtrend'
+            currentPrice,
+            trend,
+            levels,
+            nearLevels,
+            supports,
+            resistances,
+            targets
         };
-
-        return this.trendData;
     }
-
-    calculateLevels() {
-        if (!this.trendData) return null;
-
-        const { high, low, range } = this.trendData;
-        const levels = {
-            extensions: {},
-            retracements: {},
-            projections: {}
-        };
-
-        // Calcular extensões
-        this.levels.extensions.forEach(level => {
-            levels.extensions[level] = high + (range * level);
-        });
-
-        // Calcular retrações
-        this.levels.retracements.forEach(level => {
-            levels.retracements[level] = high - (range * level);
-        });
-
-        // Calcular projeções
-        this.levels.projections.forEach(level => {
-            levels.projections[level] = low + (range * level);
-        });
-
-        return levels;
-    }
-
-    findConfluenceZones(levels) {
-        const allLevels = [];
-        const tolerance = 0.001; // 0.1% de tolerância
-
-        // Combinar todos os níveis
-        Object.entries(levels).forEach(([type, typeLevels]) => {
-            Object.entries(typeLevels).forEach(([level, price]) => {
-                allLevels.push({
-                    type,
-                    level: parseFloat(level),
-                    price
-                });
-            });
-        });
-
-        // Encontrar zonas de confluência
-        const zones = [];
-        allLevels.forEach((level1, i) => {
-            const confluent = allLevels.slice(i + 1).filter(level2 => {
-                const diff = Math.abs(level1.price - level2.price) / level1.price;
-                return diff <= tolerance;
-            });
-
-            if (confluent.length > 0) {
-                zones.push({
-                    price: level1.price,
-                    levels: [level1, ...confluent],
-                    strength: confluent.length + 1
+    
+    findNearLevels(levels, currentPrice) {
+        const threshold = 0.03; // 3% de proximidade
+        const nearLevels = [];
+        
+        Object.values(levels).forEach(level => {
+            const distance = Math.abs(level.price - currentPrice) / currentPrice;
+            if (distance <= threshold) {
+                nearLevels.push({
+                    ...level,
+                    distance: distance,
+                    percentDistance: (distance * 100).toFixed(2) + '%'
                 });
             }
         });
-
-        return zones.sort((a, b) => b.strength - a.strength);
+        
+        return nearLevels.sort((a, b) => a.distance - b.distance);
     }
-
-    calculateProbability(level, confluenceZones, historicalData) {
-        let probability = 0;
-
-        // Fatores que aumentam a probabilidade
-        const factors = {
-            confluenceStrength: 0.3,  // 30% peso para confluência
-            historicalReaction: 0.4,  // 40% peso para reações históricas
-            trendAlignment: 0.3      // 30% peso para alinhamento com tendência
+    
+    identifySupports(levels, currentPrice, trend) {
+        const supports = [];
+        
+        Object.values(levels).forEach(level => {
+            if (level.price < currentPrice) {
+                let strength = 'fraca';
+                
+                // Níveis de retração específicos são suportes mais fortes
+                if (level.type === 'retracement') {
+                    if (level.level === 0.618) strength = 'forte';
+                    else if (level.level === 0.786) strength = 'muito forte';
+                    else if (level.level === 0.5) strength = 'moderada';
+                }
+                
+                // Em tendência de alta, suportes são mais importantes
+                if (trend.direction === 'uptrend') {
+                    if (strength === 'fraca') strength = 'moderada';
+                    else if (strength === 'moderada') strength = 'forte';
+                    else if (strength === 'forte') strength = 'muito forte';
+                }
+                
+                supports.push({
+                    ...level,
+                    strength
+                });
+            }
+        });
+        
+        return supports.sort((a, b) => b.price - a.price);
+    }
+    
+    identifyResistances(levels, currentPrice, trend) {
+        const resistances = [];
+        
+        Object.values(levels).forEach(level => {
+            if (level.price > currentPrice) {
+                let strength = 'fraca';
+                
+                // Níveis de retração específicos são resistências mais fortes
+                if (level.type === 'retracement') {
+                    if (level.level === 0.236) strength = 'forte';
+                    else if (level.level === 0) strength = 'muito forte';
+                    else if (level.level === 0.382) strength = 'moderada';
+                }
+                
+                // Níveis de extensão específicos também são resistências importantes
+                if (level.type === 'extension') {
+                    if (level.level === 1.618) strength = 'forte';
+                    else if (level.level === 2.618) strength = 'muito forte';
+                }
+                
+                // Em tendência de baixa, resistências são mais importantes
+                if (trend.direction === 'downtrend') {
+                    if (strength === 'fraca') strength = 'moderada';
+                    else if (strength === 'moderada') strength = 'forte';
+                    else if (strength === 'forte') strength = 'muito forte';
+                }
+                
+                resistances.push({
+                    ...level,
+                    strength
+                });
+            }
+        });
+        
+        return resistances.sort((a, b) => a.price - b.price);
+    }
+    
+    identifyTargets(levels, currentPrice, trend) {
+        const targets = [];
+        
+        if (trend.direction === 'uptrend') {
+            // Em tendência de alta, alvos são extensões acima do preço atual
+            const extensionTargets = [1.618, 2.618, 3.618];
+            
+            extensionTargets.forEach((targetLevel, index) => {
+                const level = levels[`extension_${targetLevel}`];
+                if (level && level.price > currentPrice) {
+                    targets.push({
+                        ...level,
+                        probability: index === 0 ? 'alta' : index === 1 ? 'média' : 'baixa',
+                        potentialReturn: ((level.price - currentPrice) / currentPrice * 100).toFixed(2) + '%'
+                    });
+                }
+            });
+        } else if (trend.direction === 'downtrend') {
+            // Em tendência de baixa, alvos são retrações abaixo do preço atual
+            const retracementTargets = [0.618, 0.786, 1];
+            
+            retracementTargets.forEach((targetLevel, index) => {
+                const level = levels[`retracement_${targetLevel}`];
+                if (level && level.price < currentPrice) {
+                    targets.push({
+                        ...level,
+                        probability: index === 0 ? 'alta' : index === 1 ? 'média' : 'baixa',
+                        potentialDrop: ((currentPrice - level.price) / currentPrice * 100).toFixed(2) + '%'
+                    });
+                }
+            });
+        }
+        
+        return targets;
+    }
+    
+    generateFibonacciReport(analysis) {
+        const { trend, supports, resistances, targets, nearLevels } = analysis;
+        
+        let report = {
+            trendAnalysis: {
+                direction: trend.direction,
+                confidence: trend.confidence,
+                recommendation: this.getTrendRecommendation(trend)
+            },
+            keyLevels: {
+                nearestLevel: nearLevels.length > 0 ? nearLevels[0] : null,
+                strongestSupport: supports.find(s => s.strength === 'muito forte') || supports[0],
+                strongestResistance: resistances.find(r => r.strength === 'muito forte') || resistances[0]
+            },
+            targets: targets.map(target => ({
+                price: target.price,
+                level: target.level,
+                probability: target.probability,
+                potentialReturn: target.potentialReturn || target.potentialDrop
+            })),
+            tradingStrategy: this.generateTradingStrategy(analysis)
         };
-
-        // Análise de confluência
-        const confluence = confluenceZones.find(zone => 
-            Math.abs(zone.price - level) / level < 0.001
-        );
-        if (confluence) {
-            probability += (confluence.strength / 5) * factors.confluenceStrength;
-        }
-
-        // Análise histórica
-        const historicalReactions = this.analyzeHistoricalReactions(level, historicalData);
-        probability += historicalReactions * factors.historicalReaction;
-
-        // Alinhamento com tendência
-        const trendAlignment = this.calculateTrendAlignment(level);
-        probability += trendAlignment * factors.trendAlignment;
-
-        return Math.min(Math.round(probability * 100), 100);
+        
+        return report;
     }
-
-    updateUI(levels, confluenceZones, probabilities) {
-        // Atualizar níveis de extensão
-        Object.entries(levels.extensions).forEach(([level, price]) => {
-            const element = document.querySelector(`.ext-${level.replace('.', '')}`);
-            if (element) {
-                element.querySelector('.level-price').textContent = price.toFixed(8);
-            }
-        });
-
-        // Atualizar níveis de retração
-        Object.entries(levels.retracements).forEach(([level, price]) => {
-            const element = document.querySelector(`.ret-${level.replace('.', '')}`);
-            if (element) {
-                element.querySelector('.level-price').textContent = price.toFixed(8);
-            }
-        });
-
-        // Atualizar zonas de confluência
-        const confluenceContainer = document.getElementById('confluence-zones');
-        if (confluenceContainer) {
-            confluenceContainer.innerHTML = confluenceZones.map(zone => `
-                <div class="zone-item">
-                    <div class="zone-price">${zone.price.toFixed(8)}</div>
-                    <div class="zone-levels">
-                        ${zone.levels.map(l => l.level).join(' | ')}
-                    </div>
-                    <div class="zone-strength">
-                        Força: ${zone.strength}
-                    </div>
-                </div>
-            `).join('');
+    
+    getTrendRecommendation(trend) {
+        if (trend.direction === 'uptrend' && trend.confidence > 70) {
+            return 'Tendência de alta forte - considere comprar em suportes';
+        } else if (trend.direction === 'uptrend') {
+            return 'Tendência de alta - busque oportunidades de entrada em retrações';
+        } else if (trend.direction === 'downtrend' && trend.confidence > 70) {
+            return 'Tendência de baixa forte - considere vender em resistências';
+        } else if (trend.direction === 'downtrend') {
+            return 'Tendência de baixa - evite compras, aguarde reversão';
+        } else {
+            return 'Mercado lateral - opere com cautela nos extremos do range';
         }
-
-        // Atualizar probabilidades
-        if (probabilities) {
-            document.getElementById('support-conf').textContent = `${probabilities.support}%`;
-            document.getElementById('resistance-conf').textContent = `${probabilities.resistance}%`;
-            document.getElementById('target-conf').textContent = `${probabilities.target}%`;
+    }
+    
+    generateTradingStrategy(analysis) {
+        const { trend, supports, resistances, currentPrice } = analysis;
+        
+        if (trend.direction === 'uptrend') {
+            // Estratégia para tendência de alta
+            const entryPoints = supports.slice(0, 2).map(s => ({
+                price: s.price,
+                type: 'suporte',
+                level: s.level,
+                strength: s.strength
+            }));
+            
+            const exitPoints = resistances.slice(0, 2).map(r => ({
+                price: r.price,
+                type: 'resistência',
+                level: r.level,
+                strength: r.strength
+            }));
+            
+            const stopLoss = supports.length > 0 ? 
+                supports[0].price * 0.95 : // 5% abaixo do primeiro suporte
+                currentPrice * 0.9; // 10% abaixo do preço atual
+            
+            return {
+                strategy: 'Comprar em suportes, vender em resistências',
+                entryPoints,
+                exitPoints,
+                stopLoss,
+                riskRewardRatio: this.calculateRiskReward(currentPrice, exitPoints[0]?.price, stopLoss)
+            };
+        } else if (trend.direction === 'downtrend') {
+            // Estratégia para tendência de baixa
+            const entryPoints = resistances.slice(0, 2).map(r => ({
+                price: r.price,
+                type: 'resistência',
+                level: r.level,
+                strength: r.strength
+            }));
+            
+            const exitPoints = supports.slice(0, 2).map(s => ({
+                price: s.price,
+                type: 'suporte',
+                level: s.level,
+                strength: s.strength
+            }));
+            
+            const stopLoss = resistances.length > 0 ? 
+                resistances[0].price * 1.05 : // 5% acima da primeira resistência
+                currentPrice * 1.1; // 10% acima do preço atual
+            
+            return {
+                strategy: 'Vender em resistências, comprar em suportes',
+                entryPoints,
+                exitPoints,
+                stopLoss,
+                riskRewardRatio: this.calculateRiskReward(currentPrice, exitPoints[0]?.price, stopLoss)
+            };
+        } else {
+            // Estratégia para mercado lateral
+            return {
+                strategy: 'Operar nos extremos do range',
+                entryPoints: [
+                    { price: supports[0]?.price, type: 'suporte', strength: supports[0]?.strength },
+                    { price: resistances[0]?.price, type: 'resistência', strength: resistances[0]?.strength }
+                ],
+                exitPoints: [
+                    { price: resistances[0]?.price, type: 'resistência', strength: resistances[0]?.strength },
+                    { price: supports[0]?.price, type: 'suporte', strength: supports[0]?.strength }
+                ],
+                stopLoss: supports[0]?.price * 0.95,
+                riskRewardRatio: 1
+            };
         }
+    }
+    
+    calculateRiskReward(entryPrice, targetPrice, stopLoss) {
+        if (!entryPrice || !targetPrice || !stopLoss) return 1;
+        
+        const reward = Math.abs(targetPrice - entryPrice);
+        const risk = Math.abs(entryPrice - stopLoss);
+        
+        if (risk === 0) return 0;
+        
+        return (reward / risk).toFixed(2);
     }
 }
 

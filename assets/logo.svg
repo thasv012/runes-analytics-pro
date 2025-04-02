@@ -65,8 +65,7 @@
     
     <!-- Gráfico de preço sobreposto -->
     <polyline points="40,110 60,105 80,115 100,90 120,100 140,85 160,95" 
-              fill="none" stroke="#2ecc71" stroke-width="2" opacity="0.8"
-              stroke-dasharray="1,1"/>
+              fill="none" stroke="#2ecc71" stroke-width="2" opacity="0.8"/>
     
     <!-- Pontos de dados -->
     <circle cx="60" cy="105" r="3" fill="#2ecc71"/>
@@ -79,8 +78,7 @@
           font-size="16" 
           fill="#f1c40f" 
           text-anchor="middle" 
-          font-weight="bold"
-          filter="url(#glow)">?</text>
+          font-weight="bold">?</text>
     
     <!-- Texto "WHALE TRACKER" -->
     <text x="100" y="155" 
@@ -88,14 +86,12 @@
           font-size="16" 
           fill="#fff" 
           text-anchor="middle" 
-          font-weight="bold"
-          filter="url(#glow)">WHALE TRACKER</text>
+          font-weight="bold">WHALE TRACKER</text>
     
     <!-- Texto "RUNES" -->
     <text x="100" y="175" 
           font-family="Arial, sans-serif" 
           font-size="12" 
           fill="#3498db" 
-          text-anchor="middle"
-          filter="url(#glow)">RUNES ANALYTICS</text>
+          text-anchor="middle">RUNES ANALYTICS</text>
 </svg>

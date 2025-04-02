@@ -1,23 +1,26 @@
-ï»¿{
+{
   "name": "runes-analytics-pro",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Plataforma avançada para análise de tokens RUNES com rastreamento de baleias",
+  "main": "app.js",
   "scripts": {
-    "prestart": "node checkEnv.js",
-    "start": "node server.js",
-    "predev": "node checkEnv.js",
-    "dev": "nodemon server.js --ignore 'data/*'",
-    "build": "mkdir -p dist && cp -r assets components services *.{html,css,js} dist/",
-    "test": "node test.js"
+    "start": "http-server -p 3000",
+    "dev": "http-server -p 3000 -c-1"
   },
+  "keywords": [
+    "runes",
+    "bitcoin",
+    "analytics",
+    "whale",
+    "tracking"
+  ],
+  "author": "Thierry",
+  "license": "MIT",
   "dependencies": {
     "chart.js": "^4.4.1",
-    "d3": "^7.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "ws": "^8.14.2"
+    "d3": "^7.8.5"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "http-server": "^14.1.1"
   }
 }

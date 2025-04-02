@@ -1,91 +1,112 @@
-import runesMarketDataService from './services/runesMarketDataService.js';
-import whaleAlertService from './services/whaleAlertService.js';
-import TokenDashboard from './components/TokenDashboard.js';
-import WhaleMonitor from './components/WhaleMonitor.js';
+import socialAnalysisService from "./services/socialAnalysisService.js";
+import runesMarketDataService from "./services/runesMarketDataService.js";
+import socialAnalysisService from "./services/socialAnalysisService.js";
+import whaleAlertService from "./services/whaleAlertService.js";
+import socialAnalysisService from "./services/socialAnalysisService.js";
+import fibonacciAnalysisService from "./services/fibonacciAnalysisService.js";
+import socialAnalysisService from "./services/socialAnalysisService.js";
+import notificationService from "./services/notificationService.js";
+import socialAnalysisService from "./services/socialAnalysisService.js";
+import integrationService from "./services/integrationService.js";
+import socialAnalysisService from "./services/socialAnalysisService.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar serviços
+document.addEventListener("DOMContentLoaded", () => {
     initializeServices();
-    
-    // Configurar navegação
     setupNavigation();
-    
-    // Carregar dados iniciais
     loadInitialData();
-    
-    // Configurar eventos
     setupEventListeners();
-    
-    // Inicializar componentes
-    initializeComponents();
 });
 
 function initializeServices() {
-    // Os serviços já são inicializados automaticamente quando importados
-    console.log('Serviços inicializados');
+    console.log("Serviï¿½os inicializados");
 }
 
 function setupNavigation() {
-    // Botão de voltar para a lista
-    document.getElementById('back-to-list').addEventListener('click', () => {
-        document.getElementById('token-analysis-section').classList.add('hidden-section');
-        document.getElementById('token-analysis-section').classList.remove('active-section');
-        document.getElementById('tokens-list-section').classList.add('active-section');
-        document.getElementById('tokens-list-section').classList.remove('hidden-section');
+    document.getElementById("back-to-list")?.addEventListener("click", () => {
+        document.getElementById("token-analysis-section").classList.add("hidden-section");
+        document.getElementById("token-analysis-section").classList.remove("active-section");
+        document.getElementById("tokens-list-section").classList.add("active-section");
+        document.getElementById("tokens-list-section").classList.remove("hidden-section");
     });
     
-    // Painel de favoritos
-    document.getElementById('favorites-btn').addEventListener('click', () => {
-        document.getElementById('favorites-panel').classList.toggle('active');
+    document.getElementById("favorites-btn")?.addEventListener("click", () => {
+        document.getElementById("favorites-panel").classList.toggle("active");
     });
     
-    document.getElementById('close-favorites').addEventListener('click', () => {
-        document.getElementById('favorites-panel').classList.remove('active');
+    document.getElementById("close-favorites")?.addEventListener("click", () => {
+        document.getElementById("favorites-panel").classList.remove("active");
+    });
+    
+    window.addEventListener("navigate_to_token", (event) => {
+        const ticker = event.detail.ticker;
+        if (ticker) navigateToTokenAnalysis(ticker);
     });
 }
 
 async function loadInitialData() {
     try {
-        // Carregar tokens por volume
-        const timeframe = document.querySelector('.timeframe-btn.active').dataset.timeframe || '24h';
+        const timeframe = document.querySelector(".timeframe-btn.active")?.dataset.timeframe || "24h";
         await loadTokensByVolume(timeframe);
-        
-        // Carregar top movers
         await loadTopMovers();
-        
-        // Carregar favoritos
         loadFavorites();
-    } catch (error) {
-        console.error('Erro ao carregar dados iniciais:', error);
-    }
-}
+    
+        // Carregar dados sociais
+        await loadSocialData(); catch (error) {
+        console.error("Erro ao carregar dados iniciais:", error);
+    
+        // Carregar dados sociais
+        await loadSocialData();
+
+        // Carregar dados sociais
+        await loadSocialData();
 
 function setupEventListeners() {
     // Seletor de timeframe
-    document.querySelectorAll('.timeframe-btn').forEach(button => {
-        button.addEventListener('click', async (e) => {
-            // Atualizar botão ativo
-            document.querySelectorAll('.timeframe-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            e.target.classList.add('active');
-            
-            // Carregar dados para o timeframe selecionado
-            const timeframe = e.target.dataset.timeframe;
-            await loadTokensByVolume(timeframe);
+    document.querySelectorAll(".timeframe-btn").forEach(button => {
+        button.addEventListener("click", async (e) => {
+            document.querySelectorAll(".timeframe-btn").forEach(btn => btn.classList.remove("active"));
+            e.target.classList.add("active");
+            await loadTokensByVolume(e.target.dataset.timeframe);
         });
     });
     
     // Pesquisa de tokens
-    const searchInput = document.getElementById('token-search');
-    const searchResults = document.getElementById('search-results');
+    setupSearchFunctionality();
     
-    searchInput.addEventListener('input', async (e) => {
+    // Alternar tema
+    document.getElementById("theme-toggle")?.addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+        const themeIcon = document.querySelector("#theme-toggle i");
+        if (themeIcon) {
+            if (document.body.classList.contains("light-theme")) {
+                themeIcon.classList.remove("fa-moon");
+                themeIcon.classList.add("fa-sun");
+            } else {
+                themeIcon.classList.remove("fa-sun");
+                themeIcon.classList.add("fa-moon");
+            }
+        }
+    });
+    
+    // Adicionar eventos aos itens de top movers
+    document.addEventListener("click", (e) => {
+        const moverItem = e.target.closest(".mover-item");
+        if (moverItem) navigateToTokenAnalysis(moverItem.dataset.ticker);
+    });
+}
+
+function setupSearchFunctionality() {
+    const searchInput = document.getElementById("token-search");
+    const searchResults = document.getElementById("search-results");
+    
+    if (!searchInput || !searchResults) return;
+    
+    searchInput.addEventListener("input", async (e) => {
         const query = e.target.value.trim();
         
         if (query.length < 2) {
-            searchResults.classList.remove('active');
-            searchResults.innerHTML = '';
+            searchResults.classList.remove("active");
+            searchResults.innerHTML = "";
             return;
         }
         
@@ -103,69 +124,42 @@ function setupEventListeners() {
                             </div>
                         </div>
                     </div>
-                `).join('');
+                `).join("");
                 
-                searchResults.classList.add('active');
+                searchResults.classList.add("active");
                 
-                // Adicionar evento de clique aos resultados
-                document.querySelectorAll('.search-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const ticker = item.dataset.ticker;
-                        navigateToTokenAnalysis(ticker);
-                        searchResults.classList.remove('active');
-                        searchInput.value = '';
+                document.querySelectorAll(".search-item").forEach(item => {
+                    item.addEventListener("click", () => {
+                        navigateToTokenAnalysis(item.dataset.ticker);
+                        searchResults.classList.remove("active");
+                        searchInput.value = "";
                     });
                 });
             } else {
                 searchResults.innerHTML = '<div class="search-item">Nenhum resultado encontrado</div>';
-                searchResults.classList.add('active');
+                searchResults.classList.add("active");
             }
         } catch (error) {
-            console.error('Erro na pesquisa:', error);
+            console.error("Erro na pesquisa:", error);
             searchResults.innerHTML = '<div class="search-item">Erro na pesquisa</div>';
-            searchResults.classList.add('active');
+            searchResults.classList.add("active");
         }
     });
     
-    // Fechar resultados ao clicar fora
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
         if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-            searchResults.classList.remove('active');
+            searchResults.classList.remove("active");
         }
     });
-    
-    // Alternar tema
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const themeIcon = document.querySelector('#theme-toggle i');
-        if (document.body.classList.contains('light-theme')) {
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        } else {
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-        }
-    });
-    
-    // Adicionar eventos aos itens de top movers
-    document.addEventListener('click', (e) => {
-        const moverItem = e.target.closest('.mover-item');
-        if (moverItem) {
-            const ticker = moverItem.dataset.ticker;
-            navigateToTokenAnalysis(ticker);
-        }
-    });
-}
-
-function initializeComponents() {
-    // Os componentes serão inicializados quando necessário
 }
 
 async function loadTokensByVolume(timeframe) {
+    const tableBody = document.getElementById("tokens-table-body");
+    if (!tableBody) return;
+    
+    tableBody.innerHTML = '<tr><td colspan="9" class="loading">Carregando tokens...</td></tr>';
+    
     try {
-        const tableBody = document.getElementById('tokens-table-body');
-        tableBody.innerHTML = '<tr><td colspan="9" class="loading">Carregando tokens...</td></tr>';
-        
         const tokens = await runesMarketDataService.getTopTokensByVolume(timeframe);
         
         if (tokens.length === 0) {
@@ -173,13 +167,12 @@ async function loadTokensByVolume(timeframe) {
             return;
         }
         
-        // Carregar favoritos
         const favorites = getFavorites();
         
         tableBody.innerHTML = tokens.map((token, index) => `
             <tr data-ticker="${token.ticker}">
                 <td class="favorite-col">
-                    <button class="favorite-btn ${favorites.includes(token.ticker) ? 'active' : ''}" data-ticker="${token.ticker}">
+                    <button class="favorite-btn ${favorites.includes(token.ticker) ? "active" : ""}" data-ticker="${token.ticker}">
                         <i class="fas fa-star"></i>
                     </button>
                 </td>
@@ -204,206 +197,205 @@ async function loadTokensByVolume(timeframe) {
                     ${getWhaleIndicator(token.ticker)}
                 </td>
             </tr>
-        `).join('');
+        `).join("");
         
-        // Adicionar evento de clique às linhas
-        document.querySelectorAll('#tokens-table-body tr').forEach(row => {
-            row.addEventListener('click', (e) => {
-                // Ignorar clique no botão de favorito
-                if (e.target.closest('.favorite-btn')) return;
-                
-                const ticker = row.dataset.ticker;
-                navigateToTokenAnalysis(ticker);
+        // Adicionar eventos
+        document.querySelectorAll("#tokens-table-body tr").forEach(row => {
+            row.addEventListener("click", (e) => {
+                if (e.target.closest(".favorite-btn")) return;
+                navigateToTokenAnalysis(row.dataset.ticker);
             });
         });
         
-        // Adicionar evento de clique aos botões de favorito
-        document.querySelectorAll('.favorite-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
+        document.querySelectorAll(".favorite-btn").forEach(button => {
+            button.addEventListener("click", (e) => {
                 e.stopPropagation();
-                const ticker = button.dataset.ticker;
-                toggleFavorite(ticker);
-                button.classList.toggle('active');
+                toggleFavorite(button.dataset.ticker);
+                button.classList.toggle("active");
             });
         });
     } catch (error) {
-        console.error('Erro ao carregar tokens por volume:', error);
-        document.getElementById('tokens-table-body').innerHTML = 
-            '<tr><td colspan="9" class="error">Erro ao carregar tokens</td></tr>';
+        console.error("Erro ao carregar tokens por volume:", error);
+        tableBody.innerHTML = '<tr><td colspan="9" class="error">Erro ao carregar tokens</td></tr>';
     }
 }
 
 async function loadTopMovers() {
     try {
-        // Carregar top gainers
+        // Top gainers
         const gainers = await runesMarketDataService.getTopGainers();
-        document.getElementById('top-gainers').innerHTML = gainers.slice(0, 5).map(token => `
-            <div class="mover-item" data-ticker="${token.ticker}">
-                <div class="mover-token">
-                    <div class="token-icon">${token.ticker.charAt(0)}</div>
-                    <span>${token.ticker}</span>
+        const gainersContainer = document.getElementById("top-gainers");
+        if (gainersContainer) {
+            gainersContainer.innerHTML = gainers.slice(0, 5).map(token => `
+                <div class="mover-item" data-ticker="${token.ticker}">
+                    <div class="mover-token">
+                        <div class="token-icon">${token.ticker.charAt(0)}</div>
+                        <span>${token.ticker}</span>
+                    </div>
+                    <div class="mover-change positive">+${token.change24h.toFixed(2)}%</div>
                 </div>
-                <div class="mover-change positive">+${token.change24h.toFixed(2)}%</div>
-            </div>
-        `).join('');
+            `).join("");
+        }
         
-        // Carregar top losers
+        // Top losers
         const losers = await runesMarketDataService.getTopLosers();
-        document.getElementById('top-losers').innerHTML = losers.slice(0, 5).map(token => `
-            <div class="mover-item" data-ticker="${token.ticker}">
-                <div class="mover-token">
-                    <div class="token-icon">${token.ticker.charAt(0)}</div>
-                    <span>${token.ticker}</span>
+        const losersContainer = document.getElementById("top-losers");
+        if (losersContainer) {
+            losersContainer.innerHTML = losers.slice(0, 5).map(token => `
+                <div class="mover-item" data-ticker="${token.ticker}">
+                    <div class="mover-token">
+                        <div class="token-icon">${token.ticker.charAt(0)}</div>
+                        <span>${token.ticker}</span>
+                    </div>
+                    <div class="mover-change negative">${token.change24h.toFixed(2)}%</div>
                 </div>
-                <div class="mover-change negative">${token.change24h.toFixed(2)}%</div>
-            </div>
-        `).join('');
+            `).join("");
+        }
         
-        // Carregar top volume
-        const topVolume = await runesMarketDataService.getTopTokensByVolume('24h');
-        document.getElementById('top-volume').innerHTML = topVolume.slice(0, 5).map(token => `
-            <div class="mover-item" data-ticker="${token.ticker}">
-                <div class="mover-token">
-                    <div class="token-icon">${token.ticker.charAt(0)}</div>
-                    <span>${token.ticker}</span>
+        // Top volume
+        const topVolume = await runesMarketDataService.getTopTokensByVolume("24h");
+        const volumeContainer = document.getElementById("top-volume");
+        if (volumeContainer) {
+            volumeContainer.innerHTML = topVolume.slice(0, 5).map(token => `
+                <div class="mover-item" data-ticker="${token.ticker}">
+                    <div class="mover-token">
+                        <div class="token-icon">${token.ticker.charAt(0)}</div>
+                        <span>${token.ticker}</span>
+                    </div>
+                    <div class="mover-volume">${formatNumber(token.volume24h)} BTC</div>
                 </div>
-                <div class="mover-volume">${formatNumber(token.volume24h)} BTC</div>
-            </div>
-        `).join('');
+            `).join("");
+        }
         
-        // Carregar atividade de baleias
+        // Whale activity
         const whaleActivity = await whaleAlertService.getRecentAlerts();
-        document.getElementById('whale-activity').innerHTML = whaleActivity.slice(0, 5).map(alert => `
-            <div class="mover-item" data-ticker="${alert.ticker}">
-                <div class="mover-token">
-                    <div class="token-icon">${alert.ticker.charAt(0)}</div>
-                    <span>${alert.ticker}</span>
+        const whaleContainer = document.getElementById("whale-activity");
+        if (whaleContainer) {
+            whaleContainer.innerHTML = whaleActivity.slice(0, 5).map(alert => `
+                <div class="mover-item" data-ticker="${alert.ticker}">
+                    <div class="mover-token">
+                        <div class="token-icon">${alert.ticker.charAt(0)}</div>
+                        <span>${alert.ticker}</span>
+                    </div>
+                    <div class="mover-alert ${alert.type === 'accumulation' ? 'positive' : alert.type === 'distribution' ? 'negative' : 'neutral'}">
+                        ${alert.type === 'accumulation' ? 'Acumulaï¿½ï¿½o' : alert.type === 'distribution' ? 'Distribuiï¿½ï¿½o' : 'Transferï¿½ncia'}
+                    </div>
                 </div>
-                <div class="mover-alert ${alert.type === 'accumulation' ? 'positive' : 'negative'}">
-                    ${alert.type === 'accumulation' ? 'Acumulação' : 'Distribuição'}
-                </div>
-            </div>
-        `).join('');
-        
-        // Adicionar evento de clique aos itens
-        document.querySelectorAll('.mover-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const ticker = item.dataset.ticker;
-                navigateToTokenAnalysis(ticker);
-            });
-        });
+            `).join("");
+        }
     } catch (error) {
-        console.error('Erro ao carregar top movers:', error);
+        console.error("Erro ao carregar top movers:", error);
     }
 }
 
 function loadFavorites() {
     const favorites = getFavorites();
-    const favoritesList = document.getElementById('favorites-list');
+    const container = document.getElementById("favorites-list");
+    
+    if (!container) return;
     
     if (favorites.length === 0) {
-        favoritesList.innerHTML = '<div class="no-favorites">Nenhum favorito adicionado</div>';
+        container.innerHTML = '<div class="no-favorites">Nenhum token favorito adicionado</div>';
         return;
     }
     
-    // Carregar dados dos favoritos
+    // Buscar dados para cada favorito
     Promise.all(favorites.map(ticker => runesMarketDataService.getTokenDetails(ticker)))
         .then(tokens => {
-            favoritesList.innerHTML = tokens.map(token => {
-                if (!token) return '';
-                
-                return `
-                    <div class="favorite-item" data-ticker="${token.ticker}">
-                        <div class="favorite-token">
-                            <div class="token-icon">${token.ticker.charAt(0)}</div>
-                            <div>
-                                <span class="token-symbol">${token.ticker}</span>
-                                <span class="token-fullname">${token.name || token.ticker}</span>
-                            </div>
-                        </div>
-                        <div class="favorite-price">
-                            <div>${formatPrice(token.price)}</div>
-                            <div class="favorite-change ${getChangeClass(token.change24h)}">
-                                ${formatChange(token.change24h)}
-                            </div>
+            container.innerHTML = tokens.map(token => `
+                <div class="favorite-item" data-ticker="${token.ticker}">
+                    <div class="favorite-token">
+                        <div class="token-icon">${token.ticker.charAt(0)}</div>
+                        <div>
+                            <span class="token-symbol">${token.ticker}</span>
+                            <span class="token-price">${formatPrice(token.price)} BTC</span>
                         </div>
                     </div>
-                `;
-            }).join('');
+                    <div class="favorite-change ${getChangeClass(token.change24h)}">
+                        ${formatChange(token.change24h)}
+                    </div>
+                    <button class="remove-favorite" data-ticker="${token.ticker}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join("");
             
-            // Adicionar evento de clique aos favoritos
-            document.querySelectorAll('.favorite-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const ticker = item.dataset.ticker;
-                    navigateToTokenAnalysis(ticker);
-                    document.getElementById('favorites-panel').classList.remove('active');
+            // Adicionar eventos
+            document.querySelectorAll(".favorite-item").forEach(item => {
+                item.addEventListener("click", (e) => {
+                    if (e.target.closest(".remove-favorite")) return;
+                    navigateToTokenAnalysis(item.dataset.ticker);
+                    document.getElementById("favorites-panel").classList.remove("active");
+                });
+            });
+            
+            document.querySelectorAll(".remove-favorite").forEach(button => {
+                button.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    toggleFavorite(button.dataset.ticker);
+                    loadFavorites(); // Recarregar lista
                 });
             });
         })
         .catch(error => {
-            console.error('Erro ao carregar favoritos:', error);
-            favoritesList.innerHTML = '<div class="error">Erro ao carregar favoritos</div>';
+            console.error("Erro ao carregar favoritos:", error);
+            container.innerHTML = '<div class="error">Erro ao carregar favoritos</div>';
         });
 }
 
-function navigateToTokenAnalysis(ticker) {
-    // Esconder seção de lista e mostrar seção de análise
-    document.getElementById('tokens-list-section').classList.remove('active-section');
-    document.getElementById('tokens-list-section').classList.add('hidden-section');
-    document.getElementById('token-analysis-section').classList.remove('hidden-section');
-    document.getElementById('token-analysis-section').classList.add('active-section');
-    
-    // Inicializar dashboard para o token
-    const dashboard = new TokenDashboard('token-dashboard');
-    dashboard.loadTokenData(ticker);
-    
-    // Inicializar monitor de baleias para o token
-    const whaleMonitor = new WhaleMonitor('whale-monitor');
-    whaleMonitor.loadWhaleData(ticker);
-    
-    // Atualizar URL (opcional, para permitir compartilhamento)
-    history.pushState({ ticker }, `${ticker} - RUNES Analytics Pro`, `?token=${ticker}`);
+function getFavorites() {
+    const favorites = localStorage.getItem("favorites");
+    return favorites ? JSON.parse(favorites) : [];
 }
 
 function toggleFavorite(ticker) {
     const favorites = getFavorites();
     
     if (favorites.includes(ticker)) {
-        // Remover dos favoritos
         const index = favorites.indexOf(ticker);
         favorites.splice(index, 1);
     } else {
-        // Adicionar aos favoritos
         favorites.push(ticker);
     }
     
-    // Salvar favoritos
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    
-    // Atualizar lista de favoritos
+    localStorage.setItem("favorites", JSON.stringify(favorites));
     loadFavorites();
-}
-
-function getFavorites() {
-    const favorites = localStorage.getItem('favorites');
-    return favorites ? JSON.parse(favorites) : [];
-}
-
-function getWhaleIndicator(ticker) {
-    // Obter nível de atividade de baleias para o token
-    const whaleActivity = whaleAlertService.getWhaleActivityLevel(ticker);
     
-    let level = 'low';
-    if (whaleActivity >= 70) level = 'high';
-    else if (whaleActivity >= 30) level = 'medium';
-    
-    return `
-        <div class="whale-indicator ${level}">
-            ${level === 'high' ? 'Alto' : level === 'medium' ? 'Médio' : 'Baixo'}
-        </div>
-    `;
+    // Atualizar botï¿½es na interface
+    document.querySelectorAll(`.favorite-btn[data-ticker="${ticker}"]`).forEach(btn => {
+        btn.classList.toggle("active");
+    });
 }
 
+async function navigateToTokenAnalysis(ticker) {
+    // Esconder seï¿½ï¿½o de lista e mostrar seï¿½ï¿½o de anï¿½lise
+    document.getElementById("tokens-list-section").classList.remove("active-section");
+    document.getElementById("tokens-list-section").classList.add("hidden-section");
+    document.getElementById("token-analysis-section").classList.remove("hidden-section");
+    document.getElementById("token-analysis-section").classList.add("active-section");
+    
+    // Mostrar loading
+    document.getElementById("token-dashboard").innerHTML = '<div class="loading">Carregando anï¿½lise...</div>';
+    
+    try {
+        // Buscar dados do token
+        const tokenData = await runesMarketDataService.getTokenDetails(ticker);
+        
+        // Renderizar dashboard
+        renderTokenDashboard(tokenData);
+        
+        // Iniciar monitoramento
+        integrationService.startMonitoring(ticker);
+        
+        // Atualizar URL (opcional, para permitir compartilhamento)
+        history.pushState({ ticker }, `${ticker} - RUNES Analytics Pro`, `?token=${ticker}`);
+    } catch (error) {
+        console.error(`Erro ao carregar anï¿½lise para ${ticker}:`, error);
+        document.getElementById("token-dashboard").innerHTML = '<div class="error">Erro ao carregar anï¿½lise</div>';
+    }
+}
+
+// Funï¿½ï¿½es auxiliares
 function formatPrice(price) {
     if (typeof price !== 'number') return '0.00000000';
     return price.toFixed(8);
@@ -430,3 +422,323 @@ function formatNumber(num) {
     
     return num.toFixed(0);
 }
+
+function getWhaleIndicator(ticker) {
+    const whaleActivity = whaleAlertService.getWhaleActivityLevel(ticker);
+    
+    let level = 'low';
+    if (whaleActivity >= 70) level = 'high';
+    else if (whaleActivity >= 30) level = 'medium';
+    
+    return `
+        <div class="whale-indicator ${level}">
+            ${level === 'high' ? 'Alto' : level === 'medium' ? 'Mï¿½dio' : 'Baixo'}
+        </div>
+    `;
+}
+
+// Funï¿½ï¿½es para renderizaï¿½ï¿½o do dashboard (implementaï¿½ï¿½o simplificada)
+function renderTokenDashboard(tokenData) {
+    const dashboard = document.getElementById("token-dashboard");
+    if (!dashboard) return;
+    
+    const favorites = getFavorites();
+    
+    dashboard.innerHTML = `
+        <div class="token-dashboard">
+            <div class="dashboard-header">
+                <div class="token-info">
+                    <div class="token-icon large">${tokenData.ticker.charAt(0)}</div>
+                    <div class="token-details">
+                        <h2>${tokenData.ticker}</h2>
+                        <p>${tokenData.name}</p>
+                    </div>
+                </div>
+                <div class="token-price-info">
+                    <div class="current-price">${formatPrice(tokenData.price)} BTC</div>
+                    <div class="price-change ${getChangeClass(tokenData.change24h)}">
+                        ${formatChange(tokenData.change24h)}
+                    </div>
+                </div>
+                <div class="token-actions">
+                    <button class="action-btn favorite-btn ${favorites.includes(tokenData.ticker) ? 'active' : ''}" data-ticker="${tokenData.ticker}">
+                        <i class="fas fa-star"></i>
+                        <span>Favorito</span>
+                    </button>
+                    <button class="action-btn alert-btn" data-ticker="${tokenData.ticker}">
+                        <i class="fas fa-bell"></i>
+                        <span>Alertas</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" data-tab="overview">Visï¿½o Geral</button>
+                <button class="tab-btn" data-tab="chart">Grï¿½fico</button>
+                <button class="tab-btn" data-tab="whales">Baleias</button>
+                <button class="tab-btn" data-tab="fibonacci">Fibonacci</button>
+            </div>
+            
+            <div class="dashboard-content">
+                <!-- Conteï¿½do das tabs serï¿½ carregado dinamicamente -->
+                <div class="tab-content active" id="overview-tab"></div>
+                <div class="tab-content" id="chart-tab"></div>
+                <div class="tab-content" id="whales-tab"></div>
+                <div class="tab-content" id="fibonacci-tab"></div>
+            </div>
+        </div>
+    `;
+    
+    // Configurar tabs
+    setupDashboardTabs();
+    
+    // Carregar conteï¿½do inicial (visï¿½o geral)
+    loadOverviewTab(tokenData);
+    
+    // Configurar botï¿½es
+    setupDashboardButtons(tokenData);
+}
+
+function setupDashboardTabs() {
+    document.querySelectorAll(".tab-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            // Atualizar botï¿½o ativo
+            document.querySelectorAll(".tab-btn").forEach(btn => {
+                btn.classList.remove("active");
+            });
+            button.classList.add("active");
+            
+            // Mostrar conteï¿½do da tab
+            const tabId = button.dataset.tab + "-tab";
+            document.querySelectorAll(".tab-content").forEach(content => {
+                content.classList.remove("active");
+            });
+            document.getElementById(tabId).classList.add("active");
+            
+            // Carregar conteï¿½do da tab se necessï¿½rio
+            const ticker = document.querySelector(".token-dashboard").dataset.ticker;
+            loadTabContent(button.dataset.tab, ticker);
+        });
+    });
+}
+
+function setupDashboardButtons(tokenData) {
+    // Botï¿½o de favorito
+    document.querySelector(".token-dashboard .favorite-btn")?.addEventListener("click", (e) => {
+        toggleFavorite(tokenData.ticker);
+    });
+    
+    // Botï¿½o de alerta
+    document.querySelector(".token-dashboard .alert-btn")?.addEventListener("click", () => {
+        showAlertDialog(tokenData.ticker, tokenData);
+    });
+}
+
+function loadTabContent(tab, ticker) {
+    // Implementaï¿½ï¿½o simplificada - em produï¿½ï¿½o, carregaria dados especï¿½ficos para cada tab
+    console.log(`Carregando conteï¿½do da tab ${tab} para ${ticker}`);
+}
+
+function loadOverviewTab(tokenData) {
+    const container = document.getElementById("overview-tab");
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="overview-grid">
+            <div class="overview-card">
+                <h3>Informaï¿½ï¿½es do Token</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Preï¿½o Atual</span>
+                        <span class="info-value">${formatPrice(tokenData.price)} BTC</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Alta 24h</span>
+                        <span class="info-value">${formatPrice(tokenData.high24h)} BTC</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Baixa 24h</span>
+                        <span class="info-value">${formatPrice(tokenData.low24h)} BTC</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Volume 24h</span>
+                        <span class="info-value">${formatNumber(tokenData.volume24h)} BTC</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Market Cap</span>
+                        <span class="info-value">${formatNumber(tokenData.marketCap)} BTC</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Holders</span>
+                        <span class="info-value">${formatNumber(tokenData.holders)}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="overview-card">
+                <h3>Atividade de Baleias</h3>
+                <div class="whale-activity-gauge">
+                    <div class="gauge-value" style="width: ${tokenData.whaleActivity}%"></div>
+                </div>
+                <div class="gauge-labels">
+                    <span>Baixa</span>
+                    <span>Mï¿½dia</span>
+                    <span>Alta</span>
+                </div>
+            </div>
+            
+            <div class="overview-card">
+                <h3>Nï¿½veis Fibonacci</h3>
+                <div class="fibonacci-preview">
+                    <p>Clique na aba Fibonacci para anï¿½lise completa</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showAlertDialog(ticker, tokenData) {
+    // Implementaï¿½ï¿½o simplificada - em produï¿½ï¿½o, mostraria um diï¿½logo para configurar alertas
+    alert(`Configurar alertas para ${ticker} - Funcionalidade em desenvolvimento`);
+}
+
+async function loadSocialData() {
+    try {
+        // Carregar tokens por engajamento social
+        const socialTokens = await socialAnalysisService.getTopTokensBySocialScore(5);
+        const socialContainer = document.getElementById("social-engagement");
+        
+        if (socialContainer) {
+            socialContainer.innerHTML = socialTokens.map(token => `
+                <div class="social-item" data-ticker="${token.ticker}">
+                    <div class="social-token">
+                        <div class="social-icon" style="background-color: ${getRandomColor(token.ticker)}">${token.ticker.charAt(0)}</div>
+                        <div>${token.ticker}</div>
+                    </div>
+                    <div class="social-score">
+                        <div class="score-bar">
+                            <div class="score-value" style="width: ${token.socialScore}%"></div>
+                        </div>
+                        <div>${token.socialScore}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Carregar tokens por potencial de viralizaï¿½ï¿½o
+        const viralTokens = await socialAnalysisService.getTopTokensByVirality(5);
+        const viralContainer = document.getElementById("viral-potential");
+        
+        if (viralContainer) {
+            viralContainer.innerHTML = viralTokens.map(token => `
+                <div class="social-item" data-ticker="${token.ticker}">
+                    <div class="social-token">
+                        <div class="social-icon" style="background-color: ${getRandomColor(token.ticker)}">${token.ticker.charAt(0)}</div>
+                        <div>${token.ticker}</div>
+                    </div>
+                    <div class="social-score">
+                        <div class="score-bar">
+                            <div class="score-value" style="width: ${token.viralityPotential}%"></div>
+                        </div>
+                        <div>${token.viralityPotential}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error("Erro ao carregar dados sociais:", error);
+    }
+}
+
+function getRandomColor(seed) {
+    // Gerar cor baseada no ticker para consistï¿½ncia
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+        hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    const hue = hash % 360;
+    return `hsl(${hue}, 70%, 50%)`;
+}
+
+
+
+
+// FunÃ§Ã£o para gerenciar a navegaÃ§Ã£o
+function setupNavigation() {
+    const sections = document.querySelectorAll('main > section, section#alerts');
+    const navLinks = document.querySelectorAll('nav a, a[href="#alerts"]');
+    
+    // TambÃ©m capturar links de texto dentro do conteÃºdo
+    const contentLinks = document.querySelectorAll('.content-link');
+    
+    function navigateTo(targetId) {
+        // Esconder todas as seÃ§Ãµes
+        sections.forEach(section => {
+            section.classList.add('hidden');
+        });
+        
+        // Remover classe ativa de todos os links
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Mostrar a seÃ§Ã£o alvo
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
+            
+            // Adicionar classe ativa ao link correspondente
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === `#${targetId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    }
+    
+    // Adicionar evento de clique aos links de navegaÃ§Ã£o
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            navigateTo(targetId);
+        });
+    });
+    
+    // Adicionar evento de clique aos links de conteÃºdo
+    contentLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            navigateTo(targetId);
+        });
+    });
+    
+    // Inicializar "Sistema de Alertas" quando clicado
+    document.querySelector('a[href="#alerts"], .content-link[href="#alerts"]')?.addEventListener('click', () => {
+        // Garantir que o AlertPanel seja inicializado
+        if (typeof AlertPanel !== 'undefined' && document.getElementById('alerts-container')) {
+            // A inicializaÃ§Ã£o jÃ¡ deve acontecer via DOMContentLoaded
+            console.log('Sistema de Alertas ativado');
+        }
+    });
+}
+
+// Adicionar Ã  funÃ§Ã£o init existente ou chamar diretamente
+document.addEventListener('DOMContentLoaded', () => {
+    setupNavigation();
+    
+    // Adicionar manipuladores para links de texto no conteÃºdo
+    const alertsLink = document.querySelector('.content-link[href="#alerts"], a:contains("Sistema de Alertas")');
+    if (alertsLink) {
+        alertsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const alertsSection = document.getElementById('alerts');
+            if (alertsSection) {
+                document.querySelectorAll('main > section, section#alerts').forEach(s => s.classList.add('hidden'));
+                alertsSection.classList.remove('hidden');
+            }
+        });
+    }
+});
