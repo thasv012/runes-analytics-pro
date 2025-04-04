@@ -1,0 +1,796 @@
+/* Melhorias visuais e de responsividade para runes-explorer */
+
+/* Transições e efeitos suaves */
+.btn-icon, .token-btn, .token-action-btn, .view-toggle, .achievement-floating-button {
+    transition: background-color 0.3s, transform 0.2s, color 0.3s, box-shadow 0.3s;
+}
+
+.token-card, .achievement-card, .badge-item, .daily-challenge-container {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.token-card:hover, .achievement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-icon:hover, .token-btn:hover, .token-action-btn:hover, .view-toggle:hover {
+    transform: scale(1.05);
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Animação para mudança de preços */
+@keyframes price-up {
+    0% { color: inherit; }
+    50% { color: var(--success-color); }
+    100% { color: inherit; }
+}
+
+@keyframes price-down {
+    0% { color: inherit; }
+    50% { color: var(--danger-color); }
+    100% { color: inherit; }
+}
+
+.price-changed-up {
+    animation: price-up 1.5s ease;
+}
+
+.price-changed-down {
+    animation: price-down 1.5s ease;
+}
+
+/* Melhorias na barra de busca */
+.token-search {
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.token-search:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.2);
+    outline: none;
+}
+
+/* Estado de loading para tabelas e grids */
+.tokens-grid.loading, .tokens-table tbody.loading {
+    position: relative;
+    min-height: 200px;
+    opacity: 0.7;
+}
+
+.tokens-grid.loading::after, .tokens-table tbody.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(58, 123, 213, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Mensagem de erro */
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    background-color: rgba(239, 68, 68, 0.05);
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+.error-message i {
+    font-size: 2rem;
+    color: var(--danger-color);
+    margin-bottom: 1rem;
+}
+
+.error-message p {
+    margin: 0.5rem 0 1rem;
+    color: var(--text-secondary);
+}
+
+.btn-retry {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-retry:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Melhorias na responsividade */
+@media screen and (max-width: 600px) {
+    .tokens-table-container {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+    
+    .tokens-table {
+        min-width: 600px;
+    }
+    
+    .token-cell-actions {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    
+    .tokens-header {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .tokens-sort {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .explorer-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .explorer-sidebar {
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+    
+    /* Ajustes em tamanhos de fonte para mobile */
+    .token-name {
+        font-size: 0.9rem;
+    }
+    
+    .token-id {
+        font-size: 0.7rem;
+    }
+    
+    .token-price {
+        font-size: 1.3rem;
+    }
+}
+
+/* Estilo ativo para botões de toggle de visualização */
+.view-toggle.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Estilos para o indicador de carregamento inicial */
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(58, 123, 213, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spinner 1s ease-in-out infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+
+.loading-indicator p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Reordenação da tabela em telas muito pequenas */
+@media screen and (max-width: 480px) {
+    .tokens-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .token-stat {
+        padding: 0.4rem;
+    }
+    
+    .stat-label {
+        font-size: 0.65rem;
+    }
+    
+    .stat-value {
+        font-size: 0.8rem;
+    }
+    
+    .pagination-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    /* Esconder algumas colunas menos importantes em telas muito pequenas */
+    .tokens-table th:nth-child(5),
+    .tokens-table td:nth-child(5),
+    .tokens-table th:nth-child(6),
+    .tokens-table td:nth-child(6) {
+        display: none;
+    }
+}
+
+/* Reparos em flutuações de layout */
+.token-card, .achievement-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.token-body {
+    flex: 1;
+}
+
+/* Estilos para o modal de atividade de baleias */
+.whale-activity-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(3px);
+}
+
+.whale-activity-modal.active {
+    opacity: 1;
+}
+
+.whale-activity-modal .modal-content {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    animation: modalSlideIn 0.3s forwards;
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.whale-activity-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.whale-activity-modal .modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.whale-activity-modal .modal-header h3 i {
+    color: var(--primary-color);
+}
+
+.whale-activity-modal .close-modal {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.whale-activity-modal .close-modal:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.whale-activity-modal .modal-body {
+    padding: 1.5rem;
+}
+
+.whale-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.whale-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.whale-stat .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.2rem;
+}
+
+.whale-stat .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.whale-transactions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.whale-transaction {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.whale-transaction:hover {
+    transform: translateX(5px);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1rem;
+}
+
+.whale-transaction.buy .transaction-icon {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+}
+
+.whale-transaction.sell .transaction-icon {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+}
+
+.whale-transaction.transfer .transaction-icon {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: var(--info-color);
+}
+
+.transaction-details {
+    flex: 1;
+}
+
+.transaction-type {
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.transaction-time {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-weight: normal;
+}
+
+.transaction-address {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.3rem;
+}
+
+.transaction-value {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
+}
+
+.transaction-value .value {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.impact-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.impact-badge.high {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+}
+
+.impact-badge.medium {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: var(--warning-color);
+}
+
+.impact-badge.low {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+}
+
+.whale-insight {
+    background-color: rgba(58, 123, 213, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.whale-insight h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--primary-color);
+}
+
+.whale-insight p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Melhorias no botão de verificação de baleias */
+.whale-check-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    border: none;
+    background-color: rgba(58, 123, 213, 0.2);
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.whale-check-btn:hover {
+    background-color: rgba(58, 123, 213, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.whale-check-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.whale-check-btn.whale-checked {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+}
+
+/* Responsividade para o modal */
+@media screen and (max-width: 768px) {
+    .whale-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .transaction-type {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .transaction-time {
+        margin-top: 0.2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .whale-summary {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .whale-transaction {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .transaction-icon {
+        margin-bottom: 0.5rem;
+    }
+    
+    .transaction-details {
+        width: 100%;
+        margin-bottom: 0.8rem;
+    }
+    
+    .transaction-value {
+        align-items: flex-start;
+        width: 100%;
+    }
+}
+
+/* Estilos para Lazy Loading */
+.lazy-loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    width: 100%;
+    margin: 1rem 0;
+    animation: fadeIn 0.5s ease;
+}
+
+.lazy-loading-indicator .spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(58, 123, 213, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spinner 1s linear infinite;
+    margin-bottom: 0.5rem;
+}
+
+.lazy-loading-indicator p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Animação de entrada para novos elementos carregados via lazy loading */
+.token-card, .tokens-table tbody tr {
+    transition: opacity 0.4s ease, transform 0.3s ease;
+}
+
+/* Ajuste para melhorar a aparência da rolagem infinita */
+.tokens-grid {
+    padding-bottom: 60px;
+}
+
+.tokens-table {
+    margin-bottom: 60px;
+}
+
+/* Ajuste de paginação quando usando lazy loading */
+.pagination-container.lazy-enabled .pagination-info::after {
+    content: " • Rolagem infinita ativada";
+    font-size: 0.8em;
+    color: var(--primary-color);
+    margin-left: 0.5rem;
+}
+
+/* Estado de rolagem detectado - feedback visual */
+.scrolling-active .tokens-grid,
+.scrolling-active .tokens-table tbody {
+    transition: opacity 0.2s;
+    opacity: 0.9;
+}
+
+/* Botão de toggle para lazy loading */
+.btn-toggle-lazy {
+    background-color: rgba(58, 123, 213, 0.1);
+    border: none;
+    color: var(--primary-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-toggle-lazy:hover {
+    background-color: rgba(58, 123, 213, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-toggle-lazy i {
+    font-size: 1rem;
+}
+
+.btn-toggle-lazy i.fa-toggle-on {
+    color: var(--success-color);
+}
+
+.btn-toggle-lazy i.fa-toggle-off {
+    color: var(--text-secondary);
+}
+
+/* Ajustes no container de paginação com lazy loading ativado */
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.pagination-container.lazy-enabled {
+    justify-content: space-between;
+}
+
+.pagination-container.lazy-enabled::before {
+    content: '';
+    flex: 1;
+}
+
+/* Notificação para informar sobre mudança de modo */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    max-width: 350px;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification.info .notification-icon {
+    background-color: rgba(58, 123, 213, 0.2);
+    color: var(--primary-color);
+}
+
+.notification.success .notification-icon {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+}
+
+.notification.error .notification-icon {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-message {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Estilos para ferramentas de desenvolvimento */
+.dev-tools {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    gap: 8px;
+    z-index: 999;
+}
+
+.btn-dev {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-dev:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-dev.clear-cache {
+    background-color: var(--danger-color);
+}
+
+.btn-dev.clear-cache:hover {
+    background-color: #d32f2f;
+}
+
+/* Indicador de estatísticas de cache */
+.cache-stats {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-left: 1rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-family: monospace;
+    letter-spacing: -0.5px;
+}
+
+/* Alerta de cache obsoleto */
+.cache-warning {
+    background-color: rgba(var(--warning-rgb), 0.1);
+    color: var(--warning-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cache-warning i {
+    font-size: 0.85rem;
+} 

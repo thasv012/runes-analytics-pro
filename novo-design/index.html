@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Redesign</title>
+    <link rel="stylesheet" href="redesign.css">
+    <link rel="stylesheet" href="visual-improvements.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1>RUNES Analytics Pro</h1>
+                <button id="toggle-sidebar"><i class="fas fa-bars"></i></button>
+            </div>
+            <nav class="main-nav sidebar-menu">
+                <ul>
+                    <li><a href="#dashboard" class="active" data-section="dashboard-section"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a></li>
+                    <li><a href="#market-data" data-section="market-section"><i class="fas fa-chart-bar"></i> <span>Mercado</span></a></li>
+                    <li><a href="#whale-tracker" data-section="whale-section"><i class="fas fa-money-bill-wave"></i> <span>Follow the Money</span></a></li>
+                    <li><a href="#ranking" data-section="ranking-section"><i class="fas fa-list-ol"></i> <span>Ranking</span></a></li>
+                    <li><a href="#alerts" data-section="alerts-section"><i class="fas fa-bell"></i> <span>Alertas</span></a></li>
+                    <li><a href="#analysis" data-section="analysis-section"><i class="fas fa-chart-area"></i> <span>Análise Técnica</span></a></li>
+                    <li><a href="#favorites" data-section="favorites-section"><i class="fas fa-star"></i> <span>Favoritos</span></a></li>
+                    <li><a href="#social" data-section="social-section"><i class="fas fa-hashtag"></i> <span>Social Analytics</span></a></li>
+                    <li><a href="#explorer" data-section="explorer-section"><i class="fas fa-search-dollar"></i> <span>Explorador de Tokens</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button id="compact-mode-toggle" title="Modo compacto"><i class="fas fa-compress"></i></button>
+                <div class="user-level">
+                    <span class="level">Nível 3</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Cabeçalho -->
+        <header class="main-header">
+            <div class="search-container">
+                <input type="search" class="search-input" placeholder="Buscar RUNE...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="header-actions">
+                <div class="notifications">
+                    <button class="notification-btn"><i class="fas fa-bell"></i></button>
+                    <span class="notification-badge">3</span>
+                </div>
+                <button class="btn-premium">Upgrade Pro</button>
+                <div class="bitcoin-price">
+                    <span class="price">$59,847.23</span>
+                    <span class="change positive">+2.4%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <!-- Seção de Dashboard -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="section-header">
+                    <h2>Dashboard</h2>
+                    <div class="section-actions">
+                        <button class="btn-refresh"><i class="fas fa-sync-alt"></i></button>
+                        <div class="timeframe-selector">
+                            <button class="timeframe-btn">1h</button>
+                            <button class="timeframe-btn active">24h</button>
+                            <button class="timeframe-btn">7d</button>
+                            <button class="timeframe-btn">30d</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Métricas principais -->
+                <div class="widget-container">
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Volume Total</h3>
+                            <div class="widget-actions">
+                                <button class="widget-action"><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="metric-value">$24.5M</div>
+                            <div class="metric-change positive">+5.2% <i class="fas fa-caret-up"></i></div>
+                            <div class="metric-chart" id="volume-chart">
+                                <!-- Mini gráfico aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Transações</h3>
+                            <div class="widget-actions">
+                                <button class="widget-action"><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="metric-value">152,489</div>
+                            <div class="metric-change positive">+8.7% <i class="fas fa-caret-up"></i></div>
+                            <div class="metric-chart" id="transactions-chart">
+                                <!-- Mini gráfico aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Sentimento de Mercado</h3>
+                            <div class="widget-actions">
+                                <button class="widget-action"><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="sentiment-meter">
+                                <div class="sentiment-gauge" style="--sentiment: 75%">
+                                    <span class="sentiment-label">Otimista</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget de Desafio Diário -->
+                    <div class="widget-card" id="challenge-widget">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Desafio Diário</h3>
+                            <div class="widget-actions">
+                                <span class="badge">📊</span>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="challenge-info">
+                                <h4>Análise Diária</h4>
+                                <p>Analise 3 tokens Runes diferentes hoje</p>
+                            </div>
+                            <div class="challenge-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 33%"></div>
+                                </div>
+                                <div class="progress-text">
+                                    1/3 completado
+                                </div>
+                            </div>
+                            <div class="challenge-reward">
+                                <span class="reward-label">Recompensa:</span>
+                                <span class="reward-value">50 pontos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico principal -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Movimentação do Mercado</h3>
+                        <div class="chart-timeframes">
+                            <button class="timeframe-btn">1H</button>
+                            <button class="timeframe-btn active">1D</button>
+                            <button class="timeframe-btn">1S</button>
+                            <button class="timeframe-btn">1M</button>
+                        </div>
+                    </div>
+                    <div class="chart-area" id="main-chart">
+                        <!-- Gráfico principal aqui -->
+                    </div>
+                </div>
+
+                <!-- Ranking de RUNES -->
+                <div class="section-header">
+                    <h2>Top RUNES</h2>
+                    <div class="section-actions">
+                        <div class="filter-dropdown">
+                            <button class="filter-btn">Volume <i class="fas fa-caret-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ranking-table-container">
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Preço</th>
+                                <th>24h %</th>
+                                <th>Volume 24h</th>
+                                <th>Cap. de Mercado</th>
+                                <th>Atividade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div class="rune-name-cell">
+                                        <div class="rune-icon">R</div>
+                                        <div class="rune-info">
+                                            <div class="rune-ticker">RUNES</div>
+                                            <div class="rune-fullname">Bitcoin Runes</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$0.0214</td>
+                                <td><span class="value-change positive">+5.4%</span></td>
+                                <td>$24.5M</td>
+                                <td>$1.2B</td>
+                                <td>
+                                    <div class="activity-sparkline">
+                                        <!-- Mini gráfico de atividade -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn"><i class="fas fa-bell"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <div class="rune-name-cell">
+                                        <div class="rune-icon">W</div>
+                                        <div class="rune-info">
+                                            <div class="rune-ticker">WIZZ</div>
+                                            <div class="rune-fullname">Wizards BRC20</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$0.0034</td>
+                                <td><span class="value-change negative">-2.1%</span></td>
+                                <td>$15.3M</td>
+                                <td>$340M</td>
+                                <td>
+                                    <div class="activity-sparkline">
+                                        <!-- Mini gráfico de atividade -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn"><i class="fas fa-bell"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <div class="rune-name-cell">
+                                        <div class="rune-icon">S</div>
+                                        <div class="rune-info">
+                                            <div class="rune-ticker">SATS</div>
+                                            <div class="rune-fullname">Rune Sats</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$0.0089</td>
+                                <td><span class="value-change positive">+12.4%</span></td>
+                                <td>$8.7M</td>
+                                <td>$224M</td>
+                                <td>
+                                    <div class="activity-sparkline">
+                                        <!-- Mini gráfico de atividade -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-star"></i></button>
+                                    <button class="action-btn"><i class="fas fa-bell"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Follow the Money (Antigo Rastreador de Baleias) -->
+                <div class="section-header">
+                    <h2>Follow the Money</h2>
+                    <div class="section-actions">
+                        <button class="btn-view-all">Ver Todos</button>
+                    </div>
+                </div>
+
+                <div class="whale-activity-container">
+                    <div class="whale-activity">
+                        <div class="whale-activity-header">
+                            <span class="whale-activity-type whale-buy">Compra</span>
+                            <span class="whale-timestamp">15 min atrás</span>
+                        </div>
+                        <div class="whale-activity-details">
+                            <div class="activity-token">RUNES</div>
+                            <div class="activity-amount">3.5M RUNES ($74,900)</div>
+                            <div class="activity-address">bc1q...a4f2 → bc1q...93jk</div>
+                        </div>
+                        <div class="whale-activity-impact">
+                            <span class="impact-label">Impacto no Preço:</span>
+                            <span class="impact-value high">Alto</span>
+                        </div>
+                    </div>
+
+                    <div class="whale-activity">
+                        <div class="whale-activity-header">
+                            <span class="whale-activity-type whale-sell">Venda</span>
+                            <span class="whale-timestamp">42 min atrás</span>
+                        </div>
+                        <div class="whale-activity-details">
+                            <div class="activity-token">WIZZ</div>
+                            <div class="activity-amount">2.5M WIZZ ($8,500)</div>
+                            <div class="activity-address">bc1q...78s3 → bc1q...13df</div>
+                        </div>
+                        <div class="whale-activity-impact">
+                            <span class="impact-label">Impacto no Preço:</span>
+                            <span class="impact-value medium">Médio</span>
+                        </div>
+                    </div>
+
+                    <div class="whale-activity">
+                        <div class="whale-activity-header">
+                            <span class="whale-activity-type whale-transfer">Transferência</span>
+                            <span class="whale-timestamp">1h atrás</span>
+                        </div>
+                        <div class="whale-activity-details">
+                            <div class="activity-token">SATS</div>
+                            <div class="activity-amount">6.2M SATS ($55,180)</div>
+                            <div class="activity-address">bc1q...d5g8 → bc1q...f7h2</div>
+                        </div>
+                        <div class="whale-activity-impact">
+                            <span class="impact-label">Impacto no Preço:</span>
+                            <span class="impact-value low">Baixo</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Outras seções ocultas por padrão -->
+            <section id="market-section" class="content-section">
+                <div class="section-header">
+                    <h2>Mercado</h2>
+                </div>
+                <div class="placeholder-content">
+                    <p>Conteúdo da seção de Mercado será exibido aqui.</p>
+                </div>
+            </section>
+
+            <section id="whale-section" class="content-section">
+                <div class="section-header">
+                    <h2>Follow the Money</h2>
+                </div>
+                <div class="placeholder-content">
+                    <p>Rastreamento de movimentações das principais carteiras detentoras de Runes.</p>
+                </div>
+            </section>
+
+            <section id="ranking-section" class="content-section">
+                <div class="section-header">
+                    <h2>Ranking</h2>
+                </div>
+                <div class="placeholder-content">
+                    <p>Conteúdo da seção de Ranking será exibido aqui.</p>
+                </div>
+            </section>
+
+            <section id="alerts-section" class="content-section">
+                <div class="section-header">
+                    <h2>Alertas</h2>
+                </div>
+                <div class="placeholder-content">
+                    <p>Conteúdo da seção de Alertas será exibido aqui.</p>
+                </div>
+            </section>
+
+            <section id="analysis-section" class="content-section">
+                <div class="section-header">
+                    <h2>Análise Técnica</h2>
+                </div>
+                <div class="placeholder-content">
+                    <p>Conteúdo da seção de Análise Técnica será exibido aqui.</p>
+                </div>
+            </section>
+
+            <section id="favorites-section" class="content-section">
+                <div class="section-header">
+                    <h2>Favoritos</h2>
+                </div>
+                <div class="placeholder-content">
+                    <p>Conteúdo da seção de Favoritos será exibido aqui.</p>
+                </div>
+            </section>
+
+            <!-- Nova seção para Social Analytics -->
+            <section id="social-section" class="content-section">
+                <div class="section-header">
+                    <h2>Social Analytics - Runes</h2>
+                    <div class="section-actions">
+                        <div class="timeframe-selector">
+                            <button class="timeframe-btn">1h</button>
+                            <button class="timeframe-btn active">24h</button>
+                            <button class="timeframe-btn">7d</button>
+                        </div>
+                        <button class="btn-refresh"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                </div>
+
+                <!-- Visão geral do sentimento -->
+                <div class="widget-container">
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Sentimento Global Runes</h3>
+                            <div class="widget-actions">
+                                <span class="badge">📊</span>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="metric-value">68%</div>
+                            <div class="metric-change positive">+4.2% <i class="fas fa-caret-up"></i></div>
+                            <div class="metric-chart" id="global-sentiment-chart">
+                                <!-- Mini gráfico aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Volume de Menções</h3>
+                            <div class="widget-actions">
+                                <span class="badge">📈</span>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="metric-value">12,478</div>
+                            <div class="metric-change positive">+16.8% <i class="fas fa-caret-up"></i></div>
+                            <div class="metric-chart" id="mentions-chart">
+                                <!-- Mini gráfico aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Efeito nos Preços</h3>
+                            <div class="widget-actions">
+                                <span class="badge">💰</span>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="correlation-meter">
+                                <div class="correlation-gauge" style="--correlation: 72%"></div>
+                                <span class="correlation-value">72%</span>
+                            </div>
+                            <div class="correlation-label">Correlação entre menções e preço de Runes</div>
+                        </div>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Alertas Sociais</h3>
+                            <div class="widget-actions">
+                                <button class="widget-action"><i class="fas fa-cog"></i></button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="alerts-counter">
+                                <div class="alert-count positive">8</div>
+                                <div class="alert-count negative">3</div>
+                            </div>
+                            <div class="alerts-label">Novos alertas nas últimas 24h</div>
+                            <div class="alert-action">
+                                <button class="btn-view-all">Ver todos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tendências por Plataforma -->
+                <div class="section-subheader">
+                    <h3>Tendências por Plataforma</h3>
+                </div>
+
+                <div class="trends-container">
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <i class="fab fa-twitter platform-icon"></i>
+                            <h4>Twitter / X</h4>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="platform-stat">
+                                <span class="stat-label">Menções</span>
+                                <span class="stat-value">6,542</span>
+                            </div>
+                            <div class="platform-stat">
+                                <span class="stat-label">Sentimento</span>
+                                <span class="stat-value positive">72%</span>
+                            </div>
+                            <div class="platform-stat">
+                                <span class="stat-label">Alcance</span>
+                                <span class="stat-value">1.2M</span>
+                            </div>
+                        </div>
+                        <div class="platform-trending">
+                            <div class="trending-tag">#RunesProtocol</div>
+                            <div class="trending-tag">#BitcoinRunes</div>
+                            <div class="trending-tag">#RunesMinting</div>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <i class="fab fa-discord platform-icon"></i>
+                            <h4>Discord</h4>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="platform-stat">
+                                <span class="stat-label">Menções</span>
+                                <span class="stat-value">4,218</span>
+                            </div>
+                            <div class="platform-stat">
+                                <span class="stat-label">Sentimento</span>
+                                <span class="stat-value positive">65%</span>
+                            </div>
+                            <div class="platform-stat">
+                                <span class="stat-label">Usuários ativos</span>
+                                <span class="stat-value">35.8K</span>
+                            </div>
+                        </div>
+                        <div class="platform-trending">
+                            <div class="trending-tag">runes-protocol</div>
+                            <div class="trending-tag">runes-minting</div>
+                            <div class="trending-tag">rune-development</div>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <i class="fab fa-reddit platform-icon"></i>
+                            <h4>Reddit</h4>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="platform-stat">
+                                <span class="stat-label">Menções</span>
+                                <span class="stat-value">1,718</span>
+                            </div>
+                            <div class="platform-stat">
+                                <span class="stat-label">Sentimento</span>
+                                <span class="stat-value negative">42%</span>
+                            </div>
+                            <div class="platform-stat">
+                                <span class="stat-label">Upvotes</span>
+                                <span class="stat-value">12.5K</span>
+                            </div>
+                        </div>
+                        <div class="platform-trending">
+                            <div class="trending-tag">r/BitcoinRunes</div>
+                            <div class="trending-tag">r/Ordinals</div>
+                            <div class="trending-tag">r/RunesProtocol</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nova seção de Comunidades Runes -->
+                <div class="section-subheader">
+                    <h3>Comunidades Runes</h3>
+                </div>
+                
+                <div class="communities-container">
+                    <div class="community-card">
+                        <div class="community-header">
+                            <div class="community-platform-icon">
+                                <i class="fab fa-telegram-plane"></i>
+                            </div>
+                            <div class="community-info">
+                                <div class="community-name">Official Runes Protocol</div>
+                                <div class="community-link">t.me/runesprotocol</div>
+                            </div>
+                        </div>
+                        <div class="community-stats">
+                            <div class="community-stat">
+                                <div class="stat-value">22.4K</div>
+                                <div class="stat-label">Membros</div>
+                            </div>
+                            <div class="community-stat">
+                                <div class="stat-value">Alta</div>
+                                <div class="stat-label">Atividade</div>
+                            </div>
+                            <div class="community-stat">
+                                <div class="stat-value positive">78%</div>
+                                <div class="stat-label">Sentimento</div>
+                            </div>
+                        </div>
+                        <div class="community-action">
+                            <button class="btn-join">Entrar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="community-card">
+                        <div class="community-header">
+                            <div class="community-platform-icon">
+                                <i class="fab fa-discord"></i>
+                            </div>
+                            <div class="community-info">
+                                <div class="community-name">Ordinals Server - Runes Channel</div>
+                                <div class="community-link">discord.gg/ordinals</div>
+                            </div>
+                        </div>
+                        <div class="community-stats">
+                            <div class="community-stat">
+                                <div class="stat-value">45.7K</div>
+                                <div class="stat-label">Membros</div>
+                            </div>
+                            <div class="community-stat">
+                                <div class="stat-value">Alta</div>
+                                <div class="stat-label">Atividade</div>
+                            </div>
+                            <div class="community-stat">
+                                <div class="stat-value positive">65%</div>
+                                <div class="stat-label">Sentimento</div>
+                            </div>
+                        </div>
+                        <div class="community-action">
+                            <button class="btn-join">Entrar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="community-card">
+                        <div class="community-header">
+                            <div class="community-platform-icon">
+                                <i class="fab fa-reddit-alien"></i>
+                            </div>
+                            <div class="community-info">
+                                <div class="community-name">r/BitcoinRunes</div>
+                                <div class="community-link">reddit.com/r/bitcoinrunes</div>
+                            </div>
+                        </div>
+                        <div class="community-stats">
+                            <div class="community-stat">
+                                <div class="stat-value">12.6K</div>
+                                <div class="stat-label">Membros</div>
+                            </div>
+                            <div class="community-stat">
+                                <div class="stat-value">Média</div>
+                                <div class="stat-label">Atividade</div>
+                            </div>
+                            <div class="community-stat">
+                                <div class="stat-value positive">58%</div>
+                                <div class="stat-label">Sentimento</div>
+                            </div>
+                        </div>
+                        <div class="community-action">
+                            <button class="btn-join">Entrar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Influenciadores em destaque -->
+                <div class="section-subheader">
+                    <h3>Influenciadores em Alta</h3>
+                </div>
+
+                <div class="influencers-container">
+                    <table class="influencers-table">
+                        <thead>
+                            <tr>
+                                <th>Influenciador</th>
+                                <th>Plataforma</th>
+                                <th>Sentimento</th>
+                                <th>Alcance</th>
+                                <th>Impacto no Preço</th>
+                                <th>Tokens Runes Destacados</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="influencer-cell">
+                                    <div class="influencer-avatar"></div>
+                                    <div class="influencer-info">
+                                        <div class="influencer-name">Casey Rodarmor</div>
+                                        <div class="influencer-handle">@rodarmor</div>
+                                        <div class="influencer-role">Criador do Protocolo Runes</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="platform-badges">
+                                        <i class="fab fa-twitter"></i>
+                                        <i class="fab fa-github"></i>
+                                    </div>
+                                </td>
+                                <td><span class="sentiment-badge positive">Positivo</span></td>
+                                <td>215K</td>
+                                <td>
+                                    <div class="impact-meter high">
+                                        <span class="impact-label">Alto</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="token-tags">
+                                        <span class="token-tag">RUNES</span>
+                                        <span class="rune-id-tag"><i class="fas fa-tag"></i>Protocol</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-bell"></i></button>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="influencer-cell">
+                                    <div class="influencer-avatar"></div>
+                                    <div class="influencer-info">
+                                        <div class="influencer-name">Magic Eden</div>
+                                        <div class="influencer-handle">@MagicEden</div>
+                                        <div class="influencer-role">Marketplace de Runes</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="platform-badges">
+                                        <i class="fab fa-twitter"></i>
+                                        <i class="fab fa-discord"></i>
+                                    </div>
+                                </td>
+                                <td><span class="sentiment-badge positive">Positivo</span></td>
+                                <td>1.8M</td>
+                                <td>
+                                    <div class="impact-meter high">
+                                        <span class="impact-label">Alto</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="token-tags">
+                                        <span class="token-tag">UNCOMMON</span>
+                                        <span class="rune-id-tag"><i class="fas fa-tag"></i>845700:1</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-bell"></i></button>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="influencer-cell">
+                                    <div class="influencer-avatar"></div>
+                                    <div class="influencer-info">
+                                        <div class="influencer-name">RunesWhale</div>
+                                        <div class="influencer-handle">@runes_whale</div>
+                                        <div class="influencer-role">Grande investidor de Runes</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="platform-badges">
+                                        <i class="fab fa-twitter"></i>
+                                        <i class="fab fa-discord"></i>
+                                    </div>
+                                </td>
+                                <td><span class="sentiment-badge positive">Positivo</span></td>
+                                <td>142K</td>
+                                <td>
+                                    <div class="impact-meter medium">
+                                        <span class="impact-label">Médio</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="token-tags">
+                                        <span class="token-tag">UNCOMMON</span>
+                                        <span class="token-tag">PEPE</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-bell"></i></button>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Palavras-chave em alta -->
+                <div class="section-subheader">
+                    <h3>Palavras-chave em Alta</h3>
+                </div>
+
+                <div class="keywords-container">
+                    <div class="keyword-cloud" id="keyword-cloud">
+                        <!-- Word cloud será gerado via JS -->
+                    </div>
+                </div>
+                
+                <!-- Correlação Sentimento-Preço -->
+                <div class="section-subheader">
+                    <h3>Correlação Sentimento-Preço</h3>
+                </div>
+                
+                <div class="correlation-container">
+                    <div class="correlation-header">
+                        <h4>Simulador de Impacto de Sentimento Social em Runes</h4>
+                        <p>Veja como mudanças no sentimento social podem afetar os preços dos tokens Runes com base em padrões históricos</p>
+                    </div>
+                    
+                    <div class="simulator-controls">
+                        <div class="simulator-field">
+                            <label>Token Rune:</label>
+                            <select id="token-selector">
+                                <option value="RUNES">RUNES (Protocolo)</option>
+                                <option value="UNCOMMON" selected>UNCOMMON (845700:1)</option>
+                                <option value="RARE">RARE (845702:15)</option>
+                                <option value="MEME">MEME (847501:24)</option>
+                                <option value="PEPE">PEPE (848010:3)</option>
+                            </select>
+                            <div class="divisibility-info">
+                                <i class="fas fa-info-circle"></i> Divisibilidade: 18
+                            </div>
+                        </div>
+                        
+                        <div class="simulator-field">
+                            <label>Mudança no sentimento:</label>
+                            <div class="range-container">
+                                <input type="range" min="-50" max="50" value="10" id="sentiment-range">
+                                <span class="range-value positive">+10%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="simulator-field">
+                            <label>Período de análise:</label>
+                            <div class="toggle-buttons">
+                                <button class="toggle-btn active" data-period="24h">24h</button>
+                                <button class="toggle-btn" data-period="7d">7d</button>
+                                <button class="toggle-btn" data-period="30d">30d</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-result">
+                        <div class="impact-value-container">
+                            <div class="impact-label">Impacto estimado no preço:</div>
+                            <div class="impact-value positive">+7.2%</div>
+                        </div>
+                        <div class="impact-confidence">
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: 68%"></div>
+                                <span class="confidence-value">Confiança: 68%</span>
+                            </div>
+                        </div>
+                        <div class="impact-notes">
+                            <p><i class="fas fa-info-circle"></i> O modelo de previsão se baseia em correlações históricas entre sentimento social e movimentos de preço de tokens Runes. O nível de confiança indica a consistência dessas correlações no passado.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Metodologia de Análise -->
+                <div class="section-subheader">
+                    <h3>Metodologia de Análise de Runes</h3>
+                </div>
+                
+                <div class="methodology-container">
+                    <div class="methodology-card">
+                        <div class="methodology-header">
+                            <i class="fas fa-brain methodology-icon"></i>
+                            <h4>Processamento de Linguagem Natural</h4>
+                        </div>
+                        <div class="methodology-content">
+                            <p>Nossa análise se baseia em algoritmos de NLP para interpretar emoções e intenções nas discussões sobre tokens Runes no protocolo nativo do Bitcoin, distinguindo de outros tokens como BRC-20.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="methodology-card">
+                        <div class="methodology-header">
+                            <i class="fas fa-chart-pie methodology-icon"></i>
+                            <h4>Índice de Sentimento Runes</h4>
+                        </div>
+                        <div class="methodology-content">
+                            <p>Utilizamos metodologia especializada para calcular um índice de sentimento focado especificamente no ecossistema Runes, considerando fatores como etching, minting e runestones nas discussões.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="methodology-card">
+                        <div class="methodology-header">
+                            <i class="fas fa-bolt methodology-icon"></i>
+                            <h4>Detecção de Eventos</h4>
+                        </div>
+                        <div class="methodology-content">
+                            <p>Nosso mecanismo de detecção identifica picos anormais de atividade no ecossistema Runes, incluindo menções sobre novos IDs de Runes, cenotaphs e conversas sobre divisibilidade e símbolos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="methodology-card">
+                        <div class="methodology-header">
+                            <i class="fas fa-users methodology-icon"></i>
+                            <h4>Análise de Influenciadores</h4>
+                        </div>
+                        <div class="methodology-content">
+                            <p>Avaliamos o impacto das opiniões com foco especial em desenvolvedores e figuras-chave do ecossistema Runes, como Casey Rodarmor e equipes de marketplaces como Magic Eden.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recursos Premium -->
+                <div class="premium-banner">
+                    <div class="premium-content">
+                        <h3><i class="fas fa-crown"></i> Recursos Exclusivos para Análise de Runes disponíveis no Plano Premium</h3>
+                        <ul class="premium-features">
+                            <li><i class="fas fa-check-circle"></i> Alertas em tempo real sobre novos tokens Runes sendo etched</li>
+                            <li><i class="fas fa-check-circle"></i> Análise de correlação entre sentimento e preço para todos os tokens Runes</li>
+                            <li><i class="fas fa-check-circle"></i> Notificações de atividade de Casey Rodarmor e outros desenvolvedores</li>
+                            <li><i class="fas fa-check-circle"></i> API para integração com suas próprias ferramentas de trading</li>
+                        </ul>
+                        <button class="btn-upgrade">Upgrade para Premium</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção do Explorador de Tokens -->
+            <section id="explorer-section" class="content-section">
+                <div class="section-header">
+                    <h2>Explorador de Tokens</h2>
+                    <div class="cache-stats"></div>
+                    <div class="section-actions">
+                        <button class="btn-refresh"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Conteúdo do explorador será renderizado aqui -->
+                <div id="runes-explorer" class="explorer-container">
+                    <!-- Estrutura será gerada pelo JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Container para notificações -->
+    <div class="notifications-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+    <script src="indexeddb-cache.js"></script>
+    <script src="runes-explorer.js"></script>
+    <script src="social-analytics.js"></script>
+
+    <!-- Modal para exibir conquistas e medalhas -->
+    <div id="achievements-modal" class="modal">
+        <div class="modal-content achievements-content">
+            <div class="modal-header">
+                <h2>Conquistas e Medalhas</h2>
+                <button id="close-achievements-modal" class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="user-profile-summary">
+                    <div class="user-level-display">
+                        <div class="level-badge">
+                            <span id="user-level-value">5</span>
+                        </div>
+                        <div class="level-info">
+                            <h3>Seu Nível</h3>
+                            <div class="xp-bar">
+                                <div class="xp-fill" style="width: 65%"></div>
+                                <span class="xp-text">325/500 XP</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-eye"></i>
+                            <span>Tokens Vistos</span>
+                            <strong id="tokens-viewed-count">12</strong>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-star"></i>
+                            <span>Favoritos</span>
+                            <strong id="tokens-favorited-count">3</strong>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-share-alt"></i>
+                            <span>Compartilhados</span>
+                            <strong id="tokens-shared-count">1</strong>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Conquistas</span>
+                            <strong id="achievements-count">4/15</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="achievements-tabs">
+                    <button class="achievement-tab active" data-tab="all">Todos</button>
+                    <button class="achievement-tab" data-tab="explorer">Exploração</button>
+                    <button class="achievement-tab" data-tab="engagement">Engajamento</button>
+                    <button class="achievement-tab" data-tab="social">Social</button>
+                </div>
+                
+                <div class="achievements-container">
+                    <!-- As conquistas serão preenchidas dinamicamente pelo JS -->
+                    <div class="achievement-card" data-type="explorer">
+                        <div class="achievement-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <h4>Explorador Iniciante</h4>
+                            <p>Visualize detalhes de 10 tokens Runes diferentes</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%"></div>
+                                </div>
+                                <span class="progress-text">4/10</span>
+                            </div>
+                        </div>
+                        <div class="achievement-reward">
+                            <span>+50 XP</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card completed" data-type="explorer">
+                        <div class="achievement-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <h4>Primeiro Passo</h4>
+                            <p>Visualize detalhes do seu primeiro token Rune</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                                <span class="progress-text">Completo!</span>
+                            </div>
+                        </div>
+                        <div class="achievement-reward">
+                            <span>+10 XP</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card locked" data-type="explorer">
+                        <div class="achievement-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <h4>Conhecedor de Elite</h4>
+                            <p>Visualize detalhes dos 10 tokens Runes mais bem classificados</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 20%"></div>
+                                </div>
+                                <span class="progress-text">2/10</span>
+                            </div>
+                        </div>
+                        <div class="achievement-reward">
+                            <span>+100 XP</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card" data-type="engagement">
+                        <div class="achievement-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <h4>Colecionador</h4>
+                            <p>Adicione 5 tokens Runes aos seus favoritos</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                                <span class="progress-text">3/5</span>
+                            </div>
+                        </div>
+                        <div class="achievement-reward">
+                            <span>+30 XP</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card locked" data-type="social">
+                        <div class="achievement-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <h4>Embaixador Runes</h4>
+                            <p>Compartilhe informações sobre um token Rune</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0/1</span>
+                            </div>
+                        </div>
+                        <div class="achievement-reward">
+                            <span>+25 XP</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="badges-section">
+                    <h3>Medalhas e Emblemas</h3>
+                    <div class="badges-container">
+                        <div class="badge-item earned" data-tooltip="Explorador Novato - Visualize 5 tokens diferentes">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="badge-item earned" data-tooltip="Primeiro Favorito - Adicione um token aos favoritos">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="badge-item locked" data-tooltip="Explorador Completo - Visualize todos os tokens do Top 10">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="badge-item locked" data-tooltip="Caçador de Baleias - Identifique 5 atividades de baleias">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="badge-item locked" data-tooltip="Analista Técnico - Use todos os filtros disponíveis">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="badge-item locked" data-tooltip="Influenciador - Compartilhe 5 tokens diferentes">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="badge-item locked" data-tooltip="Pioneiro - Descubra um token recém-criado">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="badge-item locked" data-tooltip="Especialista em Runes - Alcance o nível 10">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="close-achievements-button">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão flutuante para acessar conquistas -->
+    <div class="achievement-floating-button" id="show-achievements-button">
+        <i class="fas fa-trophy"></i>
+    </div>
+</body>
+</html> 
