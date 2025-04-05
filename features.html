@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Features</title>
+    <meta name="description" content="Explore the features and capabilities of the RUNES Analytics Pro platform.">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles/cyberpunk.css"> 
+    <style>
+        /* Estilos específicos para features.html */
+        body {
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .dashboard-showcase {
+            position: relative;
+            height: 60vh; /* Adjust height as needed */
+            overflow: hidden;
+            margin-bottom: 4rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 200, 255, 0.15);
+        }
+
+        .dashboard-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/dashboard-mockup.webp') no-repeat center center; /* Placeholder image */
+            background-size: cover;
+            transform: scale(1.1); /* Initial scale for parallax */
+            transition: transform 0.5s ease-out;
+            will-change: transform;
+        }
+
+        .dashboard-showcase:hover .dashboard-img {
+            transform: scale(1); /* Parallax effect */
+        }
+
+        .dashboard-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(10, 15, 30, 0.1) 0%, rgba(10, 15, 30, 0.8) 90%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .dashboard-caption {
+            color: var(--text-primary);
+            max-width: 600px;
+        }
+
+        .callout {
+            position: absolute;
+            background-color: rgba(0, 255, 255, 0.15);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            backdrop-filter: blur(3px);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none; /* Prevent blocking hover on showcase */
+        }
+
+        .dashboard-showcase:hover .callout {
+            opacity: 1;
+        }
+        
+        /* Example callout positions - adjust as needed */
+        .callout-1 { top: 20%; left: 15%; transform: translateX(-10px); }
+        .callout-2 { top: 40%; right: 10%; transform: translateX(10px); }
+        .callout-3 { bottom: 25%; left: 30%; transform: translateX(-10px); }
+
+        .dashboard-showcase:hover .callout-1,
+        .dashboard-showcase:hover .callout-2,
+        .dashboard-showcase:hover .callout-3 {
+            transform: translateX(0);
+        }
+        
+        /* Feature Cards Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            position: relative; /* Needed for pseudo-elements */
+            overflow: hidden; /* Clip animations */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 170, 255, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block; /* Allow transforms */
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+             transform: scale(1.1);
+        }
+
+        .feature-card .metrics, .feature-card .sub-features {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            border-left: 2px solid var(--neon-blue);
+            padding-left: 0.8rem;
+        }
+        
+        /* Specific card animations */
+        .feature-card.whale-tracker::after { /* Water ripple effect */
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 150, 200, 0.3) 0%, transparent 70%);
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            border-radius: 50%;
+        }
+        .feature-card.whale-tracker:hover::after {
+            transform: scale(2);
+            opacity: 1;
+            transition-duration: 1s; /* Slower ripple spread */
+        }
+        
+        .feature-card.market-analysis .feature-icon { /* Pulsing graph */
+             animation: pulse 1.5s infinite ease-in-out alternate;
+        }
+
+        .feature-card.gamified::before { /* Growing shine */
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.6s ease, opacity 0.6s ease;
+        }
+        .feature-card.gamified:hover::before {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .feature-card.explorer .feature-icon { /* Zoom effect */
+             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+         .feature-card.explorer:hover .feature-icon {
+             transform: scale(1.2);
+         }
+
+        .feature-card.social::after { /* Network pulse */
+            content: '';
+            position: absolute;
+            top: 10%; left: 10%; width: 80%; height: 80%;
+            border: 1px dashed var(--neon-purple);
+            border-radius: 5px;
+            opacity: 0;
+            animation: network-pulse 2s infinite linear;
+        }
+        .feature-card.social:hover::after { opacity: 0.5; }
+        @keyframes network-pulse {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); border-color: var(--neon-pink); }
+            100% { transform: scale(0.95); }
+        }
+        
+        .feature-card.ipfs::before { /* Connected blocks */
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--neon-green) 1px, transparent 1px),
+                linear-gradient(to right, var(--neon-green) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .feature-card.ipfs:hover::before { opacity: 0.1; }
+
+        /* Demonstration Section */
+        .demo-section { margin-bottom: 4rem; }
+        .demo-video-placeholder {
+            background-color: #111;
+            border: 1px dashed var(--border-neon);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .workflow-timeline { /* Basic timeline styling */
+            border-left: 2px solid var(--neon-cyan);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '◆';
+            position: absolute;
+            left: -2.2rem;
+            top: 0;
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            background-color: var(--bg-primary);
+            padding: 0 0.3rem;
+        }
+        .timeline-item h4 { color: var(--neon-cyan); margin-bottom: 0.3rem; }
+        .timeline-item p { font-size: 0.9rem; color: var(--text-secondary); }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 4rem;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.1);
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+        }
+        .comparison-table th {
+            background-color: var(--bg-secondary);
+            color: var(--neon-blue);
+            font-family: var(--font-display);
+        }
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+        .comparison-table .highlight {
+            background-color: rgba(0, 255, 100, 0.1);
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+        .comparison-table .advantage-icon {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+        .comparison-table .disadvantage-icon {
+            color: #ff4d4d; /* Neon red */
+             font-size: 1.2rem;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(rgba(15, 20, 40, 0.8), rgba(10, 15, 30, 0.95));
+            border-radius: 8px;
+            border-top: 2px solid var(--neon-purple);
+        }
+        .cta-link {
+            display: block;
+            margin-top: 1rem;
+            color: var(--neon-cyan);
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+        .cta-link:hover {
+            color: var(--text-primary);
+        }
+        
+        /* Glitch Button */
+        .btn-glitch {
+             position: relative;
+        }
+        .btn-glitch:hover::before,
+        .btn-glitch:hover::after {
+            content: 'Experience the features';
+            position: absolute;
+            top: 0; left: 0;
+            padding: inherit; /* Match button padding */
+            width: 100%; height: 100%;
+            background: var(--bg-primary); /* Match button background */
+            color: var(--text-primary); /* Match button text color */
+            border: inherit; /* Match button border */
+            border-radius: inherit; /* Match button border-radius */
+            box-sizing: border-box;
+        }
+        .btn-glitch:hover::before {
+            left: 2px;
+            text-shadow: -1px 0 var(--neon-pink);
+            animation: glitch-effect-btn 0.5s infinite linear alternate-reverse;
+        }
+        .btn-glitch:hover::after {
+            left: -2px;
+            text-shadow: 1px 0 var(--neon-cyan);
+            animation: glitch-effect-btn 0.8s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-effect-btn {
+            0% { clip-path: inset(85% 0 5% 0); opacity: 0.8; }
+            25% { clip-path: inset(20% 0 50% 0); opacity: 1; }
+            50% { clip-path: inset(40% 0 10% 0); opacity: 0.7; }
+            75% { clip-path: inset(70% 0 25% 0); opacity: 0.9; }
+            100% { clip-path: inset(10% 0 80% 0); opacity: 0.8; }
+        }
+
+        /* Language Toggle Button */
+        #language-toggle {
+            position: fixed;
+            top: 15px; /* Adjusted position */
+            right: 15px;
+            z-index: 1000; /* Ensure it's above other elements */
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-blue);
+            color: var(--text-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        #language-toggle:hover {
+             background: rgba(0, 170, 255, 0.2);
+             color: var(--neon-cyan);
+             box-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
+        }
+
+    </style>
+    
+    <!-- Scripts -->
+    <script src="js/presentation-transitions.js" defer></script>
+    <script src="js/presentation-nav.js" defer></script>
+</head>
+<body>
+    <!-- Botão de Troca de Idioma -->
+    <button id="language-toggle">🇧🇷 Português</button>
+
+    <!-- Header (Criado via JavaScript por presentation-nav.js) -->
+    <header class="site-header"></header>
+    
+    <!-- Conteúdo principal -->
+    <main class="content-area">
+        <div class="container">
+            <section class="hero fade-in text-center">
+                <h1 class="glitch-text" data-text="Features & Capabilities">Features & Capabilities</h1>
+                <p class="text-neon-green text-mono">Unlock the power of RUNES tokens analysis</p>
+            </section>
+
+            <!-- Dashboard Showcase -->
+            <section class="dashboard-showcase fade-in" style="animation-delay: 0.2s;">
+                <div class="dashboard-img"></div>
+                <div class="dashboard-overlay">
+                    <div class="dashboard-caption">
+                        <h2>Intuitive Dashboard</h2>
+                        <p>Visualize the entire Runes ecosystem at a glance. Customizable widgets, real-time data streams, and powerful charting tools.</p>
+                    </div>
+                </div>
+                 <!-- Callouts -->
+                <div class="callout callout-1">Real-time Price Feed</div>
+                <div class="callout callout-2">Whale Activity Alerts</div>
+                <div class="callout callout-3">On-chain Metrics Widget</div>
+            </section>
+
+            <!-- Features Grid -->
+            <section class="features-grid fade-in" style="animation-delay: 0.4s;">
+                <!-- Whale Tracking -->
+                <div class="card feature-card whale-tracker">
+                    <div class="feature-icon">🐋</div>
+                    <h3>Whale Tracking</h3>
+                    <p>Identify whale accumulation patterns with real-time monitoring of large transactions and wallet movements.</p>
+                    <div class="metrics">
+                        Detection accuracy: <span class="text-neon-green">94.5%</span><br>
+                        Response time: <span class="text-neon-green">&lt;1.5s</span>
+                    </div>
+                </div>
+
+                <!-- Market Analysis -->
+                <div class="card feature-card market-analysis">
+                     <div class="feature-icon">📈</div>
+                    <h3>Market Analysis</h3>
+                    <p>Advanced pattern recognition algorithms to spot market trends before they happen. Correlate data across multiple sources.</p>
+                    <div class="metrics">
+                        Pattern detection: <span class="text-neon-green">89% accuracy</span><br>
+                        Historical correlation: <span class="text-neon-green">92%</span>
+                    </div>
+                </div>
+
+                <!-- Gamified Experience -->
+                <div class="card feature-card gamified">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Gamified Experience</h3>
+                    <p>Learn while you earn through achievements, challenges, and level progression. Master Runes analysis in a fun way.</p>
+                    <div class="sub-features">
+                        ◇ Daily missions<br>
+                        ◇ Unlock achievements<br>
+                        ◇ Compete on leaderboards
+                    </div>
+                </div>
+
+                <!-- Token Explorer -->
+                <div class="card feature-card explorer">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Token Explorer</h3>
+                    <p>Search, filter, and discover Runes tokens with comprehensive metadata, on-chain data, and market stats.</p>
+                     <div class="sub-features">
+                        ◇ Advanced filtering<br>
+                        ◇ Custom sorting<br>
+                        ◇ Detailed token info
+                    </div>
+                </div>
+
+                <!-- Social Analysis -->
+                <div class="card feature-card social">
+                    <div class="feature-icon">💬</div>
+                    <h3>Social Analysis</h3>
+                    <p>Track sentiment, social media mentions, and community activity correlated with token performance and price action.</p>
+                    <div class="metrics">
+                        Social pulse accuracy: <span class="text-neon-green">87%</span><br>
+                        Trend prediction: <span class="text-neon-green">79%</span>
+                    </div>
+                </div>
+
+                <!-- IPFS Integration -->
+                <div class="card feature-card ipfs">
+                    <div class="feature-icon">💾</div>
+                    <h3>IPFS Integration</h3>
+                    <p>Share token insights, analysis snapshots, and RunesCards via decentralized storage for permanent, verifiable records.</p>
+                    <div class="sub-features">
+                        ◇ Permanent cards<br>
+                        ◇ Verifiable sharing<br>
+                        ◇ IPFS data integrity
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demonstration Section -->
+            <section class="demo-section fade-in" style="animation-delay: 0.6s;">
+                <h2>See it in Action</h2>
+                <div class="demo-video-placeholder">
+                    [ Animated Platform Mockup / Video Placeholder ]
+                </div>
+                <h3>Typical Workflow</h3>
+                <div class="workflow-timeline">
+                    <div class="timeline-item">
+                        <h4>1. Connect Wallet</h4>
+                        <p>Securely link your preferred wallet to access personalized features.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>2. Configure Dashboard</h4>
+                        <p>Drag, drop, and resize widgets to create your perfect analysis view.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>3. Explore Tokens</h4>
+                        <p>Use the Token Explorer to find Runes based on specific criteria.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>4. Analyze Trends</h4>
+                        <p>Leverage market analysis tools and whale tracking to spot opportunities.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>5. Share Insights</h4>
+                        <p>Generate a RunesCard or snapshot and share it via IPFS.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comparison Table -->
+             <section class="comparison-section fade-in" style="animation-delay: 0.8s;">
+                <h2>Compared to Traditional Tools</h2>
+                 <div style="overflow-x: auto;"> <!-- Ensure table is scrollable on small screens -->
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>RUNES Analytics Pro</th>
+                                <th>Traditional Explorers</th>
+                                <th>Generic Charting Tools</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Runes Specific Data</td>
+                                <td class="highlight">Deep Integration <span class="advantage-icon">✔</span></td>
+                                <td>Basic <span class="disadvantage-icon">✖</span></td>
+                                <td>None <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                            <tr>
+                                <td>Whale Tracking</td>
+                                <td class="highlight">Advanced Real-time <span class="advantage-icon">✔</span></td>
+                                <td>Limited / Manual <span class="disadvantage-icon">✖</span></td>
+                                <td>None <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                             <tr>
+                                <td>Gamification</td>
+                                <td class="highlight">Integrated System <span class="advantage-icon">✔</span></td>
+                                <td>None <span class="disadvantage-icon">✖</span></td>
+                                <td>None <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                             <tr>
+                                <td>Social Sentiment Analysis</td>
+                                <td class="highlight">Built-in Correlation <span class="advantage-icon">✔</span></td>
+                                <td>None <span class="disadvantage-icon">✖</span></td>
+                                <td>None <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                             <tr>
+                                <td>IPFS Sharing</td>
+                                <td class="highlight">Native Support <span class="advantage-icon">✔</span></td>
+                                <td>None <span class="disadvantage-icon">✖</span></td>
+                                <td>Manual <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                            <tr>
+                                <td>Customizable Dashboard</td>
+                                <td class="highlight">Fully Flexible <span class="advantage-icon">✔</span></td>
+                                <td>Fixed Layout <span class="disadvantage-icon">✖</span></td>
+                                <td>Yes (Generic)</td>
+                            </tr>
+                             <tr>
+                                <td>Real-time Updates</td>
+                                <td class="highlight">Sub-second Latency <span class="advantage-icon">✔</span></td>
+                                <td>Delayed / Manual Refresh</td>
+                                <td>Variable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="cta-section fade-in" style="animation-delay: 1s;">
+                <h2>Ready to Dive Deeper?</h2>
+                <p>Experience the next generation of Runes token analysis.</p>
+                <button class="btn btn-primary btn-glitch mt-2">Experience the features</button>
+                <a href="#" class="cta-link">Read Technical Documentation</a> <!-- Update href -->
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer (Criado via JavaScript por presentation-nav.js) -->
+    <footer class="site-footer"></footer>
+    
+    <script>
+        // Script para parallax simples no showcase do dashboard
+        const showcase = document.querySelector('.dashboard-showcase');
+        const showcaseImg = document.querySelector('.dashboard-img');
+
+        if (showcase && showcaseImg) {
+            showcase.addEventListener('mousemove', (e) => {
+                const rect = showcase.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const moveX = (x / rect.width - 0.5) * -20; // Max 10px movement
+                const moveY = (y / rect.height - 0.5) * -15; // Max 7.5px movement
+                
+                // Apply subtle parallax movement to the background image
+                showcaseImg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            });
+
+            showcase.addEventListener('mouseleave', () => {
+                // Reset transform, trigger CSS transition back to center
+                showcaseImg.style.transform = 'scale(1.1) translate(0, 0)';
+            });
+        }
+        
+        // Add data-text attribute for glitch effect
+        document.querySelectorAll('.glitch-text').forEach(el => {
+            el.setAttribute('data-text', el.textContent);
+        });
+
+        // Placeholder for footer content generation if not handled by nav script
+        const footer = document.querySelector('.site-footer');
+        if (footer && !footer.innerHTML.trim()) {
+            footer.innerHTML = `<div class="container">
+                <p>RUNES Analytics Pro &copy; 2023-${new Date().getFullYear()} | Powering the Runes Revolution</p>
+            </div>`;
+        }
+
+        // Language Toggle Logic
+        const langToggleButton = document.getElementById('language-toggle');
+        if (langToggleButton) {
+            langToggleButton.addEventListener('click', () => {
+                // Assuming the Portuguese version is named features.pt.html
+                window.location.href = 'features.pt.html'; 
+            });
+        }
+    </script>
+</body>
+</html> 

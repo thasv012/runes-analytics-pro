@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Demo de Compartilhamento</title>
+    <meta name="description" content="Demonstração do sistema de compartilhamento e exportação do RUNES Analytics Pro">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="novo-design/redesign.css">
+    <link rel="stylesheet" href="css/share-tools.css">
+    <link rel="stylesheet" href="css/runes-ui-extras.css">
+    
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #f3f4f6;
+            --accent-color: #3b82f6;
+            --text-color: #e6e6e6;
+            --background-color: #0f172a;
+            --card-background: #1a1a2e;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .page-description {
+            font-size: 1.1rem;
+            color: rgba(230, 230, 230, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .demo-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .token-data-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .token-card {
+            flex: 1;
+            min-width: 250px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .token-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .token-card.selected {
+            border-color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .token-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .token-name i {
+            opacity: 0.7;
+        }
+        
+        .token-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+        
+        .token-stat {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+        }
+        
+        .token-stat span {
+            font-weight: 600;
+            margin-left: 0.25rem;
+        }
+        
+        .implementation-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .code-block {
+            background: #1e1e3f;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: #e0def4;
+        }
+        
+        .code-block .comment {
+            color: #6d6d9c;
+        }
+        
+        .code-block .keyword {
+            color: #c792ea;
+        }
+        
+        .code-block .string {
+            color: #a9c77d;
+        }
+        
+        .code-block .function {
+            color: #82aaff;
+        }
+        
+        .code-block .variable {
+            color: #f78c6c;
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .btn-section {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .token-data-selector {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .btn-section {
+                flex-direction: column;
+            }
+            
+            .btn-section .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">RUNES Analytics Pro</h1>
+            <p class="page-description">
+                Demonstração do Sistema de Compartilhamento e Exportação de Dados
+            </p>
+        </header>
+
+        <main>
+            <section class="demo-section">
+                <h2 class="section-title">
+                    <i class="fas fa-database"></i>
+                    Selecione um Token para Compartilhar
+                </h2>
+                
+                <div class="token-data-selector">
+                    <div class="token-card" data-token="PEPE" onclick="selectToken('PEPE')">
+                        <div class="token-name">
+                            <i class="fas fa-frog"></i> PEPE
+                        </div>
+                        <p class="token-description">
+                            Token meme popular inspirado no personagem Pepe the Frog.
+                        </p>
+                        <div class="token-stats">
+                            <div class="token-stat">Holders: <span>2.4K</span></div>
+                            <div class="token-stat">Supply: <span>42.000.000</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="token-card" data-token="ORDIBITS" onclick="selectToken('ORDIBITS')">
+                        <div class="token-name">
+                            <i class="fas fa-coins"></i> ORDIBITS
+                        </div>
+                        <p class="token-description">
+                            Um dos primeiros tokens Runes criados na rede Bitcoin.
+                        </p>
+                        <div class="token-stats">
+                            <div class="token-stat">Holders: <span>1.8K</span></div>
+                            <div class="token-stat">Supply: <span>21.000.000</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="token-card" data-token="MEME" onclick="selectToken('MEME')">
+                        <div class="token-name">
+                            <i class="fas fa-face-grin-tears"></i> MEME
+                        </div>
+                        <p class="token-description">
+                            Token com alta popularidade no ecossistema Runes.
+                        </p>
+                        <div class="token-stats">
+                            <div class="token-stat">Holders: <span>3.1K</span></div>
+                            <div class="token-stat">Supply: <span>69.420.000</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="sharing-section">
+                <div id="sharing-tools-container"></div>
+            </section>
+            
+            <section class="implementation-section">
+                <h2 class="section-title">
+                    <i class="fas fa-code"></i>
+                    Como Implementar
+                </h2>
+                
+                <p>
+                    Adicione o sistema de compartilhamento à sua aplicação RUNES Analytics Pro com apenas algumas linhas de código:
+                </p>
+                
+                <div class="code-block">
+                    <pre><span class="comment">// 1. Inclua os arquivos necessários no HTML</span>
+<span class="keyword">&lt;link</span> <span class="variable">rel</span>=<span class="string">"stylesheet"</span> <span class="variable">href</span>=<span class="string">"css/share-tools.css"</span><span class="keyword">&gt;</span>
+<span class="keyword">&lt;script</span> <span class="variable">src</span>=<span class="string">"services/sharing/SharingService.js"</span><span class="keyword">&gt;&lt;/script&gt;</span>
+<span class="keyword">&lt;script</span> <span class="variable">src</span>=<span class="string">"components/ShareTools.js"</span><span class="keyword">&gt;&lt;/script&gt;</span>
+
+<span class="comment">// 2. Adicione um elemento container</span>
+<span class="keyword">&lt;div</span> <span class="variable">id</span>=<span class="string">"sharing-tools-container"</span><span class="keyword">&gt;&lt;/div&gt;</span>
+
+<span class="comment">// 3. Inicialize o componente com JavaScript</span>
+<span class="keyword">const</span> <span class="variable">sharingTools</span> = <span class="keyword">new</span> <span class="function">ShareTools</span>(<span class="string">'sharing-tools-container'</span>, {
+    <span class="variable">enabledFeatures</span>: {
+        <span class="variable">shareUrl</span>: <span class="keyword">true</span>,
+        <span class="variable">socialCards</span>: <span class="keyword">true</span>,
+        <span class="variable">dataExport</span>: <span class="keyword">true</span>
+    },
+    <span class="variable">defaultFileName</span>: <span class="string">'runes-data-export'</span>
+});
+
+<span class="comment">// 4. Configure os dados a serem compartilhados</span>
+<span class="variable">sharingTools</span>.<span class="function">setData</span>(
+    {
+        <span class="variable">title</span>: <span class="string">'Análise do token PEPE'</span>,
+        <span class="variable">description</span>: <span class="string">'Estatísticas e métricas para o token PEPE'</span>,
+        <span class="variable">statLabel</span>: <span class="string">'Holders Ativos'</span>,
+        <span class="variable">statValue</span>: <span class="string">'2.483'</span>,
+        <span class="variable">holders</span>: <span class="string">'2.4K'</span>,
+        <span class="variable">transactions</span>: <span class="string">'18.5K'</span>
+    },
+    {
+        <span class="variable">view</span>: <span class="string">'token-details'</span>,
+        <span class="variable">token</span>: <span class="string">'PEPE'</span>,
+        <span class="variable">period</span>: <span class="string">'30d'</span>
+    }
+);</pre>
+                </div>
+                
+                <div class="btn-section">
+                    <button class="btn btn-primary" onclick="showAdvancedSection()">
+                        <i class="fas fa-book"></i> Ver Documentação Completa
+                    </button>
+                    <button class="btn btn-outline" onclick="window.location.href='https://github.com/thasv012/runes-analytics-pro'">
+                        <i class="fab fa-github"></i> Acessar Repositório
+                    </button>
+                </div>
+                
+                <div id="advanced-section" class="hidden-section">
+                    <h3>Configurações Avançadas</h3>
+                    <p>
+                        O sistema de compartilhamento do RUNES Analytics Pro inclui diversas opções avançadas de configuração:
+                    </p>
+                    
+                    <div class="code-block">
+                        <pre><span class="comment">// Configuração avançada da compressão de estado</span>
+<span class="variable">sharingService</span>.<span class="function">configure</span>({
+    <span class="variable">compressionEnabled</span>: <span class="keyword">true</span>,
+    <span class="variable">shortUrlEnabled</span>: <span class="keyword">true</span>,
+    <span class="variable">shortUrlService</span>: <span class="string">'bitly'</span>,
+    <span class="variable">bitlyToken</span>: <span class="string">'seu_token_bitly'</span>,
+    <span class="variable">securitySettings</span>: {
+        <span class="variable">expirationTime</span>: 7 * 24 * 60 * 60 * 1000, <span class="comment">// 7 dias</span>
+        <span class="variable">maxStateSize</span>: 200 * 1024, <span class="comment">// 200KB</span>
+        <span class="variable">sensitiveFields</span>: [<span class="string">'apiKey'</span>, <span class="string">'userToken'</span>, <span class="string">'password'</span>]
+    }
+});
+
+<span class="comment">// Personalização de templates para cartões sociais</span>
+<span class="variable">sharingService</span>.<span class="function">configure</span>({
+    <span class="variable">socialCardTemplates</span>: {
+        <span class="variable">twitter</span>: {
+            <span class="variable">width</span>: 1200,
+            <span class="variable">height</span>: 628,
+            <span class="variable">template</span>: <span class="string">'meu-template-twitter'</span> <span class="comment">// ID do elemento HTML com template</span>
+        }
+    }
+});</pre>
+                    </div>
+                    
+                    <h3>Sobrescrevendo o Método getCurrentState</h3>
+                    <p>
+                        Para capturar o estado atual da aplicação de forma personalizada:
+                    </p>
+                    
+                    <div class="code-block">
+                        <pre><span class="comment">// Subclasse com estado personalizado</span>
+<span class="keyword">class</span> <span class="variable">RunesShareTools</span> <span class="keyword">extends</span> <span class="variable">ShareTools</span> {
+    <span class="function">getCurrentState</span>() {
+        <span class="comment">// Capturar estado de filtros, visualizações, etc.</span>
+        <span class="keyword">const</span> <span class="variable">activeFilters</span> = <span class="variable">runExplorer</span>.<span class="function">getActiveFilters</span>();
+        <span class="keyword">const</span> <span class="variable">sortSettings</span> = <span class="variable">runExplorer</span>.<span class="function">getSortSettings</span>();
+        <span class="keyword">const</span> <span class="variable">selectedToken</span> = <span class="variable">runExplorer</span>.<span class="function">getSelectedToken</span>();
+        
+        <span class="keyword">return</span> {
+            <span class="variable">filters</span>: <span class="variable">activeFilters</span>,
+            <span class="variable">sort</span>: <span class="variable">sortSettings</span>,
+            <span class="variable">token</span>: <span class="variable">selectedToken</span>,
+            <span class="variable">view</span>: <span class="variable">currentView</span>,
+            <span class="variable">timestamp</span>: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+        };
+    }
+}</pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Dependências -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Scripts da aplicação -->
+    <script src="css/rune-animations.js"></script>
+    <script src="services/sharing/SharingService.js"></script>
+    <script src="components/ShareTools.js"></script>
+    
+    <script>
+        // Dados mockados para os tokens
+        const tokenData = {
+            'PEPE': {
+                title: 'Análise do token PEPE',
+                description: 'Estatísticas e métricas detalhadas para o token PEPE no ecossistema Runes',
+                statLabel: 'Holders Ativos',
+                statValue: '2.483',
+                holders: '2.4K',
+                supply: '42.000.000',
+                transactions: '18.5K',
+                price: '0.00015 BTC',
+                creationDate: '12/02/2023'
+            },
+            'ORDIBITS': {
+                title: 'Análise do token ORDIBITS',
+                description: 'Um dos primeiros e mais populares tokens Runes na rede Bitcoin',
+                statLabel: 'Volume 24h',
+                statValue: '5.2 BTC',
+                holders: '1.8K',
+                supply: '21.000.000',
+                transactions: '12.7K',
+                price: '0.00025 BTC',
+                creationDate: '05/01/2023'
+            },
+            'MEME': {
+                title: 'Análise do token MEME',
+                description: 'Token com alta popularidade e liquidez no ecosistema Runes',
+                statLabel: 'Valor de Mercado',
+                statValue: '142 BTC',
+                holders: '3.1K',
+                supply: '69.420.000',
+                transactions: '24.3K',
+                price: '0.00008 BTC',
+                creationDate: '23/03/2023'
+            }
+        };
+        
+        // Inicializar o componente de compartilhamento
+        let sharingTools = new ShareTools('sharing-tools-container', {
+            enabledFeatures: {
+                shareUrl: true,
+                socialCards: true,
+                dataExport: true
+            },
+            defaultFileName: 'runes-token-analysis'
+        });
+        
+        // Função para selecionar um token
+        function selectToken(tokenId) {
+            // Atualizar seleção visual
+            document.querySelectorAll('.token-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            document.querySelector(`.token-card[data-token="${tokenId}"]`).classList.add('selected');
+            
+            // Obter dados do token selecionado
+            const data = tokenData[tokenId];
+            
+            // Atualizar componente de compartilhamento com os dados do token
+            sharingTools.setData(
+                data,
+                {
+                    view: 'token-details',
+                    token: tokenId,
+                    period: '30d'
+                }
+            );
+            
+            // Animação de atualização se disponível
+            if (window.RunesAnimations) {
+                RunesAnimations.showNotification({
+                    type: 'info',
+                    title: 'Token Selecionado',
+                    message: `Dados carregados para o token ${tokenId}`
+                });
+            }
+        }
+        
+        // Função para mostrar seção avançada
+        function showAdvancedSection() {
+            const section = document.getElementById('advanced-section');
+            
+            if (section.classList.contains('hidden-section')) {
+                section.classList.remove('hidden-section');
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                section.classList.add('hidden-section');
+            }
+        }
+        
+        // Selecionar o primeiro token por padrão
+        window.addEventListener('DOMContentLoaded', () => {
+            selectToken('PEPE');
+            
+            // Inicializar animações se disponível
+            if (window.RunesAnimations && RunesAnimations.setupIntersectionObserver) {
+                RunesAnimations.setupIntersectionObserver();
+            }
+        });
+    </script>
+</body>
+</html> 

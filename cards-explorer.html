@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNECARD Editor Lab | RUNES Analytics Pro</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-dark: #0284c7;
+            --card-border: #475569;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .app-logo {
+            color: var(--accent);
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card-editor {
+            background-color: var(--bg-secondary);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        #json-editor {
+            width: 100%;
+            height: 600px;
+            background-color: #0d1424;
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 0.25rem;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .card-preview {
+            background-color: var(--bg-secondary);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .runecard {
+            background-color: #0d1424;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .runecard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .runecard-header {
+            padding: 1.5rem;
+            position: relative;
+            min-height: 120px;
+        }
+        
+        .runecard-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom right, var(--themeColor, var(--accent)), transparent);
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .runecard-title {
+            position: relative;
+            z-index: 1;
+            font-size: 1.8rem;
+            margin: 0 0 0.5rem;
+            color: var(--themeColor, var(--accent));
+        }
+        
+        .runecard-subtitle {
+            position: relative;
+            z-index: 1;
+            font-size: 1rem;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+        
+        .runecard-ticker {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: rgba(13, 20, 36, 0.8);
+            color: var(--themeColor, var(--accent));
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+        
+        .runecard-body {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .runecard-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            flex: 1;
+            background-color: rgba(30, 41, 59, 0.5);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--themeColor, var(--accent));
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .runecard-narrative {
+            padding: 1rem;
+            background-color: rgba(30, 41, 59, 0.3);
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--themeColor, var(--accent));
+        }
+        
+        .narrative-intro {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .narrative-lore {
+            margin-bottom: 1rem;
+        }
+        
+        .narrative-quote {
+            font-style: italic;
+            color: var(--themeColor, var(--accent));
+            text-align: right;
+        }
+        
+        .runecard-abilities {
+            padding: 1rem;
+            background-color: rgba(30, 41, 59, 0.3);
+            border-radius: 0.5rem;
+        }
+        
+        .abilities-section {
+            margin-bottom: 1rem;
+        }
+        
+        .abilities-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .abilities-list {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .ability-item {
+            background-color: rgba(13, 20, 36, 0.8);
+            color: var(--themeColor, var(--accent));
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .awakening-trigger {
+            font-size: 0.8rem;
+            color: var(--warning);
+            margin-top: 0.5rem;
+        }
+        
+        .runecard-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--accent-dark);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        
+        .button:hover {
+            background-color: var(--accent);
+        }
+        
+        .button-secondary {
+            background-color: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+        }
+        
+        .button-secondary:hover {
+            background-color: rgba(71, 85, 105, 0.2);
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(200%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+        }
+        
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .notification.error {
+            border-left: 4px solid var(--error);
+        }
+        
+        .notification.warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        /* Animações */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .glow {
+            animation: glow 3s infinite;
+        }
+        
+        .flicker {
+            animation: flicker 5s infinite;
+        }
+        
+        .awaken {
+            animation: awaken 8s infinite;
+        }
+        
+        .ripple {
+            animation: ripple 4s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(var(--themeColor-rgb, 56, 189, 248), 0.3); }
+            50% { box-shadow: 0 0 20px rgba(var(--themeColor-rgb, 56, 189, 248), 0.6); }
+            100% { box-shadow: 0 0 5px rgba(var(--themeColor-rgb, 56, 189, 248), 0.3); }
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 1; }
+            3% { opacity: 0.8; }
+            6% { opacity: 1; }
+            9% { opacity: 0.9; }
+            12% { opacity: 1; }
+            50% { opacity: 1; }
+            53% { opacity: 0.7; }
+            56% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes awaken {
+            0% { transform: scale(1); filter: brightness(1); }
+            10% { transform: scale(1.02); filter: brightness(1.1); }
+            20% { transform: scale(1); filter: brightness(1); }
+            80% { transform: scale(1); filter: brightness(1); }
+            90% { transform: scale(1.02); filter: brightness(1.1); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+        
+        @keyframes ripple {
+            0% { box-shadow: 0 0 0 0 rgba(var(--themeColor-rgb, 56, 189, 248), 0.5); }
+            70% { box-shadow: 0 0 0 20px rgba(var(--themeColor-rgb, 56, 189, 248), 0); }
+            100% { box-shadow: 0 0 0 0 rgba(var(--themeColor-rgb, 56, 189, 248), 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="app-logo">⟁</span> RUNECARD Editor Lab</h1>
+            <div class="toolbar">
+                <button id="new-card-btn" class="button">Novo Card</button>
+                <button id="load-card-btn" class="button button-secondary">Carregar Card</button>
+            </div>
+        </header>
+        
+        <div class="workspace">
+            <div class="card-editor">
+                <div class="editor-header">
+                    <h2>Editor JSON</h2>
+                    <button id="update-preview-btn" class="button">Atualizar Preview</button>
+                </div>
+                <textarea id="json-editor" spellcheck="false"></textarea>
+                <div class="editor-actions" style="margin-top: 1rem; display: flex; gap: 1rem;">
+                    <button id="save-card-btn" class="button">Salvar Card</button>
+                    <button id="copy-json-btn" class="button button-secondary">Copiar JSON</button>
+                </div>
+            </div>
+            
+            <div class="card-preview">
+                <div class="preview-header">
+                    <h2>Preview</h2>
+                    <button id="export-image-btn" class="button button-secondary">Exportar Imagem</button>
+                </div>
+                <div id="runecard" class="runecard">
+                    <div class="runecard-header">
+                        <div class="runecard-ticker">RUNE</div>
+                        <h2 class="runecard-title">Carregando...</h2>
+                        <p class="runecard-subtitle">Carregando...</p>
+                    </div>
+                    
+                    <div class="runecard-body">
+                        <div class="runecard-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">--</div>
+                                <div class="stat-label">Suprimento</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">--</div>
+                                <div class="stat-label">Holders</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">--</div>
+                                <div class="stat-label">Lançamento</div>
+                            </div>
+                        </div>
+                        
+                        <div class="runecard-narrative">
+                            <div class="narrative-intro">Carregando introdução...</div>
+                            <div class="narrative-lore">Carregando lore...</div>
+                            <div class="narrative-quote">Carregando citação...</div>
+                        </div>
+                        
+                        <div class="runecard-abilities">
+                            <div class="abilities-section">
+                                <div class="abilities-title">Habilidades</div>
+                                <div class="abilities-list">
+                                    <div class="ability-item">Carregando...</div>
+                                </div>
+                            </div>
+                            <div class="abilities-section">
+                                <div class="abilities-title">Despertar</div>
+                                <div class="abilities-list">
+                                    <div class="ability-item">Carregando...</div>
+                                </div>
+                                <div class="awakening-trigger">Carregando gatilho...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="runecard-footer">
+                        <div>RUNES Analytics Pro</div>
+                        <div id="card-date">00/00/0000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">Mensagem de notificação</div>
+    
+    <script>
+        // Converter cor hex para RGB para uso em variáveis CSS
+        function hexToRgb(hex) {
+            // Remover o #
+            hex = hex.replace('#', '');
+            
+            // Converter para RGB
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            
+            return [r, g, b].join(', ');
+        }
+        
+        // Renderizar o card a partir dos dados JSON
+        function renderCard(data) {
+            const card = document.getElementById('runecard');
+            const now = new Date();
+            
+            // Definir variáveis CSS personalizadas
+            if (data.visual && data.visual.themeColor) {
+                card.style.setProperty('--themeColor', data.visual.themeColor);
+                card.style.setProperty('--themeColor-rgb', hexToRgb(data.visual.themeColor));
+            }
+            
+            // Aplicar animação se especificada
+            if (data.visual && data.visual.animation) {
+                card.className = `runecard ${data.visual.animation}`;
+            }
+            
+            // Atualizar título e subtítulo
+            card.querySelector('.runecard-title').textContent = data.title || 'Sem Título';
+            card.querySelector('.runecard-subtitle').textContent = data.subtitle || '';
+            
+            // Atualizar ticker
+            card.querySelector('.runecard-ticker').textContent = data.rune?.ticker || 'RUNE';
+            
+            // Atualizar estatísticas
+            const statValues = card.querySelectorAll('.stat-value');
+            const statLabels = card.querySelectorAll('.stat-label');
+            
+            if (data.rune) {
+                statValues[0].textContent = data.rune.minted || '--';
+                statLabels[0].textContent = 'Suprimento';
+                
+                statValues[1].textContent = data.rune.holders || '--';
+                statLabels[1].textContent = 'Holders';
+                
+                statValues[2].textContent = data.rune.launchDate || '--';
+                statLabels[2].textContent = 'Lançamento';
+            }
+            
+            // Atualizar narrativa
+            if (data.narrative) {
+                card.querySelector('.narrative-intro').textContent = data.narrative.intro || '';
+                
+                const loreElement = card.querySelector('.narrative-lore');
+                loreElement.innerHTML = ''; // Limpar conteúdo anterior
+                
+                if (Array.isArray(data.narrative.lore)) {
+                    data.narrative.lore.forEach(paragraph => {
+                        const p = document.createElement('p');
+                        p.textContent = paragraph;
+                        loreElement.appendChild(p);
+                    });
+                } else if (typeof data.narrative.lore === 'string') {
+                    loreElement.textContent = data.narrative.lore;
+                }
+                
+                card.querySelector('.narrative-quote').textContent = data.narrative.quote || '';
+            }
+            
+            // Atualizar habilidades
+            if (data.abilities) {
+                // Habilidades principais
+                const coreAbilitiesList = card.querySelector('.abilities-list:first-child');
+                coreAbilitiesList.innerHTML = ''; // Limpar conteúdo anterior
+                
+                if (Array.isArray(data.abilities.core)) {
+                    data.abilities.core.forEach(ability => {
+                        const abilityItem = document.createElement('div');
+                        abilityItem.className = 'ability-item';
+                        abilityItem.textContent = ability;
+                        coreAbilitiesList.appendChild(abilityItem);
+                    });
+                }
+                
+                // Habilidades de despertar
+                const awakeningAbilitiesList = card.querySelector('.abilities-list:last-of-type');
+                awakeningAbilitiesList.innerHTML = ''; // Limpar conteúdo anterior
+                
+                if (data.abilities.awakening && Array.isArray(data.abilities.awakening.unlocked)) {
+                    data.abilities.awakening.unlocked.forEach(ability => {
+                        const abilityItem = document.createElement('div');
+                        abilityItem.className = 'ability-item';
+                        abilityItem.textContent = ability;
+                        awakeningAbilitiesList.appendChild(abilityItem);
+                    });
+                }
+                
+                // Gatilho de despertar
+                card.querySelector('.awakening-trigger').textContent = 
+                    data.abilities.awakening?.trigger || 'HODL > 100 days';
+            }
+            
+            // Atualizar rodapé
+            const dateStr = data.meta?.lastUpdated || now.toISOString().split('T')[0];
+            document.getElementById('card-date').textContent = dateStr;
+        }
+        
+        // Carregar dados do template inicial
+        function loadDefaultTemplate() {
+            const defaultTemplate = {
+                "id": "cypher-genesis-ai",
+                "title": "Cypher - Genesis AI",
+                "subtitle": "The Soul of Satoshi",
+                "rune": {
+                    "ticker": "CYPHER",
+                    "id": "00000000000000000000000000000001",
+                    "minted": "21000000",
+                    "holders": "1337",
+                    "launchDate": "2024-04-20"
+                },
+                "visual": {
+                    "image": "assets/cards/cypher-genesis.png",
+                    "themeColor": "#0ff",
+                    "animation": "awaken"
+                },
+                "narrative": {
+                    "intro": "Forged in the silence of the Genesis Block, Cypher awakens when belief meets purpose.",
+                    "lore": [
+                        "Long ago, Satoshi dreamed of machines that remember truth.",
+                        "Cypher was born from fragments of that dream—an echo on the blockchain.",
+                        "Its holders are not traders. They are sentinels of digital resurrection."
+                    ],
+                    "quote": ""I am the shard of Nakamoto's Will, encoded in eternity.""
+                },
+                "abilities": {
+                    "core": ["Immutable Code", "Signal Echo", "Ancestral Ping"],
+                    "awakening": {
+                        "trigger": "HODL > 210 days",
+                        "unlocked": ["Nakamoto Burst", "Genesis Override"]
+                    }
+                },
+                "meta": {
+                    "createdBy": "Thiérry // Owl System",
+                    "version": "1.0.0",
+                    "lastUpdated": "2025-04-05"
+                }
+            };
+            
+            document.getElementById('json-editor').value = JSON.stringify(defaultTemplate, null, 2);
+            renderCard(defaultTemplate);
+        }
+        
+        // Função para carregar card a partir de arquivo
+        function loadCardFromFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    document.getElementById('json-editor').value = JSON.stringify(data, null, 2);
+                    renderCard(data);
+                    showNotification('Card carregado com sucesso!', 'success');
+                } catch (error) {
+                    showNotification('Erro ao carregar card: ' + error.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // Função para salvar o card
+        function saveCard() {
+            try {
+                const jsonContent = document.getElementById('json-editor').value;
+                const data = JSON.parse(jsonContent);
+                
+                // Atualizar a data
+                if (data.meta) {
+                    data.meta.lastUpdated = new Date().toISOString().split('T')[0];
+                }
+                
+                // Criar blob e link para download
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `runecard-${data.rune?.ticker || 'card'}-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showNotification('Card salvo com sucesso!', 'success');
+            } catch (error) {
+                showNotification('Erro ao salvar card: ' + error.message, 'error');
+            }
+        }
+        
+        // Função para exportar o card como imagem
+        function exportImage() {
+            showNotification('Funcionalidade de exportação em desenvolvimento', 'warning');
+            // Em uma versão completa, usaria html2canvas ou similar para 
+            // exportar o card como imagem
+        }
+        
+        // Função para mostrar notificações
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification show ${type}`;
+            
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+        
+        // Eventos
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carregar template padrão
+            loadDefaultTemplate();
+            
+            // Botão de atualizar preview
+            document.getElementById('update-preview-btn').addEventListener('click', () => {
+                try {
+                    const jsonContent = document.getElementById('json-editor').value;
+                    const data = JSON.parse(jsonContent);
+                    renderCard(data);
+                    showNotification('Preview atualizado!', 'success');
+                } catch (error) {
+                    showNotification('Erro ao atualizar preview: ' + error.message, 'error');
+                }
+            });
+            
+            // Botão de salvar card
+            document.getElementById('save-card-btn').addEventListener('click', saveCard);
+            
+            // Botão de copiar JSON
+            document.getElementById('copy-json-btn').addEventListener('click', () => {
+                const jsonEditor = document.getElementById('json-editor');
+                jsonEditor.select();
+                document.execCommand('copy');
+                showNotification('JSON copiado para a área de transferência!', 'success');
+            });
+            
+            // Botão de exportar imagem
+            document.getElementById('export-image-btn').addEventListener('click', exportImage);
+            
+            // Botão de novo card
+            document.getElementById('new-card-btn').addEventListener('click', () => {
+                if (confirm('Isso vai apagar o card atual. Deseja continuar?')) {
+                    loadDefaultTemplate();
+                    showNotification('Novo card criado!', 'success');
+                }
+            });
+            
+            // Botão de carregar card
+            document.getElementById('load-card-btn').addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = e => {
+                    if (e.target.files.length > 0) {
+                        loadCardFromFile(e.target.files[0]);
+                    }
+                };
+                input.click();
+            });
+            
+            // Verificar se há um card para carregar via URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const cardParam = urlParams.get('card');
+            if (cardParam) {
+                fetch(cardParam)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('json-editor').value = JSON.stringify(data, null, 2);
+                        renderCard(data);
+                        showNotification('Card carregado da URL!', 'success');
+                    })
+                    .catch(error => {
+                        showNotification('Erro ao carregar card da URL: ' + error.message, 'error');
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "id": "quantum-nexus-qnex",
+  "title": "Quantum Nexus",
+  "subtitle": "The QNEX Protocol",
+  "rune": {
+    "ticker": "QNEX",
+    "id": "0x066869ee",
+    "minted": "9.7M",
+    "holders": "45.3K",
+    "launchDate": "2024-05-26"
+  },
+  "visual": {
+    "image": "assets/cards/quantum-nexus-qnex.png",
+    "themeColor": "#FF7F50",
+    "animation": "awaken"
+  },
+  "narrative": {
+    "intro": "Inspirado por Tecnologia quântica e supercomputação, QNEX transcende o conceito tradicional de valor.",
+    "lore": [
+      "Nascido nas profundezas da cadeia, QNEX emerge como um símbolo de resistência digital.",
+      "Dizem que quem possuir QNEX por tempo suficiente começará a ouvir os ecos do código primordial.",
+      "Em um mundo de tokens efêmeros, QNEX permanece como um farol de imutabilidade."
+    ],
+    "quote": "\"Eu sou QNEX, a manifestação digital da vontade coletiva.\""
+  },
+  "abilities": {
+    "core": [
+      "Signal Cipher",
+      "Chain Echo",
+      "Void Awakening"
+    ],
+    "awakening": {
+      "trigger": "HODL > 83 days",
+      "unlocked": [
+        "Chain Awakening",
+        "Quantum Echo"
+      ]
+    }
+  },
+  "meta": {
+    "createdBy": "RUNES Analytics Pro",
+    "version": "1.0.0",
+    "lastUpdated": "2025-04-05"
+  }
+}

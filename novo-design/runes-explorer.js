@@ -231,28 +231,82 @@ class RunesExplorer {
      * Configura e referencia os elementos da interface
      */
     setupUIElements() {
-        // Elementos principais
-        this.elements = {
-            gridContainer: document.querySelector('.tokens-grid-container'),
-            grid: document.querySelector('.tokens-grid'),
-            tableContainer: document.querySelector('.tokens-table-container'),
-            tableBody: document.querySelector('.tokens-table tbody'),
-            loadingIndicator: document.querySelector('.loading-indicator'),
-            searchInput: document.getElementById('token-search'),
-            sortSelect: document.getElementById('sort-select'),
-            sortDirection: document.querySelector('.sort-direction'),
-            tokenCount: document.getElementById('tokens-count'),
-            paginationContainer: document.querySelector('.pagination-container'),
-            currentPage: document.getElementById('current-page'),
-            totalPages: document.getElementById('total-pages'),
-            prevPageBtn: document.getElementById('prev-page'),
-            nextPageBtn: document.getElementById('next-page'),
-            viewToggleBtns: document.querySelectorAll('.view-toggle'),
-            filterInputs: document.querySelectorAll('.token-filter')
+        // Inicializar objeto de elementos
+        this.elements = {};
+        
+        // Elementos principais - garantindo que existam
+        const selectors = {
+            gridContainer: '.tokens-grid-container',
+            grid: '.tokens-grid',
+            tableContainer: '.tokens-table-container',
+            tableBody: '.tokens-table tbody',
+            loadingIndicator: '.loading-indicator',
+            searchInput: '#token-search',
+            sortSelect: '#sort-select',
+            sortDirection: '.sort-direction',
+            tokenCount: '#tokens-count',
+            paginationContainer: '.pagination-container',
+            currentPage: '#current-page',
+            totalPages: '#total-pages',
+            prevPageBtn: '#prev-page',
+            nextPageBtn: '#next-page',
+            viewToggleBtns: '.view-toggle'
         };
+        
+        // Iterar sobre os seletores e encontrar os elementos
+        for (const [key, selector] of Object.entries(selectors)) {
+            if (key === 'viewToggleBtns') {
+                // Para seletores que retornam NodeList
+                const elements = document.querySelectorAll(selector);
+                if (elements.length > 0) {
+                    this.elements[key] = elements;
+                } else {
+                    console.warn(`Elemento ${selector} não encontrado`);
+                }
+            } else {
+                // Para seletores que retornam um único elemento
+                const element = document.querySelector(selector);
+                if (element) {
+                    this.elements[key] = element;
+                } else {
+                    console.warn(`Elemento ${selector} não encontrado`);
+                }
+            }
+        }
+        
+        // Verificar se elementos críticos foram encontrados
+        if (!this.elements.loadingIndicator) {
+            // Criar um elemento de carregamento se não existir
+            console.warn('Elemento loadingIndicator não encontrado. Criando um temporário.');
+            this.createTempLoadingIndicator();
+        }
         
         // Adicionar controle de lazy loading na interface
         this.addLazyLoadingToggle();
+    }
+    
+    /**
+     * Cria um indicador de carregamento temporário se não existir no DOM
+     */
+    createTempLoadingIndicator() {
+        const tempLoader = document.createElement('div');
+        tempLoader.className = 'loading-indicator';
+        tempLoader.style.display = 'none';
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'spinner';
+        tempLoader.appendChild(spinner);
+        
+        const text = document.createElement('p');
+        text.textContent = 'Carregando tokens...';
+        tempLoader.appendChild(text);
+        
+        // Adicionar ao container do explorador ou ao body se o container não existir
+        const container = document.getElementById('runes-explorer') || document.body;
+        container.appendChild(tempLoader);
+        
+        // Atualizar a referência
+        this.elements.loadingIndicator = tempLoader;
     }
     
     /**
@@ -923,19 +977,21 @@ class RunesExplorer {
      * Mostra o indicador de carregamento
      */
     showLoadingIndicator() {
-        if (this.elements.loadingIndicator) {
+        if (this.elements && this.elements.loadingIndicator) {
             this.elements.loadingIndicator.style.display = 'flex';
+        } else {
+            console.warn('Elemento loading-indicator não encontrado');
         }
         
-        if (this.elements.gridContainer) {
+        if (this.elements && this.elements.gridContainer) {
             this.elements.gridContainer.style.display = 'none';
         }
         
-        if (this.elements.tableContainer) {
+        if (this.elements && this.elements.tableContainer) {
             this.elements.tableContainer.style.display = 'none';
         }
         
-        if (this.elements.paginationContainer) {
+        if (this.elements && this.elements.paginationContainer) {
             this.elements.paginationContainer.style.display = 'none';
         }
     }
@@ -944,8 +1000,10 @@ class RunesExplorer {
      * Esconde o indicador de carregamento
      */
     hideLoadingIndicator() {
-        if (this.elements.loadingIndicator) {
+        if (this.elements && this.elements.loadingIndicator) {
             this.elements.loadingIndicator.style.display = 'none';
+        } else {
+            console.warn('Elemento loading-indicator não encontrado');
         }
     }
     

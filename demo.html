@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Demo</title>
+    <meta name="description" content="Demonstração interativa da plataforma RUNES Analytics Pro">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles/cyberpunk.css">
+    <style>
+        /* Estilos específicos para esta página */
+        .demo-player {
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--neon-blue);
+            padding: 1rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-box), 0 0 20px rgba(0, 170, 255, 0.15);
+        }
+        
+        .demo-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-cyber);
+            z-index: 1;
+        }
+        
+        .demo-video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: var(--bg-primary);
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+        
+        .demo-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: var(--text-secondary);
+            background-color: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .feature-tab {
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            background-color: var(--bg-secondary);
+            border-left: 3px solid transparent;
+            transition: all var(--transition-fast);
+        }
+        
+        .feature-tab:hover {
+            border-left-color: var(--neon-purple);
+            background-color: rgba(191, 0, 255, 0.1);
+        }
+        
+        .feature-tab.active {
+            border-left-color: var(--neon-cyan);
+            background-color: rgba(0, 170, 255, 0.1);
+        }
+        
+        .demo-control {
+            background-color: var(--bg-primary);
+            padding: 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .demo-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .demo-button:hover {
+            background-color: var(--neon-cyan);
+            color: var(--bg-primary);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        .demo-progress {
+            flex: 1;
+            height: 4px;
+            background-color: var(--bg-tertiary);
+            border-radius: 2px;
+            margin: 0 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 35%;
+            background: var(--gradient-cyber);
+            border-radius: 2px;
+        }
+        
+        .demo-time {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .demo-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .interactive-demo {
+            margin: 2rem 0;
+            border: 1px solid var(--neon-purple);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-box);
+        }
+        
+        .interactive-header {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-bottom: 1px solid var(--neon-purple);
+        }
+        
+        .interactive-title {
+            flex: 1;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--neon-purple);
+        }
+        
+        .interactive-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .interactive-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .control-close { background-color: #ff5f56; }
+        .control-minimize { background-color: #ffbd2e; }
+        .control-maximize { background-color: #27c93f; }
+        
+        .interactive-content {
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            min-height: 400px;
+        }
+        
+        .matrix-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.05;
+        }
+    </style>
+    
+    <!-- Scripts -->
+    <script src="js/presentation-transitions.js" defer></script>
+    <script src="js/presentation-nav.js" defer></script>
+</head>
+<body>
+    <!-- Header (Criado via JavaScript) -->
+    <header class="site-header"></header>
+    
+    <!-- Conteúdo principal -->
+    <main class="content-area">
+        <div class="container">
+            <section class="hero fade-in">
+                <h1 class="glitch-text">Demonstração</h1>
+                <p class="text-neon-green text-mono">Experimente o poder da RUNES Analytics Pro</p>
+                
+                <div class="terminal-box mt-3 mb-3">
+                    $ initiate-demo --mode=interactive --features=all
+                    <br>
+                    <br>Inicializando ambiente de demonstração...
+                    <br>Carregando componentes visuais...
+                    <br>Conectando APIs simuladas...
+                    <br>
+                    <br>→ Demo pronta! Explore os recursos da plataforma RUNES Analytics Pro.
+                </div>
+            </section>
+            
+            <section class="mt-3 fade-in" style="animation-delay: 0.3s;">
+                <h2>Video Tour</h2>
+                
+                <div class="demo-player">
+                    <div class="demo-video">
+                        <div class="demo-placeholder">
+                            <span style="font-size: 3rem; margin-bottom: 1rem;">▶️</span>
+                            <p class="mb-1">Video Tour: RUNES Analytics Pro</p>
+                            <span class="text-mono text-neon-cyan" style="font-size: 0.8rem;">Clique para reproduzir</span>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-control">
+                        <button class="demo-button">▶</button>
+                        <div class="demo-progress">
+                            <div class="demo-progress-bar"></div>
+                        </div>
+                        <div class="demo-time">01:45 / 05:00</div>
+                    </div>
+                    
+                    <div class="demo-actions">
+                        <button class="btn btn-secondary">Download MP4</button>
+                        <button class="btn btn-secondary">Ver em tela cheia</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mt-3 fade-in" style="animation-delay: 0.6s;">
+                <h2>Tour Interativo</h2>
+                
+                <div class="grid" style="grid-template-columns: 1fr 3fr;">
+                    <div>
+                        <h3 class="mb-2">Recursos</h3>
+                        <div class="feature-tab active">
+                            Dashboard Principal
+                        </div>
+                        <div class="feature-tab">
+                            RunesCard System
+                        </div>
+                        <div class="feature-tab">
+                            Análise On-Chain
+                        </div>
+                        <div class="feature-tab">
+                            Comparativo de Tokens
+                        </div>
+                        <div class="feature-tab">
+                            Alertas Personalizados
+                        </div>
+                        <div class="feature-tab">
+                            API & Documentação
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-demo">
+                        <div class="interactive-header">
+                            <div class="interactive-title">RUNES Analytics Pro - Dashboard</div>
+                            <div class="interactive-controls">
+                                <div class="interactive-control control-close"></div>
+                                <div class="interactive-control control-minimize"></div>
+                                <div class="interactive-control control-maximize"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="interactive-content">
+                            <p class="text-neon-cyan text-center" style="margin-top: 3rem;">
+                                Demo interativa será carregada no ambiente final
+                            </p>
+                            <div class="text-center" style="margin-top: 2rem;">
+                                <span class="glitch-text" style="font-size: 2rem;">
+                                    Em desenvolvimento
+                                </span>
+                            </div>
+                            <p class="text-center mt-2">
+                                Você poderá explorar o dashboard completo quando a plataforma for lançada.
+                                <br>Cadastre-se para acesso antecipado à versão Beta.
+                            </p>
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary">Inscrever-se para Beta</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mt-3 fade-in" style="animation-delay: 0.9s;">
+                <h2>RuneCards Showcase</h2>
+                
+                <div class="card">
+                    <p class="mb-3">O sistema RuneCards transforma dados complexos de tokens em cartas interativas, apresentando métricas-chave em formato visual e gamificado:</p>
+                    
+                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                        <div class="card parallax" data-parallax-intensity="0.02" style="border: 2px solid var(--neon-purple); background: linear-gradient(to bottom right, rgba(191, 0, 255, 0.1), rgba(0, 0, 0, 0.2));">
+                            <div class="text-center mb-2">
+                                <span class="text-neon-purple text-display" style="font-size: 1.5rem;">CYPHER</span>
+                            </div>
+                            
+                            <div style="border-top: 1px solid var(--neon-purple); border-bottom: 1px solid var(--neon-purple); padding: 0.5rem 0; margin-bottom: 1rem; display: flex; justify-content: space-between;">
+                                <span class="text-mono text-neon-cyan">Supply:</span>
+                                <span class="text-mono">21,000,000</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Preço:</span>
+                                <span class="text-mono text-neon-green">$0.047</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">24h:</span>
+                                <span class="text-mono text-neon-green">+8.4%</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">7d:</span>
+                                <span class="text-mono text-neon-red">-2.1%</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Volume 24h:</span>
+                                <span class="text-mono">$1.45M</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Holders:</span>
+                                <span class="text-mono">5,472</span>
+                            </div>
+                            
+                            <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 0.5rem; margin-top: 1rem; font-size: 0.8rem;">
+                                <span class="text-mono text-neon-purple">Technical Score:</span>
+                                <div style="display: flex; margin-top: 0.5rem;">
+                                    <div style="flex: 8; height: 8px; background-color: var(--neon-purple); border-radius: 4px;"></div>
+                                    <div style="flex: 2; height: 8px; background-color: rgba(191, 0, 255, 0.2); border-radius: 0 4px 4px 0;"></div>
+                                </div>
+                                <div class="text-right mt-1" style="font-size: 0.7rem;">8.0/10</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card parallax" data-parallax-intensity="0.03" style="border: 2px solid var(--neon-cyan); background: linear-gradient(to bottom right, rgba(0, 255, 255, 0.1), rgba(0, 0, 0, 0.2));">
+                            <div class="text-center mb-2">
+                                <span class="text-neon-cyan text-display" style="font-size: 1.5rem;">SATOSHI</span>
+                            </div>
+                            
+                            <div style="border-top: 1px solid var(--neon-cyan); border-bottom: 1px solid var(--neon-cyan); padding: 0.5rem 0; margin-bottom: 1rem; display: flex; justify-content: space-between;">
+                                <span class="text-mono text-neon-purple">Supply:</span>
+                                <span class="text-mono">2,100,000,000,000</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Preço:</span>
+                                <span class="text-mono text-neon-green">$0.00001234</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">24h:</span>
+                                <span class="text-mono text-neon-green">+12.7%</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">7d:</span>
+                                <span class="text-mono text-neon-green">+28.4%</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Volume 24h:</span>
+                                <span class="text-mono">$2.78M</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Holders:</span>
+                                <span class="text-mono">11,254</span>
+                            </div>
+                            
+                            <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 0.5rem; margin-top: 1rem; font-size: 0.8rem;">
+                                <span class="text-mono text-neon-cyan">Technical Score:</span>
+                                <div style="display: flex; margin-top: 0.5rem;">
+                                    <div style="flex: 9; height: 8px; background-color: var(--neon-cyan); border-radius: 4px;"></div>
+                                    <div style="flex: 1; height: 8px; background-color: rgba(0, 255, 255, 0.2); border-radius: 0 4px 4px 0;"></div>
+                                </div>
+                                <div class="text-right mt-1" style="font-size: 0.7rem;">9.2/10</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card parallax" data-parallax-intensity="0.04" style="border: 2px solid var(--neon-green); background: linear-gradient(to bottom right, rgba(0, 255, 143, 0.1), rgba(0, 0, 0, 0.2));">
+                            <div class="text-center mb-2">
+                                <span class="text-neon-green text-display" style="font-size: 1.5rem;">ORDI</span>
+                            </div>
+                            
+                            <div style="border-top: 1px solid var(--neon-green); border-bottom: 1px solid var(--neon-green); padding: 0.5rem 0; margin-bottom: 1rem; display: flex; justify-content: space-between;">
+                                <span class="text-mono text-neon-blue">Supply:</span>
+                                <span class="text-mono">21,000,000</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Preço:</span>
+                                <span class="text-mono text-neon-red">$38.47</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">24h:</span>
+                                <span class="text-mono text-neon-red">-4.2%</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">7d:</span>
+                                <span class="text-mono text-neon-green">+7.8%</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Volume 24h:</span>
+                                <span class="text-mono">$23.5M</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span class="text-mono text-secondary">Holders:</span>
+                                <span class="text-mono">42,862</span>
+                            </div>
+                            
+                            <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 0.5rem; margin-top: 1rem; font-size: 0.8rem;">
+                                <span class="text-mono text-neon-green">Technical Score:</span>
+                                <div style="display: flex; margin-top: 0.5rem;">
+                                    <div style="flex: 7; height: 8px; background-color: var(--neon-green); border-radius: 4px;"></div>
+                                    <div style="flex: 3; height: 8px; background-color: rgba(0, 255, 143, 0.2); border-radius: 0 4px 4px 0;"></div>
+                                </div>
+                                <div class="text-right mt-1" style="font-size: 0.7rem;">7.2/10</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button class="btn">Explorar mais RuneCards</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mt-3 mb-3 fade-in" style="animation-delay: 1.2s;">
+                <h2>Acesso à Plataforma</h2>
+                
+                <div class="card">
+                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                        <div>
+                            <h3 class="mb-2">Versão Beta</h3>
+                            <p>Nossa versão Beta está em fase final de desenvolvimento e será lançada em breve para um grupo seleto de usuários.</p>
+                            
+                            <div class="terminal-box mt-2 mb-2" style="font-size: 0.85rem;">
+                                <span class="text-neon-green">$ beta-status</span>
+                                <br>→ Progresso: 85% completo
+                                <br>→ Data prevista: Q3 2024
+                                <br>→ Inscritos: 378 usuários
+                                <br>→ Vagas restantes: 122
+                            </div>
+                            
+                            <p class="text-neon-cyan text-mono" style="font-size: 0.9rem;">Garanta seu lugar no programa Beta!</p>
+                            
+                            <div class="mt-2">
+                                <button class="btn btn-primary">Inscrever-se</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="mb-2">Planos de Acesso</h3>
+                            <p>Após o lançamento oficial, a plataforma terá os seguintes planos disponíveis:</p>
+                            
+                            <div class="mt-2">
+                                <div class="mb-2">
+                                    <span class="text-neon-purple">◇ Basic</span> - Gratuito
+                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">Acesso a dados básicos e RuneCards limitadas</p>
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <span class="text-neon-cyan">◇ Pro</span> - $19/mês
+                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">Dados em tempo real, alertas e acesso completo às RuneCards</p>
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <span class="text-neon-green">◇ Enterprise</span> - $99/mês
+                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">API completa, dashboard personalizado e suporte dedicado</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="mb-2">Mantenha-se Atualizado</h3>
+                            <p>Receba as atualizações mais recentes sobre o desenvolvimento da plataforma e o lançamento da versão Beta.</p>
+                            
+                            <div class="mt-2">
+                                <input type="email" placeholder="Seu e-mail" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; background-color: var(--bg-primary); border: 1px solid var(--neon-cyan); border-radius: 4px; color: var(--text-primary); font-family: var(--font-mono);">
+                                
+                                <button class="btn btn-primary" style="width: 100%;">Assinar Newsletter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <button class="btn" onclick="window.location.href='bootoshi.html'">Conhecer Bootoshi <span class="text-neon-green">→</span></button>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Canvas para efeito matrix de fundo -->
+    <canvas id="matrix-canvas" class="matrix-animation"></canvas>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Atualizar ano no footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Tabs na demo interativa
+        document.querySelectorAll('.feature-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remover classe active de todas as tabs
+                document.querySelectorAll('.feature-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Adicionar classe active na tab clicada
+                tab.classList.add('active');
+                
+                // Atualizar título na demo interativa
+                document.querySelector('.interactive-title').textContent = 'RUNES Analytics Pro - ' + tab.textContent.trim();
+            });
+        });
+    </script>
+</body>
+</html> 

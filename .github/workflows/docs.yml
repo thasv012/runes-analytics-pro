@@ -1,0 +1,75 @@
+name: Verificação de Documentação
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'scripts/**'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'scripts/**'
+
+jobs:
+  validar-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Instalar dependências
+        run: npm install
+      
+      - name: Verificar traduções
+        run: |
+          echo "::group::Verificação de Traduções"
+          CI=true npm run check:translations
+          echo "::endgroup::"
+      
+      - name: Gerar README em Português
+        run: |
+          echo "::group::Geração de README em Português"
+          npm run update:readme
+          echo "::endgroup::"
+      
+      - name: Gerar README em Inglês
+        run: |
+          echo "::group::Geração de README em Inglês"
+          npm run update:readme:en
+          echo "::endgroup::"
+      
+      - name: Verificar se há mudanças não commitadas
+        id: changes
+        run: |
+          git status --porcelain README.md README.en.md
+          if [[ -n "$(git status --porcelain README.md README.en.md)" ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit automático das alterações
+        if: steps.changes.outputs.changes == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add README.md README.en.md
+          git commit -m "docs: atualiza README multilíngue via CI"
+          git push
+      
+      - name: Relatório de alterações não commitadas
+        if: steps.changes.outputs.changes == 'true' && (github.event_name != 'push' || github.ref != 'refs/heads/main')
+        run: |
+          echo "⚠️ Alterações não commitadas encontradas nos arquivos README."
+          echo "Este é um PR ou push para uma branch diferente de main, então nenhum commit automático foi feito."
+          echo "Diferenças detectadas:"
+          git diff README.md README.en.md 

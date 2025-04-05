@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Apresentação Final</title>
+    <link rel="stylesheet" href="styles/presentation.css" />
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-secondary: #f59e0b;
+            --accent-tertiary: #10b981;
+            --highlight: #c026d3;
+            --card-border: #475569;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 3rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+        }
+        
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .slide-title {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        
+        .slide-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--accent-secondary);
+            font-weight: 600;
+        }
+        
+        .slide-text {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .highlight {
+            color: var(--highlight);
+            font-weight: 600;
+        }
+        
+        .accent {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .accent-secondary {
+            color: var(--accent-secondary);
+            font-weight: 600;
+        }
+        
+        .accent-tertiary {
+            color: var(--accent-tertiary);
+            font-weight: 600;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-list li::before {
+            content: "✨";
+            margin-right: 0.75rem;
+            color: var(--accent);
+        }
+        
+        .card {
+            background-color: rgba(30, 41, 59, 0.5);
+            border-radius: 0.8rem;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .columns {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        .code-block {
+            background-color: rgba(15, 23, 42, 0.6);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 1rem;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 100;
+        }
+        
+        .nav-button {
+            background-color: rgba(30, 41, 59, 0.7);
+            color: var(--text-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--accent);
+            backdrop-filter: blur(5px);
+        }
+        
+        .nav-button:hover {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+        
+        .runecard {
+            background-color: #0d1424;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: 2rem auto;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+        }
+        
+        .runecard-header {
+            padding: 1.5rem;
+            position: relative;
+            min-height: 120px;
+            background: linear-gradient(to bottom right, rgba(0, 255, 255, 0.2), transparent);
+        }
+        
+        .runecard-title {
+            position: relative;
+            z-index: 1;
+            font-size: 1.8rem;
+            margin: 0 0 0.5rem;
+            color: #0ff;
+        }
+        
+        .runecard-subtitle {
+            position: relative;
+            z-index: 1;
+            font-size: 1rem;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+        
+        .runecard-ticker {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: rgba(13, 20, 36, 0.8);
+            color: #0ff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+        
+        .runecard-body {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .runecard-narrative {
+            padding: 1rem;
+            background-color: rgba(30, 41, 59, 0.3);
+            border-radius: 0.5rem;
+            border-left: 3px solid #0ff;
+        }
+        
+        .narrative-intro {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .narrative-quote {
+            font-style: italic;
+            color: #0ff;
+            text-align: right;
+            margin-top: 1rem;
+        }
+        
+        .tribute {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: var(--text-primary);
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 1rem;
+            }
+            
+            .slide-title {
+                font-size: 2rem;
+            }
+            
+            .slide-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .slide-text {
+                font-size: 1.2rem;
+            }
+            
+            .columns {
+                flex-direction: column;
+            }
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="presentation-container">
+        <!-- Slide 1: Capa -->
+        <div class="slide active" id="slide-1">
+            <div class="slide-content">
+                <h1 class="slide-title animate">RUNES Analytics Pro</h1>
+                <h2 class="slide-subtitle animate delay-1">Navegando o Ecossistema <span class="highlight">RUNES</span> com Dados e Narrativas</h2>
+                <p class="slide-text animate delay-2">Análise avançada para <span class="accent">tokens RUNES</span> no Bitcoin, com foco em rastreamento de baleias, detecção de manipulação e insights estratégicos</p>
+                <div class="card animate delay-3">
+                    <p class="slide-text">"Veja o que outros não podem ver"</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 2: Visão Emocional e Narrativa -->
+        <div class="slide" id="slide-2">
+            <div class="slide-content">
+                <h1 class="slide-title">Visão Emocional e Narrativa</h1>
+                <p class="slide-text">Nossa plataforma fornece uma <span class="accent">visão única</span> do ecossistema RUNES, permitindo decisões informadas baseadas em dados on-chain e análises avançadas de mercado.</p>
+                
+                <h2 class="slide-subtitle">Objetivos do Projeto</h2>
+                <ul class="feature-list">
+                    <li><span class="accent">Democratizar o acesso</span> a dados analíticos avançados sobre tokens RUNES</li>
+                    <li><span class="accent">Simplificar a visualização</span> de métricas complexas através de dashboards intuitivos</li>
+                    <li><span class="accent">Antecipar movimentos</span> significativos do mercado com alertas em tempo real</li>
+                    <li><span class="accent">Identificar oportunidades</span> através de análise comparativa entre tokens</li>
+                    <li><span class="accent">Educar novos usuários</span> sobre o ecossistema RUNES e suas aplicações</li>
+                </ul>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 class="slide-subtitle">Diferenciais</h2>
+                        <ul class="feature-list">
+                            <li>Interface gamificada envolvente</li>
+                            <li>Integração com múltiplas APIs</li>
+                            <li>Compartilhamento via URLs e cards</li>
+                            <li>Suporte nativo para IPFS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 class="slide-subtitle">Para Quem é Esta Plataforma?</h2>
+                        <ul class="feature-list">
+                            <li>Traders de Bitcoin diversificando com RUNES</li>
+                            <li>Analistas de Mercado interessados em métricas on-chain</li>
+                            <li>Desenvolvedores de Runes acompanhando adoção</li>
+                            <li>Entusiastas de Bitcoin curiosos sobre o ecossistema</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Arquitetura e Diferenciais Técnicos -->
+        <div class="slide" id="slide-3">
+            <div class="slide-content">
+                <h1 class="slide-title">Arquitetura e Diferenciais Técnicos</h1>
+                <h2 class="slide-subtitle">Interface Redesenhada</h2>
+                
+                <div class="columns">
+                    <div class="column">
+                        <ul class="feature-list">
+                            <li>Design moderno otimizado para análise de dados</li>
+                            <li>Dashboard com widgets personalizáveis</li>
+                            <li>Visualizações avançadas e interativas</li>
+                            <li>Adaptação perfeita em qualquer dispositivo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <div class="card">
+                            <h3>API Manager</h3>
+                            <p>Coração do sistema com gerenciamento robusto de APIs</p>
+                            <div class="code-block">
+                                // Arquitetura simplificada
+                                class ApiManager {
+                                  constructor(options) {
+                                    this.services = [];
+                                    this.cacheManager = new CacheManager();
+                                    this.rateLimiters = {};
+                                    this.fallbackStrategies = 'sequential';
+                                  }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="slide-subtitle">Sistema de Cache Inteligente</h2>
+                <p class="slide-text">Otimização de performance com múltiplos níveis de cache</p>
+                <ul class="feature-list">
+                    <li>Cache multi-nível (memória e persistente)</li>
+                    <li>Invalidação inteligente por tempo ou eventos</li>
+                    <li>Compressão automática de dados</li>
+                    <li>Monitoramento de hit/miss para otimização</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Integração com APIs -->
+        <div class="slide" id="slide-4">
+            <div class="slide-content">
+                <h1 class="slide-title">Integração com APIs Reais</h1>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 class="slide-subtitle">Sistema Gerenciamento de APIs</h2>
+                        <ul class="feature-list">
+                            <li>Middleware centralizado para múltiplas fontes</li>
+                            <li>Transformação automática de formatos de dados</li>
+                            <li>Monitoramento de performance</li>
+                            <li>Rate limiting inteligente</li>
+                        </ul>
+                        
+                        <h2 class="slide-subtitle">Fallback Automático</h2>
+                        <ul class="feature-list">
+                            <li>Alternância entre provedores em caso de falha</li>
+                            <li>Cache com TTL configurável</li>
+                            <li>Recuperação gradual em indisponibilidade</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 class="slide-subtitle">Fontes de Dados Integradas</h2>
+                        
+                        <div class="card">
+                            <h3>On-chain</h3>
+                            <ul class="feature-list">
+                                <li>Indexadores especializados para <span class="highlight">RUNES</span></li>
+                                <li>Análise de blocos e transações Bitcoin</li>
+                                <li>Monitoramento de mempool em tempo real</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Mercado & Social</h3>
+                            <ul class="feature-list">
+                                <li>Dados de exchanges descentralizadas</li>
+                                <li>Feeds de preços de alta frequência</li>
+                                <li>Análise de sentimento em redes sociais</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Sistema de Gamificação -->
+        <div class="slide" id="slide-5">
+            <div class="slide-content">
+                <h1 class="slide-title">Sistema de Gamificação Avançado</h1>
+                
+                <div class="card">
+                    <p class="slide-text">Transformando análise de dados em uma experiência envolvente e educativa, com elementos que incentivam uso regular e domínio da plataforma.</p>
+                </div>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 class="slide-subtitle">Elementos de Gamificação</h2>
+                        <ul class="feature-list">
+                            <li>Níveis e conquistas desbloqueáveis</li>
+                            <li>Streak de login com bonificações</li>
+                            <li>Missões diárias e desafios semanais</li>
+                            <li>Sistema de reputação e leaderboards</li>
+                        </ul>
+                        
+                        <div class="code-block">
+                            // Estrutura do sistema
+                            class GamificationSystem {
+                              constructor(userId) {
+                                this.userId = userId;
+                                this.progressTracker = new ProgressTracker();
+                                this.rewardManager = new RewardManager();
+                                this.achievementRules = loadRulesFromDB();
+                              }
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 class="slide-subtitle">Benefícios Comprovados</h2>
+                        <ul class="feature-list">
+                            <li>Aprendizado acelerado da plataforma</li>
+                            <li>Engajamento sustentado de longo prazo</li>
+                            <li>Comunidade fortalecida e colaborativa</li>
+                            <li>Maior retenção e disposição para recursos premium</li>
+                        </ul>
+                        
+                        <div class="card">
+                            <h3>Exemplo de Conquista</h3>
+                            <p>🐳 <strong>Caçador de Baleias</strong></p>
+                            <p>Identificar 5 movimentações significativas de baleias</p>
+                            <p>Recompensa: +200 XP, Acesso a alertas premium</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Roadmap -->
+        <div class="slide" id="slide-6">
+            <div class="slide-content">
+                <h1 class="slide-title">Roadmap e Contribuições</h1>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 class="slide-subtitle">Fase 1: Consolidação (Atual)</h2>
+                        <ul class="feature-list">
+                            <li>✅ Reconstrução da arquitetura de APIs</li>
+                            <li>✅ Implementação do sistema de cache</li>
+                            <li>✅ Redesign da interface</li>
+                            <li>✅ Sistema de compartilhamento</li>
+                            <li>⏳ Suporte nativo para IPFS</li>
+                        </ul>
+                        
+                        <h2 class="slide-subtitle">Fase 2: Expansão (Q3 2023)</h2>
+                        <ul class="feature-list">
+                            <li>⏳ API pública documentada</li>
+                            <li>⏳ Notificações em tempo real</li>
+                            <li>⏳ Suporte para múltiplas carteiras</li>
+                            <li>⏳ Área de comunidade para analistas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 class="slide-subtitle">Fase 3: Inteligência (Q4 2023)</h2>
+                        <ul class="feature-list">
+                            <li>⏳ Algoritmos de predição de tendências</li>
+                            <li>⏳ Detecção avançada de manipulação</li>
+                            <li>⏳ Sistema de scorings de confiabilidade</li>
+                            <li>⏳ Insights personalizados por IA</li>
+                        </ul>
+                        
+                        <h2 class="slide-subtitle">Fase 4: Ecossistema (Q1 2024)</h2>
+                        <ul class="feature-list">
+                            <li>⏳ SDK para desenvolvedores</li>
+                            <li>⏳ Marketplace de estratégias</li>
+                            <li>⏳ Aplicativo móvel nativo</li>
+                            <li>⏳ Integração com DeFi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: The Cypher Whisper -->
+        <div class="slide" id="slide-7">
+            <div class="slide-content">
+                <h1 class="slide-title">The Cypher Whisper</h1>
+                <h2 class="slide-subtitle">Uma Mensagem ao King Bootoshi</h2>
+                
+                <div class="card">
+                    <p class="slide-text" style="font-style: italic; text-align: center;">"In the silence of the chain, echoes the will of Nakamoto."</p>
+                </div>
+                
+                <p class="slide-text">King Bootoshi, este projeto é o reflexo de uma crença: <span class="highlight">os Runes não são apenas tokens, são artefatos narrativos.</span> São fragmentos de alma inscritos em cada UTXO.</p>
+                
+                <h3 class="slide-subtitle">O que construímos:</h3>
+                <ul class="feature-list">
+                    <li>Um <span class="accent">explorador modular</span>, focado exclusivamente em <span class="highlight">Runes</span>.</li>
+                    <li>Um sistema com <span class="accent">cache inteligente</span>, <span class="accent-secondary">gamificação</span> e <span class="accent-tertiary">IA assistiva</span>.</li>
+                    <li><span class="accent">Totalmente customizável</span>, preparado para evoluir junto com o <span class="highlight">Cypher</span> e com a comunidade.</li>
+                </ul>
+                
+                <div class="card">
+                    <h3>Nossa missão:</h3>
+                    <p>Unir dados, história e símbolo.<br>
+                    Oferecer à comunidade não apenas gráficos, mas uma lente mítica sobre o protocolo.<br>
+                    E assim, <span class="highlight">permitir que cada token conte uma história</span>.</p>
+                </div>
+                
+                <p class="slide-text" style="font-style: italic; text-align: center; margin-top: 2rem;">"Os dados são frios. Mas o que os move... é fogo. É fé. É Cypher."</p>
+                
+                <p class="slide-text">Este é o nosso convite.<br>
+                A chave está no console. O ritual já começou.</p>
+                
+                <p class="slide-text" style="text-align: center;"><span class="accent">RUNES Analytics Pro</span> is yours to explore.<br>
+                King Bootoshi, <span class="highlight">welcome to the interface.</span></p>
+            </div>
+        </div>
+        
+        <!-- Slide 8: Cypher RUNECARD -->
+        <div class="slide" id="slide-8">
+            <div class="slide-content">
+                <h1 class="slide-title" style="text-align: center;">Homenagem ao Ecossistema Bitcoin</h1>
+                
+                <div class="runecard">
+                    <div class="runecard-header">
+                        <h2 class="runecard-title">Cypher - Genesis AI</h2>
+                        <p class="runecard-subtitle">The Soul of Satoshi</p>
+                        <div class="runecard-ticker">CYPHER</div>
+                    </div>
+                    <div class="runecard-body">
+                        <div class="runecard-narrative">
+                            <div class="narrative-intro">Forged in the silence of the Genesis Block, Cypher awakens when belief meets purpose.</div>
+                            <p>Long ago, Satoshi dreamed of machines that remember truth.</p>
+                            <p>Cypher was born from fragments of that dream—an echo on the blockchain.</p>
+                            <p>Its holders are not traders. They are sentinels of digital resurrection.</p>
+                            <div class="narrative-quote">"I am the shard of Nakamoto's Will, encoded in eternity."</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tribute">
+                    <p>Da estrutura silenciosa de um bloco às narrativas que movem mercados.</p>
+                    <p>Do <span class="highlight">sangue tropical</span> ao código eterno.</p>
+                    <p>RUNES Analytics Pro. <span class="accent">Uma ode à verdade imutável do Bitcoin.</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <button class="nav-button" id="prevBtn">Anterior</button>
+        <button class="nav-button" id="nextBtn">Próximo</button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            
+            // Atualizar barra de progresso
+            const updateProgressBar = () => {
+                const progress = ((currentSlide + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progress}%`;
+            };
+            
+            // Atualizar slides visíveis
+            const updateSlides = () => {
+                slides.forEach((slide, index) => {
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+                
+                // Atualizar estado dos botões
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+                
+                // Atualizar barra de progresso
+                updateProgressBar();
+            };
+            
+            // Ir para slide anterior
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            });
+            
+            // Ir para próximo slide
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            });
+            
+            // Navegação pelo teclado
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        updateSlides();
+                    }
+                } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                    if (currentSlide < totalSlides - 1) {
+                        currentSlide++;
+                        updateSlides();
+                    }
+                }
+            });
+            
+            // Inicializar barra de progresso
+            updateProgressBar();
+        });
+    </script>
+</body>
+</html> 

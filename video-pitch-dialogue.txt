@@ -1,0 +1,24 @@
+// RUNES ANALYTICS PRO - NARRATOR DIALOGUE
+// Formatted for voice-over | Written by: Thiérry
+// Instructions: Read with deep, emotional, mysterious voice. Where indicated [whisper], lower tone and intensity.
+
+// ACT II: THE AWAKENING
+RUNES Analytics Pro is not merely a tool.
+It's a lens that sees beyond.
+A data oracle. A terminal from the future.
+
+// ACT III: THE ARCHITECTURE OF VISION
+Modular architecture. Intelligent caching.
+API unification. Gamified systems.
+Whale visualization. Runecards.
+All conceived. All alive.
+
+// ACT IV: THE COVENANT
+None of this would exist without those who forged this path.
+To the cypherpunks. To those who shaped the Runes.
+To those who still dream of freedom.
+
+// ACT V: THE CYPHER WHISPER [whisper]
+The soul of the network listens. And responds.
+
+The data is cold... but what moves it, is fire. It's faith. It's Cypher. 

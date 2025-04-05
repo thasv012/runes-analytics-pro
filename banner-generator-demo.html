@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Banner Neural Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/neural-connect.css">
+  
+  <style>
+    :root {
+      --bg-dark: #0f0f1e;
+      --bg-card: #1a1a2e;
+      --text-primary: #e6e6e6;
+      --text-secondary: #a0a0c0;
+      --accent: #5352ed;
+      --neon-primary: #5ce1e6;
+      --neon-secondary: #9d4edd;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px 0;
+    }
+    
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 36px;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(92, 225, 230, 0.5);
+    }
+    
+    header p {
+      color: var(--text-secondary);
+      font-size: 18px;
+    }
+    
+    .banner-container {
+      background-color: var(--bg-card);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .banner-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+    }
+    
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .control-group {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .control-group h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--neon-primary);
+    }
+    
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: var(--text-secondary);
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 8px 12px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      color: var(--text-primary);
+      font-family: 'Rajdhani', sans-serif;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--neon-primary);
+      box-shadow: 0 0 5px rgba(92, 225, 230, 0.5);
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .primary-btn {
+      background: linear-gradient(135deg, var(--neon-primary), var(--neon-secondary));
+      color: #fff;
+    }
+    
+    .primary-btn:hover {
+      box-shadow: 0 0 15px rgba(92, 225, 230, 0.7);
+      transform: translateY(-2px);
+    }
+    
+    .secondary-btn {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .secondary-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .canvas-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 30px 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    
+    .canvas-container canvas {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+    
+    .logs {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    
+    .neon-text {
+      color: var(--neon-primary);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    
+    /* Decorações */
+    .decoration {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+    
+    .dec-1 {
+      top: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      border: 1px solid var(--neon-primary);
+      border-radius: 50%;
+    }
+    
+    .dec-2 {
+      bottom: 30px;
+      left: 20px;
+      width: 150px;
+      height: 50px;
+      border: 1px solid var(--neon-secondary);
+      border-radius: 25px;
+      transform: rotate(-25deg);
+    }
+    
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>RUNES Analytics Pro - Banner Neural Generator</h1>
+      <p>Gerador de banners com assinatura fractal e QR code para compartilhamento</p>
+    </header>
+    
+    <div class="banner-container">
+      <div class="decoration dec-1"></div>
+      <div class="decoration dec-2"></div>
+      
+      <div class="controls">
+        <div class="control-group">
+          <h3>Configurações Gerais</h3>
+          
+          <label for="title">Título do Banner</label>
+          <input type="text" id="title" value="RUNES Analytics Pro – Awaken Interface">
+          
+          <label for="signature">Assinatura</label>
+          <input type="text" id="signature" value="🦉 Node Owl :: Thierry BTC">
+          
+          <label for="resolution">Resolução</label>
+          <select id="resolution">
+            <option value="1920x1080" selected>1920x1080 (16:9)</option>
+            <option value="1280x720">1280x720 (16:9)</option>
+            <option value="1200x630">1200x630 (Facebook/redes sociais)</option>
+            <option value="1080x1080">1080x1080 (Instagram)</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <h3>QR Code e Links</h3>
+          
+          <label for="demoUrl">URL da Demo</label>
+          <input type="text" id="demoUrl" value="https://thierrybtc.github.io/runes-analytics-pro/api-demo.html?lang=auto">
+          
+          <label for="style">Estilo</label>
+          <select id="style">
+            <option value="cyberpunk" selected>Cyberpunk</option>
+            <option value="neon-grid">Neon Grid</option>
+            <option value="minimal">Minimal</option>
+          </select>
+          
+          <div class="btn-group">
+            <button id="generate-btn" class="primary-btn">Gerar Banner</button>
+            <button id="animate-btn" class="secondary-btn">Animar</button>
+            <button id="export-btn" class="secondary-btn">Exportar</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="canvas-container" class="canvas-container">
+        <!-- Canvas será renderizado aqui -->
+      </div>
+      
+      <div class="logs" id="logs">
+        <div class="log-entry">
+          <span class="neon-text">system></span> Banner Neural Generator inicializado
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>RUNES Analytics Pro - Awaken Interface - Powered by Node Owl</p>
+  </footer>
+  
+  <script type="module">
+    import { AwakenBannerGenerator, generateVisual, generateQRCode, exportTo } from './js/AwakenBannerGenerator.js';
+    
+    // Referências para elementos da UI
+    const titleInput = document.getElementById('title');
+    const signatureInput = document.getElementById('signature');
+    const resolutionSelect = document.getElementById('resolution');
+    const demoUrlInput = document.getElementById('demoUrl');
+    const styleSelect = document.getElementById('style');
+    const generateBtn = document.getElementById('generate-btn');
+    const animateBtn = document.getElementById('animate-btn');
+    const exportBtn = document.getElementById('export-btn');
+    const canvasContainer = document.getElementById('canvas-container');
+    const logsElement = document.getElementById('logs');
+    
+    // Instância do gerador
+    let generator = null;
+    let isAnimating = false;
+    
+    // Função para adicionar logs na UI
+    function addLog(message, type = 'info') {
+      const logEntry = document.createElement('div');
+      logEntry.className = 'log-entry';
+      
+      const prefix = type === 'error' 
+        ? '<span class="neon-text" style="color: #ff4757;">error></span>' 
+        : '<span class="neon-text">system></span>';
+      
+      logEntry.innerHTML = `${prefix} ${message}`;
+      logsElement.appendChild(logEntry);
+      logsElement.scrollTop = logsElement.scrollHeight;
+    }
+    
+    // Inicializa o gerador
+    async function initGenerator() {
+      try {
+        addLog('Inicializando gerador de banners neurais...');
+        
+        generator = new AwakenBannerGenerator({
+          title: titleInput.value,
+          signature: signatureInput.value,
+          resolution: resolutionSelect.value,
+          style: styleSelect.value,
+          urls: {
+            demo: demoUrlInput.value
+          }
+        });
+        
+        await generator.init();
+        addLog('Gerador inicializado com sucesso ✓');
+        
+        return true;
+      } catch (error) {
+        addLog(`Erro ao inicializar gerador: ${error.message}`, 'error');
+        return false;
+      }
+    }
+    
+    // Gera um banner
+    async function generateBanner() {
+      if (!generator || !generator.initialized) {
+        const success = await initGenerator();
+        if (!success) return;
+      }
+      
+      try {
+        addLog('Gerando banner neural...');
+        
+        // Atualiza configurações
+        generator.config.title = titleInput.value;
+        generator.config.signature = signatureInput.value;
+        generator.config.resolution = resolutionSelect.value;
+        generator.config.style = styleSelect.value;
+        generator.config.urls.demo = demoUrlInput.value;
+        
+        // Limpa o container e renderiza o banner
+        canvasContainer.innerHTML = '';
+        generator.renderToElement(canvasContainer);
+        
+        addLog('Banner gerado com sucesso ✓');
+      } catch (error) {
+        addLog(`Erro ao gerar banner: ${error.message}`, 'error');
+      }
+    }
+    
+    // Inicia ou para a animação
+    function toggleAnimation() {
+      if (!generator || !generator.initialized) {
+        initGenerator().then(success => {
+          if (success) toggleAnimation();
+        });
+        return;
+      }
+      
+      if (isAnimating) {
+        generator.stopAnimation();
+        animateBtn.textContent = 'Animar';
+        addLog('Animação parada');
+      } else {
+        generator.startAnimation();
+        animateBtn.textContent = 'Parar';
+        addLog('Animação iniciada');
+      }
+      
+      isAnimating = !isAnimating;
+    }
+    
+    // Exporta o banner
+    function exportBanner() {
+      if (!generator || !generator.initialized) {
+        initGenerator().then(success => {
+          if (success) exportBanner();
+        });
+        return;
+      }
+      
+      try {
+        addLog('Exportando banner...');
+        
+        // Gera o banner
+        generator.generateBanner();
+        
+        // Obtém o data URL
+        const dataUrl = generator.exportBanner('png');
+        
+        // Cria um link para download
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'awaken-neural-banner.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        addLog('Banner exportado com sucesso ✓');
+        
+        // Simula exportação para pasta
+        simulateExport();
+      } catch (error) {
+        addLog(`Erro ao exportar banner: ${error.message}`, 'error');
+      }
+    }
+    
+    // Simulação da exportação para pasta
+    function simulateExport() {
+      addLog('Simulando exportação para pasta /media/awaken-banners/...');
+      
+      setTimeout(() => {
+        addLog('Banner salvo em /media/awaken-banners/awaken-neural-banner.png ✓');
+        addLog('Banner salvo em /media/awaken-banners/awaken-neural-banner.webp ✓');
+      }, 1000);
+    }
+    
+    // Event listeners
+    generateBtn.addEventListener('click', generateBanner);
+    animateBtn.addEventListener('click', toggleAnimation);
+    exportBtn.addEventListener('click', exportBanner);
+    
+    // Inicializa o gerador ao carregar a página
+    window.addEventListener('DOMContentLoaded', async () => {
+      await initGenerator();
+      generateBanner();
+    });
+  </script>
+</body>
+</html> 

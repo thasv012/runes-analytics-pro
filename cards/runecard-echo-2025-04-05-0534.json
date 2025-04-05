@@ -1,0 +1,45 @@
+{
+  "id": "mystic-echo-echo",
+  "title": "Mystic Echo",
+  "subtitle": "The ECHO Protocol",
+  "rune": {
+    "ticker": "ECHO",
+    "id": "0xd90897d4",
+    "minted": "57.9M",
+    "holders": "31.7K",
+    "launchDate": "2024-05-20"
+  },
+  "visual": {
+    "image": "assets/cards/mystic-echo-echo.png",
+    "themeColor": "#8A2BE2",
+    "animation": "ripple"
+  },
+  "narrative": {
+    "intro": "Inspirado por Espiritualidade, sabedoria antiga e cura energética, ECHO transcende o conceito tradicional de valor.",
+    "lore": [
+      "Nascido nas profundezas da cadeia, ECHO emerge como um símbolo de resistência digital.",
+      "Dizem que quem possuir ECHO por tempo suficiente começará a ouvir os ecos do código primordial.",
+      "Em um mundo de tokens efêmeros, ECHO permanece como um farol de imutabilidade."
+    ],
+    "quote": "\"Eu sou ECHO, a manifestação digital da vontade coletiva.\""
+  },
+  "abilities": {
+    "core": [
+      "Sacred Resonance",
+      "Ancient Pulse",
+      "Divine Field"
+    ],
+    "awakening": {
+      "trigger": "HODL > 182 days",
+      "unlocked": [
+        "Soul Wave",
+        "Ethereal Surge"
+      ]
+    }
+  },
+  "meta": {
+    "createdBy": "RUNES Analytics Pro",
+    "version": "1.0.0",
+    "lastUpdated": "2025-04-05"
+  }
+}

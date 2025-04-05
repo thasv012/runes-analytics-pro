@@ -1,0 +1,104 @@
+// Script simplificado para inicializar o ranking de RUNES
+
+// Função para inicializar o ranking quando a página carregar
+function initRunesRanking() {
+    console.log("Inicializando ranking de RUNES...");
+    
+    try {
+        // Procurar por um container válido na página atual
+        const containers = [
+            document.getElementById('ranking-container'),
+            document.getElementById('runes-ranking'),
+            document.querySelector('.ranking-container'),
+            document.querySelector('section#ranking')
+        ];
+        
+        const container = containers.find(c => c !== null);
+        
+        if (!container) {
+            console.error("Nenhum container válido encontrado para o ranking");
+            alert("Erro: Container de ranking não encontrado na página.");
+            return;
+        }
+        
+        console.log("Container encontrado:", container.id || container.className);
+        
+        // Limpar o container e adicionar mensagem de carregamento
+        container.innerHTML = '<div class="loading">Carregando dados de RUNES...</div>';
+        
+        // Dados mockup para testes
+        const mockData = [
+            { ticker: 'ORDI', price: 21.56, change: 8.32, volume24h: 105100000, holdersCount: 97900, marketCap: 173090000 },
+            { ticker: 'SATS', price: 0.000420, change: 3.2, volume24h: 26000000, holdersCount: 40600, marketCap: 31030000 },
+            { ticker: 'PEPE', price: 0.0012, change: -5.8, volume24h: 12500000, holdersCount: 56300, marketCap: 16270000 },
+            { ticker: 'RATS', price: 0.0093, change: 12.4, volume24h: 8700000, holdersCount: 23400, marketCap: 9820000 },
+            { ticker: 'MEME', price: 0.0045, change: -2.3, volume24h: 5300000, holdersCount: 18700, marketCap: 7540000 }
+        ];
+        
+        // Gerar HTML para a tabela
+        let tableHTML = `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>RUNE</th>
+                        <th>Preço (BTC)</th>
+                        <th>24h %</th>
+                        <th>Volume 24h</th>
+                        <th>Cap. de Mercado</th>
+                        <th>Holders</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        // Adicionar linhas à tabela
+        mockData.forEach((rune, index) => {
+            const changeClass = rune.change > 0 ? 'positive' : 'negative';
+            
+            tableHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${rune.ticker}</td>
+                    <td>${rune.price}</td>
+                    <td class="${changeClass}">${rune.change}%</td>
+                    <td>$${formatNumber(rune.volume24h)}</td>
+                    <td>$${formatNumber(rune.marketCap)}</td>
+                    <td>${formatNumber(rune.holdersCount)}</td>
+                </tr>
+            `;
+        });
+        
+        tableHTML += `
+                </tbody>
+            </table>
+        `;
+        
+        // Atualizar o container com o HTML da tabela
+        container.innerHTML = tableHTML;
+        
+        console.log("Ranking de RUNES inicializado com sucesso!");
+    } catch (error) {
+        console.error("Erro ao inicializar ranking de RUNES:", error);
+        alert("Erro ao inicializar ranking de RUNES: " + error.message);
+    }
+}
+
+// Função auxiliar para formatar números
+function formatNumber(num) {
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
+}
+
+// Inicializar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Página carregada, iniciando componentes...");
+    setTimeout(initRunesRanking, 500); // Pequeno atraso para garantir que todos os elementos estejam prontos
+});
+
+// Adicionar como função global para ser chamada diretamente
+window.initRunesRanking = initRunesRanking;

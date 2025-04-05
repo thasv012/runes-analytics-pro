@@ -1,0 +1,20 @@
+// RUNES ANALYTICS PRO - DIÁLOGO DO NARRADOR
+// Formatado para dublagem | Roteirista: Thiérry
+// Instruções: Ler com voz grave, misteriosa e emocional. Onde indicado [sussurro], baixar o tom.
+
+// CENA 2 – A CHAMADA DA REDE
+RUNES Analytics Pro não é apenas uma ferramenta.
+É uma lente que enxerga além.
+Um oráculo de dados. Um terminal do futuro.
+
+// CENA 3 – A MENTE POR TRÁS
+Arquitetura modular. Cache inteligente.
+Unificação de APIs. Sistema gamificado.
+Visualização de baleias. Runecards. Tudo pensado. Tudo vivo.
+
+// CENA 4 – O TRIBUTO
+Nada disso seria possível sem os que criaram este caminho.
+Aos cypherpunks. Aos que moldaram os Runes. Aos que ainda sonham com liberdade.
+
+// CENA 5 – A MENSAGEM [sussurro]
+A alma da rede escuta. E responde. 

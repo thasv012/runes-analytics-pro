@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Ranking Teste</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #14192e;
+            color: white;
+            padding: 20px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #2d3756;
+        }
+        
+        .data-table th {
+            background-color: #1e2540;
+        }
+        
+        .positive { color: #2ecc71; }
+        .negative { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <h1>RUNES Analytics Pro - Teste de Ranking</h1>
+    
+    <div id="ranking-container">
+        <!-- Aqui a tabela será gerada pelo JavaScript -->
+    </div>
+    
+    <script>
+        // Função para formatar números
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+        
+        // Função para inicializar o ranking
+        function initRunesRanking() {
+            console.log("Inicializando ranking de RUNES...");
+            
+            const container = document.getElementById('ranking-container');
+            if (!container) {
+                console.error("Container não encontrado");
+                return;
+            }
+            
+            // Dados mockup para testes
+            const mockData = [
+                { ticker: 'ORDI', price: 21.56, change: 8.32, volume24h: 105100000, holdersCount: 97900, marketCap: 173090000 },
+                { ticker: 'SATS', price: 0.000420, change: 3.2, volume24h: 26000000, holdersCount: 40600, marketCap: 31030000 },
+                { ticker: 'PEPE', price: 0.0012, change: -5.8, volume24h: 12500000, holdersCount: 56300, marketCap: 16270000 }
+            ];
+            
+            // Criar tabela
+            let html = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>RUNE</th>
+                            <th>Preço (BTC)</th>
+                            <th>24h %</th>
+                            <th>Volume 24h</th>
+                            <th>Cap. de Mercado</th>
+                            <th>Holders</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            mockData.forEach((rune, index) => {
+                const changeClass = rune.change > 0 ? 'positive' : 'negative';
+                
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${rune.ticker}</td>
+                        <td>${rune.price}</td>
+                        <td class="${changeClass}">${rune.change}%</td>
+                        <td>$${formatNumber(rune.volume24h)}</td>
+                        <td>$${formatNumber(rune.marketCap)}</td>
+                        <td>${formatNumber(rune.holdersCount)}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', initRunesRanking);
+    </script>
+</body>
+</html>

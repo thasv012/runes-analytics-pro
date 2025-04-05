@@ -1,0 +1,743 @@
+/**
+ * RUNES Analytics Pro - GPU Panel Visual Styles
+ * 
+ * Estilos para o painel visual de GPUs e nós da malha neural AwakenNet
+ */
+
+:root {
+  /* Cores primárias */
+  --gpu-panel-bg: #0a0a14;
+  --node-card-bg: #111122;
+  --node-card-border: #22224a;
+  --text-primary: #eeeeff;
+  --text-secondary: #aaaacc;
+  
+  /* Cores de status */
+  --status-online: #00ff88;
+  --status-offline: #ff3366;
+  --status-syncing: #ffaa22;
+  --status-standby: #22aaff;
+  
+  /* Cores de desempenho */
+  --performance-high: #00ff88;
+  --performance-medium: #ffaa22;
+  --performance-low: #ff3366;
+  
+  /* Cores de GPU vendors */
+  --nvidia-color: #76b900;
+  --amd-color: #ff0000;
+  --intel-color: #0071c5;
+  
+  /* Animações */
+  --card-animation-duration: 0.4s;
+  --pulse-animation-duration: 2s;
+  
+  /* Espaçamento */
+  --card-spacing: 16px;
+  --inner-padding: 16px;
+}
+
+/* Container principal */
+#mesh-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--card-spacing);
+  padding: var(--card-spacing);
+  background-color: var(--gpu-panel-bg);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+#mesh-panel.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Animação de carregamento */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Cartão de nó */
+.node-card {
+  background-color: var(--node-card-bg);
+  border: 1px solid var(--node-card-border);
+  border-radius: 12px;
+  padding: var(--inner-padding);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: card-fade-in var(--card-animation-duration) ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.node-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-color: var(--status-online);
+}
+
+.node-card.offline {
+  opacity: 0.7;
+  border-color: var(--status-offline);
+}
+
+@keyframes card-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cabeçalho do cartão */
+.node-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+
+.node-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.node-title h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+/* Ícones de GPU */
+.gpu-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.gpu-icon.nvidia::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: var(--nvidia-color);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.gpu-icon.amd::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: var(--amd-color);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.gpu-icon.generic::before {
+  content: "GPU";
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+/* Indicador de status */
+.status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.status.online {
+  background-color: rgba(0, 255, 136, 0.15);
+  color: var(--status-online);
+  border: 1px solid var(--status-online);
+}
+
+.status.offline {
+  background-color: rgba(255, 51, 102, 0.15);
+  color: var(--status-offline);
+  border: 1px solid var(--status-offline);
+}
+
+.status.syncing {
+  background-color: rgba(255, 170, 34, 0.15);
+  color: var(--status-syncing);
+  border: 1px solid var(--status-syncing);
+}
+
+.status.standby {
+  background-color: rgba(34, 170, 255, 0.15);
+  color: var(--status-standby);
+  border: 1px solid var(--status-standby);
+}
+
+/* Badge local */
+.local-badge {
+  font-size: 10px;
+  font-weight: bold;
+  background-color: rgba(0, 255, 136, 0.2);
+  color: var(--status-online);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--status-online);
+  animation: pulse var(--pulse-animation-duration) infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+/* Informações da GPU */
+.gpu-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.gpu-model {
+  font-weight: 600;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gpu-memory {
+  font-weight: 700;
+}
+
+/* Barra de desempenho */
+.performance-bar {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+.performance-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease-out;
+}
+
+.performance-fill.high {
+  background-color: var(--performance-high);
+  box-shadow: 0 0 10px var(--performance-high);
+}
+
+.performance-fill.medium {
+  background-color: var(--performance-medium);
+  box-shadow: 0 0 10px var(--performance-medium);
+}
+
+.performance-fill.low {
+  background-color: var(--performance-low);
+  box-shadow: 0 0 10px var(--performance-low);
+}
+
+.performance-text {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--text-primary);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Conteúdo do cartão */
+.node-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.node-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.karma-value, .tokens-value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Formatação do ping */
+.ping {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ping.good {
+  color: var(--performance-high);
+}
+
+.ping.poor {
+  color: var(--performance-low);
+}
+
+/* Sigilos */
+.node-sigils {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  min-height: 30px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.sigil-badge {
+  display: inline-block;
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.sigil-badge:hover {
+  transform: scale(1.2);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.no-sigils {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Ações do nó */
+.node-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.connect-btn, .details-btn {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.connect-btn:hover {
+  background-color: rgba(0, 255, 136, 0.2);
+  border-color: var(--status-online);
+}
+
+.details-btn:hover {
+  background-color: rgba(34, 170, 255, 0.2);
+  border-color: var(--status-standby);
+}
+
+.connect-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.connect-btn.error {
+  background-color: rgba(255, 51, 102, 0.2);
+  border-color: var(--status-offline);
+}
+
+/* Badge do nó local */
+#local-node-info {
+  background-color: var(--node-card-bg);
+  border: 1px solid var(--node-card-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+#local-node-info.offline {
+  border-color: var(--status-offline);
+}
+
+.local-badge-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.local-symbol {
+  font-size: 18px;
+  color: var(--status-online);
+}
+
+.local-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.local-gpu {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.local-performance {
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.local-performance.high {
+  background-color: rgba(0, 255, 136, 0.15);
+  color: var(--performance-high);
+}
+
+.local-performance.medium {
+  background-color: rgba(255, 170, 34, 0.15);
+  color: var(--performance-medium);
+}
+
+.local-performance.low {
+  background-color: rgba(255, 51, 102, 0.15);
+  color: var(--performance-low);
+}
+
+.no-local {
+  color: var(--status-offline);
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Botões de controle */
+#sync-button, #view-network-button {
+  background-color: var(--node-card-bg);
+  border: 1px solid var(--node-card-border);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#sync-button:hover {
+  background-color: rgba(0, 255, 136, 0.2);
+  border-color: var(--status-online);
+}
+
+#view-network-button:hover {
+  background-color: rgba(34, 170, 255, 0.2);
+  border-color: var(--status-standby);
+}
+
+/* Estatísticas da rede */
+#network-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-box {
+  background-color: var(--node-card-bg);
+  border: 1px solid var(--node-card-border);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Gráfico de desempenho */
+#performance-chart {
+  background-color: var(--node-card-bg);
+  border: 1px solid var(--node-card-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  height: 300px;
+}
+
+/* Contador de nós adicionais */
+.more-nodes-badge {
+  grid-column: 1 / -1;
+  background-color: rgba(34, 170, 255, 0.1);
+  border: 1px dashed var(--status-standby);
+  color: var(--status-standby);
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  animation: card-fade-in 0.5s 0.5s forwards;
+  opacity: 0;
+}
+
+.more-nodes-badge:hover {
+  background-color: rgba(34, 170, 255, 0.2);
+}
+
+/* Mensagem de erro */
+.error-message {
+  grid-column: 1 / -1;
+  background-color: rgba(255, 51, 102, 0.1);
+  border: 1px solid var(--status-offline);
+  color: var(--status-offline);
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Timestamp de atualização */
+#last-updated {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-top: 8px;
+}
+
+/* Modal de detalhes */
+.node-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.node-detail-modal.visible {
+  opacity: 1;
+}
+
+.node-detail-modal.closing {
+  opacity: 0;
+}
+
+.modal-content {
+  background-color: var(--gpu-panel-bg);
+  border: 1px solid var(--node-card-border);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  animation: modal-slide-in 0.3s forwards;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.node-detail-modal.visible .modal-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@keyframes modal-slide-in {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--node-card-border);
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-modal:hover {
+  color: var(--status-offline);
+}
+
+.modal-body {
+  padding: 16px;
+  color: var(--text-primary);
+}
+
+.detail-section {
+  margin-bottom: 24px;
+}
+
+.detail-section h3 {
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.sigils-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.sigil-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px;
+  transition: all 0.2s ease;
+}
+
+.sigil-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.sigil-symbol {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.sigil-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  #mesh-panel {
+    grid-template-columns: 1fr;
+  }
+  
+  #network-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .local-badge-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .node-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  #network-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .sigils-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
+} 

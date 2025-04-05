@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="version" content="index-completo"> 
+    <title>RUNES Analytics Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1>RUNES Analytics Pro</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#dashboard" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="#market-data"><i class="fas fa-chart-bar"></i> Dados de Mercado</a></li>
+                    <li><a href="#whales-tracking"><i class="fas fa-user-tie"></i> Rastreador de Whales</a></li>
+                    <li><a href="#ranking"><i class="fas fa-list-ol"></i> Ranking</a></li>
+                    <li><a href="#alerts"><i class="fas fa-bell"></i> Alertas</a></li>
+                    <li><a href="#sentiment"><i class="fas fa-smile"></i> Análise de Sentimento</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+                <div class="user-info">
+                    <span>Usuário Premium</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <header class="main-header">
+                <div class="search-container">
+                    <input type="search" placeholder="Buscar RUNE..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="actions">
+                    <div class="notifications">
+                        <button class="notification-btn"><i class="fas fa-bell"></i></button>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <button class="btn btn-premium">Upgrade Premium</button>
+                </div>
+            </header>
+
+            <!-- Dashboard -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Dashboard</h2>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <!-- Cards de Métricas Principais -->
+                    <div class="metrics-row">
+                        <div class="metric-card">
+                            <h3>Volume Total 24h</h3>
+                            <div class="metric-value">$24.5M</div>
+                            <div class="metric-change positive">+5.2% <i class="fas fa-caret-up"></i></div>
+                        </div>
+						   <div class="top-runes-list"></div>
+                        <div class="metric-card">
+                            <h3>Total de Transações</h3>
+                            <div class="metric-value">152,489</div>
+                            <div class="metric-change positive">+8.7% <i class="fas fa-caret-up"></i></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gráfico Principal -->
+                    <div class="chart-container">
+                        <div id="main-chart" class="chart-area"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Dados de Mercado -->
+            <section id="market-data" class="section">
+                <div class="section-header">
+                    <h2>Dados de Mercado</h2>
+                </div>
+                <div class="content-box">
+                    <p>Esta é a seção de Dados de Mercado</p>
+                </div>
+            </section>
+            
+            <!-- Rastreador de Whales -->
+            <section id="whales-tracking" class="section">
+                <div class="section-header">
+                    <h2>Rastreador de Whales</h2>
+                </div>
+                <div class="content-box">
+                    <p>Esta é a seção de Rastreador de Whales</p>
+                </div>
+            </section>
+            
+            <!-- Ranking -->
+            <section id="ranking" class="section">
+                <div class="section-header">
+                    <h2>Ranking de RUNES</h2>
+                </div>
+                <div id="ranking-container" class="content-box">
+                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Alertas -->
+            <section id="alerts" class="section">
+                <div class="section-header">
+                    <h2>Sistema de Alertas</h2>
+                </div>
+                <div class="content-box">
+                    <p>Esta é a seção de Alertas</p>
+                </div>
+            </section>
+            
+            <!-- Análise de Sentimento -->
+            <section id="sentiment" class="section">
+                <div class="section-header">
+                    <h2>Análise de Sentimento</h2>
+                </div>
+                <div class="content-box">
+                    <p>Esta é a seção de Análise de Sentimento</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <!-- <script src="runes-ranking.js"></script> -->
+    <script src="navegacao-v2.js"></script>
+	<!-- Componentes Melhorados -->
+<!-- Primeiro carregar os serviços -->
+<script src="services/RunesDataService.js"></script>
+<script src="services/whaleTrackerService.js"></script>
+
+<!-- Depois carregar os componentes que dependem dos serviços -->
+<script src="components/RunesRanking.js"></script>
+<!-- Scripts do componente como módulos ES6 -->
+<script type="module" src="components/index.js"></script>
+</body>
+</html>

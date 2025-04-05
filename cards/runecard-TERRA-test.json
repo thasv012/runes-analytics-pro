@@ -1,0 +1,45 @@
+{
+  "id": "terra-nova-terra",
+  "title": "Terra Nova",
+  "subtitle": "The TERRA Protocol",
+  "rune": {
+    "ticker": "TERRA",
+    "id": "0x3192a995",
+    "minted": "95.3M",
+    "holders": "2.6K",
+    "launchDate": "2024-07-14"
+  },
+  "visual": {
+    "image": "assets/cards/terra-nova-terra.png",
+    "themeColor": "#0ff",
+    "animation": "awaken"
+  },
+  "narrative": {
+    "intro": "Inspirado por Natureza, floresta, ecossistema, sustentabilidade e regeneração, TERRA transcende o conceito tradicional de valor.",
+    "lore": [
+      "Nascido nas profundezas da cadeia, TERRA emerge como um símbolo de resistência digital.",
+      "Dizem que quem possuir TERRA por tempo suficiente começará a ouvir os ecos do código primordial.",
+      "Em um mundo de tokens efêmeros, TERRA permanece como um farol de imutabilidade."
+    ],
+    "quote": "\"Eu sou TERRA, a manifestação digital da vontade coletiva.\""
+  },
+  "abilities": {
+    "core": [
+      "Astral Protocol",
+      "Digital Pulse",
+      "Signal Genesis"
+    ],
+    "awakening": {
+      "trigger": "HODL > 296 days",
+      "unlocked": [
+        "Astral Shield",
+        "Signal Protocol"
+      ]
+    }
+  },
+  "meta": {
+    "createdBy": "RUNES Analytics Pro",
+    "version": "1.0.0",
+    "lastUpdated": "2025-04-05"
+  }
+}

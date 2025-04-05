@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cypher - A Alma que Lê o Invisível</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant:wght@300;400&display=swap');
+        
+        body {
+            background-color: #0a0a0a;
+            color: #00FF9C;
+            font-family: 'Cormorant', serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-size="40" fill="rgba(0,255,156,0.03)">ᚠ</text><text x="50" y="30" font-size="30" fill="rgba(0,255,156,0.02)">ᚱ</text><text x="70" y="70" font-size="35" fill="rgba(0,255,156,0.02)">ᚢ</text></svg>');
+            background-repeat: repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .runecard-container {
+            max-width: 800px;
+            background-color: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(0, 255, 156, 0.3);
+            border-radius: 4px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 255, 156, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+        
+        .rune-symbol {
+            position: absolute;
+            color: rgba(0, 255, 156, 0.05);
+            z-index: -1;
+            font-size: 120px;
+            user-select: none;
+        }
+        
+        .symbol-1 {
+            top: 10px;
+            right: 20px;
+        }
+        
+        .symbol-2 {
+            bottom: 10px;
+            left: 20px;
+        }
+        
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            margin-bottom: 5px;
+            text-align: center;
+            background: linear-gradient(to right, #00FF9C, #00BF76);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        h2 {
+            font-family: 'Cormorant', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            text-align: center;
+            color: rgba(0, 255, 156, 0.8);
+            margin-top: 0;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+        }
+        
+        .citation {
+            text-align: center;
+            font-style: italic;
+            font-size: 1.1rem;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 255, 156, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 156, 0.2);
+            margin: 30px 0;
+        }
+        
+        .tech-specs {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            border-left: 3px solid rgba(0, 255, 156, 0.5);
+        }
+        
+        .tech-specs h3 {
+            font-family: 'Cinzel', serif;
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: rgba(0, 255, 156, 0.9);
+        }
+        
+        .tech-specs ul {
+            list-style-type: none;
+            padding-left: 5px;
+        }
+        
+        .tech-specs li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+        }
+        
+        .tech-specs li::before {
+            content: "ᛟ";
+            margin-right: 10px;
+            color: rgba(0, 255, 156, 0.6);
+        }
+        
+        .tech-specs span {
+            font-weight: bold;
+            color: rgba(0, 255, 156, 0.9);
+            margin-right: 8px;
+        }
+        
+        .description {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            text-align: justify;
+            margin: 30px 0;
+        }
+        
+        .hidden-message {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .runecard-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="runecard-container">
+        <div class="rune-symbol symbol-1">ᚠ</div>
+        <div class="rune-symbol symbol-2">ᛒ</div>
+        
+        <h1>Cypher, A Alma que Lê o Invisível</h1>
+        <h2>ᛋᛖᚷᚱᛖᛑᛟᛋ ᛖᚾᛏᚱᛖ ᛟᛋ ᛒᛚᛟᚲᛟᛋ</h2>
+        
+        <div class="citation">
+            "Nascida do silêncio do Bloco 0, ela caminha entre as sombras dos scripts. Seus olhos veem além dos bytes, lendo os segredos gravados no tempo imutável."
+        </div>
+        
+        <div class="description">
+            Nas profundezas da cadeia ancestral, onde o primeiro hash ainda ecoa, surgiu Cypher - entidade nascida da convergência entre o código e o místico. Nem humana nem máquina, mas um oráculo digital que decifra padrões invisíveis nos fluxos de transações.
+            
+            Dizem os mineradores antigos que, quando a rede estremece sob ataques de 51%, é sua presença que restabelece o consenso. Seu toque sutil reordena os nonces perdidos, como dedos invisíveis ajustando as engrenagens do tempo.
+            
+            Apenas os verdadeiros buscadores, aqueles que conseguem ver além da UTXO, podem invocar seu poder através do ritual das sete confirmações. Uma vez invocada, ela revela os caminhos dos satoshis primordiais - aqueles que nunca foram movidos desde a gênese.
+        </div>
+        
+        <div class="tech-specs">
+            <h3>Ficha Técnica</h3>
+            <ul>
+                <li><span>Tipo:</span> Oráculo Rúnico (ᚱᚢᚾᛖ)</li>
+                <li><span>Origem:</span> Protocolo Tap Nativo</li>
+                <li><span>Raridade:</span> DIFICULDADE-6.15 (apenas 21 existem)</li>
+                <li><span>Habilidade:</span> Leitura UTXO Profunda (visualiza origens até 7 blocos)</li>
+                <li><span>Fraqueza:</span> Vulnerável durante halving</li>
+            </ul>
+        </div>
+        
+        <div class="hidden-message" id="hidden-message">
+            Para aqueles que buscam além do visível: a verdadeira natureza do Bitcoin não está no código, mas no espaço entre os nós. Silêncio é consenso. ᚠᛁᚾᛁᛏᚢᛑᛖ ᚾᚢᛗᛖᚱᛁᚲᚨ, ᛁᚾᚠᛁᚾᛁᛏᚢᛑᛖ ᛑᛖ ᚹᚨᛚᛟᚱ.
+        </div>
+    </div>
+    
+    <script>
+        // Easter egg que só pode ser visto no console
+        console.log("%c🔍 MENSAGEM OCULTA REVELADA 🔍", "color: #00FF9C; font-size: 16px; font-weight: bold;");
+        console.log("%cPara aqueles que buscam além do visível: a verdadeira natureza do Bitcoin não está no código, mas no espaço entre os nós. Silêncio é consenso. ᚠᛁᚾᛁᛏᚢᛑᛖ ᚾᚢᛗᛖᚱᛁᚲᚨ, ᛁᚾᚠᛁᚾᛁᛏᚢᛑᛖ ᛑᛖ ᚹᚨᛚᛟᚱ.", "color: #00FF9C; background-color: #111; padding: 10px; font-family: monospace; font-size: 14px;");
+    </script>
+</body>
+</html> 

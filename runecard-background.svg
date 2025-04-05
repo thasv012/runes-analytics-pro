@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <pattern id="runePattern" patternUnits="userSpaceOnUse" width="100" height="100">
+      <text x="10" y="50" font-size="40" fill="rgba(0,255,156,0.03)">ᚠ</text>
+      <text x="50" y="30" font-size="30" fill="rgba(0,255,156,0.02)">ᚱ</text>
+      <text x="70" y="70" font-size="35" fill="rgba(0,255,156,0.02)">ᚢ</text>
+    </pattern>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111111;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#cardGradient)" />
+  
+  <!-- Rune pattern overlay -->
+  <rect width="800" height="600" fill="url(#runePattern)" />
+  
+  <!-- Card border -->
+  <rect x="20" y="20" width="760" height="560" stroke="rgba(0,255,156,0.3)" stroke-width="1" fill="none" rx="4" ry="4" />
+  
+  <!-- Large rune symbols as watermarks -->
+  <text x="700" y="100" font-size="120" fill="rgba(0,255,156,0.05)">ᚠ</text>
+  <text x="100" y="500" font-size="120" fill="rgba(0,255,156,0.05)">ᛒ</text>
+  
+  <!-- Subtle hex pattern in background -->
+  <g fill="rgba(0,255,156,0.01)">
+    <path d="M100,100 L120,90 L140,100 L140,120 L120,130 L100,120 Z" />
+    <path d="M200,200 L220,190 L240,200 L240,220 L220,230 L200,220 Z" />
+    <path d="M300,300 L320,290 L340,300 L340,320 L320,330 L300,320 Z" />
+    <path d="M400,400 L420,390 L440,400 L440,420 L420,430 L400,420 Z" />
+    <path d="M500,500 L520,490 L540,500 L540,520 L520,530 L500,520 Z" />
+    <path d="M600,100 L620,90 L640,100 L640,120 L620,130 L600,120 Z" />
+    <path d="M100,400 L120,390 L140,400 L140,420 L120,430 L100,420 Z" />
+  </g>
+</svg> 

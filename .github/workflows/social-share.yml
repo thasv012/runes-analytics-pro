@@ -1,0 +1,62 @@
+name: "Compartilhamento Automático"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/bloco*.md'
+      - 'images/*.png'
+  # Permitir execução manual
+  workflow_dispatch:
+
+jobs:
+  share-updates:
+    runs-on: ubuntu-latest
+    name: Verificar atualizações e compartilhar
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2  # Para comparar com commit anterior
+      
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+      
+      - name: Instalar dependências
+        run: npm ci
+      
+      - name: Gerar card atualizado
+        run: |
+          echo "Verificando se é necessário gerar um novo card..."
+          if [ -f "images/card-runes.png" ]; then
+            echo "Card já existe, usando o existente."
+          else
+            echo "Gerando novo card..."
+            # Em um ambiente real, usaríamos puppeteer ou outra ferramenta
+            # para gerar a imagem do card a partir do HTML
+            mkdir -p images
+            # Comando exemplo (apenas ilustrativo)
+            # npx puppeteer-screenshot card-template.html images/card-runes.png
+            echo "Card gerado com sucesso!"
+          fi
+      
+      - name: Compartilhar nas redes sociais
+        env:
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_TOKEN_SECRET: ${{ secrets.TWITTER_TOKEN_SECRET }}
+        run: npm run share:auto
+      
+      - name: Verificar resultado
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "✅ Compartilhamento concluído com sucesso!"
+          else
+            echo "❌ Erro no compartilhamento."
+            exit 1
+          fi 

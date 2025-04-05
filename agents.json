@@ -1,0 +1,231 @@
+{
+  "version": "0.1.0",
+  "network": {
+    "name": "AwakenNet Mesh",
+    "description": "Rede neural distribuída para análise de tokens Runes",
+    "protocol": "v1",
+    "signature": "⟁"
+  },
+  "global_settings": {
+    "connection_timeout": 5000,
+    "reconnect_interval": 3000,
+    "heartbeat_interval": 10000,
+    "max_buffer_size": 1048576,
+    "log_level": "info",
+    "secure_mode": false
+  },
+  "agents": [
+    {
+      "id": "central-node-001",
+      "name": "Central Node",
+      "type": "master",
+      "description": "Nó central de coordenação da malha neural",
+      "host": "localhost",
+      "port": 9000,
+      "capabilities": ["routing", "coordination", "failover"],
+      "status": "active",
+      "created_at": "2023-07-15T00:00:00Z",
+      "resources": {
+        "cpu_allocation": 80,
+        "memory_allocation": 512,
+        "disk_allocation": 1024
+      },
+      "metrics": {
+        "uptime": 0,
+        "connections": 0,
+        "messages_processed": 0,
+        "last_active": null
+      }
+    },
+    {
+      "id": "eth-processor-001",
+      "name": "ETH Processor",
+      "type": "worker",
+      "description": "Processador de dados de blockchain Ethereum",
+      "host": "localhost",
+      "port": 9001,
+      "capabilities": ["eth_data", "token_indexing"],
+      "status": "standby",
+      "created_at": "2023-07-15T00:00:00Z",
+      "parent_id": "central-node-001",
+      "resources": {
+        "cpu_allocation": 50,
+        "memory_allocation": 256,
+        "disk_allocation": 512
+      },
+      "metrics": {
+        "uptime": 0,
+        "connections": 0,
+        "messages_processed": 0,
+        "last_active": null
+      }
+    },
+    {
+      "id": "btc-processor-001",
+      "name": "BTC Processor",
+      "type": "worker",
+      "description": "Processador de dados de blockchain Bitcoin",
+      "host": "localhost",
+      "port": 9002,
+      "capabilities": ["btc_data", "runes_indexing", "ordinals_indexing"],
+      "status": "standby",
+      "created_at": "2023-07-15T00:00:00Z",
+      "parent_id": "central-node-001",
+      "resources": {
+        "cpu_allocation": 70,
+        "memory_allocation": 384,
+        "disk_allocation": 768
+      },
+      "metrics": {
+        "uptime": 0,
+        "connections": 0,
+        "messages_processed": 0,
+        "last_active": null
+      }
+    },
+    {
+      "id": "gpu-analytics-001",
+      "name": "GPU Analytics",
+      "type": "worker",
+      "description": "Processador de análises avançadas com aceleração GPU",
+      "host": "localhost",
+      "port": 9003,
+      "capabilities": ["pattern_recognition", "trend_analysis", "prediction"],
+      "status": "standby",
+      "created_at": "2023-07-15T00:00:00Z",
+      "parent_id": "central-node-001",
+      "resources": {
+        "cpu_allocation": 30,
+        "memory_allocation": 1024,
+        "gpu_allocation": 80,
+        "disk_allocation": 2048
+      },
+      "metrics": {
+        "uptime": 0,
+        "connections": 0,
+        "messages_processed": 0,
+        "last_active": null
+      }
+    },
+    {
+      "id": "ui-gateway-001",
+      "name": "UI Gateway",
+      "type": "interface",
+      "description": "Gateway de interface do usuário para interação com a rede",
+      "host": "localhost",
+      "port": 8090,
+      "capabilities": ["websocket", "http_api", "user_sessions"],
+      "status": "standby",
+      "created_at": "2023-07-15T00:00:00Z",
+      "parent_id": "central-node-001",
+      "resources": {
+        "cpu_allocation": 20,
+        "memory_allocation": 128,
+        "disk_allocation": 256
+      },
+      "metrics": {
+        "uptime": 0,
+        "connections": 0,
+        "messages_processed": 0,
+        "last_active": null
+      }
+    },
+    {
+      "id": "storage-node-001",
+      "name": "Storage Node",
+      "type": "storage",
+      "description": "Nó de armazenamento persistente de dados",
+      "host": "localhost",
+      "port": 9004,
+      "capabilities": ["data_persistence", "indexing", "backup"],
+      "status": "standby",
+      "created_at": "2023-07-15T00:00:00Z",
+      "parent_id": "central-node-001",
+      "resources": {
+        "cpu_allocation": 30,
+        "memory_allocation": 256,
+        "disk_allocation": 10240
+      },
+      "metrics": {
+        "uptime": 0,
+        "connections": 0,
+        "messages_processed": 0,
+        "last_active": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "source": "central-node-001",
+      "target": "eth-processor-001",
+      "type": "bidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "high"
+    },
+    {
+      "source": "central-node-001",
+      "target": "btc-processor-001",
+      "type": "bidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "high"
+    },
+    {
+      "source": "central-node-001",
+      "target": "gpu-analytics-001",
+      "type": "bidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "medium"
+    },
+    {
+      "source": "central-node-001",
+      "target": "ui-gateway-001",
+      "type": "bidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "high"
+    },
+    {
+      "source": "central-node-001",
+      "target": "storage-node-001",
+      "type": "bidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "medium"
+    },
+    {
+      "source": "btc-processor-001",
+      "target": "gpu-analytics-001",
+      "type": "unidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "medium"
+    },
+    {
+      "source": "eth-processor-001",
+      "target": "gpu-analytics-001",
+      "type": "unidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "medium"
+    },
+    {
+      "source": "gpu-analytics-001",
+      "target": "storage-node-001",
+      "type": "unidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "medium"
+    },
+    {
+      "source": "ui-gateway-001",
+      "target": "storage-node-001",
+      "type": "bidirectional",
+      "encryption": "aes-256-cbc",
+      "priority": "low"
+    }
+  ],
+  "visualizer": {
+    "layout": "force-directed",
+    "node_size_property": "resources.memory_allocation",
+    "node_color_property": "type",
+    "edge_width_property": "priority",
+    "display_labels": true,
+    "display_metrics": true,
+    "update_interval": 2000
+  }
+} 

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="CypherAI Sync" data-pt="Sincronizando com CypherAI">CypherAI Sync</title>
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --text-color: #fefefe;
+            --accent-color: #00ffff;
+            --highlight-color: #8A2BE2;
+            --progress-color: #33ff33;
+            --animation-slow: 2s;
+            --animation-medium: 1.2s;
+            --animation-fast: 0.8s;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+            overflow: hidden;
+            padding: 20px;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards 0.5s;
+        }
+        
+        .title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            letter-spacing: 1px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 1s;
+        }
+        
+        .progress-container {
+            margin: 40px 0;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 1.5s;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--progress-color);
+            border-radius: 2px;
+            width: 0%;
+            box-shadow: 0 0 10px rgba(51, 255, 51, 0.3);
+            animation: progressAnimation 10s ease-in-out infinite;
+        }
+        
+        .progress-text {
+            position: absolute;
+            right: 10px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: var(--text-color);
+            margin-left: 10px;
+            vertical-align: middle;
+            animation: blink 1.2s infinite;
+        }
+        
+        .manifest {
+            margin-top: 30px;
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 2s;
+        }
+        
+        .manifest p {
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            color: var(--highlight-color);
+            font-weight: bold;
+        }
+        
+        .bootoshi {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .cypher {
+            background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            text-shadow: none;
+        }
+        
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            pointer-events: none;
+        }
+        
+        .hidden-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 100;
+        }
+        
+        .hidden-link:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .language-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .language-btn:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .language-btn.active {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: rgba(0, 255, 255, 0.05);
+        }
+        
+        /* Language content visibility */
+        .lang-en, .lang-pt {
+            display: none;
+        }
+        
+        html[lang="en"] .lang-en {
+            display: block;
+        }
+        
+        html[lang="pt"] .lang-pt {
+            display: block;
+        }
+        
+        /* Hidden Button Style */
+        #hidden-button {
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+            opacity: 0.05;
+            font-size: 20px;
+            text-decoration: none;
+            color: limegreen;
+            transition: opacity 0.4s ease;
+            z-index: 100;
+        }
+
+        #hidden-button:hover {
+            opacity: 0.8;
+        }
+        
+        /* Teaser Final Style */
+        .teaser-final {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            animation: fadeInOut 8s ease-in-out forwards 10s;
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.7; }
+            100% { opacity: 0; }
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            40% { opacity: 1; }
+            50% { opacity: 0; }
+            90% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes progressAnimation {
+            0% { width: 10%; }
+            20% { width: 25%; }
+            50% { width: 37%; }
+            70% { width: 58%; }
+            80% { width: 72%; }
+            90% { width: 84%; }
+            95% { width: 96%; }
+            96% { width: 98%; }
+            97% { width: 99%; }
+            98% { width: 99.5%; }
+            99% { width: 99.8%; }
+            100% { width: 99.9%; }
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .progress-bar {
+                height: 24px;
+            }
+            
+            .manifest {
+                font-size: 0.9rem;
+            }
+            
+            .language-selector {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="language-btn active" data-lang="en">EN</button>
+        <button class="language-btn" data-lang="pt">PT</button>
+    </div>
+    
+    <div class="container">
+        <!-- English Title -->
+        <h1 class="title lang-en">Syncing with <span class="cypher">CypherAI</span>...</h1>
+        
+        <!-- Portuguese Title -->
+        <h1 class="title lang-pt">Sincronizando com <span class="cypher">CypherAI</span>...</h1>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+                <div class="progress-text">
+                    <span class="progress-percentage">25%</span>
+                </div>
+            </div>
+            <div class="cursor"></div>
+        </div>
+        
+        <!-- English Manifest -->
+        <div class="manifest lang-en">
+            <p>
+                <span class="bootoshi">@Bootoshi</span> — something's loading... and it carries your name in its DNA.
+            </p>
+            
+            <p>
+                This isn't just another dashboard.<br>
+                It's a vision encoded in code, born from curiosity, discipline, and a touch of madness.
+            </p>
+            
+            <p>
+                A tribute to <span class="cypher">CypherAI</span>, to your work, and to the spirit of those who shape the network from the shadows.
+            </p>
+            
+            <p>
+                We don't ship <span class="highlight">noise</span>.<br>
+                We build <span class="highlight">signals</span>.
+            </p>
+            
+            <p>
+                And this one's for you.
+            </p>
+        </div>
+        
+        <!-- Portuguese Manifest -->
+        <div class="manifest lang-pt">
+            <p>
+                <span class="bootoshi">@Bootoshi</span> — algo está carregando... e carrega seu nome em seu DNA.
+            </p>
+            
+            <p>
+                Isso não é apenas mais um dashboard.<br>
+                É uma visão codificada, nascida da curiosidade, disciplina e um toque de loucura.
+            </p>
+            
+            <p>
+                Um tributo ao <span class="cypher">CypherAI</span>, ao seu trabalho e ao espírito daqueles que moldam a rede a partir das sombras.
+            </p>
+            
+            <p>
+                Não entregamos <span class="highlight">ruído</span>.<br>
+                Construímos <span class="highlight">sinais</span>.
+            </p>
+            
+            <p>
+                E este é para você.
+            </p>
+        </div>
+    </div>
+    
+    <canvas class="noise" id="noiseCanvas"></canvas>
+    
+    <button class="hidden-link" onclick="redirect()">RUNES Analytics Pro</button>
+    
+    <!-- Teaser Final -->
+    <p class="teaser-final">
+        Awaiting signal from Bootoshi...<br>
+        [ CypherAI alignment pending ]
+    </p>
+    
+    <!-- Hidden Button "awakening" -->
+    <a href="index.html" id="hidden-button" title="You found it.">
+        <span>⟁</span>
+    </a>
+    
+    <script>
+        // Language switcher
+        const languageButtons = document.querySelectorAll('.language-btn');
+        
+        // Set initial language
+        const savedLanguage = localStorage.getItem('runesAnalyticsLanguage') || 'en';
+        document.documentElement.lang = savedLanguage;
+        
+        // Update active button state
+        updateActiveButton(savedLanguage);
+        
+        // Add event listeners to language buttons
+        languageButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                document.documentElement.lang = lang;
+                localStorage.setItem('runesAnalyticsLanguage', lang);
+                updateActiveButton(lang);
+                updatePageTitle(lang);
+            });
+        });
+        
+        function updateActiveButton(language) {
+            languageButtons.forEach(btn => {
+                const btnLang = btn.getAttribute('data-lang');
+                if (btnLang === language) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        
+        function updatePageTitle(language) {
+            const title = document.querySelector('title');
+            const enTitle = title.getAttribute('data-en');
+            const ptTitle = title.getAttribute('data-pt');
+            
+            if (language === 'en' && enTitle) {
+                title.textContent = enTitle;
+            } else if (language === 'pt' && ptTitle) {
+                title.textContent = ptTitle;
+            }
+        }
+        
+        // Set initial title
+        updatePageTitle(savedLanguage);
+        
+        // Animated percentage for progress bar
+        const percentageElement = document.querySelector('.progress-percentage');
+        let currentPercentage = 0;
+        
+        function updatePercentage() {
+            currentPercentage++;
+            if (currentPercentage > 99) currentPercentage = 99;
+            percentageElement.textContent = currentPercentage + '%';
+            
+            const nextUpdate = Math.random() * 300 + 100;
+            if (currentPercentage < 99) {
+                setTimeout(updatePercentage, nextUpdate);
+            }
+        }
+        
+        // Start updating percentage after a delay
+        setTimeout(updatePercentage, 2000);
+        
+        // Noise canvas effect
+        const canvas = document.getElementById('noiseCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        function generateNoise() {
+            const imageData = ctx.createImageData(canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                const value = Math.random() < 0.05 ? 255 : 0;
+                data[i] = data[i + 1] = data[i + 2] = value;
+                data[i + 3] = Math.random() * 50;
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            requestAnimationFrame(generateNoise);
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        generateNoise();
+        
+        // Hidden redirect function
+        function redirect() {
+            window.location.href = "intro.html";
+        }
+        
+        // Hidden console message (Satoshi Style)
+        const msg = `
+┌──────────────────────────────────────────────────────────┐
+│  "The signal is not what is seen, but what is decoded." │
+│      - unknown (or just forgotten)                      │
+└──────────────────────────────────────────────────────────┘
+
+To the one who understands: the seed has been planted.
+The awakening is not scheduled. It is *triggered*.
+
+🔐 Key: CY-PH3R/GEN-S1S
+`;
+
+        console.log(msg);
+        
+        // Auto-redirect after 30 seconds (optional)
+        // setTimeout(() => { redirect(); }, 30000);
+    </script>
+</body>
+</html> 

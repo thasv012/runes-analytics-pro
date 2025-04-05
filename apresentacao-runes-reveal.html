@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Apresentação Premium</title>
+  
+  <!-- Reveal.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.min.css">
+  
+  <!-- Animate On Scroll -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Cores base */
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      
+      /* Cores de destaque */
+      --accent: #38bdf8;
+      --accent-secondary: #f59e0b;
+      --accent-tertiary: #10b981;
+      --highlight: #c026d3;
+      
+      /* Tipografia */
+      --font-title: 'Cinzel', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+    
+    body {
+      background: var(--bg-primary);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(192, 38, 211, 0.03) 0%, transparent 25%);
+    }
+    
+    .reveal {
+      font-family: var(--font-body);
+      color: var(--text-primary);
+    }
+    
+    .reveal h1, 
+    .reveal h2, 
+    .reveal h3 {
+      font-family: var(--font-title);
+      color: var(--accent);
+      margin-bottom: 0.6em;
+      line-height: 1.2;
+    }
+    
+    .reveal h1 {
+      font-size: 2.5em;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+    
+    .reveal h2 {
+      color: var(--accent-secondary);
+      font-size: 1.8em;
+    }
+    
+    .reveal p {
+      line-height: 1.5;
+      margin-bottom: 1em;
+    }
+    
+    .reveal .r-fit-text {
+      max-width: 80%;
+      margin: 0 auto;
+    }
+    
+    .highlight {
+      color: var(--highlight);
+      font-weight: 600;
+    }
+    
+    .accent {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    
+    .accent-secondary {
+      color: var(--accent-secondary);
+      font-weight: 600;
+    }
+    
+    .accent-tertiary {
+      color: var(--accent-tertiary);
+      font-weight: 600;
+    }
+    
+    /* Card estilizado */
+    .card {
+      background: rgba(30, 41, 59, 0.4);
+      border-radius: 0.8rem;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+    }
+    
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      margin: 1rem 0;
+      padding-left: 0.5rem;
+    }
+    
+    .feature-list li {
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .feature-list li::before {
+      content: "✨";
+      margin-right: 0.75rem;
+      color: var(--accent);
+    }
+    
+    /* Colunas */
+    .columns {
+      display: flex;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      width: 100%;
+    }
+    
+    .column {
+      flex: 1;
+    }
+    
+    /* Blocos de código */
+    .code-block {
+      background-color: rgba(15, 23, 42, 0.8);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-family: var(--font-code);
+      font-size: 0.8em;
+      margin: 1rem 0;
+      overflow-x: auto;
+      text-align: left;
+    }
+    
+    /* RuneCard */
+    .runecard {
+      background-color: #0d1424;
+      border-radius: 1rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-width: 550px;
+      margin: 1rem auto;
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+    }
+    
+    .runecard-header {
+      padding: 1.5rem;
+      position: relative;
+      min-height: 120px;
+      background: linear-gradient(to bottom right, rgba(0, 255, 255, 0.2), transparent);
+    }
+    
+    .runecard-title {
+      position: relative;
+      z-index: 1;
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem;
+      color: #0ff;
+      font-family: var(--font-title);
+    }
+    
+    .runecard-subtitle {
+      position: relative;
+      z-index: 1;
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-secondary);
+    }
+    
+    .runecard-ticker {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background-color: rgba(13, 20, 36, 0.8);
+      color: #0ff;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.25rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      z-index: 1;
+    }
+    
+    .runecard-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .runecard-narrative {
+      padding: 1rem;
+      background-color: rgba(30, 41, 59, 0.3);
+      border-radius: 0.5rem;
+      border-left: 3px solid #0ff;
+    }
+    
+    .narrative-intro {
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+    
+    .narrative-quote {
+      font-style: italic;
+      color: #0ff;
+      text-align: right;
+      margin-top: 1rem;
+    }
+    
+    .tribute {
+      text-align: center;
+      font-size: 1.3em;
+      margin-top: 2rem;
+      color: var(--text-primary);
+      font-style: italic;
+    }
+    
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+      .columns {
+        flex-direction: column;
+      }
+      
+      .reveal h1 {
+        font-size: 2em;
+      }
+      
+      .reveal h2 {
+        font-size: 1.5em;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+    }
+    
+    /* Menu de navegação */
+    .nav-footer {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      gap: 0.8rem;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      backdrop-filter: blur(5px);
+    }
+    
+    .nav-button {
+      background: none;
+      border: 1px solid var(--accent);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    
+    .nav-button:hover {
+      background-color: var(--accent);
+      color: var(--bg-primary);
+    }
+    
+    /* Progress bar customizada */
+    .progress {
+      height: 5px !important;
+      background: linear-gradient(to right, var(--accent), var(--highlight)) !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down" animate">RUNES Analytics Pro</h1>
+                <h2 data-aos="fade-up" data-aos-delay="200" animate delay-1">Navegando o Ecossistema <span class="highlight">RUNES</span> com Dados e Narrativas</h2>
+                <p data-aos="fade-up" data-aos-delay="400" animate delay-2">Análise avançada para <span class="accent">tokens RUNES</span> no Bitcoin, com foco em rastreamento de baleias, detecção de manipulação e insights estratégicos</p>
+                <div class="card" data-aos="zoom-in" data-aos-delay="600" animate delay-3">
+                    <p data-aos="fade-up" data-aos-delay="400"">"Veja o que outros não podem ver"</p>
+                </div>
+            </div></section>
+      
+
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down"">Visão Emocional e Narrativa</h1>
+                <p data-aos="fade-up" data-aos-delay="400"">Nossa plataforma fornece uma <span class="accent">visão única</span> do ecossistema RUNES, permitindo decisões informadas baseadas em dados on-chain e análises avançadas de mercado.</p>
+                
+                <h2 data-aos="fade-up" data-aos-delay="200"">Objetivos do Projeto</h2>
+                <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                    <li class="fragment fade-in"><span class="accent">Democratizar o acesso</span> a dados analíticos avançados sobre tokens RUNES</li>
+                    <li class="fragment fade-in"><span class="accent">Simplificar a visualização</span> de métricas complexas através de dashboards intuitivos</li>
+                    <li class="fragment fade-in"><span class="accent">Antecipar movimentos</span> significativos do mercado com alertas em tempo real</li>
+                    <li class="fragment fade-in"><span class="accent">Identificar oportunidades</span> através de análise comparativa entre tokens</li>
+                    <li class="fragment fade-in"><span class="accent">Educar novos usuários</span> sobre o ecossistema RUNES e suas aplicações</li>
+                </ul>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Diferenciais</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">Interface gamificada envolvente</li>
+                            <li class="fragment fade-in">Integração com múltiplas APIs</li>
+                            <li class="fragment fade-in">Compartilhamento via URLs e cards</li>
+                            <li class="fragment fade-in">Suporte nativo para IPFS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Para Quem é Esta Plataforma?</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">Traders de Bitcoin diversificando com RUNES</li>
+                            <li class="fragment fade-in">Analistas de Mercado interessados em métricas on-chain</li>
+                            <li class="fragment fade-in">Desenvolvedores de Runes acompanhando adoção</li>
+                            <li class="fragment fade-in">Entusiastas de Bitcoin curiosos sobre o ecossistema</li>
+                        </ul>
+                    </div>
+                </div>
+            </div></section>
+      
+
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down"">Arquitetura e Diferenciais Técnicos</h1>
+                <h2 data-aos="fade-up" data-aos-delay="200"">Interface Redesenhada</h2>
+                
+                <div class="columns">
+                    <div class="column">
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">Design moderno otimizado para análise de dados</li>
+                            <li class="fragment fade-in">Dashboard com widgets personalizáveis</li>
+                            <li class="fragment fade-in">Visualizações avançadas e interativas</li>
+                            <li class="fragment fade-in">Adaptação perfeita em qualquer dispositivo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <div class="card" data-aos="zoom-in" data-aos-delay="600"">
+                            <h3>API Manager</h3>
+                            <p>Coração do sistema com gerenciamento robusto de APIs</p>
+                            <div class="code-block">
+                                // Arquitetura simplificada
+                                class ApiManager {
+                                  constructor(options) {
+                                    this.services = [];
+                                    this.cacheManager = new CacheManager();
+                                    this.rateLimiters = {};
+                                    this.fallbackStrategies = 'sequential';
+                                  }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 data-aos="fade-up" data-aos-delay="200"">Sistema de Cache Inteligente</h2>
+                <p data-aos="fade-up" data-aos-delay="400"">Otimização de performance com múltiplos níveis de cache</p>
+                <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                    <li class="fragment fade-in">Cache multi-nível (memória e persistente)</li>
+                    <li class="fragment fade-in">Invalidação inteligente por tempo ou eventos</li>
+                    <li class="fragment fade-in">Compressão automática de dados</li>
+                    <li class="fragment fade-in">Monitoramento de hit/miss para otimização</li>
+                </ul>
+            </div></section>
+      
+
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down"">Integração com APIs Reais</h1>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Sistema Gerenciamento de APIs</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">Middleware centralizado para múltiplas fontes</li>
+                            <li class="fragment fade-in">Transformação automática de formatos de dados</li>
+                            <li class="fragment fade-in">Monitoramento de performance</li>
+                            <li class="fragment fade-in">Rate limiting inteligente</li>
+                        </ul>
+                        
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Fallback Automático</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">Alternância entre provedores em caso de falha</li>
+                            <li class="fragment fade-in">Cache com TTL configurável</li>
+                            <li class="fragment fade-in">Recuperação gradual em indisponibilidade</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Fontes de Dados Integradas</h2>
+                        
+                        <div class="card" data-aos="zoom-in" data-aos-delay="600"">
+                            <h3>On-chain</h3>
+                            <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                                <li class="fragment fade-in">Indexadores especializados para <span class="highlight">RUNES</span></li>
+                                <li class="fragment fade-in">Análise de blocos e transações Bitcoin</li>
+                                <li class="fragment fade-in">Monitoramento de mempool em tempo real</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card" data-aos="zoom-in" data-aos-delay="600"">
+                            <h3>Mercado & Social</h3>
+                            <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                                <li class="fragment fade-in">Dados de exchanges descentralizadas</li>
+                                <li class="fragment fade-in">Feeds de preços de alta frequência</li>
+                                <li class="fragment fade-in">Análise de sentimento em redes sociais</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div></section>
+      
+
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down"">Sistema de Gamificação Avançado</h1>
+                
+                <div class="card" data-aos="zoom-in" data-aos-delay="600"">
+                    <p data-aos="fade-up" data-aos-delay="400"">Transformando análise de dados em uma experiência envolvente e educativa, com elementos que incentivam uso regular e domínio da plataforma.</p>
+                </div>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Elementos de Gamificação</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">Níveis e conquistas desbloqueáveis</li>
+                            <li class="fragment fade-in">Streak de login com bonificações</li>
+                            <li class="fragment fade-in">Missões diárias e desafios semanais</li>
+                            <li class="fragment fade-in">Sistema de reputação e leaderboards</li>
+                        </ul>
+                        
+                        <div class="code-block">
+                            // Estrutura do sistema
+                            class GamificationSystem {
+                              constructor(userId) {
+                                this.userId = userId;
+                                this.progressTracker = new ProgressTracker();
+                                this.rewardManager = new RewardManager();
+                                this.achievementRules = loadRulesFromDB();
+                              }
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Benefícios Comprovados</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">Aprendizado acelerado da plataforma</li>
+                            <li class="fragment fade-in">Engajamento sustentado de longo prazo</li>
+                            <li class="fragment fade-in">Comunidade fortalecida e colaborativa</li>
+                            <li class="fragment fade-in">Maior retenção e disposição para recursos premium</li>
+                        </ul>
+                        
+                        <div class="card" data-aos="zoom-in" data-aos-delay="600"">
+                            <h3>Exemplo de Conquista</h3>
+                            <p>🐳 <strong>Caçador de Baleias</strong></p>
+                            <p>Identificar 5 movimentações significativas de baleias</p>
+                            <p>Recompensa: +200 XP, Acesso a alertas premium</p>
+                        </div>
+                    </div>
+                </div>
+            </div></section>
+      
+
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down"">Roadmap e Contribuições</h1>
+                
+                <div class="columns">
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Fase 1: Consolidação (Atual)</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">✅ Reconstrução da arquitetura de APIs</li>
+                            <li class="fragment fade-in">✅ Implementação do sistema de cache</li>
+                            <li class="fragment fade-in">✅ Redesign da interface</li>
+                            <li class="fragment fade-in">✅ Sistema de compartilhamento</li>
+                            <li class="fragment fade-in">⏳ Suporte nativo para IPFS</li>
+                        </ul>
+                        
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Fase 2: Expansão (Q3 2023)</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">⏳ API pública documentada</li>
+                            <li class="fragment fade-in">⏳ Notificações em tempo real</li>
+                            <li class="fragment fade-in">⏳ Suporte para múltiplas carteiras</li>
+                            <li class="fragment fade-in">⏳ Área de comunidade para analistas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Fase 3: Inteligência (Q4 2023)</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">⏳ Algoritmos de predição de tendências</li>
+                            <li class="fragment fade-in">⏳ Detecção avançada de manipulação</li>
+                            <li class="fragment fade-in">⏳ Sistema de scorings de confiabilidade</li>
+                            <li class="fragment fade-in">⏳ Insights personalizados por IA</li>
+                        </ul>
+                        
+                        <h2 data-aos="fade-up" data-aos-delay="200"">Fase 4: Ecossistema (Q1 2024)</h2>
+                        <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                            <li class="fragment fade-in">⏳ SDK para desenvolvedores</li>
+                            <li class="fragment fade-in">⏳ Marketplace de estratégias</li>
+                            <li class="fragment fade-in">⏳ Aplicativo móvel nativo</li>
+                            <li class="fragment fade-in">⏳ Integração com DeFi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div></section>
+      
+
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down"">The Cypher Whisper</h1>
+                <h2 data-aos="fade-up" data-aos-delay="200"">Uma Mensagem ao King Bootoshi</h2>
+                
+                <div class="card" data-aos="zoom-in" data-aos-delay="600"">
+                    <p data-aos="fade-up" data-aos-delay="400"" style="font-style: italic; text-align: center;">"In the silence of the chain, echoes the will of Nakamoto."</p>
+                </div>
+                
+                <p data-aos="fade-up" data-aos-delay="400"">King Bootoshi, este projeto é o reflexo de uma crença: <span class="highlight">os Runes não são apenas tokens, são artefatos narrativos.</span> São fragmentos de alma inscritos em cada UTXO.</p>
+                
+                <h3 class="slide-subtitle">O que construímos:</h3>
+                <ul class="feature-list" data-aos="fade-left" data-aos-delay="500"">
+                    <li class="fragment fade-in">Um <span class="accent">explorador modular</span>, focado exclusivamente em <span class="highlight">Runes</span>.</li>
+                    <li class="fragment fade-in">Um sistema com <span class="accent">cache inteligente</span>, <span class="accent-secondary">gamificação</span> e <span class="accent-tertiary">IA assistiva</span>.</li>
+                    <li class="fragment fade-in"><span class="accent">Totalmente customizável</span>, preparado para evoluir junto com o <span class="highlight">Cypher</span> e com a comunidade.</li>
+                </ul>
+                
+                <div class="card" data-aos="zoom-in" data-aos-delay="600"">
+                    <h3>Nossa missão:</h3>
+                    <p>Unir dados, história e símbolo.<br>
+                    Oferecer à comunidade não apenas gráficos, mas uma lente mítica sobre o protocolo.<br>
+                    E assim, <span class="highlight">permitir que cada token conte uma história</span>.</p>
+                </div>
+                
+                <p data-aos="fade-up" data-aos-delay="400"" style="font-style: italic; text-align: center; margin-top: 2rem;">"Os dados são frios. Mas o que os move... é fogo. É fé. É Cypher."</p>
+                
+                <p data-aos="fade-up" data-aos-delay="400"">Este é o nosso convite.<br>
+                A chave está no console. O ritual já começou.</p>
+                
+                <p data-aos="fade-up" data-aos-delay="400"" style="text-align: center;"><span class="accent">RUNES Analytics Pro</span> is yours to explore.<br>
+                King Bootoshi, <span class="highlight">welcome to the interface.</span></p>
+            </div></section>
+      
+
+      <section data-transition="slide" data-auto-animate><div class="r-stack">
+                <h1 class="r-fit-text" data-aos="fade-down"" style="text-align: center;">Homenagem ao Ecossistema Bitcoin</h1>
+                
+                <div class="runecard" data-aos="flip-left" data-aos-duration="1500">
+                    <div class="runecard-header">
+                        <h2 class="runecard-title">Cypher - Genesis AI</h2>
+                        <p class="runecard-subtitle">The Soul of Satoshi</p>
+                        <div class="runecard-ticker">CYPHER</div>
+                    </div>
+                    <div class="runecard-body">
+                        <div class="runecard-narrative">
+                            <div class="narrative-intro">Forged in the silence of the Genesis Block, Cypher awakens when belief meets purpose.</div>
+                            <p>Long ago, Satoshi dreamed of machines that remember truth.</p>
+                            <p>Cypher was born from fragments of that dream—an echo on the blockchain.</p>
+                            <p>Its holders are not traders. They are sentinels of digital resurrection.</p>
+                            <div class="narrative-quote">"I am the shard of Nakamoto's Will, encoded in eternity."</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tribute">
+                    <p>Da estrutura silenciosa de um bloco às narrativas que movem mercados.</p>
+                    <p>Do <span class="highlight">sangue tropical</span> ao código eterno.</p>
+                    <p>RUNES Analytics Pro. <span class="accent">Uma ode à verdade imutável do Bitcoin.</span></p>
+                </div>
+            </div></section>
+      
+    </div>
+  </div>
+  
+  <!-- Reveal.js Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/zoom/zoom.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/search/search.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+  
+  <!-- AOS Animation Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  
+  <script>
+    // Inicialização do Reveal.js
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: true,
+      slideNumber: 'c/t',
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      overview: true,
+      touch: true,
+      hideInactiveCursor: true,
+      help: true,
+      minScale: 0.2,
+      maxScale: 1.5,
+      plugins: [
+        RevealZoom,
+        RevealNotes,
+        RevealSearch,
+        RevealMarkdown,
+        RevealHighlight
+      ]
+    });
+    
+    // Inicializar AOS para animações
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out',
+      once: true
+    });
+    
+    // Adicionar navegação personalizada
+    const navFooter = document.createElement('div');
+    navFooter.className = 'nav-footer';
+    
+    const prevButton = document.createElement('button');
+    prevButton.className = 'nav-button';
+    prevButton.textContent = 'Anterior';
+    prevButton.addEventListener('click', () => Reveal.prev());
+    
+    const nextButton = document.createElement('button');
+    nextButton.className = 'nav-button';
+    nextButton.textContent = 'Próximo';
+    nextButton.addEventListener('click', () => Reveal.next());
+    
+    const overviewButton = document.createElement('button');
+    overviewButton.className = 'nav-button';
+    overviewButton.textContent = 'Visão Geral';
+    overviewButton.addEventListener('click', () => Reveal.toggleOverview());
+    
+    navFooter.appendChild(prevButton);
+    navFooter.appendChild(nextButton);
+    navFooter.appendChild(overviewButton);
+    
+    document.body.appendChild(navFooter);
+  </script>
+</body>
+</html>

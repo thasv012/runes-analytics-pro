@@ -915,6 +915,56 @@ class ApiManager {
             return Math.random() < 0.05; // 5% de chance para outros tokens
         }
     }
+
+    /**
+     * Obtém dados do mercado de tokens Runes
+     * @returns {Promise<Object>} Dados de mercado
+     */
+    getMarketData() {
+        console.log('ApiManager.getMarketData foi chamado!');
+        const cacheKey = 'market_stats';
+        
+        return new Promise((resolve, reject) => {
+            try {
+                // Tenta obter dados do cache primeiro
+                if (this.cache.marketStats.data && 
+                    Date.now() - this.cache.marketStats.timestamp < this.config.cacheTimeout.marketStats) {
+                    console.log('Usando dados de mercado em cache');
+                    return resolve(this.cache.marketStats.data);
+                }
+
+                // Se não há cache ou expirou, gera dados (aqui seriam dados de API em produção)
+                console.log('Gerando novos dados de mercado');
+                
+                // Em ambiente de desenvolvimento, usamos dados mockados
+                const marketData = {
+                    totalMarketCap: 8500000000, // 8.5B
+                    volume24h: 245000000, // 245M
+                    totalTokens: 458,
+                    activeTokens: 312,
+                    transactions24h: 152489,
+                    tokensByMarketCap: this.cache.runes.data || this.runesLibrary.slice(0, 5),
+                    priceChanges: {
+                        'UNCOMMON': 5.4,
+                        'RARE': -2.1,
+                        'MEME': 12.4,
+                        'PEPE': 8.7,
+                        'BITCOIN': -3.2
+                    },
+                    sentiment: 75 // 0-100
+                };
+
+                // Armazenar no cache
+                this.cache.marketStats.data = marketData;
+                this.cache.marketStats.timestamp = Date.now();
+                
+                resolve(marketData);
+            } catch (error) {
+                console.error('Erro ao obter dados de mercado:', error);
+                reject(error);
+            }
+        });
+    }
 }
 
 // Inicializar API Manager quando o DOM estiver pronto

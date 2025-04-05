@@ -1,0 +1,45 @@
+:root {
+  /* Color Palette */
+  --primary: #00FF9C;       /* Tropical green */
+  --primary-dark: #00BF76;  /* Dark neon green */
+  --secondary: #00B4FC;     /* Cybernetic blue */
+  --accent: #F7931A;        /* Bitcoin gold */
+  --background: #0a0a0a;    /* Satoshi black */
+  --background-alt: #111111; /* Slightly lighter black */
+  --terminal-background: rgba(10, 10, 10, 0.8);
+  --terminal-border: rgba(0, 255, 156, 0.2);
+  
+  /* Typography */
+  --font-mono: 'Fira Code', 'Consolas', monospace;
+  --font-serif: 'Cinzel', serif;
+  --font-body: 'Inconsolata', monospace;
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+  
+  /* Effects */
+  --glow: 0 0 10px var(--primary), 0 0 20px rgba(0, 255, 156, 0.5);
+  --glow-subtle: 0 0 5px rgba(0, 255, 156, 0.3);
+  --transition-slow: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-normal: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-fast: all 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+  
+  /* Borders */
+  --border-thin: 1px solid var(--primary);
+  --border-terminal: 1px solid var(--terminal-border);
+  
+  /* Container max-widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  
+  /* Z-indexes */
+  --z-menu: 100;
+  --z-overlay: 90;
+  --z-modal: 110;
+} 

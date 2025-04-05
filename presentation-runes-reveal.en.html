@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Presentation</title>
+  
+  <!-- Reveal.js CDNs -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.css">
+
+  <!-- Highlight.js for code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css">
+  
+  <!-- Custom styles -->
+  <style>
+    :root {
+      --neon-cyan: #00FFFF;
+      --neon-purple: #AD00FF;
+      --neon-green: #0FFF50;
+      --neon-pink: #FF00FF;
+      --neon-blue: #00AAFF;
+    }
+    
+    .text-neon-cyan { color: var(--neon-cyan); }
+    .text-neon-purple { color: var(--neon-purple); }
+    .text-neon-green { color: var(--neon-green); }
+    .text-neon-pink { color: var(--neon-pink); }
+    .text-neon-blue { color: var(--neon-blue); }
+    
+    .text-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    .terminal-box {
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--neon-cyan);
+      padding: 15px;
+      border-radius: 5px;
+      color: #ddd;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: left;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+      margin-bottom: 1em;
+    }
+    
+    .terminal-box::before {
+      content: "$ RUNES_ANALYTICS_PRO";
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      background-color: #000;
+      padding: 0 10px;
+      font-size: 0.8em;
+      color: var(--neon-green);
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .card {
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(0, 170, 255, 0.3);
+      border-radius: 5px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+      transform: translateY(-5px);
+    }
+    
+    #language-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-blue);
+      border-radius: 5px;
+      padding: 8px 15px;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #language-toggle:hover {
+      background: rgba(0, 170, 255, 0.2);
+      color: white;
+    }
+    
+    .glitch-text {
+      position: relative;
+      display: inline-block;
+      color: white;
+    }
+    
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+    }
+    
+    .glitch-text::before {
+      left: 2px;
+      text-shadow: -1px 0 var(--neon-pink);
+      animation: glitch-effect 2s infinite linear alternate-reverse;
+    }
+    
+    .glitch-text::after {
+      left: -2px;
+      text-shadow: 1px 0 var(--neon-cyan);
+      animation: glitch-effect 3s infinite linear alternate-reverse;
+    }
+    
+    @keyframes glitch-effect {
+      0% { clip-path: inset(85% 0 15% 0); }
+      5% { clip-path: inset(75% 0 20% 0); }
+      10% { clip-path: inset(40% 0 54% 0); }
+      15% { clip-path: inset(5% 0 98% 0); }
+      20% { clip-path: inset(63% 0 17% 0); }
+      25% { clip-path: inset(34% 0 53% 0); }
+      30% { clip-path: inset(90% 0 5% 0); }
+      35% { clip-path: inset(20% 0 30% 0); }
+      40% { clip-path: inset(18% 0 75% 0); }
+      45% { clip-path: inset(40% 0 31% 0); }
+      50% { clip-path: inset(15% 0 83% 0); }
+      55% { clip-path: inset(24% 0 77% 0); }
+      60% { clip-path: inset(50% 0 63% 0); }
+      65% { clip-path: inset(72% 0 28% 0); }
+      70% { clip-path: inset(30% 0 36% 0); }
+      75% { clip-path: inset(5% 0 75% 0); }
+      80% { clip-path: inset(40% 0 19% 0); }
+      85% { clip-path: inset(68% 0 38% 0); }
+      90% { clip-path: inset(18% 0 67% 0); }
+      95% { clip-path: inset(93% 0 6% 0); }
+      100% { clip-path: inset(90% 0 12% 0); }
+    }
+
+    /* Customized slide transitions */
+    .reveal .slides section {
+      transition: transform 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985), 
+                  opacity 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    }
+  </style>
+</head>
+<body>
+  <button id="language-toggle">🌐 Português</button>
+
+  <div class="reveal">
+    <div class="slides">
+      <!-- Introdução -->
+      <section data-transition="slide">
+        <h1 class="glitch-text" data-text="RUNES Analytics Pro">RUNES Analytics Pro</h1>
+        <p class="text-neon-cyan text-mono">Version 1.0 Beta</p>
+        <div class="terminal-box">
+          Initializing advanced analysis system for Runes tokens...<br>
+          Connecting to market APIs...<br>
+          Compiling graphs and interactive dashboard...<br>
+          System ready. Welcome to the future of Runes token analysis.
+        </div>
+      </section>
+
+      <!-- What are Runes? -->
+      <section data-transition="zoom">
+        <h2>What are Runes?</h2>
+        <div class="card">
+          <p>Runes are a new tokenization protocol on the Bitcoin network, introduced through the BIP-428 proposal. They allow the creation of fungible tokens directly on the Bitcoin blockchain, without the need for sidechains or other security compromises.</p>
+          
+          <p>Unlike other protocols such as BRC-20, Runes are designed to be more efficient, integrating directly with Bitcoin Core, leveraging the full security of the network and facilitating transactions at scale.</p>
+          
+          <div class="text-mono text-neon-green" style="font-size: 0.85rem; margin-top: 1rem;">
+            <p>A Rune is represented as an 8-byte integer:<br>
+            <code>R(edic.ether.symbol.reserved)</code></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Purpose -->
+      <section data-transition="slide">
+        <h2>Our Purpose</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Visualize</h3>
+            <p>We transform complex Runes data into interactive and intuitive visualizations, enabling quick and accurate insights.</p>
+            <div class="text-neon-blue">
+              <span class="text-mono">⬤</span> Real-time charts<br>
+              <span class="text-mono">⬤</span> Technical indicators<br>
+              <span class="text-mono">⬤</span> On-chain metrics
+            </div>
+          </div>
+          
+          <div class="card">
+            <h3>Analyze</h3>
+            <p>More than numbers, we offer contextualized insights, comparative analysis, and pattern detection to identify opportunities.</p>
+            <div class="text-neon-purple">
+              <span class="text-mono">⬤</span> Advanced algorithms<br>
+              <span class="text-mono">⬤</span> Sentiment analysis<br>
+              <span class="text-mono">⬤</span> Data-driven predictions
+            </div>
+          </div>
+          
+          <div class="card">
+            <h3>Connect</h3>
+            <p>We integrate multiple APIs and diverse data sources into a single platform, unifying the Runes ecosystem.</p>
+            <div class="text-neon-pink">
+              <span class="text-mono">⬤</span> Cross-market data<br>
+              <span class="text-mono">⬤</span> Multichain integration<br>
+              <span class="text-mono">⬤</span> Custom alerts
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technical Differentials -->
+      <section data-transition="zoom">
+        <h2>Technical Differentials</h2>
+        <div class="card" style="background-color: rgba(20, 20, 30, 0.8);">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <span class="text-neon-green" style="font-size: 1.5rem; font-family: 'Orbitron', sans-serif;">The Future of Token Analysis</span>
+          </div>
+          
+          <p>Our platform goes beyond mere data display. We use proprietary algorithms to detect patterns, anticipate market movements, and identify correlations between tokens, markets, and indicators.</p>
+          
+          <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div>
+              <div class="text-neon-cyan text-mono" style="margin-bottom: 0.5rem;">Core Technologies</div>
+              <ul style="list-style-type: none; padding-left: 1rem;">
+                <li>» React & Next.js</li>
+                <li>» Node.js</li>
+                <li>» REST API</li>
+                <li>» PostgreSQL</li>
+              </ul>
+            </div>
+            
+            <div>
+              <div class="text-neon-cyan text-mono" style="margin-bottom: 0.5rem;">Products</div>
+              <ul style="list-style-type: none; padding-left: 1rem;">
+                <li>» Interactive Dashboard</li>
+                <li>» RunesCard Analytics</li>
+                <li>» Public API</li>
+                <li>» Alert System</li>
+              </ul>
+            </div>
+            
+            <div>
+              <div class="text-neon-cyan text-mono" style="margin-bottom: 0.5rem;">Features</div>
+              <ul style="list-style-type: none; padding-left: 1rem;">
+                <li>» Real-time</li>
+                <li>» Multi-exchange</li>
+                <li>» Customizable Dashboard</li>
+                <li>» Push Notifications</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- System Architecture -->
+      <section data-transition="slide">
+        <h2>System Architecture</h2>
+        <p class="text-neon-cyan text-mono">Technical Blueprint - v1.0</p>
+        
+        <div class="terminal-box">
+          $ systemctl status runes-analytics-pro<br>
+          ● runes-analytics-pro.service - RUNES Analytics Pro Platform<br>
+          &nbsp;&nbsp;&nbsp;&nbsp; Loaded: loaded (/etc/systemd/system/runes-analytics-pro.service; enabled; vendor preset: enabled)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp; Active: active (running) since Sat 2024-03-23 09:15:27 UTC; 2h 34min ago<br>
+          &nbsp;&nbsp; Main PID: 3742 (node)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tasks: 23 (limit: 4915)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp; Memory: 287.2M<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CPU: 12.223s
+        </div>
+      </section>
+
+      <!-- Architecture Overview -->
+      <section data-transition="zoom">
+        <h2>Architecture Overview</h2>
+        <div class="card">
+          <p>Our platform was designed with a modular, scalable, and resilient architecture, enabling efficient processing of large volumes of data and providing real-time responses to users.</p>
+          
+          <div class="terminal-box text-mono" style="font-size: 0.75rem; line-height: 1.2;">
+            <pre style="margin: 0; white-space: pre;">
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                 │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────────┐   │
+│  │ Web Client  │     │  REST API   │     │   Data          │   │
+│  │ React/Next  │◄───►│   Node.js   │◄───►│   Processing    │   │
+│  └─────────────┘     └─────────────┘     └─────────────────┘   │
+│         ▲                   ▲                     ▲            │
+│         │                   │                     │            │
+│         │                   │                     │            │
+│         │            ┌─────────────┐     ┌─────────────────┐   │
+│         └────────────┤   Cache     │     │   Database      │   │
+│                      │   System    │◄───►│                 │   │
+│                      └─────────────┘     └─────────────────┘   │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+            </pre>
+          </div>
+          
+          <p>The architecture follows the microservices pattern, with independent components that communicate through well-defined APIs, allowing simplified maintenance and continuous evolution.</p>
+        </div>
+      </section>
+
+      <!-- System Layers -->
+      <section data-transition="slide">
+        <h2>System Layers</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Frontend</h3>
+            <p>User interface developed with React and Next.js, focused on performance and UX.</p>
+            <div class="text-neon-blue">
+              <span class="text-mono">⬤</span> Interactive Dashboard<br>
+              <span class="text-mono">⬤</span> Responsive Visualizations<br>
+              <span class="text-mono">⬤</span> Real-time Updates<br>
+              <span class="text-mono">⬤</span> Dark/Light Theme
+            </div>
+          </div>
+          
+          <div class="card">
+            <h3>Backend API</h3>
+            <p>RESTful service responsible for intermediating requests between client and data.</p>
+            <div class="text-neon-purple">
+              <span class="text-mono">⬤</span> Node.js + Express<br>
+              <span class="text-mono">⬤</span> JWT Authentication<br>
+              <span class="text-mono">⬤</span> Rate Limiting<br>
+              <span class="text-mono">⬤</span> OpenAPI Documentation
+            </div>
+          </div>
+          
+          <div class="card">
+            <h3>Data Services</h3>
+            <p>Specialized services for collecting, processing, and analyzing data.</p>
+            <div class="text-neon-green">
+              <span class="text-mono">⬤</span> Integration with External APIs<br>
+              <span class="text-mono">⬤</span> Asynchronous Processing<br>
+              <span class="text-mono">⬤</span> Real-time Analysis<br>
+              <span class="text-mono">⬤</span> Data Normalization
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features & Resources -->
+      <section data-transition="zoom">
+        <h2>Features & Resources</h2>
+        <p class="text-neon-green text-mono">A complete platform for Runes token analysis</p>
+        
+        <div class="terminal-box">
+          $ ./feature-list.sh --category=all --status=active<br>
+          <br>
+          Loading system resources...<br>
+          Checking dependencies...<br>
+          <br>
+          → Total active features: 24<br>
+          → Features in development: 7<br>
+          → Planned features: 12<br>
+          <br>
+          Displaying main features:
+        </div>
+      </section>
+
+      <!-- RunesCard System -->
+      <section data-transition="slide">
+        <h2>RunesCard System</h2>
+        <div class="card">
+          <p>RunesCard is an innovative system that presents Runes tokens as "digital collectible cards", with metrics, visual data, and technical information in an intuitive and gamified format.</p>
+          
+          <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div>
+              <h3>Information</h3>
+              <ul style="list-style-type: none; padding-left: 0;">
+                <li><span class="text-neon-blue">◇</span> Essential Metrics</li>
+                <li><span class="text-neon-blue">◇</span> Price History</li>
+                <li><span class="text-neon-blue">◇</span> Creation Data</li>
+                <li><span class="text-neon-blue">◇</span> Risk Classification</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3>Gamification</h3>
+              <ul style="list-style-type: none; padding-left: 0;">
+                <li><span class="text-neon-pink">◇</span> Token Collection</li>
+                <li><span class="text-neon-pink">◇</span> Rarity Ranking</li>
+                <li><span class="text-neon-pink">◇</span> Analysis Achievements</li>
+                <li><span class="text-neon-pink">◇</span> Social Sharing</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3>Interaction</h3>
+              <ul style="list-style-type: none; padding-left: 0;">
+                <li><span class="text-neon-cyan">◇</span> Card Comparison</li>
+                <li><span class="text-neon-cyan">◇</span> Custom Favorites</li>
+                <li><span class="text-neon-cyan">◇</span> Private Notes</li>
+                <li><span class="text-neon-cyan">◇</span> Configurable Alerts</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Web3 Integration -->
+      <section data-transition="zoom">
+        <h2>Web3 Integration</h2>
+        <div class="card" style="background-color: rgba(20, 20, 30, 0.8);">
+          <p>Our platform seamlessly integrates with the Web3 ecosystem, enabling direct interaction with the Bitcoin blockchain and providing advanced functionalities for users who want to manage their tokens.</p>
+          
+          <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div>
+              <h3 class="text-neon-cyan">Current Features</h3>
+              <ul style="list-style-type: none; padding-left: 0;">
+                <li><span class="text-neon-green">◆</span> Wallet Connection</li>
+                <li><span class="text-neon-green">◆</span> Transaction History</li>
+                <li><span class="text-neon-green">◆</span> Token Balances</li>
+                <li><span class="text-neon-green">◆</span> Transaction Signing</li>
+                <li><span class="text-neon-green">◆</span> Virtual Portfolios</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 class="text-neon-pink">Coming Soon</h3>
+              <ul style="list-style-type: none; padding-left: 0;">
+                <li><span class="text-neon-blue">◇</span> DEX Integration</li>
+                <li><span class="text-neon-blue">◇</span> NFT Marketplace</li>
+                <li><span class="text-neon-blue">◇</span> DAO Governance</li>
+                <li><span class="text-neon-blue">◇</span> Cross-chain Bridges</li>
+                <li><span class="text-neon-blue">◇</span> DeFi Protocols</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final Call to Action -->
+      <section data-transition="slide">
+        <h2>Let's Build the Next Layer Together</h2>
+        <p>We invite the visionaries, builders, and believers of Bitcoin to join this open revolution.</p>
+        <p><strong>Runes are more than tokens — they are the soul of Satoshi's intent.</strong></p>
+        
+        <div class="terminal-box" style="margin-top: 2rem;">
+          $ echo "Join us and shape the future of Runes"<br>
+          <span class="text-neon-green">Join us and shape the future of Runes</span><br>
+          <br>
+          $ echo $CONTACT<br>
+          <span class="text-neon-cyan">www.runesanalyticspro.io | github.com/runes-analytics | @runesanalytics</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/zoom/zoom.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/search/search.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+  
+  <script>
+    // Language toggle functionality
+    document.getElementById('language-toggle').addEventListener('click', function() {
+      window.location.href = 'presentation-runes-reveal.html'; // Redirect to Portuguese version
+    });
+
+    // Initialize Reveal.js
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      transition: 'slide', // Default transition
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      mouseWheel: true, // Enable smooth scrolling
+      center: true,
+      controls: true,
+      progress: true,
+      history: true,
+      
+      // Plugins
+      plugins: [
+        RevealZoom,
+        RevealNotes,
+        RevealSearch,
+        RevealMarkdown,
+        RevealHighlight
+      ]
+    });
+
+    // Apply glitch effect properly
+    document.querySelectorAll('.glitch-text').forEach(element => {
+      element.setAttribute('data-text', element.textContent);
+    });
+  </script>
+</body>
+</html> 

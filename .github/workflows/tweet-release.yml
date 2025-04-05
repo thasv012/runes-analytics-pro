@@ -1,0 +1,67 @@
+name: Tweet Release Updates
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+      - 'package.json'
+      - '.github/workflows/tweet-release.yml'
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip-tweet')"
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Get version changes
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          git diff HEAD^ HEAD -- README.md > readme-diff.txt
+          
+          # Extract key changes from README diff for the tweet
+          CHANGES=$(grep -A 10 "## Novidades" readme-diff.txt | grep -v "^-" | grep -v "^--" | grep "^\+" | sed 's/^+//' | sed 's/^#* //' | head -n 3)
+          
+          if [ -z "$CHANGES" ]; then
+            CHANGES=$(grep -A 10 "## ⟁ Multilingual" readme-diff.txt | grep -v "^-" | grep -v "^--" | grep "^\+" | sed 's/^+//' | sed 's/^#* //' | head -n 3)
+          fi
+          
+          if [ -z "$CHANGES" ]; then
+            CHANGES=$(grep "^\+" readme-diff.txt | grep -v "^++" | sed 's/^+//' | head -n 3)
+          fi
+          
+          # Create tweet content with AwakenNet branding
+          TWEET_CONTENT="⟁ AwakenNet Update ⚙️  
+New neural sync on RUNES Analytics Pro.  
+Version $VERSION is now live.  
+🌐 https://github.com/thierry-runes/runes-analytics-pro
+#RUNES #AwakenNet #Bitcoin"
+          
+          echo "tweet<<EOF" >> $GITHUB_OUTPUT
+          echo "$TWEET_CONTENT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Tweet Update
+        uses: dart-actions/twitter-post@v1
+        with:
+          message: ${{ steps.version.outputs.tweet }}
+          consumer-key: ${{ secrets.TWITTER_API_KEY }}
+          consumer-secret: ${{ secrets.TWITTER_API_SECRET }}
+          access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }} 

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Neural Banner Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/neural-banner.css">
+</head>
+<body class="dark-theme">
+    <!-- Cabeçalho -->
+    <header class="banner-header">
+        <h1 class="logo"><span class="logo-icon">⟁</span> RUNES <span class="accent">Analytics Pro</span></h1>
+        <div class="header-controls">
+            <select id="language-selector" class="control-select">
+                <option value="pt">🇧🇷 Português</option>
+                <option value="en">🇬🇧 English</option>
+            </select>
+            <button id="theme-toggle" class="control-button"><i class="fas fa-moon"></i></button>
+        </div>
+    </header>
+
+    <main class="banner-container">
+        <!-- Título da página -->
+        <h2 id="panel-title" class="section-title">Gerador de Banners</h2>
+        <p class="section-description">Crie imagens para compartilhar nas redes sociais com design neural e rápida geração.</p>
+
+        <div class="banner-generator">
+            <!-- Painel de Controle -->
+            <div class="controls-panel">
+                <div class="control-group">
+                    <label id="prompt-label" for="prompt-input">Prompt:</label>
+                    <div class="prompt-container">
+                        <input type="text" id="prompt-input" placeholder="bitcoin neural light">
+                        <button id="random-prompt" class="icon-button" title="Prompt aleatório"><i class="fas fa-random"></i></button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label id="style-label" for="style-select">Estilo:</label>
+                    <select id="style-select" class="control-select">
+                        <option value="cyberpunk">Cyberpunk</option>
+                        <option value="neural-glow">Neural Glow</option>
+                        <option value="runes-art">Runes Art</option>
+                        <option value="bitcoin-abstract">Bitcoin Abstract</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label id="resolution-label" for="resolution-select">Resolução:</label>
+                    <select id="resolution-select" class="control-select">
+                        <option value="1920x1080">1920x1080</option>
+                        <option value="1280x720" selected>1280x720</option>
+                        <option value="1024x576">1024x576</option>
+                        <option value="800x600">800x600</option>
+                    </select>
+                </div>
+
+                <div class="control-group checkbox-group">
+                    <input type="checkbox" id="include-qr" checked>
+                    <label id="qr-label" for="include-qr">Incluir QR Code</label>
+                </div>
+
+                <div id="qr-options" class="control-group nested-control">
+                    <label id="qr-position-label" for="qr-position">Posição do QR:</label>
+                    <select id="qr-position" class="control-select">
+                        <option value="bottom-right">Inferior Direito</option>
+                        <option value="bottom-left">Inferior Esquerdo</option>
+                        <option value="top-right">Superior Direito</option>
+                        <option value="top-left">Superior Esquerdo</option>
+                    </select>
+                </div>
+
+                <div class="control-group checkbox-group">
+                    <input type="checkbox" id="include-signature" checked>
+                    <label id="signature-label" for="include-signature">Incluir assinatura</label>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="generate-button" class="primary-button">
+                        <span class="button-icon"><i class="fas fa-magic"></i></span>
+                        <span id="generate-text">Gerar Banner</span>
+                    </button>
+                    <button id="download-button" class="secondary-button" disabled>
+                        <span class="button-icon"><i class="fas fa-download"></i></span>
+                        <span id="download-text">Baixar</span>
+                    </button>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-value" class="progress-value" style="width: 0%"></div>
+                    </div>
+                    <div id="status-text" class="status-text">Pronto para gerar</div>
+                </div>
+            </div>
+
+            <!-- Área de Preview -->
+            <div class="preview-section">
+                <div class="preview-container">
+                    <div id="preview-placeholder">
+                        <i class="fas fa-image preview-icon"></i>
+                        <p id="preview-text">Seu banner aparecerá aqui</p>
+                    </div>
+                    <canvas id="banner-canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Histórico -->
+        <div class="history-section">
+            <h3 id="history-title" class="section-title">Banners recentes</h3>
+            <div id="history-container" class="history-grid"></div>
+        </div>
+
+        <!-- Template para item do histórico -->
+        <template id="history-item-template">
+            <div class="history-item">
+                <div class="history-image-container">
+                    <img class="history-image" src="">
+                </div>
+                <div class="history-info">
+                    <p class="history-prompt"></p>
+                    <div class="history-actions">
+                        <button class="history-load small-button"><i class="fas fa-edit"></i></button>
+                        <button class="history-download small-button"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="banner-footer">
+        <a id="back-link" href="index.html">Voltar ao Painel</a>
+        <div class="footer-info">
+            <p>RUNES Analytics Pro &copy; 2025</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="js/neural-banner.js"></script>
+    <script src="js/banner-backgrounds.js"></script>
+    <script src="js/banner-utils.js"></script>
+</body>
+</html> 

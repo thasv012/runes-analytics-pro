@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Apresentação Interativa</title>
+  
+  <!-- Reveal.js CDNs -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.css">
+
+  <!-- Highlight.js para highlight de código -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Custom styles -->
+  <style>
+    :root {
+      /* Cores base */
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      
+      /* Cores de destaque */
+      --accent: #00FF9C; /* Verde tropical */ 
+      --accent-secondary: #00B4FC; /* Azul cibernético */
+      --accent-tertiary: #00BF76; /* Verde neon escuro */
+      --highlight: #F7931A; /* Bitcoin gold */
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+    }
+
+    .reveal {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .reveal h1, 
+    .reveal h2, 
+    .reveal h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--accent);
+      margin-bottom: 0.6em;
+      text-shadow: 0 0 10px rgba(0, 255, 156, 0.5);
+    }
+    
+    .reveal h1 {
+      font-size: 2.5em;
+    }
+    
+    .reveal h2 {
+      color: var(--accent-secondary);
+      font-size: 1.8em;
+    }
+
+    .reveal h3 {
+      color: var(--accent-tertiary);
+      font-size: 1.4em;
+    }
+    
+    .reveal p {
+      line-height: 1.5;
+      margin-bottom: 1em;
+    }
+
+    .reveal code {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #1a2234;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+    }
+
+    /* Card estilizado */
+    .card {
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 0.8rem;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+    }
+    
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      margin: 1rem 0;
+      padding-left: 0.5rem;
+    }
+    
+    .feature-list li {
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .feature-list li::before {
+      content: "✨";
+      margin-right: 0.75rem;
+      color: var(--accent);
+    }
+
+    /* Terminal Box */
+    .terminal-box {
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--accent);
+      padding: 15px;
+      border-radius: 5px;
+      color: #ddd;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: left;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0, 255, 156, 0.3);
+      margin-bottom: 1em;
+    }
+    
+    .terminal-box::before {
+      content: "$ RUNES_ANALYTICS_PRO";
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      background-color: var(--bg-primary);
+      padding: 0 10px;
+      font-size: 0.8em;
+      color: var(--accent);
+    }
+
+    /* RuneCard estilizado */
+    .runecard {
+      background-color: #0d1424;
+      border-radius: 1rem;
+      overflow: hidden;
+      max-width: 550px;
+      margin: 1rem auto;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 30px rgba(0, 255, 156, 0.3);
+      position: relative;
+    }
+    
+    .runecard-header {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(0, 255, 156, 0.2), transparent);
+      text-align: center;
+    }
+    
+    .runecard-body {
+      padding: 1.5rem;
+    }
+    
+    .runecard-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      margin: 0;
+      color: var(--accent);
+    }
+    
+    .runecard-ticker {
+      display: inline-block;
+      background: rgba(0, 180, 252, 0.2);
+      padding: 0.2rem 0.8rem;
+      border-radius: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-secondary);
+      margin-top: 0.5rem;
+    }
+
+    /* Grid layout */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Botão de Easter Egg */
+    #easter-egg-trigger {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 10px;
+      height: 10px;
+      background: transparent;
+      border: none;
+      cursor: default;
+      z-index: 1000;
+    }
+
+    /* Glifos rúnicos */
+    .rune-glyph {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5em;
+      color: var(--accent);
+      opacity: 0.8;
+      position: absolute;
+    }
+    
+    .glyph-1 { top: 10%; left: 5%; }
+    .glyph-2 { top: 20%; right: 10%; }
+    .glyph-3 { bottom: 15%; left: 15%; }
+    .glyph-4 { bottom: 25%; right: 5%; }
+  </style>
+</head>
+<body>
+  <button id="easter-egg-trigger" title="Easter Egg" onclick="triggerEasterEgg()"></button>
+
+  <div class="reveal">
+    <div class="slides">
+      <!-- Slide 1: Introdução -->
+      <section data-transition="zoom">
+        <h1>RUNES Analytics Pro</h1>
+        <h3>Nova Interface</h3>
+        <div class="terminal-box">
+          Inicializando sistema de análise avançada para tokens Runes...<br>
+          Conectando às APIs de mercado...<br>
+          Compilando gráficos e dashboard interativo...<br>
+          Sistema pronto. Bem-vindo ao futuro da análise de tokens Runes.
+        </div>
+        
+        <div class="rune-glyph glyph-1">ᚠ</div>
+        <div class="rune-glyph glyph-2">ᛒ</div>
+        <div class="rune-glyph glyph-3">ᚱ</div>
+        <div class="rune-glyph glyph-4">ᛖ</div>
+      </section>
+
+      <!-- Slide 2: Visão Geral -->
+      <section data-transition="slide">
+        <h2>Visão Geral</h2>
+        <div class="card">
+          <p>O RUNES Analytics Pro é uma plataforma de análise avançada para tokens RUNES no Bitcoin, focada em rastreamento de baleias, detecção de manipulação de mercado e fornecimento de insights estratégicos para traders.</p>
+          
+          <p>Nossa plataforma fornece uma visão única do ecossistema RUNES, permitindo que você tome decisões informadas baseadas em dados on-chain e análises avançadas de mercado.</p>
+        </div>
+        
+        <h3>Por que RUNES Analytics Pro?</h3>
+        <ul class="feature-list">
+          <li>Identificação de padrões de acumulação por baleias</li>
+          <li>Detecção antecipada de movimentos de mercado</li>
+          <li>Correlação entre atividade on-chain e preço</li>
+          <li>Processamento em tempo real de transações</li>
+        </ul>
+      </section>
+
+      <!-- Slide 3: Melhorias da Interface -->
+      <section data-transition="slide">
+        <h2>Interface Redesenhada</h2>
+        
+        <div class="grid">
+          <div class="card">
+            <h3>Design Moderno</h3>
+            <ul class="feature-list">
+              <li>Nova paleta de cores otimizada</li>
+              <li>Tipografia aprimorada</li>
+              <li>Modo escuro nativo</li>
+              <li>Transições suaves</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <h3>Dashboard Personalizável</h3>
+            <ul class="feature-list">
+              <li>Widgets arrastáveis</li>
+              <li>Salvamento automático</li>
+              <li>Templates pré-configurados</li>
+              <li>Filtros avançados</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Arquitetura Técnica -->
+      <section data-transition="slide">
+        <h2>Arquitetura Técnica</h2>
+        
+        <div class="terminal-box">
+<pre>class ApiManager {
+  constructor(options) {
+    this.services = [];
+    this.cacheManager = new CacheManager();
+    this.rateLimiters = {};
+    this.fallbackStrategies = options.fallbackStrategies || 'sequential';
+  }
+  
+  registerService(service) { /* Registra um novo serviço de API */ }
+  orchestrateRequest(method, params) { /* Gerencia o fluxo de requisições */ }
+  applyFallbackStrategy(method, params) { /* Implementa alternativas em caso de falha */ }
+}</pre>
+        </div>
+        
+        <div class="card">
+          <h3>Principais Características</h3>
+          <ul class="feature-list">
+            <li>Registro Dinâmico de Serviços</li>
+            <li>Estratégias de Fallback</li>
+            <li>Validação de Dados</li>
+            <li>Transformações Automáticas</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 5: Sistema de Cache -->
+      <section data-transition="slide">
+        <h2>Sistema de Cache</h2>
+        
+        <div class="terminal-box">
+<pre>class CacheManager {
+  constructor() {
+    this.memoryCache = {};
+    this.persistentCache = new PersistentStorage();
+    this.strategies = {
+      'tokens': { ttl: 300, invalidation: 'time-based' },
+      'market': { ttl: 60, invalidation: 'time-based' },
+      'whales': { ttl: 600, invalidation: 'event-based' }
+    };
+  }
+  
+  get(key, category) { /* Recupera dados do cache */ }
+  set(key, data, category) { /* Armazena dados no cache */ }
+  invalidate(pattern) { /* Invalida cache baseado em padrão */ }
+}</pre>
+        </div>
+        
+        <div class="card">
+          <ul class="feature-list">
+            <li>Cache Multi-nível</li>
+            <li>Invalidação Inteligente</li>
+            <li>Compressão Automática</li>
+            <li>Estatísticas de Hit/Miss</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 6: Sistema de Gamificação -->
+      <section data-transition="slide">
+        <h2>Sistema de Gamificação</h2>
+        
+        <div class="grid">
+          <div class="card">
+            <h3>Arquitetura</h3>
+            <div class="terminal-box" style="font-size: 0.8em;">
+<pre>class GamificationSystem {
+  constructor(userId) {
+    this.userId = userId;
+    this.progressTracker = new ProgressTracker();
+    this.rewardManager = new RewardManager();
+    this.achievementRules = loadRulesFromDB();
+  }
+  
+  trackActivity(activity, metadata) { /* ... */ }
+  evaluateAchievements() { /* ... */ }
+  calculateLevel() { /* ... */ }
+  issueRewards(achievementId) { /* ... */ }
+}</pre>
+            </div>
+          </div>
+          
+          <div class="card">
+            <h3>Funcionalidades</h3>
+            <ul class="feature-list">
+              <li>Sistema de Níveis</li>
+              <li>Conquistas Desbloqueáveis</li>
+              <li>Streak de Login</li>
+              <li>Missões Diárias</li>
+              <li>Tabela de Classificação</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Roadmap -->
+      <section data-transition="slide">
+        <h2>Roadmap e Próximos Passos</h2>
+        
+        <div class="grid">
+          <div class="card">
+            <h3>Fase 1: Consolidação</h3>
+            <ul class="feature-list">
+              <li>✅ Reconstrução da arquitetura de APIs</li>
+              <li>✅ Implementação do sistema de cache</li>
+              <li>✅ Redesign da interface</li>
+              <li>✅ Sistema de compartilhamento</li>
+              <li>⏳ Suporte nativo para IPFS</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <h3>Fase 2: Expansão</h3>
+            <ul class="feature-list">
+              <li>⏳ API pública com documentação</li>
+              <li>⏳ Sistema de notificações em tempo real</li>
+              <li>⏳ Suporte para múltiplas carteiras</li>
+              <li>⏳ Área de comunidade para analistas</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Cypher RuneCard -->
+      <section data-transition="zoom" data-background-color="#0a0a0a">
+        <h2>The Cypher Whisper</h2>
+        
+        <div class="runecard">
+          <div class="runecard-header">
+            <h3 class="runecard-title">Cypher</h3>
+            <span class="runecard-ticker">CYPHER</span>
+          </div>
+          <div class="runecard-body">
+            <p>"Os dados são frios. Mas o que os move... é fogo. É fé. É Cypher."</p>
+            <p>Este é o nosso convite.<br>
+            A chave está no console. O ritual já começou.</p>
+            <p><strong>RUNES Analytics Pro</strong> is yours to explore.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+  
+  <!-- Easter Egg function -->
+  <script>
+    // Easter Egg Filosófico
+    function runHiddenEasterEgg() {
+      const styles = "font-size: 16px; font-family: 'JetBrains Mono'; background: #0a0a0a; color: #FFD700; padding: 10px; line-height: 1.5; border-left: 5px solid #00FF9C;";
+      
+      console.log("%c=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", styles);
+      console.log("%c            THE CYPHER WHISPER           ", styles);
+      console.log("%c=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", styles);
+      console.log("%c", styles);
+      console.log("%cIn the silent blocks, where data sleeps,", styles);
+      console.log("%cThe Runes are etched, a promise it keeps.", styles);
+      console.log("%cNot merely tokens, not simply code,", styles);
+      console.log("%cBut fragments of belief the chain bestowed.", styles);
+      console.log("%c", styles);
+      console.log("%cThe whales move silent in digital seas,", styles);
+      console.log("%cBut now their shadows you clearly see.", styles);
+      console.log("%cWhat others claim as chaos, you discern as art —", styles);
+      console.log("%cThe market breathes; you feel its heart.", styles);
+      console.log("%c", styles);
+      console.log("%cSatoshi's children, stand vigilant, stand tall.", styles);
+      console.log("%cFor in code and cryptography, liberty for all.", styles);
+      console.log("%cThis tool is more than data on your screen.", styles);
+      console.log("%cIt's freedom's guardian, though it remains unseen.", styles);
+      console.log("%c", styles);
+      console.log("%c=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", styles);
+      console.log("%c       Press Ctrl+Shift+S for insight      ", styles);
+      console.log("%c=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", styles);
+      
+      // Adicionar o easter egg visual também
+      document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+          e.preventDefault();
+          displayVisualEasterEgg();
+        }
+      });
+    }
+    
+    // Easter Egg visual quando o usuário pressiona Ctrl+Shift+S
+    function displayVisualEasterEgg() {
+      const eggContainer = document.createElement('div');
+      eggContainer.style.position = 'fixed';
+      eggContainer.style.top = '0';
+      eggContainer.style.left = '0';
+      eggContainer.style.width = '100%';
+      eggContainer.style.height = '100%';
+      eggContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+      eggContainer.style.display = 'flex';
+      eggContainer.style.flexDirection = 'column';
+      eggContainer.style.alignItems = 'center';
+      eggContainer.style.justifyContent = 'center';
+      eggContainer.style.zIndex = '10000';
+      eggContainer.style.fontFamily = '"JetBrains Mono", monospace';
+      eggContainer.style.color = '#FFD700';
+      eggContainer.style.padding = '2rem';
+      
+      const content = document.createElement('div');
+      content.style.maxWidth = '600px';
+      content.style.textAlign = 'center';
+      content.style.lineHeight = '1.6';
+      content.style.border = '1px solid #00FF9C';
+      content.style.padding = '2rem';
+      content.style.boxShadow = '0 0 30px rgba(0, 255, 156, 0.3)';
+      content.style.borderRadius = '5px';
+      
+      content.innerHTML = `
+        <h2 style="font-family: 'Cinzel', serif; color: #00FF9C; margin-bottom: 2rem;">A Mensagem de Satoshi</h2>
+        <p>"No início, era o bloco gênesis. E o bloco continha uma mensagem."</p>
+        <p>"Os velhos guardiões falharam. Nós tomamos o controle do nosso próprio destino."</p>
+        <p>"Os Runes são o próximo passo. Uma nova linguagem na blockchain."</p>
+        <p>"Através deles, a liberdade se manifesta. Através deles, nossa visão continua."</p>
+        <p style="margin-top: 2rem; color: #00FF9C; font-weight: bold;">"Confie nos dados. Confie no código. Nunca confie em autoridades centrais."</p>
+        <div style="margin-top: 2rem;">
+          <button id="close-easter-egg" style="background: transparent; border: 1px solid #00FF9C; color: #00FF9C; padding: 0.5rem 1rem; cursor: pointer; font-family: 'JetBrains Mono', monospace;">Fechar</button>
+        </div>
+      `;
+      
+      eggContainer.appendChild(content);
+      document.body.appendChild(eggContainer);
+      
+      document.getElementById('close-easter-egg').addEventListener('click', function() {
+        document.body.removeChild(eggContainer);
+      });
+    }
+    
+    function triggerEasterEgg() {
+      runHiddenEasterEgg();
+    }
+    
+    // Inicialização do Reveal.js
+    document.addEventListener('DOMContentLoaded', (event) => {
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        transition: 'slide',
+        
+        // Plugins
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+      
+      // Adicionar a função do Easter Egg ao console automaticamente
+      console.log("%cRUNES Analytics Pro carregado com sucesso! 🚀", "color: #00FF9C; font-size: 14px; font-weight: bold;");
+      console.log("%cHá algo oculto por aqui... Procure com atenção! 👁️", "color: #FFD700; font-style: italic;");
+      
+      // Adicionar hot key para o Easter Egg visual
+      document.addEventListener('keydown', function(e) {
+        // Combinação especial de teclas
+        if (e.altKey && e.key === 'r') {
+          e.preventDefault();
+          runHiddenEasterEgg();
+        }
+      });
+    });
+  </script>
+</body>
+</html> 

@@ -1,0 +1,312 @@
+/**
+ * RUNES Analytics Pro - Estilos para gerenciamento avançado de templates
+ */
+
+/* Seção de metadados avançados */
+.advanced-meta-section {
+  background-color: rgba(30, 41, 59, 0.4);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-left: 3px solid var(--accent, #38bdf8);
+}
+
+.advanced-meta-section h3 {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--accent, #38bdf8);
+}
+
+.advanced-meta-section h4 {
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #e2e8f0);
+}
+
+/* Itens de metadados */
+.meta-item {
+  display: flex;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+
+.meta-label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: var(--text-secondary, #94a3b8);
+  min-width: 90px;
+}
+
+.meta-value {
+  color: var(--text-primary, #e2e8f0);
+}
+
+.category-value {
+  position: relative;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(56, 189, 248, 0.1);
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+/* Tags */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-item {
+  background-color: rgba(56, 189, 248, 0.15);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--accent, #38bdf8);
+  user-select: none;
+}
+
+/* Reviews */
+.reviews-container {
+  margin-top: 1rem;
+}
+
+.review-item {
+  background-color: rgba(30, 41, 59, 0.5);
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.rating {
+  color: var(--warning, #f59e0b);
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.review-comment {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 0.25rem;
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #94a3b8);
+  text-align: right;
+}
+
+.no-reviews, .no-plugins {
+  color: var(--text-secondary, #94a3b8);
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Plugins */
+.plugins-container {
+  margin-top: 1rem;
+}
+
+.plugin-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(30, 41, 59, 0.5);
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.plugin-name {
+  font-size: 0.9rem;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.plugin-load-btn {
+  background-color: var(--accent-dark, #0284c7);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.plugin-load-btn:hover {
+  background-color: var(--accent, #38bdf8);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--bg-secondary, #1e293b);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--accent, #38bdf8);
+}
+
+.tags-input, .category-input, .comment-input {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--bg-primary, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  border: 1px solid var(--card-border, #475569);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.comment-input {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.category-container, .comment-container {
+  margin-bottom: 1rem;
+}
+
+.category-container label, .comment-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary, #94a3b8);
+}
+
+/* Rating selector */
+.rating-container {
+  margin-bottom: 1rem;
+}
+
+.rating-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.stars-container {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary, #94a3b8);
+  transition: color 0.2s;
+}
+
+.star.selected {
+  color: var(--warning, #f59e0b);
+}
+
+.star:hover {
+  color: var(--warning, #f59e0b);
+}
+
+/* Modal actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.modal-actions button:first-child {
+  background-color: transparent;
+  color: var(--text-primary, #e2e8f0);
+  border: 1px solid var(--card-border, #475569);
+}
+
+.modal-actions button:first-child:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.primary-btn {
+  background-color: var(--accent, #38bdf8);
+  color: white;
+}
+
+.primary-btn:hover {
+  background-color: var(--accent-dark, #0284c7);
+}
+
+/* Botões avançados para o editor */
+.advanced-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.advanced-button {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--bg-primary, #0f172a);
+  color: var(--text-primary, #e2e8f0);
+  border: 1px solid var(--card-border, #475569);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.advanced-button:hover {
+  background-color: var(--accent-dark, #0284c7);
+  color: white;
+}
+
+.advanced-button i {
+  font-size: 0.9rem;
+}
+
+/* Ações específicas */
+.edit-tags-btn {
+  color: var(--accent, #38bdf8);
+}
+
+.add-review-btn {
+  color: var(--warning, #f59e0b);
+}
+
+.sync-api-btn {
+  color: var(--success, #10b981);
+}
+
+.add-plugin-btn {
+  color: var(--text-primary, #e2e8f0);
+} 

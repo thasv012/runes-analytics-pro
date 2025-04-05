@@ -1,0 +1,72 @@
+1. Magic Eden - Informações de Mercado de Runes
+https://docs.magiceden.io/reference/get_v2-ord-btc-runes-market-rune-info-1
+
+2. Magic Eden - Ordens para uma Rune Específica
+https://docs.magiceden.io/reference/get_v2-ord-btc-runes-orders-rune-1
+
+3. Magic Eden - UTXOs por Endereço de Carteira
+https://docs.magiceden.io/reference/get_v2-ord-btc-runes-utxos-wallet-address-1
+
+4. Magic Eden - Atividades de uma Rune Específica
+https://docs.magiceden.io/reference/get_v2-ord-btc-runes-activities-rune-1
+
+5. Magic Eden - Atividades de Carteira por Endereço
+https://docs.magiceden.io/reference/get_v2-ord-btc-runes-wallet-activities-address-1
+
+6. Magic Eden - Saldos de Carteira por Endereço e Rune
+https://docs.magiceden.io/reference/get_v2-ord-btc-runes-wallet-balances-address-rune-1
+
+7. Magic Eden - Estatísticas de Coleção
+https://docs.magiceden.io/reference/get_v2-ord-btc-runes-collection-stats-search-1
+
+8. OKX - API de Marketplace de Runes
+https://web3.okx.com/pt-pt/build/docs/waas/marketplace-runes-api
+
+9. OKX - Histórico de Comércio de Runes
+https://web3.okx.com/pt-pt/build/docs/waas/marketplace-runes-trade-history
+
+10. OKX - Lista de Ordens de Runes
+https://www.okx.com/api/v5/mktplace/nft/runes/get-runes-order-list
+
+11. OKX - Ativos Possuídos
+https://www.okx.com/api/v5/mktplace/nft/runes/get-owned-asserts
+
+12. OKX - Detalhes de Runes
+https://www.okx.com/api/v5/mktplace/nft/runes/detail
+
+13. OKX - Criar Ordem para Runes
+https://www.okx.com/api/v5/mktplace/nft/runes/make-order
+
+14. Ordiscan - Saldo de Rune
+https://ordiscan.com/docs/api#rune-balance
+
+15. Ordiscan - Atividade de Runes
+https://ordiscan.com/docs/api#runes-activity
+
+16. Ordiscan - Runes em Transação
+https://ordiscan.com/docs/api#runes-in-tx
+
+17. Ordiscan - Listar Runes
+https://ordiscan.com/docs/api#list-runes
+
+18. Ordiscan - Informações de Rune
+https://ordiscan.com/docs/api#rune-info
+
+19. Ordiscan - Informações de Mercado de Rune
+https://ordiscan.com/docs/api#rune-market-info
+
+20. Ordiscan - Desbloqueio de Nome de Rune
+https://ordiscan.com/docs/api#rune-name-unlock
+
+21. Geniidata - Lista de Informações de Runes
+https://www.geniidata.com/api-docs/runes
+
+Exemplo de uso:
+```javascript
+import geniidata from '@api/geniidata';
+
+geniidata.auth('142cf1b0-1ca7-11ee-bb5e-9d74c2e854ac');
+geniidata.getRunesInfoList({limit: '20', offset: '0'})
+  .then(({ data }) => console.log(data))
+  .catch(err => console.error(err));
+```

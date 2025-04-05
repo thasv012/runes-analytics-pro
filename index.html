@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="version" content="index-completo"> 
+    <title>RUNES Analytics Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Importação do módulo de internacionalização -->
+    <script type="module">
+        import { initLanguage, loadLanguage, getCurrentLanguage } from './js/i18n.js';
+        
+        // Expõe as funções ao escopo global
+        window.changeLang = loadLanguage;
+        window.getCurrentLang = getCurrentLanguage;
+        
+        // Inicializa o sistema de idiomas quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            
+            // Atualiza o botão ativo baseado no idioma atual
+            document.addEventListener('languageChanged', (event) => {
+                updateActiveLanguageButton(event.detail.language);
+            });
+        });
+        
+        // Atualiza a classe ativa no botão do idioma selecionado
+        function updateActiveLanguageButton(lang) {
+            document.querySelectorAll('.language-button').forEach(button => {
+                if (button.getAttribute('data-lang-switch') === lang) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+    </script>
+    <!-- Sistema de sincronização entre workspaces -->
+    <script type="module" src="js/awakenSync.js"></script>
+    <script type="module" src="js/awakenAI.js"></script>
+    <!-- Módulo de links sociais e QR code -->
+    <script type="module" src="js/AwakenQRCode.js"></script>
+    <style>
+        /* Estilo para seletor de idioma */
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .language-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary, #e6e6e6);
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .language-button.active {
+            background-color: var(--accent, #5352ed);
+            border-color: var(--accent, #5352ed);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1>RUNES Analytics Pro</h1>
+            </div>
+            <nav class="main-nav sidebar-menu">
+                <ul>
+                    <li><a href="#dashboard" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="#market-data"><i class="fas fa-chart-bar"></i> Dados de Mercado</a></li>
+                    <li><a href="#whale-tracker"><i class="fas fa-user-tie"></i> Rastreador de Whales</a></li>
+                    <li><a href="#ranking"><i class="fas fa-list-ol"></i> Ranking</a></li>
+                    <li><a href="#alerts"><i class="fas fa-bell"></i> Alertas</a></li>
+                    <li><a href="#sentiment"><i class="fas fa-smile"></i> Análise de Sentimento</a></li>
+                    <li><a href="#technical-analysis"><i class="fas fa-chart-bar"></i> Análise Técnica</a></li>
+                    <li><a href="#gamification"><i class="fas fa-trophy"></i> Gamificação</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i> Configurações</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+                <div class="user-info">
+                    <span>Usuário Premium</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <header class="main-header">
+                <div class="search-container">
+                    <input type="search" placeholder="Buscar RUNE..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="actions">
+                    <!-- Seletor de idioma -->
+                    <div class="language-selector">
+                        <button class="language-button" data-lang-switch="pt">🇧🇷 PT</button>
+                        <button class="language-button" data-lang-switch="en">🇺🇸 EN</button>
+                    </div>
+                    <div class="notifications">
+                        <button class="notification-btn"><i class="fas fa-bell"></i></button>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <button class="btn btn-premium">Upgrade Premium</button>
+                </div>
+            </header>
+
+            <!-- Dashboard -->
+            <section id="dashboard-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="page-title">Dashboard</h2>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <!-- Cards de Métricas Principais -->
+                    <div class="metrics-row">
+                        <div class="metric-card">
+                            <h3>Volume Total 24h</h3>
+                            <div class="metric-value">$24.5M</div>
+                            <div class="metric-change positive">+5.2% <i class="fas fa-caret-up"></i></div>
+                        </div>
+						   <div class="top-runes-list"></div>
+                        <div class="metric-card">
+                            <h3>Total de Transações</h3>
+                            <div class="metric-value">152,489</div>
+                            <div class="metric-change positive">+8.7% <i class="fas fa-caret-up"></i></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gráfico Principal -->
+                    <div class="chart-container">
+                        <div id="main-chart" class="chart-area"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Dados de Mercado -->
+            <section id="market-data-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Dados de Mercado</h2>
+                </div>
+                <div class="content-box">
+                    <p>Esta é a seção de Dados de Mercado</p>
+                </div>
+            </section>
+            
+            <!-- Rastreador de Whales -->
+            <section id="whale-tracker-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Rastreador de Whales</h2>
+                </div>
+                <div id="whale-tracker-content" class="content-box">
+                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Ranking -->
+            <section id="ranking-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Ranking de RUNES</h2>
+                </div>
+                <div id="ranking-container" class="content-box">
+                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Alertas -->
+            <section id="alerts-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Sistema de Alertas</h2>
+                </div>
+                <div id="alerts-container" class="content-box">
+                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Análise de Sentimento -->
+            <section id="sentiment-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Análise de Sentimento</h2>
+                </div>
+                <div id="sentiment-content" class="content-box">
+                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Análise Técnica -->
+            <section id="technical-analysis-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Análise Técnica</h2>
+                </div>
+                <div id="analysis-content" class="content-box">
+                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Gamificação -->
+            <section id="gamification-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Gamificação</h2>
+                </div>
+                <div id="gamification-container" class="content-box">
+                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Configurações -->
+            <section id="settings-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2 class="page-title">Configurações</h2>
+                </div>
+                <div class="content-box">
+                    <h3>Preferências do Usuário</h3>
+                    <div class="settings-container">
+                        <div class="setting-group">
+                            <h4>Aparência</h4>
+                            <div class="setting-item">
+                                <label>Tema</label>
+                                <select id="theme-selector">
+                                    <option value="light">Claro</option>
+                                    <option value="dark">Escuro</option>
+                                    <option value="system">Sistema</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <h4>Notificações</h4>
+                            <div class="setting-item">
+                                <label>Alertas de Mercado</label>
+                                <input type="checkbox" id="market-alerts" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label>Notificações de Baleias</label>
+                                <input type="checkbox" id="whale-alerts" checked>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-save-settings">Salvar Configurações</button>
+                </div>
+            </section>
+
+            <div class="toolbar">
+                <button id="dashboard-button" class="toolbar-button active">Dashboard</button>
+                <button id="whale-tracker-button" class="toolbar-button">Whale Tracker</button>
+                <button id="settings-button" class="toolbar-button">Settings</button>
+                <button id="visual-presentation-button" class="toolbar-button" onclick="window.location.href='runes-presentation.html'">Visual Presentation</button>
+                <button id="api-demo-button" class="toolbar-button" onclick="window.location.href='api-demo.html'">API Demo</button>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts -->
+    <!-- Primeiro carregar as bibliotecas externas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Sistema de Cache Avançado com Compressão -->
+    <script src="services/cache/lz-string.js"></script>
+    <script src="services/cache/AdvancedCacheService.js"></script>
+    <script src="services/cache/CacheAdapter.js"></script>
+
+    <!-- Serviços de API -->
+    <script src="services/api/BaseApiService.js"></script>
+    <script src="services/api/AdvancedApiService.js"></script>
+    <script src="services/api/ApiManager.js"></script>
+
+    <!-- Gerenciador de componentes -->
+    <script src="componentManager.js"></script>
+
+    <!-- Serviços de Dados -->
+    <script src="services/RunesDataService.js"></script>
+    <script src="services/whaleTrackerService.js"></script>
+
+    <!-- Componentes da aplicação -->
+    <script src="components/RunesRanking.js"></script>
+    <script src="components/runes-sentiment.js"></script>
+    <script src="components/runes-whale-tracker.js"></script>
+    <script src="components/runes-gamification.js"></script>
+    <script src="components/runes-analysis.js"></script>
+
+    <!-- Scripts principais da aplicação -->
+    <script src="app.js"></script>
+    <script src="navegacao-v2.js"></script>
+    
+    <!-- Script para exibir estadísticas do cache e implementar o painel mesh -->
+    <script>
+        // Implementação básica do renderMeshPanel para sincronização
+        window.renderMeshPanel = function() {
+            console.log("🔄 Renderizando mesh panel após sincronização");
+            
+            // Se o serviço de cache avançado estiver disponível, atualiza as estatísticas
+            if (window.advancedCacheService) {
+                try {
+                    const stats = window.advancedCacheService.getStats();
+                    console.log('📊 Estatísticas do Cache após sincronização:', stats);
+                    
+                    // Aqui você pode adicionar lógica para atualizar visualizações
+                    // ou qualquer outro componente que precise ser sincronizado
+                    
+                    // Exemplo: atualizar componentes com novos dados
+                    if (window.componentManager) {
+                        window.componentManager.refreshComponents();
+                    }
+                } catch (error) {
+                    console.error('Erro ao atualizar após sincronização:', error);
+                }
+            }
+        };
+    
+        // Adicionar painel de diagnóstico em ambiente de desenvolvimento
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            document.addEventListener('DOMContentLoaded', function() {
+                // Criar container para o painel de desenvolvimento
+                const devPanel = document.createElement('div');
+                devPanel.id = 'dev-panel';
+                devPanel.className = 'dev-panel';
+                devPanel.style.position = 'fixed';
+                devPanel.style.bottom = '0';
+                devPanel.style.right = '0';
+                devPanel.style.width = '600px';
+                devPanel.style.maxHeight = '80vh';
+                devPanel.style.backgroundColor = '#f8fafc';
+                devPanel.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)';
+                devPanel.style.borderTopLeftRadius = '8px';
+                devPanel.style.overflow = 'hidden';
+                devPanel.style.zIndex = '9999';
+                devPanel.style.display = 'flex';
+                devPanel.style.flexDirection = 'column';
+                devPanel.style.fontFamily = 'Arial, sans-serif';
+                devPanel.style.fontSize = '14px';
+                devPanel.style.color = '#1e293b';
+                devPanel.style.transition = 'transform 0.3s ease';
+                devPanel.style.transform = 'translateY(calc(100% - 40px))';
+                
+                // Adicionar barra de título
+                const panelHeader = document.createElement('div');
+                panelHeader.className = 'dev-panel-header';
+                panelHeader.style.padding = '10px 15px';
+                panelHeader.style.backgroundColor = '#1e3a8a';
+                panelHeader.style.color = 'white';
+                panelHeader.style.display = 'flex';
+                panelHeader.style.justifyContent = 'space-between';
+                panelHeader.style.alignItems = 'center';
+                panelHeader.style.cursor = 'pointer';
+                panelHeader.innerHTML = '<span><i class="fas fa-tools"></i> Painel de Desenvolvimento</span>';
+                
+                // Botão para fechar o painel
+                const closeBtn = document.createElement('span');
+                closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                closeBtn.style.cursor = 'pointer';
+                panelHeader.appendChild(closeBtn);
+                
+                // Container de abas
+                const tabContainer = document.createElement('div');
+                tabContainer.className = 'tab-container';
+                tabContainer.style.display = 'flex';
+                tabContainer.style.borderBottom = '1px solid #e2e8f0';
+                
+                // Criar abas
+                const tabs = [
+                    { id: 'stats', icon: 'fa-chart-bar', title: 'Estatísticas' },
+                    { id: 'optimize', icon: 'fa-compress-arrows-alt', title: 'Otimização' },
+                    { id: 'diagnostic', icon: 'fa-stethoscope', title: 'Diagnóstico' }
+                ];
+                
+                tabs.forEach(tab => {
+                    const tabEl = document.createElement('div');
+                    tabEl.className = 'tab';
+                    tabEl.dataset.tab = tab.id;
+                    tabEl.style.padding = '10px 15px';
+                    tabEl.style.cursor = 'pointer';
+                    tabEl.style.borderBottom = '3px solid transparent';
+                    tabEl.style.fontWeight = '500';
+                    tabEl.innerHTML = `<i class="fas ${tab.icon}"></i> ${tab.title}`;
+                    
+                    // Adicionar listener
+                    tabEl.addEventListener('click', function() {
+                        // Remover classe ativa de todas as abas
+                        document.querySelectorAll('.tab').forEach(t => {
+                            t.style.borderBottomColor = 'transparent';
+                            t.style.backgroundColor = 'transparent';
+                        });
+                        
+                        // Adicionar classe ativa à aba clicada
+                        this.style.borderBottomColor = '#1e3a8a';
+                        this.style.backgroundColor = '#f1f5f9';
+                        
+                        // Esconder todos os conteúdos
+                        document.querySelectorAll('.tab-content').forEach(c => {
+                            c.style.display = 'none';
+                        });
+                        
+                        // Mostrar conteúdo correspondente
+                        const contentId = this.dataset.tab + '-content';
+                        document.getElementById(contentId).style.display = 'block';
+                    });
+                    
+                    tabContainer.appendChild(tabEl);
+                });
+                
+                // Container de conteúdo
+                const contentContainer = document.createElement('div');
+                contentContainer.className = 'content-container';
+                contentContainer.style.padding = '15px';
+                contentContainer.style.overflow = 'auto';
+                contentContainer.style.maxHeight = 'calc(80vh - 100px)';
+                
+                // Conteúdo das abas
+                
+                // 1. Aba de Estatísticas
+                const statsContent = document.createElement('div');
+                statsContent.id = 'stats-content';
+                statsContent.className = 'tab-content';
+                statsContent.innerHTML = `
+                    <div class="content-header">
+                        <h3 style="margin: 0 0 15px 0; font-size: 16px;">Estatísticas do Cache</h3>
+                        <button id="refresh-stats" class="dev-btn" style="background: #3b82f6;">
+                            <i class="fas fa-sync-alt"></i> Atualizar
+                        </button>
+                    </div>
+                    <div id="cache-stats">
+                        <p>Clique em "Atualizar" para ver as estatísticas do cache.</p>
+                    </div>
+                `;
+                
+                // 2. Aba de Otimização
+                const optimizeContent = document.createElement('div');
+                optimizeContent.id = 'optimize-content';
+                optimizeContent.className = 'tab-content';
+                optimizeContent.style.display = 'none';
+                optimizeContent.innerHTML = `
+                    <div class="content-header">
+                        <h3 style="margin: 0 0 15px 0; font-size: 16px;">Otimização do Cache</h3>
+                    </div>
+                    <div class="option-group">
+                        <label style="display: block; margin-bottom: 10px;">
+                            <input type="checkbox" id="force-all" /> Forçar recompressão de todos os itens
+                        </label>
+                        <label style="display: block; margin-bottom: 10px;">
+                            Limite de tamanho para compressão: 
+                            <select id="compress-threshold">
+                                <option value="256">256 Bytes</option>
+                                <option value="512" selected>512 Bytes</option>
+                                <option value="1024">1 KB</option>
+                                <option value="5120">5 KB</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="optimize-actions" style="margin-top: 15px;">
+                        <button id="optimize-btn" class="dev-btn" style="background: #047857;">
+                            <i class="fas fa-compress-arrows-alt"></i> Otimizar Cache
+                        </button>
+                    </div>
+                    <div id="optimize-results" style="margin-top: 15px;">
+                    </div>
+                `;
+                
+                // 3. Aba de Diagnóstico (Nova)
+                const diagnosticContent = document.createElement('div');
+                diagnosticContent.id = 'diagnostic-content';
+                diagnosticContent.className = 'tab-content';
+                diagnosticContent.style.display = 'none';
+                diagnosticContent.innerHTML = `
+                    <div class="content-header">
+                        <h3 style="margin: 0 0 15px 0; font-size: 16px;">Diagnóstico do Cache</h3>
+                        <div style="display: flex; gap: 8px;">
+                            <select id="filter-tag" style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="">Todas as tags</option>
+                            </select>
+                            <button id="analyze-btn" class="dev-btn" style="background: #7c3aed;">
+                                <i class="fas fa-stethoscope"></i> Analisar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="diagnostic-summary" style="margin: 15px 0; padding: 15px; background: #f1f5f9; border-radius: 8px;">
+                        <p>Clique em "Analisar" para realizar o diagnóstico do cache.</p>
+                    </div>
+                    <div id="diagnostic-tabs" style="display: none;">
+                        <div class="mini-tabs" style="display: flex; gap: 2px; border-bottom: 1px solid #e2e8f0; margin-bottom: 15px;">
+                            <div class="mini-tab active" data-section="problems" style="padding: 8px 12px; cursor: pointer; border-bottom: 2px solid #1e3a8a;">Problemas</div>
+                            <div class="mini-tab" data-section="large-items" style="padding: 8px 12px; cursor: pointer;">Itens Grandes</div>
+                            <div class="mini-tab" data-section="uncompressed" style="padding: 8px 12px; cursor: pointer;">Não Comprimidos</div>
+                            <div class="mini-tab" data-section="expiry" style="padding: 8px 12px; cursor: pointer;">Próx. Expirar</div>
+                            <div class="mini-tab" data-section="tags" style="padding: 8px 12px; cursor: pointer;">Tags</div>
+                        </div>
+                        <div id="diagnostic-detail">
+                            <!-- Conteúdo detalhado será preenchido dinamicamente -->
+                        </div>
+                    </div>
+                `;
+                
+                // Adicionar CSS para o painel
+                const style = document.createElement('style');
+                style.textContent = `
+                    .dev-btn {
+                        padding: 6px 12px;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-weight: 500;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                    }
+                    .dev-btn:hover {
+                        opacity: 0.9;
+                    }
+                    .dev-btn:disabled {
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                    }
+                    .content-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 15px;
+                    }
+                    .data-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 10px;
+                    }
+                    .data-table th, .data-table td {
+                        border: 1px solid #e2e8f0;
+                        padding: 8px;
+                        text-align: left;
+                    }
+                    .data-table th {
+                        background-color: #f1f5f9;
+                        font-weight: bold;
+                    }
+                    .data-table tr:nth-child(even) {
+                        background-color: #f8fafc;
+                    }
+                    .alert {
+                        padding: 10px;
+                        border-radius: 4px;
+                        margin-bottom: 8px;
+                    }
+                    .alert-warning {
+                        background-color: #fff7ed;
+                        border-left: 4px solid #f97316;
+                    }
+                    .alert-error {
+                        background-color: #fef2f2;
+                        border-left: 4px solid #ef4444;
+                    }
+                    .alert-info {
+                        background-color: #f0f9ff;
+                        border-left: 4px solid #0ea5e9;
+                    }
+                    .badge {
+                        display: inline-block;
+                        padding: 3px 6px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        font-weight: bold;
+                    }
+                    .badge-memory {
+                        background-color: #e0f2fe;
+                        color: #0369a1;
+                    }
+                    .badge-indexedDB {
+                        background-color: #dcfce7;
+                        color: #166534;
+                    }
+                    .badge-localStorage {
+                        background-color: #ede9fe;
+                        color: #5b21b6;
+                    }
+                    .mini-tab {
+                        border-bottom: 2px solid transparent;
+                    }
+                    .mini-tab.active {
+                        border-bottom: 2px solid #1e3a8a;
+                        background-color: #f1f5f9;
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Montar estrutura do painel
+                contentContainer.appendChild(statsContent);
+                contentContainer.appendChild(optimizeContent);
+                contentContainer.appendChild(diagnosticContent);
+                
+                devPanel.appendChild(panelHeader);
+                devPanel.appendChild(tabContainer);
+                devPanel.appendChild(contentContainer);
+                
+                document.body.appendChild(devPanel);
+                
+                // Funcionalidade: Abrir/fechar painel
+                let isPanelOpen = false;
+                
+                panelHeader.addEventListener('click', function(e) {
+                    if (e.target === closeBtn || e.target.parentNode === closeBtn) {
+                        devPanel.remove();
+                        return;
+                    }
+                    
+                    isPanelOpen = !isPanelOpen;
+                    devPanel.style.transform = isPanelOpen ? 'translateY(0)' : 'translateY(calc(100% - 40px))';
+                });
+                
+                // Selecionar primeira aba por padrão
+                document.querySelector('.tab').click();
+                
+                // === Implementação das funcionalidades das abas ===
+                
+                // 1. Funcionalidade: Estatísticas
+                document.getElementById('refresh-stats').addEventListener('click', function() {
+                    if (window.advancedCacheService) {
+                        try {
+                            const stats = window.advancedCacheService.getStats();
+                            console.log('📊 Estatísticas do Cache:', stats);
+                            
+                            // Formatar estatísticas em uma tabela
+                            const statsHtml = `
+                                <table class="data-table">
+                                    <tr>
+                                        <th colspan="2">Visão Geral</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Total de requisições</td>
+                                        <td>${stats.requests.total}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Taxa de acerto (hit rate)</td>
+                                        <td>${stats.requests.hitRate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Taxa de compressão</td>
+                                        <td>${stats.compression.savingsPercent}</td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">Armazenamento</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Itens em memória</td>
+                                        <td>${stats.memory.items}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bytes economizados</td>
+                                        <td>${stats.compression.savedBytes.toLocaleString()} bytes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>IndexedDB disponível</td>
+                                        <td>${stats.indexedDB.available ? 'Sim' : 'Não'}</td>
+                                    </tr>
+                                    ${stats.indexedDB.error ? `<tr>
+                                        <td>Erro IndexedDB</td>
+                                        <td>${stats.indexedDB.error}</td>
+                                    </tr>` : ''}
+                                    <tr>
+                                        <th colspan="2">Operações</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Acertos (hits)</td>
+                                        <td>${stats.requests.hits}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Falhas (misses)</td>
+                                        <td>${stats.requests.misses}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Operações de BD sucedidas</td>
+                                        <td>${stats.indexedDB.operations.success}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Erros de BD</td>
+                                        <td>${stats.indexedDB.operations.errors}</td>
+                                    </tr>
+                                </table>
+                                <div style="margin-top: 10px; font-size: 13px; color: #64748b;">
+                                    <p><strong>Chaves em memória:</strong> ${stats.memory.keys.length > 0 ? stats.memory.keys.slice(0, 10).join(', ') + (stats.memory.keys.length > 10 ? '...' : '') : 'Nenhuma'}</p>
+                                </div>
+                            `;
+                            
+                            document.getElementById('cache-stats').innerHTML = statsHtml;
+                        } catch (error) {
+                            console.error('Erro ao buscar estatísticas:', error);
+                            document.getElementById('cache-stats').innerHTML = 
+                                `<div class="alert alert-error">Erro ao buscar estatísticas: ${error.message}</div>`;
+                        }
+                    } else {
+                        console.warn('Sistema de cache avançado não disponível');
+                        document.getElementById('cache-stats').innerHTML =
+                            '<div class="alert alert-error">Sistema de cache avançado não está disponível</div>';
+                    }
+                });
+                
+                // 2. Funcionalidade: Otimização
+                document.getElementById('optimize-btn').addEventListener('click', async function() {
+                    if (window.advancedCacheService && window.advancedCacheService.compressAll) {
+                        // Obter opções configuradas
+                        const forceAll = document.getElementById('force-all').checked;
+                        const compressThreshold = parseInt(document.getElementById('compress-threshold').value);
+                        
+                        // Desabilitar botão durante a otimização
+                        const optimizeBtn = document.getElementById('optimize-btn');
+                        optimizeBtn.disabled = true;
+                        optimizeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Otimizando...';
+                        
+                        // Mostrar indicador de progresso
+                        document.getElementById('optimize-results').innerHTML = `
+                            <div style="padding: 15px; background: #f8fafc; border-radius: 6px; text-align: center;">
+                                <p><i class="fas fa-spinner fa-spin"></i> Otimizando cache em andamento...</p>
+                                <p style="font-size: 12px; color: #64748b;">Isso pode levar alguns segundos.</p>
+                            </div>
+                        `;
+                        
+                        try {
+                            console.log('🔄 Iniciando otimização do cache...');
+                            
+                            // Executar compressão com opções
+                            const result = await window.advancedCacheService.compressAll({
+                                compressThreshold,
+                                forceAll
+                            });
+                            
+                            console.log('✅ Otimização concluída:', result);
+                            
+                            // Exibir resultados
+                            const resultHtml = `
+                                <div style="padding: 15px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
+                                    <h4 style="margin: 0 0 10px 0; color: #166534;">Otimização Concluída com Sucesso!</h4>
+                                    <div style="display: flex; margin-bottom: 15px;">
+                                        <div style="flex: 1; text-align: center; padding: 10px; background: #dcfce7; border-radius: 4px; margin-right: 5px;">
+                                            <div style="font-size: 12px; color: #166534;">Antes</div>
+                                            <div style="font-size: 16px; font-weight: bold;">${result.originalSizeFormatted}</div>
+                                        </div>
+                                        <div style="flex: 1; text-align: center; padding: 10px; background: #dcfce7; border-radius: 4px; margin-left: 5px;">
+                                            <div style="font-size: 12px; color: #166534;">Depois</div>
+                                            <div style="font-size: 16px; font-weight: bold;">${result.compressedSizeFormatted}</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center; padding: 10px; background: #ecfdf5; border-radius: 4px; margin-bottom: 15px;">
+                                        <div style="font-size: 12px; color: #166534;">Economia Total</div>
+                                        <div style="font-size: 18px; font-weight: bold;">${result.savingsFormatted} (${result.savingsPercent})</div>
+                                    </div>
+                                    <table class="data-table">
+                                        <tr>
+                                            <th colspan="2">Detalhes da Operação</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Itens processados</td>
+                                            <td>${result.processed}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Itens comprimidos</td>
+                                            <td>${result.compressed}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Itens ignorados</td>
+                                            <td>${result.skipped}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Erros</td>
+                                            <td>${result.errors}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Duração</td>
+                                            <td>${result.duration.toFixed(2)} segundos</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            `;
+                            
+                            document.getElementById('optimize-results').innerHTML = resultHtml;
+                        } catch (error) {
+                            console.error('❌ Erro na otimização:', error);
+                            document.getElementById('optimize-results').innerHTML = `
+                                <div class="alert alert-error">
+                                    <strong>Erro ao otimizar cache:</strong> ${error.message}
+                                </div>
+                            `;
+                        } finally {
+                            // Restaurar botão
+                            optimizeBtn.disabled = false;
+                            optimizeBtn.innerHTML = '<i class="fas fa-compress-arrows-alt"></i> Otimizar Cache';
+                        }
+                    } else {
+                        console.warn('Sistema de compressão em lote não disponível');
+                        document.getElementById('optimize-results').innerHTML = `
+                            <div class="alert alert-error">
+                                Sistema de compressão em lote não disponível.
+                            </div>
+                        `;
+                    }
+                });
+                
+                // 3. Funcionalidade: Diagnóstico
+                document.getElementById('analyze-btn').addEventListener('click', async function() {
+                    if (!window.advancedCacheService || !window.advancedCacheService.analyzeCacheHealth) {
+                        document.getElementById('diagnostic-summary').innerHTML = `
+                            <div class="alert alert-error">
+                                Recurso de diagnóstico avançado não disponível.
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    // Desabilitar botão durante análise
+                    const analyzeBtn = document.getElementById('analyze-btn');
+                    analyzeBtn.disabled = true;
+                    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analisando...';
+                    
+                    // Mostrar indicador de progresso
+                    document.getElementById('diagnostic-summary').innerHTML = `
+                        <div style="padding: 15px; background: #f8fafc; border-radius: 6px; text-align: center;">
+                            <p><i class="fas fa-spinner fa-spin"></i> Diagnóstico em andamento...</p>
+                            <p style="font-size: 12px; color: #64748b;">Analisando cache em todas as camadas.</p>
+                        </div>
+                    `;
+                    
+                    try {
+                        // Obter tag para filtro (se selecionada)
+                        const filterTag = document.getElementById('filter-tag').value;
+                        const options = {};
+                        
+                        if (filterTag) {
+                            options.tag = filterTag;
+                        }
+                        
+                        // Executar diagnóstico
+                        console.log('🔍 Iniciando diagnóstico do cache...');
+                        const report = await window.advancedCacheService.analyzeCacheHealth(options);
+                        console.log('✅ Diagnóstico concluído:', report);
+                        
+                        // Atualizar seletor de tags com as tags disponíveis
+                        const tagSelect = document.getElementById('filter-tag');
+                        const currentValue = tagSelect.value;
+                        
+                        // Limpar opções existentes, mantendo a primeira
+                        while (tagSelect.options.length > 1) {
+                            tagSelect.remove(1);
+                        }
+                        
+                        // Adicionar tags encontradas
+                        const tags = Object.keys(report.byTag).sort();
+                        tags.forEach(tag => {
+                            const option = document.createElement('option');
+                            option.value = tag;
+                            option.textContent = `${tag} (${report.byTag[tag].count})`;
+                            tagSelect.appendChild(option);
+                        });
+                        
+                        // Restaurar valor selecionado se possível
+                        if (currentValue && tags.includes(currentValue)) {
+                            tagSelect.value = currentValue;
+                        }
+                        
+                        // Mostrar resumo do diagnóstico
+                        const summaryHtml = `
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                                <div style="flex: 1; min-width: 120px; text-align: center; padding: 10px; background: ${report.totalItems > 0 ? '#f0f9ff' : '#f1f5f9'}; border-radius: 6px;">
+                                    <div style="font-size: 12px; color: #0369a1;">Total de Itens</div>
+                                    <div style="font-size: 20px; font-weight: bold;">${report.totalItems}</div>
+                                </div>
+                                <div style="flex: 1; min-width: 120px; text-align: center; padding: 10px; background: ${report.uncompressedItems > 5 ? '#fff7ed' : '#f1f5f9'}; border-radius: 6px;">
+                                    <div style="font-size: 12px; color: #c2410c;">Não Comprimidos</div>
+                                    <div style="font-size: 20px; font-weight: bold;">${report.uncompressedItems}</div>
+                                </div>
+                                <div style="flex: 1; min-width: 120px; text-align: center; padding: 10px; background: ${report.largeItems > 5 ? '#fef2f2' : '#f1f5f9'}; border-radius: 6px;">
+                                    <div style="font-size: 12px; color: #b91c1c;">Itens Grandes</div>
+                                    <div style="font-size: 20px; font-weight: bold;">${report.largeItems}</div>
+                                </div>
+                                <div style="flex: 1; min-width: 120px; text-align: center; padding: 10px; background: ${report.nearExpiryItems > 0 ? '#f0fdf4' : '#f1f5f9'}; border-radius: 6px;">
+                                    <div style="font-size: 12px; color: #166534;">Próx. Expirar</div>
+                                    <div style="font-size: 20px; font-weight: bold;">${report.nearExpiryItems}</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                                <div style="flex: 1; min-width: 120px; text-align: center; padding: 10px; background: #f8fafc; border-radius: 6px;">
+                                    <div style="font-size: 12px; color: #334155;">Compressão Geral</div>
+                                    <div style="font-size: 18px; font-weight: bold;">${report.summary.overallSavings}</div>
+                                </div>
+                                <div style="flex: 1; min-width: 120px; text-align: center; padding: 10px; background: #f8fafc; border-radius: 6px;">
+                                    <div style="font-size: 12px; color: #334155;">Tamanho Total</div>
+                                    <div style="font-size: 18px; font-weight: bold;">${report.summary.totalSizeCompressed}</div>
+                                </div>
+                            </div>
+                            
+                            ${report.recommendations.length > 0 ? `
+                                <div style="margin-top: 15px;">
+                                    <h4 style="margin: 0 0 8px 0;">Recomendações:</h4>
+                                    ${report.recommendations.map(rec => `
+                                        <div class="alert alert-${rec.type}">
+                                            <i class="fas fa-${rec.type === 'warning' ? 'exclamation-triangle' : rec.type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                                            ${rec.message}
+                                            ${rec.action === 'compressAll' ? `
+                                                <button class="dev-btn" style="background: #047857; margin-left: 10px; font-size: 12px;" 
+                                                        onclick="document.querySelector('.tab[data-tab=\\'optimize\\']').click()">
+                                                    Otimizar Agora
+                                                </button>
+                                            ` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        `;
+                        
+                        document.getElementById('diagnostic-summary').innerHTML = summaryHtml;
+                        
+                        // Mostrar seções de detalhes
+                        document.getElementById('diagnostic-tabs').style.display = 'block';
+                        
+                        // Configurar tabs internas do diagnóstico
+                        document.querySelectorAll('.mini-tab').forEach(tab => {
+                            tab.addEventListener('click', function() {
+                                // Remover classe ativa de todas as abas
+                                document.querySelectorAll('.mini-tab').forEach(t => {
+                                    t.classList.remove('active');
+                                });
+                                
+                                // Adicionar classe ativa à aba clicada
+                                this.classList.add('active');
+                                
+                                // Mostrar conteúdo correspondente
+                                showDiagnosticSection(this.dataset.section, report);
+                            });
+                        });
+                        
+                        // Mostrar primeira aba de detalhes (problemas)
+                        document.querySelector('.mini-tab[data-section="problems"]').click();
+                        
+                    } catch (error) {
+                        console.error('❌ Erro no diagnóstico:', error);
+                        document.getElementById('diagnostic-summary').innerHTML = `
+                            <div class="alert alert-error">
+                                <strong>Erro ao realizar diagnóstico:</strong> ${error.message}
+                            </div>
+                        `;
+                        document.getElementById('diagnostic-tabs').style.display = 'none';
+                    } finally {
+                        // Restaurar botão
+                        analyzeBtn.disabled = false;
+                        analyzeBtn.innerHTML = '<i class="fas fa-stethoscope"></i> Analisar';
+                    }
+                });
+                
+                // Função para mostrar seção específica do diagnóstico
+                function showDiagnosticSection(section, report) {
+                    const detailContainer = document.getElementById('diagnostic-detail');
+                    
+                    switch (section) {
+                        case 'problems':
+                            if (report.duplicateKeys.length === 0 && 
+                                report.uncompressedItems === 0 && 
+                                report.largeItems === 0 && 
+                                report.nearExpiryItems === 0) {
+                                detailContainer.innerHTML = `
+                                    <div style="padding: 20px; text-align: center; background: #f0fdf4; border-radius: 8px;">
+                                        <i class="fas fa-check-circle" style="font-size: 32px; color: #22c55e; margin-bottom: 10px;"></i>
+                                        <p style="margin: 0; font-weight: bold; color: #15803d;">Nenhum problema detectado!</p>
+                                        <p style="margin: 5px 0 0 0; color: #166534;">O cache está otimizado e funcionando corretamente.</p>
+                                    </div>
+                                `;
+                                return;
+                            }
+                            
+                            let problemsHtml = '';
+                            
+                            if (report.duplicateKeys.length > 0) {
+                                problemsHtml += `
+                                    <div class="alert alert-error">
+                                        <h4 style="margin: 0 0 8px 0;"><i class="fas fa-exclamation-circle"></i> Chaves Duplicadas (${report.duplicateKeys.length})</h4>
+                                        <p>Estas chaves existem em múltiplas camadas de cache, o que pode causar inconsistências:</p>
+                                        <ul style="margin-top: 5px;">
+                                            ${report.duplicateKeys.slice(0, 5).map(key => `<li>${key}</li>`).join('')}
+                                            ${report.duplicateKeys.length > 5 ? `<li>...e ${report.duplicateKeys.length - 5} mais</li>` : ''}
+                                        </ul>
+                                    </div>
+                                `;
+                            }
+                            
+                            if (report.uncompressedItems > 0) {
+                                problemsHtml += `
+                                    <div class="alert alert-warning">
+                                        <h4 style="margin: 0 0 8px 0;"><i class="fas fa-compress"></i> Itens Não Comprimidos (${report.uncompressedItems})</h4>
+                                        <p>Estes itens podem ser comprimidos para economizar espaço:</p>
+                                        <table class="data-table" style="font-size: 13px;">
+                                            <tr>
+                                                <th>Chave</th>
+                                                <th>Tamanho</th>
+                                                <th>Local</th>
+                                            </tr>
+                                            ${report.detailedItems.uncompressed.slice(0, 5).map(item => `
+                                                <tr>
+                                                    <td>${item.key}</td>
+                                                    <td>${item.sizeFormatted}</td>
+                                                    <td><span class="badge badge-${item.location}">${item.location}</span></td>
+                                                </tr>
+                                            `).join('')}
+                                            ${report.detailedItems.uncompressed.length > 5 ? `
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center;">...e ${report.detailedItems.uncompressed.length - 5} mais</td>
+                                                </tr>
+                                            ` : ''}
+                                        </table>
+                                    </div>
+                                `;
+                            }
+                            
+                            if (report.largeItems > 0) {
+                                problemsHtml += `
+                                    <div class="alert alert-warning">
+                                        <h4 style="margin: 0 0 8px 0;"><i class="fas fa-database"></i> Itens Grandes (${report.largeItems})</h4>
+                                        <p>Estes itens estão consumindo grande quantidade de espaço:</p>
+                                        <table class="data-table" style="font-size: 13px;">
+                                            <tr>
+                                                <th>Chave</th>
+                                                <th>Tamanho</th>
+                                                <th>Comprimido</th>
+                                                <th>Local</th>
+                                            </tr>
+                                            ${report.detailedItems.large.slice(0, 5).map(item => `
+                                                <tr>
+                                                    <td>${item.key}</td>
+                                                    <td>${item.sizeFormatted}</td>
+                                                    <td>${item.isCompressed ? `Sim (${item.savingsPercent})` : 'Não'}</td>
+                                                    <td><span class="badge badge-${item.location}">${item.location}</span></td>
+                                                </tr>
+                                            `).join('')}
+                                            ${report.detailedItems.large.length > 5 ? `
+                                                <tr>
+                                                    <td colspan="4" style="text-align: center;">...e ${report.detailedItems.large.length - 5} mais</td>
+                                                </tr>
+                                            ` : ''}
+                                        </table>
+                                    </div>
+                                `;
+                            }
+                            
+                            if (report.nearExpiryItems > 0) {
+                                problemsHtml += `
+                                    <div class="alert alert-info">
+                                        <h4 style="margin: 0 0 8px 0;"><i class="fas fa-clock"></i> Itens Próximos da Expiração (${report.nearExpiryItems})</h4>
+                                        <p>Estes itens expirarão em breve:</p>
+                                        <table class="data-table" style="font-size: 13px;">
+                                            <tr>
+                                                <th>Chave</th>
+                                                <th>Expira em</th>
+                                                <th>Local</th>
+                                            </tr>
+                                            ${report.detailedItems.nearExpiry.slice(0, 5).map(item => `
+                                                <tr>
+                                                    <td>${item.key}</td>
+                                                    <td>${item.expiresIn < 60 ? `${item.expiresIn} seg` : `${Math.floor(item.expiresIn / 60)} min`}</td>
+                                                    <td><span class="badge badge-${item.location}">${item.location}</span></td>
+                                                </tr>
+                                            `).join('')}
+                                            ${report.detailedItems.nearExpiry.length > 5 ? `
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center;">...e ${report.detailedItems.nearExpiry.length - 5} mais</td>
+                                                </tr>
+                                            ` : ''}
+                                        </table>
+                                    </div>
+                                `;
+                            }
+                            
+                            detailContainer.innerHTML = problemsHtml;
+                            break;
+                            
+                        case 'large-items':
+                            if (report.detailedItems.large.length === 0) {
+                                detailContainer.innerHTML = `
+                                    <div style="padding: 20px; text-align: center; background: #f8fafc; border-radius: 8px;">
+                                        <p style="margin: 0;">Nenhum item grande encontrado.</p>
+                                    </div>
+                                `;
+                                return;
+                            }
+                            
+                            detailContainer.innerHTML = `
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Chave</th>
+                                        <th>Tamanho Original</th>
+                                        <th>Tamanho Comprimido</th>
+                                        <th>Economia</th>
+                                        <th>Local</th>
+                                    </tr>
+                                    ${report.detailedItems.large.map(item => `
+                                        <tr>
+                                            <td>${item.key}</td>
+                                            <td>${item.sizeFormatted}</td>
+                                            <td>${item.compressedSizeFormatted}</td>
+                                            <td>${item.savingsPercent}</td>
+                                            <td><span class="badge badge-${item.location}">${item.location}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </table>
+                            `;
+                            break;
+                            
+                        case 'uncompressed':
+                            if (report.detailedItems.uncompressed.length === 0) {
+                                detailContainer.innerHTML = `
+                                    <div style="padding: 20px; text-align: center; background: #f8fafc; border-radius: 8px;">
+                                        <p style="margin: 0;">Todos os itens elegíveis estão comprimidos. 👍</p>
+                                    </div>
+                                `;
+                                return;
+                            }
+                            
+                            detailContainer.innerHTML = `
+                                <div style="margin-bottom: 15px;">
+                                    <p>Os seguintes itens poderiam ser comprimidos para economizar espaço:</p>
+                                    <button class="dev-btn" style="background: #047857;"
+                                            onclick="document.querySelector('.tab[data-tab=\\'optimize\\']').click()">
+                                        <i class="fas fa-compress-arrows-alt"></i> Otimizar Agora
+                                    </button>
+                                </div>
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Chave</th>
+                                        <th>Tamanho</th>
+                                        <th>Local</th>
+                                    </tr>
+                                    ${report.detailedItems.uncompressed.map(item => `
+                                        <tr>
+                                            <td>${item.key}</td>
+                                            <td>${item.sizeFormatted}</td>
+                                            <td><span class="badge badge-${item.location}">${item.location}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </table>
+                            `;
+                            break;
+                            
+                        case 'expiry':
+                            if (report.detailedItems.nearExpiry.length === 0) {
+                                detailContainer.innerHTML = `
+                                    <div style="padding: 20px; text-align: center; background: #f8fafc; border-radius: 8px;">
+                                        <p style="margin: 0;">Nenhum item próximo da expiração.</p>
+                                    </div>
+                                `;
+                                return;
+                            }
+                            
+                            detailContainer.innerHTML = `
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Chave</th>
+                                        <th>Expira em</th>
+                                        <th>Data de Expiração</th>
+                                        <th>Local</th>
+                                    </tr>
+                                    ${report.detailedItems.nearExpiry.map(item => `
+                                        <tr>
+                                            <td>${item.key}</td>
+                                            <td>${item.expiresIn < 60 ? `${item.expiresIn} segundos` : `${Math.floor(item.expiresIn / 60)} minutos`}</td>
+                                            <td>${item.expiryDate}</td>
+                                            <td><span class="badge badge-${item.location}">${item.location}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </table>
+                            `;
+                            break;
+                            
+                        case 'tags':
+                            const tags = Object.keys(report.byTag);
+                            
+                            if (tags.length === 0) {
+                                detailContainer.innerHTML = `
+                                    <div style="padding: 20px; text-align: center; background: #f8fafc; border-radius: 8px;">
+                                        <p style="margin: 0;">Nenhuma tag encontrada nos itens de cache.</p>
+                                    </div>
+                                `;
+                                return;
+                            }
+                            
+                            detailContainer.innerHTML = `
+                                <table class="data-table">
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Itens</th>
+                                        <th>Tamanho Total</th>
+                                        <th>Problemas</th>
+                                    </tr>
+                                    ${tags.sort().map(tag => {
+                                        const tagData = report.byTag[tag];
+                                        const problems = [];
+                                        
+                                        if (tagData.largeItems > 0) problems.push(`${tagData.largeItems} grandes`);
+                                        if (tagData.uncompressed > 0) problems.push(`${tagData.uncompressed} não comprimidos`);
+                                        if (tagData.nearExpiry > 0) problems.push(`${tagData.nearExpiry} expirando`);
+                                        
+                                        return `
+                                            <tr>
+                                                <td>${tag}</td>
+                                                <td>${tagData.count}</td>
+                                                <td>${window.advancedCacheService._formatBytes(tagData.totalSize)}</td>
+                                                <td>${problems.length > 0 ? problems.join(', ') : '✓'}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </table>
+                            `;
+                            break;
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

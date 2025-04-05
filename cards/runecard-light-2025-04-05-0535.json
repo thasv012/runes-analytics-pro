@@ -1,0 +1,45 @@
+{
+  "id": "mystic-light-light",
+  "title": "Mystic Light",
+  "subtitle": "The LIGHT Protocol",
+  "rune": {
+    "ticker": "LIGHT",
+    "id": "0xfa09496b",
+    "minted": "56.9M",
+    "holders": "43.8K",
+    "launchDate": "2024-06-03"
+  },
+  "visual": {
+    "image": "assets/cards/mystic-light-light.png",
+    "themeColor": "#00FF7F",
+    "animation": "pulse"
+  },
+  "narrative": {
+    "intro": "Inspirado por Espiritualidade, sabedoria ancestral e iluminação, LIGHT transcende o conceito tradicional de valor.",
+    "lore": [
+      "Nascido nas profundezas da cadeia, LIGHT emerge como um símbolo de resistência digital.",
+      "Dizem que quem possuir LIGHT por tempo suficiente começará a ouvir os ecos do código primordial.",
+      "Em um mundo de tokens efêmeros, LIGHT permanece como um farol de imutabilidade."
+    ],
+    "quote": "\"Eu sou LIGHT, a manifestação digital da vontade coletiva.\""
+  },
+  "abilities": {
+    "core": [
+      "Sacred Vision",
+      "Divine Insight",
+      "Transcendent Aura"
+    ],
+    "awakening": {
+      "trigger": "HODL > 149 days",
+      "unlocked": [
+        "Soul Resonance",
+        "Eternal Presence"
+      ]
+    }
+  },
+  "meta": {
+    "createdBy": "RUNES Analytics Pro",
+    "version": "1.0.0",
+    "lastUpdated": "2025-04-05"
+  }
+}

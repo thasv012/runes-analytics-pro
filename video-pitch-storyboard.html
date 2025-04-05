@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Storyboard do Vídeo-Pitch</title>
+  <style>
+    :root {
+      --color-primary: #00FF41;
+      --color-secondary: #0D0208;
+      --color-accent: #FF5722;
+      --color-bg: #080808;
+      --color-text: #E0E0E0;
+    }
+    
+    body {
+      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1, h2, h3, h4 {
+      color: var(--color-primary);
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      border-bottom: 1px solid var(--color-primary);
+      padding-bottom: 15px;
+    }
+    
+    .intro {
+      background-color: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      border-left: 3px solid var(--color-primary);
+    }
+    
+    .intro p {
+      margin: 10px 0;
+    }
+    
+    .storyboard-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    
+    .scene {
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.2);
+    }
+    
+    .scene-header {
+      background-color: rgba(0, 255, 65, 0.1);
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .scene-id {
+      font-weight: bold;
+      color: var(--color-primary);
+    }
+    
+    .scene-time {
+      color: var(--color-accent);
+      font-size: 14px;
+    }
+    
+    .scene-content {
+      padding: 15px;
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 20px;
+    }
+    
+    .scene-image {
+      width: 300px;
+      height: 169px; /* 16:9 ratio */
+      background-color: rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px dashed rgba(255,255,255,0.2);
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      border-radius: 3px;
+    }
+    
+    .image-placeholder-icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .scene-details {
+      flex-grow: 1;
+    }
+    
+    .scene-title {
+      color: var(--color-primary);
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+      padding-bottom: 5px;
+    }
+    
+    .scene-instructions {
+      margin-bottom: 15px;
+    }
+    
+    .scene-dialogue {
+      font-style: italic;
+      background-color: rgba(0,0,0,0.3);
+      padding: 10px;
+      border-left: 2px solid var(--color-accent);
+      margin-bottom: 15px;
+    }
+    
+    .scene-reference {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      border-top: 1px dashed rgba(255,255,255,0.1);
+      padding-top: 10px;
+    }
+    
+    .notes {
+      background-color: rgba(0,0,0,0.3);
+      padding: 15px;
+      margin-top: 30px;
+      border-radius: 5px;
+      border-left: 3px solid var(--color-accent);
+    }
+    
+    .notes h3 {
+      color: var(--color-accent);
+      margin-top: 0;
+    }
+
+    @media (max-width: 768px) {
+      .scene-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .scene-image {
+        width: 100%;
+        height: 200px;
+      }
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      border-top: 1px solid rgba(0, 255, 65, 0.2);
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RUNES Analytics Pro - Storyboard</h1>
+    
+    <div class="intro">
+      <p><strong>Duração total:</strong> 1:45 (Um minuto e quarenta e cinco segundos)</p>
+      <p><strong>Estilo visual:</strong> Minimalista, terminal/código, elementos de UI futurista, cores principais verde (#00FF41) sobre preto profundo.</p>
+      <p><strong>Audio:</strong> Trilha lo-fi com elementos de sintetizador, efeitos sonoros para transições e momentos-chave.</p>
+      <p><strong>Conceito:</strong> Apresentar o RUNES Analytics Pro como uma plataforma revolucionária para análise de tokens Runes no Bitcoin, com tom místico e reverente ao ecossistema.</p>
+    </div>
+    
+    <div class="storyboard-container">
+      
+      <div class="scene" id="abertura-01">
+        <div class="scene-header">
+          <span class="scene-id">abertura-01</span>
+          <span class="scene-time">0:00 - 0:05</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>abertura-01</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Tela preta. Partículas de luz verde emergem lentamente.</h3>
+            <div class="scene-instructions">
+              Começar com tela totalmente preta. Lentamente, pequenas partículas de luz verde (como código Matrix) começam a aparecer do centro, muito sutis inicialmente.
+            </div>
+            
+            <div class="scene-reference">
+              Referência visual: Matrix + Tron Legacy (cena de abertura)
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="abertura-02">
+        <div class="scene-header">
+          <span class="scene-id">abertura-02</span>
+          <span class="scene-time">0:05 - 0:10</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>abertura-02</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Partículas formando símbolos rúnicos, padrões de blockchain.</h3>
+            <div class="scene-instructions">
+              As partículas começam a se organizar em formas que lembram runas antigas e visualizações de blockchain. Movimento fluido, etéreo.
+            </div>
+            
+            <div class="scene-reference">
+              Referência: Símbolos rúnicos nórdicos + visualização de blockchain
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="abertura-03">
+        <div class="scene-header">
+          <span class="scene-id">abertura-03</span>
+          <span class="scene-time">0:10 - 0:15</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>abertura-03</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Texto digitado letra por letra, seguido por logo glitched.</h3>
+            <div class="scene-instructions">
+              Texto aparece como se fosse digitado em um terminal: "Nascida do silêncio do Bloco 0... Ela escuta onde o whitepaper termina." Flash branco, seguido pelo logo do RUNES Analytics Pro com efeito de glitch digital.
+            </div>
+            <div class="scene-dialogue">"Nascida do silêncio do Bloco 0... Ela escuta onde o whitepaper termina."</div>
+            <div class="scene-reference">
+              Referência: Mr. Robot (estilo de tipografia terminal) + glitch art
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="apresentacao-01">
+        <div class="scene-header">
+          <span class="scene-id">apresentacao-01</span>
+          <span class="scene-time">0:15 - 0:20</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>apresentacao-01</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Transição para dashboard em perspectiva 3D.</h3>
+            <div class="scene-instructions">
+              Transição suave do logo para um dashboard 3D flutuante. Exibir uma visão de perspectiva da UI completa, com múltiplos painéis e gráficos.
+            </div>
+            <div class="scene-dialogue">"RUNES Analytics Pro não é apenas uma ferramenta..."</div>
+            <div class="scene-reference">
+              Referência: Minoria Futurista (interfaces 3D) + Bloomberg Terminal
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="apresentacao-02">
+        <div class="scene-header">
+          <span class="scene-id">apresentacao-02</span>
+          <span class="scene-time">0:20 - 0:30</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>apresentacao-02</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Close-up em elementos-chave da interface: gráficos, favoritos, alertas.</h3>
+            <div class="scene-instructions">
+              Série de zoom-ins em elementos específicos: 1) Gráfico de evolução de token Rune com linha subindo, 2) Sistema de favoritos com estrelas, 3) Alertas de baleias com ícone de notificação.
+            </div>
+            <div class="scene-dialogue">"...é um oráculo para decifrar o invisível por trás dos tokens que pulsam na blockchain do Bitcoin."</div>
+            <div class="scene-reference">
+              Referência: Trading View + designs modernos de dashboard crypto
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="apresentacao-03">
+        <div class="scene-header">
+          <span class="scene-id">apresentacao-03</span>
+          <span class="scene-time">0:30 - 0:35</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>apresentacao-03</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Efeito de "digital twin" com dados fluindo entre interfaces.</h3>
+            <div class="scene-instructions">
+              Mostrar múltiplas telas/dispositivos (desktop, mobile, tablet) com a interface, conectados por fluxos de dados (linhas de luz que transferem informações entre eles).
+            </div>
+            
+            <div class="scene-reference">
+              Referência: Tron Legacy (linhas de energia) + visualização de rede
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="diferenciais-01">
+        <div class="scene-header">
+          <span class="scene-id">diferenciais-01</span>
+          <span class="scene-time">0:35 - 0:40</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>diferenciais-01</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Palavras-chave "Cache Inteligente" com diagrama de fluxo.</h3>
+            <div class="scene-instructions">
+              A frase "Cache Inteligente" aparece em grande destaque. Atrás dela, um diagrama simplificado mostrando o fluxo de dados, com camadas de cache representadas por círculos concêntricos. A palavra então explode em partículas.
+            </div>
+            <div class="scene-dialogue">"Cache inteligente."</div>
+            <div class="scene-reference">
+              Referência: Diagrama de arquitetura minimalista + efeito de partículas
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="diferenciais-02">
+        <div class="scene-header">
+          <span class="scene-id">diferenciais-02</span>
+          <span class="scene-time">0:40 - 0:45</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>diferenciais-02</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Palavras-chave "APIs Unificadas" com ícones convergindo.</h3>
+            <div class="scene-instructions">
+              A frase "APIs Unificadas" aparece. Ao redor, ícones representando diferentes fontes de dados (Exchanges, Block Explorers, etc.) convergem para um ponto central. Explosão em partículas.
+            </div>
+            <div class="scene-dialogue">"APIs unificadas."</div>
+            <div class="scene-reference">
+              Referência: Diagrama de integração API + ícones minimalistas
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="diferenciais-03">
+        <div class="scene-header">
+          <span class="scene-id">diferenciais-03</span>
+          <span class="scene-time">0:45 - 0:50</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>diferenciais-03</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Palavras-chave "Whale Tracking" com silhueta de baleia.</h3>
+            <div class="scene-instructions">
+              A frase "Whale Tracking" aparece. Uma silhueta de baleia digital nada através de blocos de dados/blockchain. Os blocos iluminam-se quando a baleia passa. Explosão em partículas.
+            </div>
+            <div class="scene-dialogue">"Visualização de baleias."</div>
+            <div class="scene-reference">
+              Referência: Visualização Whale Alert + estilo neon
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="diferenciais-04">
+        <div class="scene-header">
+          <span class="scene-id">diferenciais-04</span>
+          <span class="scene-time">0:50 - 0:55</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>diferenciais-04</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Palavras-chave "Simulação de Trades" e interface modular.</h3>
+            <div class="scene-instructions">
+              A frase "Simulação de Trades" aparece. Uma interface simplificada de simulação é mostrada com gráfico e controles. Em seguida, mostrar a interface sendo reconfigurada em tempo real, módulos movendo-se e reorganizando-se.
+            </div>
+            <div class="scene-dialogue">"Simulação de trades. Tudo modular. Tudo livre."</div>
+            <div class="scene-reference">
+              Referência: Interface de trading moderna + UI modular
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="gratidao-01">
+        <div class="scene-header">
+          <span class="scene-id">gratidao-01</span>
+          <span class="scene-time">0:55 - 1:05</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>gratidao-01</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Transição para rede neural/blockchain com nós luminosos.</h3>
+            <div class="scene-instructions">
+              Fade para uma cena escura. Pontos de luz conectados formam uma estrutura que é simultaneamente uma rede neural e uma visualização de blockchain. Os nós pulsam suavemente com luz.
+            </div>
+            <div class="scene-dialogue">"Este projeto nasceu da gratidão."</div>
+            <div class="scene-reference">
+              Referência: Visualização de rede neural + blockchain art
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="gratidao-02">
+        <div class="scene-header">
+          <span class="scene-id">gratidao-02</span>
+          <span class="scene-time">1:05 - 1:15</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>gratidao-02</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Rostos sutis nos nós e surgimento do RuneCard Cypher.</h3>
+            <div class="scene-instructions">
+              Alguns nós transformam-se sutilmente em silhuetas/rostos por um instante (sem identificar pessoas reais). Do centro da rede, surge o RuneCard "Cypher" com efeito de ondulação digital. O card gira lentamente em 3D.
+            </div>
+            <div class="scene-dialogue">"Aos que criaram os Runes, aos que moldaram a rede, aos que ainda acreditam no impossível."</div>
+            <div class="scene-reference">
+              Referência: Hologramas de StarWars + cartões 3D premium
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="gratidao-03">
+        <div class="scene-header">
+          <span class="scene-id">gratidao-03</span>
+          <span class="scene-time">1:15 - 1:20</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>gratidao-03</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Código Morse e detalhes do card Cypher.</h3>
+            <div class="scene-instructions">
+              Enquanto o card gira, mostrar detalhes de suas informações. Em um canto da tela, um pequeno ponto pisca em código Morse soletando "NAKAMOTO".
+            </div>
+            
+            <div class="scene-reference">
+              Referência: Código Morse + Easter eggs sutis
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="encerramento-01">
+        <div class="scene-header">
+          <span class="scene-id">encerramento-01</span>
+          <span class="scene-time">1:20 - 1:25</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>encerramento-01</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Interface em uso real por usuário (mãos apenas).</h3>
+            <div class="scene-instructions">
+              Mostrar visão de primeira pessoa: mãos digitando/interagindo com a interface completa do RUNES Analytics Pro. Várias telas de dados, gráficos e análises visíveis.
+            </div>
+            
+            <div class="scene-reference">
+              Referência: Interação realista com UI + perspectiva de usuário
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="encerramento-02">
+        <div class="scene-header">
+          <span class="scene-id">encerramento-02</span>
+          <span class="scene-time">1:25 - 1:35</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>encerramento-02</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">Fade para tela preta, texto final e logo.</h3>
+            <div class="scene-instructions">
+              Fade para tela preta. Texto aparece: "RUNES Analytics Pro. Construído por visionários. Para visionários." Logo abaixo, o logo do projeto aparece com efeito de brilho/glowing.
+            </div>
+            <div class="scene-dialogue">"RUNES Analytics Pro. Construído por visionários. Para visionários."</div>
+            <div class="scene-reference">
+              Referência: Cinematografia minimalista + logo animation
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="scene" id="encerramento-03">
+        <div class="scene-header">
+          <span class="scene-id">encerramento-03</span>
+          <span class="scene-time">1:35 - 1:45</span>
+        </div>
+        <div class="scene-content">
+          <div class="scene-image">
+            <div class="image-placeholder-icon">🎬</div>
+            <p>Imagem do storyboard<br>encerramento-03</p>
+          </div>
+          <div class="scene-details">
+            <h3 class="scene-title">URL final e easter egg.</h3>
+            <div class="scene-instructions">
+              URL do projeto aparece abaixo do logo. No canto inferior da tela, em texto muito pequeno quase imperceptível: "O que está oculto entre os blocos?"
+            </div>
+            
+            <div class="scene-reference">
+              Referência: Créditos finais de filme + easter egg sutil
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="notes">
+      <h3>Notas para Produção</h3>
+      <p>Este storyboard serve como guia visual para o vídeo-pitch de 1:45 do RUNES Analytics Pro. As imagens reais devem ser criadas por um designer/artista digital seguindo as referências fornecidas.</p>
+      <p>Cada cena inclui:</p>
+      <ul>
+        <li>Timestamp e ID para organização</li>
+        <li>Descrição da cena</li>
+        <li>Instruções detalhadas para designers</li>
+        <li>Texto/diálogo quando aplicável</li>
+        <li>Referências visuais para inspiração</li>
+      </ul>
+      <p>A estética geral deve seguir um tema "verde terminal" (estilo Matrix) com elementos futuristas e místicos, evocando tanto tecnologia avançada quanto um senso de reverência ao Bitcoin e ecossistema Runes.</p>
+    </div>
+    
+    <div class="footer">
+      <p>© RUNES Analytics Pro - Documento de produção interno</p>
+      <p>O que está oculto entre os blocos?</p>
+    </div>
+  </div>
+</body>
+</html>

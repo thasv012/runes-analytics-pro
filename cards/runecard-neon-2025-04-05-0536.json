@@ -1,0 +1,45 @@
+{
+  "id": "neon-dreams-neon",
+  "title": "Neon Dreams",
+  "subtitle": "The NEON Protocol",
+  "rune": {
+    "ticker": "NEON",
+    "id": "0x92b24e5a",
+    "minted": "83.1M",
+    "holders": "21.7K",
+    "launchDate": "2024-05-12"
+  },
+  "visual": {
+    "image": "assets/cards/neon-dreams-neon.png",
+    "themeColor": "#FFD700",
+    "animation": "awaken"
+  },
+  "narrative": {
+    "intro": "Inspirado por Cyberpunk, neon, futuro distópico e tecnologia de rua, NEON transcende o conceito tradicional de valor.",
+    "lore": [
+      "Nascido nas profundezas da cadeia, NEON emerge como um símbolo de resistência digital.",
+      "Dizem que quem possuir NEON por tempo suficiente começará a ouvir os ecos do código primordial.",
+      "Em um mundo de tokens efêmeros, NEON permanece como um farol de imutabilidade."
+    ],
+    "quote": "\"Eu sou NEON, a manifestação digital da vontade coletiva.\""
+  },
+  "abilities": {
+    "core": [
+      "Token Surge",
+      "Ledger Discharge",
+      "Nano Interface"
+    ],
+    "awakening": {
+      "trigger": "HODL > 104 days",
+      "unlocked": [
+        "Consensus Surge",
+        "Neural Array"
+      ]
+    }
+  },
+  "meta": {
+    "createdBy": "RUNES Analytics Pro",
+    "version": "1.0.0",
+    "lastUpdated": "2025-04-05"
+  }
+}

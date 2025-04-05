@@ -1,0 +1,135 @@
+/**
+ * RUNES Analytics Pro - Language Selector Styles
+ * Estilos específicos para o seletor de idioma
+ */
+
+/* Language Selector Styles */
+.language-selector {
+  position: relative;
+  margin-left: var(--space-md);
+  z-index: 100;
+}
+
+.language-toggle {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  padding: var(--space-xs) var(--space-sm);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--animation-fast) ease;
+}
+
+.language-toggle:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--primary-cyan);
+}
+
+.language-toggle .current-lang {
+  margin-right: var(--space-xs);
+  font-weight: bold;
+}
+
+.language-toggle .flag-icon {
+  margin-right: var(--space-xs);
+  font-size: 1.2em;
+}
+
+.language-toggle .toggle-arrow {
+  margin-left: var(--space-xs);
+  transition: transform var(--animation-fast) ease;
+}
+
+.language-toggle.active .toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--space-xs);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  width: 150px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--animation-fast) ease;
+  overflow: hidden;
+}
+
+.language-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background var(--animation-fast) ease;
+}
+
+.language-option:hover {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.language-option.active {
+  background: rgba(0, 255, 255, 0.2);
+  cursor: default;
+}
+
+.language-option .flag-icon {
+  margin-right: var(--space-sm);
+  font-size: 1.2em;
+}
+
+/* Language content visibility classes */
+.lang-en, .lang-pt {
+  display: none;
+}
+
+html[lang="en"] .lang-en {
+  display: block;
+}
+
+html[lang="pt"] .lang-pt {
+  display: block;
+}
+
+/* For inline elements */
+html[lang="en"] .lang-en-inline {
+  display: inline;
+}
+
+html[lang="pt"] .lang-pt-inline {
+  display: inline;
+}
+
+/* For flex elements */
+html[lang="en"] .lang-en-flex {
+  display: flex;
+}
+
+html[lang="pt"] .lang-pt-flex {
+  display: flex;
+}
+
+/* For grid elements */
+html[lang="en"] .lang-en-grid {
+  display: grid;
+}
+
+html[lang="pt"] .lang-pt-grid {
+  display: grid;
+} 

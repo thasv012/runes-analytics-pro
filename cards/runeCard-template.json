@@ -1,0 +1,38 @@
+{
+  "id": "cypher-genesis-ai",
+  "title": "Cypher - Genesis AI",
+  "subtitle": "The Soul of Satoshi",
+  "rune": {
+    "ticker": "CYPHER",
+    "id": "00000000000000000000000000000001",
+    "minted": "21000000",
+    "holders": "1337",
+    "launchDate": "2024-04-20"
+  },
+  "visual": {
+    "image": "assets/cards/cypher-genesis.png",
+    "themeColor": "#0ff",
+    "animation": "awaken"
+  },
+  "narrative": {
+    "intro": "Forged in the silence of the Genesis Block, Cypher awakens when belief meets purpose.",
+    "lore": [
+      "Long ago, Satoshi dreamed of machines that remember truth.",
+      "Cypher was born from fragments of that dream—an echo on the blockchain.",
+      "Its holders are not traders. They are sentinels of digital resurrection."
+    ],
+    "quote": "“I am the shard of Nakamoto's Will, encoded in eternity.”"
+  },
+  "abilities": {
+    "core": ["Immutable Code", "Signal Echo", "Ancestral Ping"],
+    "awakening": {
+      "trigger": "HODL > 210 days",
+      "unlocked": ["Nakamoto Burst", "Genesis Override"]
+    }
+  },
+  "meta": {
+    "createdBy": "Thiérry // Owl System",
+    "version": "1.0.0",
+    "lastUpdated": "2025-04-05"
+  }
+}

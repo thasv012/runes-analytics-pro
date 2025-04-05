@@ -1,15 +1,49 @@
 # ROADMAP - RUNES Analytics Pro
 
+> **RESUMO RÁPIDO:**
+> - **Diretório de trabalho**: `C:\Users\Thierry\Desktop\runes-limpo`
+> - **Branch atual**: `main`
+> - **Iniciar projeto**: `.\start-project.ps1` ou `start-project.bat`
+> - **URL de acesso**: `http://localhost:3000`
+> - **Documentação**: `GETTING-STARTED.md` para instruções detalhadas
+
 ## Visão Geral do Projeto
 A RUNES Analytics Pro é uma plataforma de análise exclusiva para tokens Runes no Bitcoin, oferecendo interface intuitiva, design gamificado e integração com múltiplas fontes de dados. O objetivo é proporcionar insights profundos sobre o ecossistema Runes, diferenciando-os de outros tipos de tokens como BRC-20 e NFTs Ordinals.
 
+## Estrutura do Repositório e Diretórios
+
+### 📂 Diretórios Principais
+- **runes-limpo** (Desktop): Repositório principal para desenvolvimento
+  - `services/`: Serviços do backend e APIs
+    - `api/`: Serviços de API e transformação de dados
+    - `sharing/`: Serviços para compartilhamento e IPFS
+  - `docs/`: Blocos de documentação multilíngue
+  - `scripts/`: Scripts de automação e utilitários
+  - `components/`: Componentes da interface
+  - `assets/`: Recursos como imagens e SVGs
+  - `styles/`: Arquivos CSS e estilos
+  - `ROADMAP.md`: Este documento de planejamento
+  - `PROXIMO-SPRINT.md`: Planejamento detalhado do próximo sprint
+  - `RESUMO-PROJETO.md`: Arquivo de resumo para facilitar a retomada do desenvolvimento
+  - `GETTING-STARTED.md`: Guia de início rápido para o projeto
+
+### 🌐 Ambiente de Desenvolvimento
+- **URL de Acesso**: http://localhost:3000
+- **Comando para Iniciar**: `.\start-project.ps1` ou `npm run launch`
+- **Repositório GitHub**: https://github.com/thasv012/runes-analytics-pro
+- **Branch Atual**: `main`
+
 ## Tecnologias Utilizadas
 - **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Visualização de Dados**: Chart.js (a ser implementado)
+- **Visualização de Dados**: Chart.js (implementado)
 - **Armazenamento Local**: IndexedDB para cache persistente
+- **Backend**: Node.js com Express
+- **DevOps**: GitHub Actions para CI/CD
+- **Documentação**: Sistema multilíngue automatizado
 - **Ícones**: Font Awesome
 - **Fontes**: Inter (Google Fonts)
-- **Servidor de Desenvolvimento**: http-server, live-server (Node.js)
+- **Servidor de Desenvolvimento**: live-server (Node.js)
+- **Controle de Versão**: Git e GitHub
 
 ## Perfil do Usuário
 - Entusiastas de Bitcoin e Runes
@@ -19,7 +53,66 @@ A RUNES Analytics Pro é uma plataforma de análise exclusiva para tokens Runes 
 
 ## Status Atual (Em Desenvolvimento)
 
-### Componentes Implementados
+### ✅ Implementações Concluídas (Abril 2025)
+
+1. **Sistema Avançado de Cache com IndexedDB**
+   - ✅ Persistência de dados entre sessões do navegador
+   - ✅ Mecanismo de expiração automática de itens (TTL)
+   - ✅ Otimização de espaço com limite automático de tamanho (100 itens)
+   - ✅ Sistema de fallback para navegadores sem suporte a IndexedDB
+   - ✅ Interface de desenvolvimento para gerenciamento de cache
+
+2. **Otimizações de Performance**
+   - ✅ Implementação de lazy loading via Intersection Observer
+   - ✅ Debounce em campos de busca para reduzir chamadas à API
+   - ✅ AJAX paginado com carregamento eficiente
+   - ✅ Detecção assíncrona de atividades de baleias
+   - ✅ Tratamento robusto de erros e elementos inexistentes
+   - ✅ Inicialização otimizada de componentes
+
+3. **Explorador de Tokens Runes**
+   - ✅ Visualização em grid e tabela com opção de alternar
+   - ✅ Sistema de ordenação avançado multifatorial
+   - ✅ Filtros combinados por múltiplos critérios
+   - ✅ Modal detalhado para informações de tokens
+   - ✅ Animações de feedback para mudanças de preço
+   - ✅ Elementos de UI com verificação de existência para evitar erros
+
+4. **Sistema de Gamificação**
+   - ✅ Framework de níveis e experiência (XP)
+   - ✅ Sistema de desafios diários e conquistas
+   - ✅ Interface de acompanhamento de progresso
+   - ✅ Notificações para conquistas desbloqueadas
+
+5. **Rastreador de Baleias e Análise Social**
+   - ✅ Detecção de padrões de acumulação/distribuição
+   - ✅ Simulador de impacto de mudanças de sentimento no preço
+   - ✅ Correlação entre dados sociais e movimentação de preço
+   - ✅ Alertas configuráveis para movimentações significativas
+
+6. **Infraestrutura e Sistema**
+   - ✅ API Manager com geração de dados mock e cache
+   - ✅ Integração entre componentes via arquitetura modular
+   - ✅ Sistema de verificação e falha segura para elementos de UI
+   - ✅ Console limpo sem erros ou warnings críticos
+   
+7. **Sistema de Documentação Multilíngue Avançado**
+   - ✅ Verificação automática de sincronização de traduções
+   - ✅ Geração de READMEs em português e inglês
+   - ✅ Cabeçalho multilíngue com bandeiras em todos os documentos
+   - ✅ Timestamps automáticos em arquivos de documentação
+   - ✅ CI/CD com GitHub Actions para verificação e atualização
+   - ✅ Scripts de monitoramento e regeneração automática
+   - ✅ Integração com Git para commits automáticos
+
+8. **Experiência do Usuário Aprimorada**
+   - ✅ Script interativo de boas-vindas com tipografia avançada
+   - ✅ Animação de carregamento de sistema com progresso visual
+   - ✅ Sequência de inicialização com verificações automáticas
+   - ✅ Interface responsiva com diferentes temas visuais
+
+### Componentes Ativos do Sistema
+
 1. **Interface Base**
    - Layout responsivo com barra lateral e tema claro/escuro
    - Sistema de navegação entre seções
@@ -63,13 +156,20 @@ A RUNES Analytics Pro é uma plataforma de análise exclusiva para tokens Runes 
    - Sistema de caching com IndexedDB para persistência entre sessões
    - Geração de dados mock para desenvolvimento
    - Biblioteca expandida de tokens Runes com metadados
+   - Métodos robustos para busca e manipulação de dados
+   - Tratamento de erros e fallbacks apropriados
 
-8. **Otimizações de Performance**
-   - Cache persistente com IndexedDB para reduzir chamadas à API
-   - Lazy loading para carregar dados conforme necessário
-   - Debounce em campos de busca para limitar requisições
-   - Animações otimizadas para feedback visual
-   - Limpeza automática de cache expirado
+8. **Serviço IPFS**
+   - Integração com IPFS para armazenamento descentralizado
+   - Templates para cards de compartilhamento
+   - Geração de meta tags para compartilhamento social
+   - Sistema de preparação de dados para Twitter e outras redes
+
+9. **Sistema de Documentação e DevOps**
+   - Documentação multilíngue com verificação de sincronização
+   - CI/CD com GitHub Actions para atualizações automáticas
+   - Scripts de monitoramento e regeneração de documentos
+   - Interface de linha de comando para gerenciamento de docs
 
 ### Funcionalidades Específicas de Runes
 - Implementação focada no ecossistema Runes (não BRC-20 ou outros tokens)
@@ -79,35 +179,47 @@ A RUNES Analytics Pro é uma plataforma de análise exclusiva para tokens Runes 
 
 ## Próximos Passos (Prioridades)
 
-### Fase Atual: Refinamento e Otimização (Em Andamento)
+### Fase Atual: Integração e Expansão (Em Andamento)
 
-1. **Aprimorar Sistema de Cache**
-   - ✅ Implementar IndexedDB para persistência entre sessões
-   - ✅ Adicionar limpeza automática de cache expirado
-   - ✅ Criar interface de desenvolvimento para gerenciar cache
-   - Desenvolver estratégias de pré-cache para conteúdos frequentes
+1. **Aprimorar Interface de Usuário**
+   - ✅ Implementar sequência de inicialização com animações
+   - ✅ Adicionar elementos visuais para feedback do sistema
+   - ✅ Desenvolver modo de carregamento interativo
+   - 🔄 Implementar temas avançados com seleção personalizada
+   - 🔄 Adicionar animações de transição entre componentes
 
-2. **Otimizar Carregamento e Performance**
-   - ✅ Implementar lazy loading via Intersection Observer
-   - ✅ Adicionar debounce em campos de busca
-   - ✅ Criar animações otimizadas para feedback visual
-   - Implementar compressão de dados para reduzir tráfego
-   - Otimizar renderização de listas grandes
+2. **Expandir Documentação e Suporte**
+   - ✅ Criar sistema multilíngue para documentação
+   - ✅ Implementar verificação automática de traduções
+   - ✅ Desenvolver scripts de manutenção de documentação
+   - ✅ Adicionar CI/CD para validação contínua
+   - 🔄 Expandir documentação técnica com diagramas e fluxogramas
+   - 🔄 Criar seção de perguntas frequentes (FAQ)
 
-3. **Completar Explorador de Tokens Runes**
-   - ✅ Finalizar implementação de métodos de exibição
-   - ✅ Aprimorar detalhes de tokens com visualizações
-   - ✅ Implementar sistema de filtros avançados
-   - Adicionar funcionalidades de favoritos e compartilhamento
+3. **Integrar APIs de Dados**
+   - ✅ Criar serviço de API com transformação de dados
+   - ✅ Implementar middleware para gerenciamento de requisições
+   - ✅ Desenvolver fallbacks e estratégias de resiliência
+   - 🔄 Integrar com múltiplas fontes de dados reais
+   - 🔄 Implementar cache de API de nível servidor
 
-4. **Integrar Gamificação com Exploração**
-   - ✅ Criar desafios específicos para exploração de tokens
-   - Implementar recompensas por interagir com diferentes tipos de Runes
-   - Desenvolver conquistas relacionadas a conhecimento técnico
+4. **Aprimorar Compartilhamento Social**
+   - ✅ Implementar serviço IPFS para armazenamento de cards
+   - ✅ Criar templates para compartilhamento
+   - ✅ Gerar meta tags para otimização de compartilhamento
+   - 🔄 Desenvolver preview em tempo real de cards
+   - 🔄 Implementar analytics de compartilhamento
+
+5. **Otimizar Fluxo de Desenvolvimento**
+   - ✅ Criar scripts de automação para tarefas repetitivas
+   - ✅ Implementar pipeline CI/CD completo
+   - ✅ Desenvolver sistema de monitoramento de documentação
+   - 🔄 Adicionar testes automatizados para componentes críticos
+   - 🔄 Implementar análise estática de código
 
 ### Próximas Fases
 
-#### Fase 3: Expansão de Funcionalidades (Planejado)
+#### Fase 4: Expansão de Funcionalidades (Planejado)
 1. **Implementar Análise Técnica**
    - Adicionar indicadores técnicos (MACD, RSI, etc.)
    - Criar ferramentas para identificação de padrões
@@ -127,7 +239,7 @@ A RUNES Analytics Pro é uma plataforma de análise exclusiva para tokens Runes 
    - Gráficos comparativos de performance
    - Análise de correlação entre tokens
 
-#### Fase 4: Recursos Educacionais e Comunidade (Planejado)
+#### Fase 5: Recursos Educacionais e Comunidade (Planejado)
 1. **Desenvolver Centro Educacional**
    - Tutoriais interativos sobre o protocolo Runes
    - Glossário de termos técnicos
@@ -139,48 +251,55 @@ A RUNES Analytics Pro é uma plataforma de análise exclusiva para tokens Runes 
    - Leaderboard comunitário
 
 ## Melhorias Recentes
-- **IndexedDB Cache**: Implementação de sistema de cache persistente entre sessões
-- **Lazy Loading**: Adição de carregamento progressivo de conteúdo durante a rolagem
-- **Animações de Preço**: Feedback visual para mudanças de preço (verde para alta, vermelho para baixa)
-- **Paginação Híbrida**: Opção de alternar entre paginação tradicional e lazy loading
-- **Ferramentas de Desenvolvimento**: Interface para gerenciar cache em ambiente de desenvolvimento
-- **Optimização de Pesquisa**: Implementação de debounce para reduzir requisições durante pesquisa
+- **Sistema de Documentação**: Implementação de documentação multilíngue automatizada
+- **Verificação de Traduções**: Sistema de detecção de conteúdo desatualizado entre idiomas
+- **GitHub Actions**: Pipeline CI/CD para validação e atualização automática da documentação
+- **Cabeçalho Multilíngue**: Adição de navegação entre versões de idioma nos documentos
+- **Timestamps Automáticos**: Adição/atualização automática de timestamps em arquivos
+- **Scripts PowerShell/Batch**: Utilitários para gerenciamento de documentação em vários sistemas
+- **Sequência de Animação**: Sistema interativo de boas-vindas e carregamento
+- **Serviço IPFS**: Implementação de integração com armazenamento IPFS
+- **API Manager Avançado**: Sistema completo para gerenciamento de múltiplas APIs
 
 ## Problemas Conhecidos e Limitações Atuais
 - Os dados são mockados para fins de desenvolvimento
 - Algumas funcionalidades avançadas estão apenas na interface (não funcionais)
-- Integrações com APIs externas ainda não implementadas
+- Integrações com APIs externas ainda não implementadas completamente
 - Apenas versão web disponível, sem versão mobile nativa
+- Erro em evmAsk.js relacionado ao Ethereum (provavelmente de uma extensão de navegador)
 
 ## Instruções para Desenvolvimento
-1. Navegue até o diretório `novo-design/` para acessar a versão mais recente
-2. Execute `npx live-server` para iniciar o servidor de desenvolvimento
-3. Acesse a URL fornecida pelo servidor (geralmente http://127.0.0.1:PORT)
-4. Os principais arquivos de trabalho são:
-   - `index.html` - Estrutura principal
-   - `redesign.css` e `visual-improvements.css` - Estilos
-   - `indexeddb-cache.js` - Sistema de cache persistente
-   - `runes-explorer.js` - Explorador de tokens Runes
-   - `social-analytics.js` - Análise social
-   - `scripts.js` - Funcionalidades gerais
 
-## Convenções de Código
-- Classes em kebab-case para HTML e CSS
-- camelCase para variáveis e funções JavaScript
-- Comentários explicativos para funções principais
-- Organização em componentes independentes
-- Foco na separação de responsabilidades
+### 🚀 Iniciando o Projeto
+1. Clone o repositório (se ainda não tiver):
+   ```
+   git clone https://github.com/thasv012/runes-analytics-pro.git runes-limpo
+   cd runes-limpo
+   ```
 
-## Métricas de Sucesso (Objetivos)
-- Interface intuitiva para análise de tokens Runes
-- Gamificação que incentive aprendizado e engajamento
-- Insights valiosos para traders e investidores
-- Recursos educacionais que expliquem o protocolo Runes
-- Design responsivo e acessível
-- Performance otimizada com carregamento rápido e fluido
+2. Instale as dependências:
+   ```
+   npm install
+   ```
 
----
+3. Inicie o projeto:
+   ```
+   npm run launch
+   ```
+   
+   Ou use os scripts de conveniência:
+   ```
+   .\start-project.ps1   # PowerShell (Windows)
+   start-project.bat     # CMD (Windows)
+   ./start-project.sh    # Bash (Linux/Mac)
+   ```
 
-**Última atualização**: 07/04/2025
+4. Para trabalhar com a documentação:
+   ```
+   npm run watch:docs    # Monitorar e regenerar docs automaticamente
+   npm run update:all:docs # Atualizar toda a documentação manualmente
+   ```
 
-**Próximo passo recomendado**: Implementar compressão de dados para reduzir tráfego de rede e otimizar ainda mais a performance da aplicação. 
+Para instruções detalhadas, consulte o arquivo [GETTING-STARTED.md](GETTING-STARTED.md).
+
+📅 Última atualização: 05/04/2025 às 03:40

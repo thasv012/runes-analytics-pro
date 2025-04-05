@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Funcionalidades</title>
+    <meta name="description" content="Explore os recursos e capacidades da plataforma RUNES Analytics Pro.">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles/cyberpunk.css"> 
+    <style>
+        /* Estilos específicos para features.html - Reutilizados */
+        body {
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Language Toggle Button */
+        #language-toggle {
+            position: fixed;
+            top: 15px; 
+            right: 15px;
+            z-index: 1000; 
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-blue);
+            color: var(--text-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        #language-toggle:hover {
+             background: rgba(0, 170, 255, 0.2);
+             color: var(--neon-cyan);
+             box-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
+        }
+
+    </style>
+    
+    <!-- Scripts -->
+    <script src="js/presentation-transitions.js" defer></script>
+    <script src="js/presentation-nav.js" defer></script>
+</head>
+<body>
+    <!-- Botão de Troca de Idioma -->
+    <button id="language-toggle">🇺🇸 English</button>
+
+    <!-- Header (Criado via JavaScript por presentation-nav.js) -->
+    <header class="site-header"></header>
+    
+    <!-- Conteúdo principal -->
+    <main class="content-area">
+        <div class="container">
+            <section class="hero fade-in text-center">
+                <h1 class="glitch-text" data-text="Recursos & Capacidades">Recursos & Capacidades</h1>
+                <p class="text-neon-green text-mono">Desbloqueie o poder da análise de tokens RUNES</p>
+            </section>
+
+            <!-- Dashboard Showcase -->
+            <section class="dashboard-showcase fade-in" style="animation-delay: 0.2s;">
+                <div class="dashboard-img"></div>
+                <div class="dashboard-overlay">
+                    <div class="dashboard-caption">
+                        <h2>Dashboard Intuitivo</h2>
+                        <p>Visualize todo o ecossistema Runes de relance. Widgets personalizáveis, fluxos de dados em tempo real e poderosas ferramentas de gráficos.</p>
+                    </div>
+                </div>
+                <div class="callout callout-1">Feed de Preços em Tempo Real</div>
+                <div class="callout callout-2">Alertas de Atividade Whale</div>
+                <div class="callout callout-3">Widget de Métricas On-chain</div>
+            </section>
+
+            <!-- Features Grid -->
+            <section class="features-grid fade-in" style="animation-delay: 0.4s;">
+                <!-- Whale Tracking -->
+                <div class="card feature-card whale-tracker">
+                    <div class="feature-icon">🐋</div>
+                    <h3>Rastreamento de Whales</h3>
+                    <p>Identifique padrões de acumulação de whales com monitoramento em tempo real de grandes transações e movimentos de carteira.</p>
+                    <div class="metrics">
+                        Precisão de detecção: <span class="text-neon-green">94.5%</span><br>
+                        Tempo de resposta: <span class="text-neon-green">&lt;1.5s</span>
+                    </div>
+                </div>
+
+                <!-- Market Analysis -->
+                <div class="card feature-card market-analysis">
+                     <div class="feature-icon">📈</div>
+                    <h3>Análise de Mercado</h3>
+                    <p>Algoritmos avançados de reconhecimento de padrões para identificar tendências de mercado antes que aconteçam. Correlacione dados de múltiplas fontes.</p>
+                    <div class="metrics">
+                        Detecção de padrões: <span class="text-neon-green">89% precisão</span><br>
+                        Correlação histórica: <span class="text-neon-green">92%</span>
+                    </div>
+                </div>
+
+                <!-- Gamified Experience -->
+                <div class="card feature-card gamified">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Experiência Gamificada</h3>
+                    <p>Aprenda enquanto ganha através de conquistas, desafios e progressão de nível. Domine a análise de Runes de forma divertida.</p>
+                    <div class="sub-features">
+                        ◇ Missões diárias<br>
+                        ◇ Desbloqueie conquistas<br>
+                        ◇ Compita nos placares
+                    </div>
+                </div>
+
+                <!-- Token Explorer -->
+                <div class="card feature-card explorer">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Explorador de Tokens</h3>
+                    <p>Pesquise, filtre e descubra tokens Runes com metadados abrangentes, dados on-chain e estatísticas de mercado.</p>
+                     <div class="sub-features">
+                        ◇ Filtragem avançada<br>
+                        ◇ Ordenação personalizada<br>
+                        ◇ Informações detalhadas do token
+                    </div>
+                </div>
+
+                <!-- Social Analysis -->
+                <div class="card feature-card social">
+                    <div class="feature-icon">💬</div>
+                    <h3>Análise Social</h3>
+                    <p>Acompanhe o sentimento, menções em mídias sociais e atividade da comunidade correlacionada com o desempenho e ação de preço do token.</p>
+                    <div class="metrics">
+                        Precisão do pulso social: <span class="text-neon-green">87%</span><br>
+                        Previsão de tendência: <span class="text-neon-green">79%</span>
+                    </div>
+                </div>
+
+                <!-- IPFS Integration -->
+                <div class="card feature-card ipfs">
+                    <div class="feature-icon">💾</div>
+                    <h3>Integração IPFS</h3>
+                    <p>Compartilhe insights de tokens, snapshots de análise e RunesCards via armazenamento descentralizado para registros permanentes e verificáveis.</p>
+                    <div class="sub-features">
+                        ◇ Cards permanentes<br>
+                        ◇ Compartilhamento verificável<br>
+                        ◇ Integridade de dados IPFS
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demonstration Section -->
+            <section class="demo-section fade-in" style="animation-delay: 0.6s;">
+                <h2>Veja em Ação</h2>
+                <div class="demo-video-placeholder">
+                    [ Mockup Animado da Plataforma / Placeholder de Vídeo ]
+                </div>
+                <h3>Fluxo de Trabalho Típico</h3>
+                <div class="workflow-timeline">
+                    <div class="timeline-item">
+                        <h4>1. Conecte a Carteira</h4>
+                        <p>Vincule com segurança sua carteira preferida para acessar recursos personalizados.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>2. Configure o Dashboard</h4>
+                        <p>Arraste, solte e redimensione widgets para criar sua visão de análise perfeita.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>3. Explore Tokens</h4>
+                        <p>Use o Explorador de Tokens para encontrar Runes com base em critérios específicos.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>4. Analise Tendências</h4>
+                        <p>Utilize ferramentas de análise de mercado e rastreamento de whales para identificar oportunidades.</p>
+                    </div>
+                     <div class="timeline-item">
+                        <h4>5. Compartilhe Insights</h4>
+                        <p>Gere um RunesCard ou snapshot e compartilhe via IPFS.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comparison Table -->
+             <section class="comparison-section fade-in" style="animation-delay: 0.8s;">
+                <h2>Comparado às Ferramentas Tradicionais</h2>
+                 <div style="overflow-x: auto;"> 
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Recurso</th>
+                                <th>RUNES Analytics Pro</th>
+                                <th>Exploradores Tradicionais</th>
+                                <th>Ferramentas Gráficas Genéricas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Dados Específicos de Runes</td>
+                                <td class="highlight">Integração Profunda <span class="advantage-icon">✔</span></td>
+                                <td>Básico <span class="disadvantage-icon">✖</span></td>
+                                <td>Nenhum <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                            <tr>
+                                <td>Rastreamento de Whales</td>
+                                <td class="highlight">Avançado em Tempo Real <span class="advantage-icon">✔</span></td>
+                                <td>Limitado / Manual <span class="disadvantage-icon">✖</span></td>
+                                <td>Nenhum <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                             <tr>
+                                <td>Gamificação</td>
+                                <td class="highlight">Sistema Integrado <span class="advantage-icon">✔</span></td>
+                                <td>Nenhum <span class="disadvantage-icon">✖</span></td>
+                                <td>Nenhum <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                             <tr>
+                                <td>Análise de Sentimento Social</td>
+                                <td class="highlight">Correlação Embutida <span class="advantage-icon">✔</span></td>
+                                <td>Nenhum <span class="disadvantage-icon">✖</span></td>
+                                <td>Nenhum <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                             <tr>
+                                <td>Compartilhamento IPFS</td>
+                                <td class="highlight">Suporte Nativo <span class="advantage-icon">✔</span></td>
+                                <td>Nenhum <span class="disadvantage-icon">✖</span></td>
+                                <td>Manual <span class="disadvantage-icon">✖</span></td>
+                            </tr>
+                            <tr>
+                                <td>Dashboard Personalizável</td>
+                                <td class="highlight">Totalmente Flexível <span class="advantage-icon">✔</span></td>
+                                <td>Layout Fixo <span class="disadvantage-icon">✖</span></td>
+                                <td>Sim (Genérico)</td>
+                            </tr>
+                             <tr>
+                                <td>Atualizações em Tempo Real</td>
+                                <td class="highlight">Latência Sub-segundo <span class="advantage-icon">✔</span></td>
+                                <td>Atrasado / Atualização Manual</td>
+                                <td>Variável</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="cta-section fade-in" style="animation-delay: 1s;">
+                <h2>Pronto para Mergulhar Fundo?</h2>
+                <p>Experimente a próxima geração de análise de tokens Runes.</p>
+                <button class="btn btn-primary btn-glitch mt-2">Experimente os recursos</button>
+                <a href="#" class="cta-link">Leia a Documentação Técnica</a>
+            </section>
+
+        </div>
+    </main>
+    
+    <!-- Footer (Criado via JavaScript por presentation-nav.js) -->
+    <footer class="site-footer"></footer>
+    
+    <script>
+        // Script para parallax simples no showcase do dashboard
+        const showcase = document.querySelector('.dashboard-showcase');
+        const showcaseImg = document.querySelector('.dashboard-img');
+
+        if (showcase && showcaseImg) {
+            showcase.addEventListener('mousemove', (e) => {
+                const rect = showcase.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const moveX = (x / rect.width - 0.5) * -20; // Max 10px movement
+                const moveY = (y / rect.height - 0.5) * -15; // Max 7.5px movement
+                
+                // Apply subtle parallax movement to the background image
+                showcaseImg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            });
+
+            showcase.addEventListener('mouseleave', () => {
+                // Reset transform, trigger CSS transition back to center
+                showcaseImg.style.transform = 'scale(1.1) translate(0, 0)';
+            });
+        }
+        
+        // Add data-text attribute for glitch effect
+        document.querySelectorAll('.glitch-text').forEach(el => {
+            el.setAttribute('data-text', el.textContent);
+        });
+
+        // Placeholder for footer content generation if not handled by nav script
+        const footer = document.querySelector('.site-footer');
+        if (footer && !footer.innerHTML.trim()) {
+            footer.innerHTML = `<div class="container">
+                <p>RUNES Analytics Pro &copy; 2023-${new Date().getFullYear()} | Potencializando a Revolução Runes</p>
+            </div>`;
+        }
+
+         // Language Toggle Logic
+        const langToggleButton = document.getElementById('language-toggle');
+        if (langToggleButton) {
+            langToggleButton.addEventListener('click', () => {
+                // Redirect to the English version (assuming it's features.html)
+                window.location.href = 'features.html'; 
+            });
+        }
+    </script>
+</body>
+</html> 

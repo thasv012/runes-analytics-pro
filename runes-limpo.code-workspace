@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "runes-limpo",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5502
+	}
+}

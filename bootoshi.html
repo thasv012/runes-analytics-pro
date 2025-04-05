@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - King Bootoshi</title>
+    <meta name="description" content="Uma homenagem a King Bootoshi e a comunidade Runes">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles/cyberpunk.css">
+    <style>
+        /* Estilos específicos para esta página */
+        .bootoshi-section {
+            position: relative;
+            padding: 2rem;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--neon-purple);
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .bootoshi-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(191, 0, 255, 0.1) 0%, transparent 80%),
+                        radial-gradient(circle at 70% 70%, rgba(0, 170, 255, 0.1) 0%, transparent 80%);
+            z-index: -1;
+        }
+        
+        .bootoshi-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(191, 0, 255, 0.3);
+        }
+        
+        .bootoshi-quote {
+            font-style: italic;
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        .bootoshi-quote::before,
+        .bootoshi-quote::after {
+            content: '"';
+            color: var(--neon-purple);
+            font-size: 1.5em;
+            line-height: 0;
+            vertical-align: middle;
+        }
+        
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .community-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--neon-blue);
+            transition: all var(--transition-medium);
+        }
+        
+        .community-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 170, 255, 0.3);
+        }
+        
+        .poem-container {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(10, 10, 22, 0.7) 0%, rgba(22, 18, 31, 0.7) 100%);
+            border: 1px solid var(--neon-pink);
+            font-family: var(--font-mono);
+            line-height: 1.8;
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all var(--transition-medium);
+        }
+        
+        .poem-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        .poem-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(255, 0, 170, 0.2);
+        }
+        
+        .poem-hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .poem-visible {
+            display: block;
+            opacity: 1;
+            animation: fadeInPoem 1.5s ease forwards;
+        }
+        
+        @keyframes fadeInPoem {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .poem-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--neon-pink);
+        }
+        
+        .poem-title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--neon-pink);
+        }
+        
+        .poem-line {
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInLine 0.5s ease forwards;
+        }
+        
+        @keyframes fadeInLine {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .easter-egg-unlocked {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--neon-pink);
+            color: var(--bg-primary);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            transform: rotate(5deg);
+            box-shadow: 0 0 10px rgba(255, 0, 170, 0.5);
+        }
+        
+        .bootoshi-vision {
+            margin-top: 3rem;
+            position: relative;
+        }
+        
+        .vision-card {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-green);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vision-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-matrix);
+        }
+        
+        .vision-icon {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background-color: rgba(0, 255, 143, 0.1);
+            border-radius: 50%;
+            color: var(--neon-green);
+        }
+    </style>
+    
+    <!-- Scripts -->
+    <script src="js/presentation-transitions.js" defer></script>
+    <script src="js/presentation-nav.js" defer></script>
+</head>
+<body>
+    <!-- Header (Criado via JavaScript) -->
+    <header class="site-header"></header>
+    
+    <!-- Conteúdo principal -->
+    <main class="content-area">
+        <div class="container">
+            <section class="bootoshi-section fade-in">
+                <h1 class="bootoshi-title">King Bootoshi</h1>
+                
+                <p class="bootoshi-quote">
+                    Visão, liderança e inovação. O pioneiro que impulsionou o protocolo Runes e inspirou toda uma comunidade a explorar o potencial ilimitado dos tokens no Bitcoin.
+                </p>
+                
+                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                    <div class="card parallax" data-parallax-intensity="0.03">
+                        <h3 class="text-neon-purple mb-2">Visão Revolucionária</h3>
+                        <p>Bootoshi reconheceu o potencial dos tokens no Bitcoin quando muitos ainda duvidavam, prevendo um ecossistema rico e diversificado de aplicações token-centric.</p>
+                        <p class="mt-2">Sua perspectiva sobre o papel dos Runes como extensão natural das capacidades do Bitcoin, sem comprometer sua segurança ou descentralização, mudou o paradigma dos tokens no ecossistema Bitcoin.</p>
+                    </div>
+                    
+                    <div class="card parallax" data-parallax-intensity="0.02">
+                        <h3 class="text-neon-blue mb-2">Comunidade Vibrante</h3>
+                        <p>Ao redor da visão de Bootoshi, formou-se uma das comunidades mais vibrantes e criativas do ecossistema Bitcoin, unindo desenvolvedores, artistas, empreendedores e entusiastas.</p>
+                        <p class="mt-2">Essa comunidade impulsiona a inovação constante no protocolo Runes, criando aplicações, ferramentas e casos de uso que expandem as possibilidades do Bitcoin.</p>
+                    </div>
+                    
+                    <div class="card parallax" data-parallax-intensity="0.04">
+                        <h3 class="text-neon-green mb-2">Legado Duradouro</h3>
+                        <p>O legado de Bootoshi vai além da tecnologia - trata-se de uma filosofia de construção que respeita os princípios fundamentais do Bitcoin enquanto explora novas fronteiras.</p>
+                        <p class="mt-2">Através de sua influência, uma nova geração de builders está reimaginando o que é possível construir sobre a base sólida da rede Bitcoin, criando um futuro mais descentralizado e acessível.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mt-3 fade-in" style="animation-delay: 0.5s;">
+                <h2>Comunidade Runes</h2>
+                
+                <div class="community-grid">
+                    <div class="community-card">
+                        <h3 class="mb-2">Desenvolvedores</h3>
+                        <p>Uma comunidade global de desenvolvedores construindo ferramentas, bibliotecas e aplicações que expandem as capacidades do protocolo Runes.</p>
+                        <div class="terminal-box mt-2" style="font-size: 0.85rem;">
+                            <span class="text-neon-green"># Principais Contribuições</span>
+                            <br>- SDK's para múltiplas linguagens
+                            <br>- Ferramentas de indexação on-chain
+                            <br>- Frameworks para DeFi em Bitcoin
+                            <br>- Explorers e wallets especializados
+                        </div>
+                    </div>
+                    
+                    <div class="community-card">
+                        <h3 class="mb-2">Criadores</h3>
+                        <p>Artistas, criadores de conteúdo e visionários que utilizam Runes como meio de expressão e experimentação, ampliando as fronteiras criativas.</p>
+                        <div class="terminal-box mt-2" style="font-size: 0.85rem;">
+                            <span class="text-neon-green"># Projetos Notáveis</span>
+                            <br>- Coleções de arte tokenizadas
+                            <br>- Experiências narrativas on-chain
+                            <br>- Sistemas de fidelidade descentralizados
+                            <br>- Monetização de conteúdo via tokens
+                        </div>
+                    </div>
+                    
+                    <div class="community-card">
+                        <h3 class="mb-2">Educadores</h3>
+                        <p>Mentores e comunicadores dedicados a explicar e difundir conhecimento sobre o protocolo Runes e suas aplicações para um público cada vez mais amplo.</p>
+                        <div class="terminal-box mt-2" style="font-size: 0.85rem;">
+                            <span class="text-neon-green"># Iniciativas Educacionais</span>
+                            <br>- Tutoriais e documentação aberta
+                            <br>- Podcasts e canais especializados
+                            <br>- Workshops e hackathons
+                            <br>- Grupos de estudo e pesquisa
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mt-3 fade-in easter-egg" style="animation-delay: 0.8s;">
+                <h2 class="text-center">O Poder Por Trás dos Dados</h2>
+                
+                <div id="poem-container" class="poem-container">
+                    <div id="poem-prompt">
+                        <div class="poem-icon">📜</div>
+                        <p class="poem-title">Clique para revelar o poema</p>
+                        <p class="text-secondary">Um easter egg escrito em homenagem a King Bootoshi e a comunidade Runes</p>
+                    </div>
+                    
+                    <div id="poem-content" class="poem-hidden">
+                        <span class="easter-egg-unlocked">Easter Egg Desbloqueado!</span>
+                        
+                        <h3 class="poem-title">Cyphers no Ether Digital</h3>
+                        
+                        <div class="poem-line" style="animation-delay: 0.2s;">
+                            No vasto oceano de zeros e uns,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 0.4s;">
+                            Onde bits dançam em pulsos de luz,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 0.6s;">
+                            Um rei ergue-se, Bootoshi seu nome,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 0.8s;">
+                            Tecendo <span class="text-neon-purple">Runes</span> que o ether consome.
+                        </div>
+                        
+                        <div class="poem-line" style="animation-delay: 1.0s; margin-top: 1.5rem;">
+                            Os dados são frios, cristalinos, precisos,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 1.2s;">
+                            Mas o que os move... é <span class="text-neon-pink">fogo</span>, é <span class="text-neon-green">fé</span>.
+                        </div>
+                        <div class="poem-line" style="animation-delay: 1.4s;">
+                            É <span class="text-neon-cyan">Cypher</span> que flui nas veias do tempo,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 1.6s;">
+                            Ressignificando cada satoshi que é.
+                        </div>
+                        
+                        <div class="poem-line" style="animation-delay: 1.8s; margin-top: 1.5rem;">
+                            Na blockchain que guarda a verdade imutável,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 2.0s;">
+                            Entre hash e bloco, um novo caminho,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 2.2s;">
+                            Onde tokens são mais que meros números,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 2.4s;">
+                            São <span class="text-neon-blue">sonhos</span> codificados com carinho.
+                        </div>
+                        
+                        <div class="poem-line" style="animation-delay: 2.6s; margin-top: 1.5rem;">
+                            A semente plantada na terra digital,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 2.8s;">
+                            Floresce em jardins de possibilidades,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 3.0s;">
+                            Onde cada transação conta uma história,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 3.2s;">
+                            De liberdade, conexão e irmandade.
+                        </div>
+                        
+                        <div class="poem-line" style="animation-delay: 3.4s; margin-top: 1.5rem;">
+                            Salve, Bootoshi, visionário e construtor,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 3.6s;">
+                            Teu legado transcende o código-fonte,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 3.8s;">
+                            É inspiração para os que analisam e criam,
+                        </div>
+                        <div class="poem-line" style="animation-delay: 4.0s;">
+                            Navegando os dados como quem cruza uma ponte.
+                        </div>
+                        
+                        <div class="poem-line" style="animation-delay: 4.2s; margin-top: 2rem; font-style: italic;">
+                            <span class="text-neon-green">// Dedicado à comunidade Runes e ao futuro que estamos construindo juntos.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="bootoshi-vision fade-in" style="animation-delay: 1.1s;">
+                <h2 class="text-center mb-3">A Visão em Prática</h2>
+                
+                <div class="vision-card">
+                    <div class="text-center mb-3">
+                        <div class="vision-icon">🔍</div>
+                        <h3>RUNES Analytics Pro e a Visão de Bootoshi</h3>
+                    </div>
+                    
+                    <p>A RUNES Analytics Pro nasce inspirada pela visão revolucionária de King Bootoshi, trazendo dados e análises profundas para o ecossistema Runes de uma forma que honra os princípios fundamentais:</p>
+                    
+                    <div class="grid mt-3" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                        <div>
+                            <h4 class="mb-1 text-neon-green">Transparência</h4>
+                            <p>Assim como a blockchain é transparente, nossa plataforma torna os dados acessíveis e compreensíveis para todos, democratizando o acesso à informação.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="mb-1 text-neon-blue">Descentralização</h4>
+                            <p>Mantemos o compromisso com a descentralização, fornecendo ferramentas que empoderam usuários a tomar decisões sem depender de intermediários.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="mb-1 text-neon-purple">Inovação Constante</h4>
+                            <p>Seguimos o exemplo de Bootoshi ao abraçar a inovação constante, expandindo sempre as fronteiras do que é possível construir sobre Bitcoin.</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-center mt-3 text-neon-cyan" style="font-style: italic;">
+                        "Os dados são a linguagem da verdade, mas precisam de tradutores para revelar suas histórias."
+                    </p>
+                </div>
+            </section>
+            
+            <section class="text-center mt-3 mb-3 fade-in" style="animation-delay: 1.4s;">
+                <h2>Junte-se a Nós</h2>
+                <p class="mb-3">Faça parte desta jornada de construção no Bitcoin. Juntos, estamos expandindo as fronteiras do que é possível.</p>
+                
+                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <button class="btn" style="background-color: rgba(191, 0, 255, 0.1); border-color: var(--neon-purple);">
+                        <span class="text-neon-purple">Twitter</span>
+                    </button>
+                    
+                    <button class="btn" style="background-color: rgba(0, 170, 255, 0.1); border-color: var(--neon-blue);">
+                        <span class="text-neon-blue">Discord</span>
+                    </button>
+                    
+                    <button class="btn" style="background-color: rgba(0, 255, 143, 0.1); border-color: var(--neon-green);">
+                        <span class="text-neon-green">GitHub</span>
+                    </button>
+                    
+                    <button class="btn" style="background-color: rgba(255, 0, 170, 0.1); border-color: var(--neon-pink);">
+                        <span class="text-neon-pink">Telegram</span>
+                    </button>
+                </div>
+                
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="window.location.href='intro.html'">Voltar ao Início</button>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Atualizar ano no footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Easter egg do poema
+        document.getElementById('poem-container').addEventListener('click', function() {
+            document.getElementById('poem-prompt').style.display = 'none';
+            document.getElementById('poem-content').classList.remove('poem-hidden');
+            document.getElementById('poem-content').classList.add('poem-visible');
+        });
+    </script>
+</body>
+</html> 

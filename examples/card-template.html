@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Card Template Demo</title>
+    
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --background: #0f0f1a;
+            --card-background: #1a1a2e;
+            --text-color: #e6e6e6;
+            --accent-color: #3b82f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .description {
+            color: rgba(230, 230, 230, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            margin-top: 3rem;
+        }
+        
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .demo-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            background: var(--accent-color);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .demo-btn:hover {
+            filter: brightness(1.1);
+        }
+        
+        #card-template-container {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>RUNES Analytics Pro</h1>
+            <p class="description">
+                Demonstração do sistema de templates de cartões com suporte a IPFS e compartilhamento no Twitter.
+            </p>
+        </header>
+        
+        <section class="demo-section">
+            <div class="demo-header">
+                <h2 class="demo-title">Template de Cartão</h2>
+                <div class="demo-controls">
+                    <button class="demo-btn" id="load-data">
+                        <i class="fas fa-sync"></i>
+                        Carregar Dados
+                    </button>
+                    <button class="demo-btn" id="reset-template">
+                        <i class="fas fa-undo"></i>
+                        Resetar Template
+                    </button>
+                </div>
+            </div>
+            
+            <div id="card-template-container"></div>
+        </section>
+    </div>
+    
+    <!-- Scripts -->
+    <script type="module" src="card-template-example.js"></script>
+    <script>
+        // Adicionar interatividade aos botões de demo
+        document.getElementById('load-data').addEventListener('click', () => {
+            // Simular carregamento de novos dados
+            const newData = {
+                title: 'ORDIBITS',
+                description: 'Token Rune atualizado',
+                supply: Math.floor(Math.random() * 1000000).toString(),
+                holders: Math.floor(Math.random() * 10000).toString(),
+                transactions: Math.floor(Math.random() * 50000).toString(),
+                price: (Math.random() * 0.0001).toFixed(8) + ' BTC',
+                volume: (Math.random() * 10).toFixed(2) + ' BTC',
+                marketCap: (Math.random() * 1000).toFixed(2) + ' BTC',
+                createdAt: new Date().toISOString(),
+                image: 'https://example.com/ordibits.png'
+            };
+            
+            // Atualizar dados no template manager
+            window.templateManager?.updateData(newData);
+        });
+        
+        document.getElementById('reset-template').addEventListener('click', () => {
+            // Recarregar a página para resetar o estado
+            location.reload();
+        });
+    </script>
+</body>
+</html> 
