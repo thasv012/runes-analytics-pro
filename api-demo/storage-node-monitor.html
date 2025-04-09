@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - AwakenNet Storage Monitor</title>
+  <link rel="stylesheet" href="../css/shared.css">
+  <link rel="stylesheet" href="../css/neural-connect.css">
+  <style>
+    :root {
+      --primary: #5ce1e6;
+      --secondary: #9d4edd;
+      --background: #1a1a2e;
+      --card-bg: rgba(30, 30, 60, 0.6);
+      --text: #e0e0ff;
+      --border: rgba(92, 225, 230, 0.3);
+      --success: #55ff55;
+      --warning: #ffaa00;
+      --error: #ff5555;
+    }
+    
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: 'Rajdhani', 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    
+    h2 {
+      color: var(--secondary);
+      font-size: 1.5rem;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-top: 0;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      margin-bottom: 1.5rem;
+    }
+    
+    .card h3 {
+      color: var(--primary);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card h3::before {
+      content: '⟁';
+      display: inline-block;
+      font-size: 1.2em;
+    }
+    
+    .console-header {
+      background: rgba(20, 20, 40, 0.7);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    .console-title {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .console-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .console-actions button {
+      background: rgba(92, 225, 230, 0.2);
+      color: var(--primary);
+      padding: 0.5rem 0.75rem;
+      margin: 0;
+      font-size: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .console-actions button:hover {
+      background: rgba(92, 225, 230, 0.4);
+    }
+    
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .summary-card {
+      background: rgba(20, 20, 40, 0.7);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .summary-card .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .summary-card .title {
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .summary-card .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+    
+    .summary-card .meta {
+      font-size: 0.8rem;
+      color: rgba(224, 224, 255, 0.6);
+    }
+    
+    /* Ícones/mensagens de carregamento */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      color: var(--text);
+    }
+    
+    .loading-icon {
+      border: 3px solid rgba(92, 225, 230, 0.3);
+      border-radius: 50%;
+      border-top: 3px solid var(--primary);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AwakenNet Storage Monitor</h1>
+      <h2>RUNES Analytics Pro</h2>
+    </header>
+    
+    <div class="card">
+      <div class="console-header">
+        <h3 class="console-title">Resumo da Rede de Armazenamento</h3>
+        <div class="console-actions">
+          <button id="refresh-btn">🔄 Atualizar</button>
+          <button id="config-btn">⚙️ Configurações</button>
+        </div>
+      </div>
+      
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="icon">💾</div>
+          <div class="title">Capacidade Total</div>
+          <div class="value">15.0 TB</div>
+          <div class="meta">4 nós de armazenamento</div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="icon">📊</div>
+          <div class="title">Uso Médio</div>
+          <div class="value">75.3%</div>
+          <div class="meta">11.3 TB em uso</div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="icon">⚡</div>
+          <div class="title">Disponibilidade</div>
+          <div class="value">98.7%</div>
+          <div class="meta">Últimos 30 dias</div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="icon">🔄</div>
+          <div class="title">Status dos Nós</div>
+          <div class="value">3 / 4</div>
+          <div class="meta">1 nó em manutenção</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="console-header">
+        <h3 class="console-title">Status dos Nós de Armazenamento</h3>
+        <div class="console-actions">
+          <button id="list-view-btn">📋 Lista</button>
+          <button id="grid-view-btn" class="active">📊 Grid</button>
+        </div>
+      </div>
+      
+      <div id="awakenet-monitor" class="awakenet-monitor-container">
+        <div class="loading">
+          <div class="loading-icon"></div>
+          <div>Carregando informações dos nós...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module">
+    import { AwakenNetStorageMonitor } from '../js/awakenNetStatus.js';
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Elementos DOM
+      const refreshBtn = document.getElementById('refresh-btn');
+      const configBtn = document.getElementById('config-btn');
+      const listViewBtn = document.getElementById('list-view-btn');
+      const gridViewBtn = document.getElementById('grid-view-btn');
+      
+      // Inicializa o monitor
+      const storageMonitor = new AwakenNetStorageMonitor({
+        containerId: 'awakenet-monitor',
+        configPath: './awakenet.config.json',
+        refreshInterval: 5000 // Atualiza a cada 5 segundos
+      });
+      
+      try {
+        // Inicializa o monitor
+        await storageMonitor.init();
+        console.log('Monitor de armazenamento inicializado com sucesso');
+        
+        // Handler para atualização manual
+        refreshBtn.addEventListener('click', () => {
+          storageMonitor.fetchNodeStatus();
+        });
+        
+        // Handler para botão de configurações
+        configBtn.addEventListener('click', () => {
+          alert('Configurações do monitor serão implementadas em breve.');
+        });
+        
+        // Toggle entre visualizações de lista e grid
+        listViewBtn.addEventListener('click', () => {
+          listViewBtn.classList.add('active');
+          gridViewBtn.classList.remove('active');
+          document.querySelector('.awakenet-monitor').classList.add('list-view');
+        });
+        
+        gridViewBtn.addEventListener('click', () => {
+          gridViewBtn.classList.add('active');
+          listViewBtn.classList.remove('active');
+          document.querySelector('.awakenet-monitor').classList.remove('list-view');
+        });
+        
+      } catch (error) {
+        console.error('Erro ao inicializar o monitor:', error);
+      }
+    });
+  </script>
+</body>
+</html> 

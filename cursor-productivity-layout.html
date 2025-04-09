@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout de Produtividade Cursor 🚀</title>
+    <style>
+        :root {
+            --primary: #6b57ff;
+            --secondary: #4338ca;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #2d3748;
+            --card: #1e293b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+        
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .title h1 {
+            background: linear-gradient(135deg, var(--primary), #9089fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .workspace {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+        }
+        
+        .main {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .editor, .terminal, .card, .agents, .keyboard-shortcuts {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .editor {
+            height: 400px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1rem;
+        }
+        
+        .file-explorer {
+            border-right: 1px solid var(--border);
+            padding-right: 1rem;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .file-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .file-item.active {
+            background-color: rgba(107, 87, 255, 0.1);
+            border-left: 2px solid var(--primary);
+        }
+        
+        .tab-bar {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .code-area {
+            font-family: 'Fira Code', monospace;
+            background-color: #0d1117;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            overflow: auto;
+            font-size: 0.9rem;
+            height: 300px;
+        }
+        
+        .terminal {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+        
+        .terminal-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .terminal-tab {
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        .terminal-tab.active {
+            background-color: rgba(107, 87, 255, 0.1);
+            color: var(--primary);
+        }
+        
+        .terminal-content {
+            background-color: #0d1117;
+            flex-grow: 1;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow: auto;
+        }
+        
+        .command {
+            color: #a5b4fc;
+        }
+        
+        .output {
+            color: #94a3b8;
+        }
+        
+        .error {
+            color: var(--danger);
+        }
+        
+        .success {
+            color: var(--success);
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .card h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .agents {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .agent-item {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            gap: 0.75rem;
+        }
+        
+        .agent-icon {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .agent-info {
+            flex-grow: 1;
+        }
+        
+        .agent-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .agent-desc {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        
+        .agent-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .agent-action {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 9999px;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .agent-action:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .keyboard-shortcuts {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .shortcut {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        
+        .shortcut-keys {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .key {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .preview {
+            margin-top: 2rem;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .preview-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .preview-tab {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .preview-tab.active {
+            background-color: rgba(107, 87, 255, 0.1);
+            color: var(--primary);
+        }
+        
+        .preview-content {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            height: 400px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .preview-toolbar {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .preview-url {
+            flex-grow: 1;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .preview-browser {
+            flex-grow: 1;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiMyNDJCM0QiIGQ9Ik0wIDBoNDAwdjMwMEgweiIvPjxwYXRoIGQ9Ik0xNDAgMTIwaDEyMHY2MEgxNDB6IiBmaWxsPSIjNkI1N0ZGIi8+PHRleHQgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEycHgiIGZpbGw9IiNGRkYiIHg9IjE2MCIgeT0iMTUwIj5HUFUgTWVzaCBEZW1vPC90ZXh0PjxjaXJjbGUgY3g9IjExMCIgY3k9IjE1MCIgcj0iMjAiIGZpbGw9IiMxMEI5ODEiLz48Y2lyY2xlIGN4PSIyOTAiIGN5PSIxNTAiIHI9IjIwIiBmaWxsPSIjRUY0NDQ0Ii8+PHBhdGggZD0iTTExMCAxMzBsMTgwIDQwTTExMCAxNzBsMTgwLTQwIiBzdHJva2U9IiNGOEZBRkMiIG9wYWNpdHk9Ii41Ii8+PC9nPjwvc3ZnPg==');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .workflow {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .workflow-step {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .step-number {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .step-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .step-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="title">
+                <h1>Layout de Produtividade Cursor</h1>
+                <span class="badge">Pro</span>
+            </div>
+            <div>
+                Projeto RUNES Analytics
+            </div>
+        </header>
+        
+        <div class="workspace">
+            <div class="main">
+                <div class="editor">
+                    <div class="file-explorer">
+                        <div class="file-item active">
+                            <span>📄</span> js/gpuMeshVisualization.js
+                        </div>
+                        <div class="file-item">
+                            <span>📄</span> gpu-mesh-demo.html
+                        </div>
+                        <div class="file-item">
+                            <span>📄</span> scripts/addGpuNodes.js
+                        </div>
+                        <div class="file-item">
+                            <span>📄</span> js/mesh-notify.js
+                        </div>
+                        <div class="file-item">
+                            <span>📄</span> .cursor-config.json
+                        </div>
+                        <div class="file-item">
+                            <span>📄</span> agente-local.js
+                        </div>
+                    </div>
+                    <div class="editor-main">
+                        <div class="tab-bar">
+                            <div class="tab active">
+                                <span>📄</span> gpuMeshVisualization.js
+                            </div>
+                            <div class="tab">
+                                <span>📄</span> addGpuNodes.js
+                            </div>
+                        </div>
+                        <div class="code-area">
+                            <pre><span style="color:#c678dd">class</span> <span style="color:#61afef">GpuMeshNetworkVisualizer</span> {
+  <span style="color:#c678dd">constructor</span>(options = {}) {
+    <span style="color:#c678dd">this</span>.container = options.container || <span style="color:#98c379">'#network-container'</span>;
+    <span style="color:#c678dd">this</span>.nodes = [];
+    <span style="color:#c678dd">this</span>.edges = [];
+    <span style="color:#c678dd">this</span>.renderer = <span style="color:#e6c07b">null</span>;
+    <span style="color:#c678dd">this</span>.gpuClient = options.gpuClient;
+    
+    <span style="color:#c678dd">this</span>.setupEventListeners();
+    <span style="color:#c678dd">this</span>.setupGPUClientListeners();
+    
+    <span style="color:#7f848e">// Adicionado: Event listener para novos nós GPU</span>
+    window.addEventListener(<span style="color:#98c379">"gpu-mesh:new-node"</span>, (e) => {
+      <span style="color:#c678dd">const</span> newNode = e.detail;
+      <span style="color:#c678dd">this</span>.nodes.push(newNode);
+      <span style="color:#c678dd">this</span>.render();
+    });
+  }
+
+  <span style="color:#61afef">simulateGpuNodes</span>(count) {
+    <span style="color:#c678dd">const</span> newNodes = [];
+    
+    <span style="color:#c678dd">for</span> (<span style="color:#c678dd">let</span> i = 0; i < count; i++) {
+      <span style="color:#c678dd">const</span> id = <span style="color:#98c379">`node-</span>${Math.random().toString(36).substr(2, 6)}<span style="color:#98c379">`</span>;
+      <span style="color:#c678dd">const</span> node = {
+        id,
+        type: <span style="color:#98c379">'gpu'</span>,
+        gpuUsage: Math.floor(Math.random() * 100),
+        latency: Math.floor(Math.random() * 200),
+        bandwidth: Math.floor(Math.random() * 1000) + 500,
+        status: <span style="color:#98c379">'active'</span>,
+        label: <span style="color:#98c379">`GPU </span>${i + 1}<span style="color:#98c379">`</span>
+      };
+      
+      <span style="color:#c678dd">this</span>.nodes.push(node);
+      newNodes.push(node);
+      
+      console.log(<span style="color:#98c379">`[GPU Mesh] Novo nó adicionado: </span>${id}<span style="color:#98c379">`</span>);
+    }
+    
+    <span style="color:#7f848e">// Importação do módulo de notificação</span>
+    <span style="color:#c678dd">import</span>(<span style="color:#98c379">'./mesh-notify.js'</span>).then(module => {
+      <span style="color:#c678dd">const</span> { notifyOwl } = module;
+      notifyOwl(<span style="color:#98c379">"Adição de novos nós GPU"</span>, { totalAdicionados: count });
+    });
+    
+    <span style="color:#c678dd">this</span>.render();
+    <span style="color:#c678dd">return</span> newNodes;
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-tabs">
+                            <div class="terminal-tab active">Terminal</div>
+                            <div class="terminal-tab">Agente IA</div>
+                            <div class="terminal-tab">Logs</div>
+                        </div>
+                        <div>
+                            <span style="color: var(--primary);">PowerShell</span>
+                        </div>
+                    </div>
+                    <div class="terminal-content">
+                        <div>
+                            <span class="command">$ npx live-server --port=3000</span>
+                            <br>
+                            <span class="output">Starting up http-server, serving ./</span>
+                            <br>
+                            <span class="success">Available on: http://localhost:3000</span>
+                            <br>
+                            <span class="output">Hit CTRL-C to stop the server</span>
+                            <br><br>
+                            <span class="command">$ agente('/gpu add 5')</span>
+                            <br>
+                            <span class="success">✅ Adicionados 5 nós GPU à rede Mesh:
+node-a1b2c3
+node-d4e5f6
+node-7g8h9i
+node-j0k1l2
+node-m3n4o5</span>
+                            <br><br>
+                            <span class="command">$</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="preview">
+                    <div class="preview-header">
+                        <h3>Visualização ao Vivo</h3>
+                        <div class="preview-tabs">
+                            <div class="preview-tab active">GPU Mesh Demo</div>
+                            <div class="preview-tab">Runes Analytics</div>
+                        </div>
+                    </div>
+                    <div class="preview-content">
+                        <div class="preview-toolbar">
+                            <div>🔄</div>
+                            <div>⬅️</div>
+                            <div>➡️</div>
+                            <div class="preview-url">http://localhost:3000/gpu-mesh-demo.html</div>
+                        </div>
+                        <div class="preview-browser"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="card agents">
+                    <h3>
+                        <span>🤖</span>
+                        Agentes IA
+                    </h3>
+                    
+                    <div class="agent-item">
+                        <div class="agent-icon">🧠</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Cursor AI</div>
+                            <div class="agent-desc">Claude 3.5 Sonnet - Ativo</div>
+                        </div>
+                        <div class="agent-actions">
+                            <div class="agent-action">🔄</div>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-item">
+                        <div class="agent-icon">🌐</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Agente Local</div>
+                            <div class="agent-desc">Comandos personalizados GPU</div>
+                        </div>
+                        <div class="agent-actions">
+                            <div class="agent-action">▶️</div>
+                        </div>
+                    </div>
+                    
+                    <div class="agent-item">
+                        <div class="agent-icon">📊</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Runes Analyst</div>
+                            <div class="agent-desc">Dados onchain de Runes</div>
+                        </div>
+                        <div class="agent-actions">
+                            <div class="agent-action">▶️</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keyboard-shortcuts">
+                    <h3>
+                        <span>⌨️</span>
+                        Atalhos de Teclado
+                    </h3>
+                    
+                    <div class="shortcut">
+                        <span>Adicionar Nós GPU</span>
+                        <div class="shortcut-keys">
+                            <span class="key">Ctrl</span>
+                            <span class="key">Shift</span>
+                            <span class="key">A</span>
+                        </div>
+                    </div>
+                    
+                    <div class="shortcut">
+                        <span>Testar Conexão Mesh</span>
+                        <div class="shortcut-keys">
+                            <span class="key">Ctrl</span>
+                            <span class="key">Shift</span>
+                            <span class="key">T</span>
+                        </div>
+                    </div>
+                    
+                    <div class="shortcut">
+                        <span>Analisar Código Runes</span>
+                        <div class="shortcut-keys">
+                            <span class="key">Ctrl</span>
+                            <span class="key">Shift</span>
+                            <span class="key">R</span>
+                        </div>
+                    </div>
+                    
+                    <div class="shortcut">
+                        <span>Ask in ChatGPT</span>
+                        <div class="shortcut-keys">
+                            <span class="key">Ctrl</span>
+                            <span class="key">Shift</span>
+                            <span class="key">C</span>
+                        </div>
+                    </div>
+                    
+                    <div class="shortcut">
+                        <span>Iniciar Live Server</span>
+                        <div class="shortcut-keys">
+                            <span class="key">Ctrl</span>
+                            <span class="key">Alt</span>
+                            <span class="key">L</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workflow">
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <div class="step-title">Codificação com Cursor AI</div>
+                <div class="step-desc">
+                    Use o Cursor AI para gerar, explicar e otimizar código com atalhos diretos.
+                    Integração com Claude 3.5 Sonnet para respostas técnicas precisas.
+                </div>
+            </div>
+            
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <div class="step-title">Agente IA Local</div>
+                <div class="step-desc">
+                    Agente IA integrado via <code>agente-local.js</code> responde a comandos
+                    como <code>/gpu</code>, <code>/rune</code> e <code>/mesh</code> para análises e simulações.
+                </div>
+            </div>
+            
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <div class="step-title">Live Server + Preview</div>
+                <div class="step-desc">
+                    Visualize alterações em tempo real com Live Server na porta 3000.
+                    Comande via terminal ou atalho <code>Ctrl+Alt+L</code>.
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            Projeto RUNES Analytics | Layout de Produtividade Cursor | Thierry | 2023
+        </footer>
+    </div>
+</body>
+</html> 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNES Analytics Pro - Demo</title>
+    <title data-en="RUNES Analytics Pro - Demo" data-pt="RUNES Analytics Pro - Demonstração">RUNES Analytics Pro - Demo</title>
     <meta name="description" content="Demonstração interativa da plataforma RUNES Analytics Pro">
     
     <!-- Fontes -->
@@ -12,7 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Estilos -->
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="styles/language-styles.css">
     <link rel="stylesheet" href="styles/cyberpunk.css">
+    <link rel="stylesheet" href="styles/tour-simulator.css">
     <style>
         /* Estilos específicos para esta página */
         .demo-player {
@@ -48,6 +51,7 @@
             justify-content: center;
             overflow: hidden;
             border: 1px solid rgba(0, 170, 255, 0.3);
+            position: relative;
         }
         
         .demo-placeholder {
@@ -61,222 +65,479 @@
             background-color: rgba(0, 0, 0, 0.3);
             text-align: center;
             padding: 2rem;
-        }
-        
-        .feature-tab {
             cursor: pointer;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 4px;
-            background-color: var(--bg-secondary);
-            border-left: 3px solid transparent;
-            transition: all var(--transition-fast);
+            transition: all 0.3s ease;
         }
         
-        .feature-tab:hover {
-            border-left-color: var(--neon-purple);
-            background-color: rgba(191, 0, 255, 0.1);
+        .demo-placeholder:hover {
+            background-color: rgba(0, 0, 0, 0.5);
         }
         
-        .feature-tab.active {
-            border-left-color: var(--neon-cyan);
-            background-color: rgba(0, 170, 255, 0.1);
-        }
-        
-        .demo-control {
-            background-color: var(--bg-primary);
-            padding: 0.5rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .demo-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .demo-button:hover {
-            background-color: var(--neon-cyan);
-            color: var(--bg-primary);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-        }
-        
-        .demo-progress {
-            flex: 1;
-            height: 4px;
-            background-color: var(--bg-tertiary);
-            border-radius: 2px;
-            margin: 0 1rem;
+        .video-container {
             position: relative;
+            width: 100%;
+            border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            margin-top: 2rem;
         }
         
-        .demo-progress-bar {
+        .video-overlay {
             position: absolute;
             top: 0;
             left: 0;
+            width: 100%;
             height: 100%;
-            width: 35%;
-            background: var(--gradient-cyber);
-            border-radius: 2px;
-        }
-        
-        .demo-time {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        .demo-actions {
             display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2;
+        }
+        
+        .video-play-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.2);
+            border: 2px solid var(--neon-cyan);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+        
+        .video-play-button:hover {
+            transform: scale(1.1);
+            background: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 25px var(--neon-cyan);
+        }
+        
+        .video-play-button i {
+            color: var(--neon-cyan);
+            font-size: 2rem;
+            line-height: 1;
+            margin-left: 8px;
+        }
+        
+        #tour-video {
+            width: 100%;
+            display: block;
+            background-color: #000;
+        }
+        
+        .feature-tab {
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-tab:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            border-left-color: rgba(0, 255, 255, 0.5);
+        }
+        
+        .feature-tab.active {
+            background-color: rgba(0, 255, 255, 0.15);
+            border-left-color: var(--neon-cyan);
         }
         
         .interactive-demo {
-            margin: 2rem 0;
-            border: 1px solid var(--neon-purple);
-            border-radius: 8px;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 6px;
             overflow: hidden;
-            box-shadow: var(--shadow-box);
+            background-color: rgba(0, 0, 0, 0.6);
         }
         
         .interactive-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 1rem;
-            background-color: var(--bg-tertiary);
-            border-bottom: 1px solid var(--neon-purple);
+            background-color: rgba(0, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--neon-cyan);
         }
         
         .interactive-title {
-            flex: 1;
             font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: var(--neon-purple);
+            color: var(--neon-cyan);
         }
         
         .interactive-controls {
             display: flex;
-            gap: 0.5rem;
+            gap: 6px;
         }
         
         .interactive-control {
             width: 12px;
             height: 12px;
             border-radius: 50%;
+        }
+        
+        .control-close {
+            background-color: #ff5f57;
+        }
+        
+        .control-minimize {
+            background-color: #ffbd2e;
+        }
+        
+        .control-maximize {
+            background-color: #28ca41;
+        }
+        
+        .interactive-content {
+            min-height: 400px;
+            padding: 1rem;
+        }
+        
+        .video-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1px solid var(--neon-cyan);
+        }
+        
+        .video-controls button {
+            background: none;
+            border: none;
+            color: var(--neon-cyan);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .video-controls button:hover {
+            color: white;
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            margin: 0 1rem;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
             cursor: pointer;
         }
         
-        .control-close { background-color: #ff5f56; }
-        .control-minimize { background-color: #ffbd2e; }
-        .control-maximize { background-color: #27c93f; }
-        
-        .interactive-content {
-            padding: 1rem;
-            background-color: var(--bg-secondary);
-            min-height: 400px;
-        }
-        
-        .matrix-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .progress-bar {
             height: 100%;
-            pointer-events: none;
-            opacity: 0.05;
+            width: 0;
+            background: var(--neon-cyan);
+            border-radius: 4px;
+            transition: width 0.1s linear;
         }
+        
+        .video-time {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--neon-cyan);
+            margin: 0 0.5rem;
+        }
+        
+        .subtitles-container {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            text-align: center;
+            z-index: 1;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+        
+        .subtitles-text {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: inline-block;
+            font-family: var(--font-mono);
+            border-left: 2px solid var(--neon-cyan);
+            border-right: 2px solid var(--neon-cyan);
+        }
+        
+        /* Estilos para os botões interativos */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-button {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .demo-button i {
+            font-size: 1.5rem;
+        }
+        
+        .demo-button:hover {
+            background: rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .demo-button:active {
+            transform: translateY(0);
+        }
+        
+        /* Estilos para a simulação */
+        .simulation-content {
+            animation: fade-in 0.5s ease;
+        }
+        
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--neon-cyan);
+            padding-bottom: 0.5rem;
+        }
+        
+        .simulation-close {
+            background: none;
+            border: none;
+            color: var(--neon-red);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .simulation-close:hover {
+            color: white;
+            text-shadow: 0 0 8px var(--neon-red);
+        }
+        
+        .alert-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .alert-item {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 4px;
+            padding: 1rem;
+            gap: 1rem;
+        }
+        
+        .alert-icon {
+            font-size: 1.5rem;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: bold;
+            color: var(--neon-cyan);
+            margin-bottom: 0.25rem;
+        }
+        
+        .alert-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Neon Button Styles */
+        .neon-btn {
+             font-family: 'Courier New', monospace;
+             background-color: transparent;
+             border: 2px solid #00ff41;
+             color: #00ff41;
+             padding: 10px 20px; /* Adjusted padding */
+             font-size: 14px; /* Adjusted font size */
+             cursor: pointer;
+             transition: 0.3s ease;
+             border-radius: 4px;
+             text-transform: uppercase;
+             margin: 5px; /* Adjusted margin */
+             text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+         }
+         .neon-btn:hover,
+         .neon-btn:focus {
+             background-color: #00ff41;
+             color: #111;
+             box-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 5px #00ff41 inset;
+             transform: scale(1.05);
+             outline: none;
+         }
     </style>
     
     <!-- Scripts -->
     <script src="js/presentation-transitions.js" defer></script>
     <script src="js/presentation-nav.js" defer></script>
+    <script src="language-switcher.js" defer></script>
+    <!-- Font Awesome (assuming it's used elsewhere, or add it if needed) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Header (Criado via JavaScript) -->
-    <header class="site-header"></header>
+    <header class="site-header">
+        <!-- Placeholder for dynamically generated header content -->
+        <!-- Add Pitch Mode Button here -->
+        <button class="neon-btn" onclick="window.location.href='demo.html?mode=pitch'" style="position: absolute; top: 15px; right: 150px; z-index: 1001;"> <!-- Adjust position as needed -->
+            <span class="lang-en">View Presentation</span>
+            <span class="lang-pt">Ver Apresentação</span>
+        </button>
+    </header>
     
     <!-- Conteúdo principal -->
     <main class="content-area">
         <div class="container">
             <section class="hero fade-in">
-                <h1 class="glitch-text">Demonstração</h1>
-                <p class="text-neon-green text-mono">Experimente o poder da RUNES Analytics Pro</p>
+                <h1 class="glitch-text">
+                    <span class="lang-en">Demonstration</span>
+                    <span class="lang-pt">Demonstração</span>
+                </h1>
+                <p class="text-neon-green text-mono">
+                    <span class="lang-en">Experience the power of RUNES Analytics Pro</span>
+                    <span class="lang-pt">Experimente o poder do RUNES Analytics Pro</span>
+                </p>
                 
                 <div class="terminal-box mt-3 mb-3">
                     $ initiate-demo --mode=interactive --features=all
                     <br>
-                    <br>Inicializando ambiente de demonstração...
-                    <br>Carregando componentes visuais...
-                    <br>Conectando APIs simuladas...
+                    <br><span class="lang-en">Initializing demo environment...</span><span class="lang-pt">Inicializando ambiente de demonstração...</span>
+                    <br><span class="lang-en">Loading visual components...</span><span class="lang-pt">Carregando componentes visuais...</span>
+                    <br><span class="lang-en">Connecting to simulated APIs...</span><span class="lang-pt">Conectando APIs simuladas...</span>
                     <br>
-                    <br>→ Demo pronta! Explore os recursos da plataforma RUNES Analytics Pro.
+                    <br><span class="lang-en">→ Demo ready! Explore the features of RUNES Analytics Pro platform.</span><span class="lang-pt">→ Demo pronta! Explore os recursos da plataforma RUNES Analytics Pro.</span>
                 </div>
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.3s;">
-                <h2>Video Tour</h2>
+                <h2>
+                    <span class="lang-en">Video Tour</span>
+                    <span class="lang-pt">Tour em Vídeo</span>
+                </h2>
                 
-                <div class="demo-player">
-                    <div class="demo-video">
-                        <div class="demo-placeholder">
-                            <span style="font-size: 3rem; margin-bottom: 1rem;">▶️</span>
-                            <p class="mb-1">Video Tour: RUNES Analytics Pro</p>
-                            <span class="text-mono text-neon-cyan" style="font-size: 0.8rem;">Clique para reproduzir</span>
+                <div class="video-container">
+                    <div class="video-overlay">
+                        <div class="video-play-button" id="play-tour-video">
+                            <i>▶</i>
                         </div>
                     </div>
-                    
-                    <div class="demo-control">
-                        <button class="demo-button">▶</button>
-                        <div class="demo-progress">
-                            <div class="demo-progress-bar"></div>
+                    <video id="tour-video" poster="media/images/runes-tour-poster.webp" controls preload="none">
+                        <source src="media/videos/runes-tour.mp4" type="video/mp4">
+                        <track kind="subtitles" src="media/subtitles/en-runes-tour.vtt" srclang="en" label="English">
+                        <track kind="subtitles" src="media/subtitles/pt-runes-tour.vtt" srclang="pt" label="Português">
+                        <span class="lang-en">Your browser does not support the video tag.</span>
+                        <span class="lang-pt">Seu navegador não suporta o elemento de vídeo.</span>
+                    </video>
+                    <div class="video-controls" id="custom-video-controls">
+                        <button id="play-pause">▶</button>
+                        <div class="progress-container" id="progress-container">
+                            <div class="progress-bar" id="progress-bar"></div>
                         </div>
-                        <div class="demo-time">01:45 / 05:00</div>
+                        <span class="video-time" id="video-time">00:00 / 00:00</span>
+                        <button id="mute-button">🔊</button>
+                        <button id="fullscreen-button">⤢</button>
+                        <button id="subtitles-button">CC</button>
                     </div>
-                    
-                    <div class="demo-actions">
-                        <button class="btn btn-secondary">Download MP4</button>
-                        <button class="btn btn-secondary">Ver em tela cheia</button>
+                    <div class="subtitles-container" id="subtitles-container">
+                        <span class="subtitles-text" id="subtitles-text"></span>
+                    </div>
+                </div>
+                
+                <div class="text-center text-neon-cyan mt-3 mb-3">
+                    <p>
+                        <span class="lang-en">Watch the full tour of RUNES Analytics Pro in action</span>
+                        <span class="lang-pt">Assista ao tour completo da plataforma RUNES Analytics Pro em funcionamento</span>
+                    </p>
+                    <div class="navigation-buttons mt-2">
+                        <button class="btn btn-sm" id="prev-section-btn">
+                            <span class="lang-en">← Previous</span>
+                            <span class="lang-pt">← Anterior</span>
+                        </button>
+                        <button class="btn btn-sm btn-primary" id="next-section-btn">
+                            <span class="lang-en">Next Section →</span>
+                            <span class="lang-pt">Próxima Seção →</span>
+                        </button>
                     </div>
                 </div>
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.6s;">
-                <h2>Tour Interativo</h2>
+                <h2>
+                    <span class="lang-en">Interactive Tour</span>
+                    <span class="lang-pt">Tour Interativo</span>
+                </h2>
                 
                 <div class="grid" style="grid-template-columns: 1fr 3fr;">
                     <div>
-                        <h3 class="mb-2">Recursos</h3>
-                        <div class="feature-tab active">
-                            Dashboard Principal
+                        <h3 class="mb-2">
+                            <span class="lang-en">Features</span>
+                            <span class="lang-pt">Recursos</span>
+                        </h3>
+                        <div class="feature-tab active" data-feature="dashboard">
+                            <span class="lang-en">Main Dashboard</span>
+                            <span class="lang-pt">Dashboard Principal</span>
                         </div>
-                        <div class="feature-tab">
-                            RunesCard System
+                        <div class="feature-tab" data-feature="runescard">
+                            <span class="lang-en">RunesCard System</span>
+                            <span class="lang-pt">Sistema RunesCard</span>
                         </div>
-                        <div class="feature-tab">
-                            Análise On-Chain
+                        <div class="feature-tab" data-feature="analysis">
+                            <span class="lang-en">On-Chain Analysis</span>
+                            <span class="lang-pt">Análise On-Chain</span>
                         </div>
-                        <div class="feature-tab">
-                            Comparativo de Tokens
+                        <div class="feature-tab" data-feature="comparison">
+                            <span class="lang-en">Token Comparison</span>
+                            <span class="lang-pt">Comparação de Tokens</span>
                         </div>
-                        <div class="feature-tab">
-                            Alertas Personalizados
+                        <div class="feature-tab" data-feature="alerts">
+                            <span class="lang-en">Custom Alerts</span>
+                            <span class="lang-pt">Alertas Personalizados</span>
                         </div>
-                        <div class="feature-tab">
-                            API & Documentação
+                        <div class="feature-tab" data-feature="api">
+                            <span class="lang-en">API & Documentation</span>
+                            <span class="lang-pt">API & Documentação</span>
+                        </div>
+                        
+                        <div class="feature-nav mt-3">
+                            <button class="btn btn-xs" id="prev-feature-btn">
+                                <span class="lang-en">← Prev</span>
+                                <span class="lang-pt">← Ant</span>
+                            </button>
+                            <button class="btn btn-xs" id="next-feature-btn">
+                                <span class="lang-en">Next →</span>
+                                <span class="lang-pt">Próx →</span>
+                            </button>
                         </div>
                     </div>
                     
@@ -292,19 +553,59 @@
                         
                         <div class="interactive-content">
                             <p class="text-neon-cyan text-center" style="margin-top: 3rem;">
-                                Demo interativa será carregada no ambiente final
+                                <span class="lang-en">Interactive demo will be loaded in final environment</span>
+                                <span class="lang-pt">A demonstração interativa será carregada no ambiente final</span>
                             </p>
                             <div class="text-center" style="margin-top: 2rem;">
                                 <span class="glitch-text" style="font-size: 2rem;">
-                                    Em desenvolvimento
+                                    <span class="lang-en">In development</span>
+                                    <span class="lang-pt">Em desenvolvimento</span>
                                 </span>
                             </div>
                             <p class="text-center mt-2">
-                                Você poderá explorar o dashboard completo quando a plataforma for lançada.
-                                <br>Cadastre-se para acesso antecipado à versão Beta.
+                                <span class="lang-en">You'll be able to explore the complete dashboard when the platform launches.<br>Register for early access to the Beta version.</span>
+                                <span class="lang-pt">Você poderá explorar o dashboard completo quando a plataforma for lançada.<br>Cadastre-se para acesso antecipado à versão Beta.</span>
                             </p>
+                            
+                            <!-- Botões Interativos de Simulação -->
+                            <div class="demo-interactive-buttons mt-4">
+                                <div class="text-neon-cyan mb-2">
+                                    <span class="lang-en">Try these interactive features:</span>
+                                    <span class="lang-pt">Experimente estes recursos interativos:</span>
+                                </div>
+                                
+                                <div class="button-grid">
+                                    <button class="demo-button" data-action="simulate-dashboard">
+                                        <i class="fa fa-chart-pie"></i>
+                                        <span class="lang-en">Dashboard Preview</span>
+                                        <span class="lang-pt">Pré-visualização do Dashboard</span>
+                                    </button>
+                                    
+                                    <button class="demo-button" data-action="simulate-onchain">
+                                        <i class="fa fa-network-wired"></i>
+                                        <span class="lang-en">On-Chain Analysis</span>
+                                        <span class="lang-pt">Análise On-Chain</span>
+                                    </button>
+                                    
+                                    <button class="demo-button" data-action="simulate-alerts">
+                                        <i class="fa fa-bell"></i>
+                                        <span class="lang-en">Custom Alerts</span>
+                                        <span class="lang-pt">Alertas Personalizados</span>
+                                    </button>
+                                    
+                                    <button class="demo-button" data-action="simulate-whale">
+                                        <i class="fa fa-whale"></i>
+                                        <span class="lang-en">Whale Tracker</span>
+                                        <span class="lang-pt">Rastreador de Baleias</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
                             <div class="text-center mt-3">
-                                <button class="btn btn-primary">Inscrever-se para Beta</button>
+                                <button class="btn btn-primary">
+                                    <span class="lang-en">Sign up for Beta</span>
+                                    <span class="lang-pt">Inscrever-se para Beta</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -312,10 +613,16 @@
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.9s;">
-                <h2>RuneCards Showcase</h2>
+                <h2>
+                    <span class="lang-en">RuneCards Showcase</span>
+                    <span class="lang-pt">Mostruário RuneCards</span>
+                </h2>
                 
                 <div class="card">
-                    <p class="mb-3">O sistema RuneCards transforma dados complexos de tokens em cartas interativas, apresentando métricas-chave em formato visual e gamificado:</p>
+                    <p class="mb-3">
+                        <span class="lang-en">The RuneCards system transforms complex token data into interactive cards, presenting key metrics in a visual and gamified format:</span>
+                        <span class="lang-pt">O sistema RuneCards transforma dados complexos de tokens em cartas interativas, apresentando métricas-chave em formato visual e gamificado:</span>
+                    </p>
                     
                     <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
                         <div class="card parallax" data-parallax-intensity="0.02" style="border: 2px solid var(--neon-purple); background: linear-gradient(to bottom right, rgba(191, 0, 255, 0.1), rgba(0, 0, 0, 0.2));">
@@ -324,12 +631,18 @@
                             </div>
                             
                             <div style="border-top: 1px solid var(--neon-purple); border-bottom: 1px solid var(--neon-purple); padding: 0.5rem 0; margin-bottom: 1rem; display: flex; justify-content: space-between;">
-                                <span class="text-mono text-neon-cyan">Supply:</span>
+                                <span class="text-mono text-neon-cyan">
+                                    <span class="lang-en">Supply:</span>
+                                    <span class="lang-pt">Oferta:</span>
+                                </span>
                                 <span class="text-mono">21,000,000</span>
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Preço:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Price:</span>
+                                    <span class="lang-pt">Preço:</span>
+                                </span>
                                 <span class="text-mono text-neon-green">$0.047</span>
                             </div>
                             
@@ -344,17 +657,26 @@
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Volume 24h:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Volume 24h:</span>
+                                    <span class="lang-pt">Volume 24h:</span>
+                                </span>
                                 <span class="text-mono">$1.45M</span>
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Holders:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Holders:</span>
+                                    <span class="lang-pt">Detentores:</span>
+                                </span>
                                 <span class="text-mono">5,472</span>
                             </div>
                             
                             <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 0.5rem; margin-top: 1rem; font-size: 0.8rem;">
-                                <span class="text-mono text-neon-purple">Technical Score:</span>
+                                <span class="text-mono text-neon-purple">
+                                    <span class="lang-en">Technical Score:</span>
+                                    <span class="lang-pt">Pontuação Técnica:</span>
+                                </span>
                                 <div style="display: flex; margin-top: 0.5rem;">
                                     <div style="flex: 8; height: 8px; background-color: var(--neon-purple); border-radius: 4px;"></div>
                                     <div style="flex: 2; height: 8px; background-color: rgba(191, 0, 255, 0.2); border-radius: 0 4px 4px 0;"></div>
@@ -369,12 +691,18 @@
                             </div>
                             
                             <div style="border-top: 1px solid var(--neon-cyan); border-bottom: 1px solid var(--neon-cyan); padding: 0.5rem 0; margin-bottom: 1rem; display: flex; justify-content: space-between;">
-                                <span class="text-mono text-neon-purple">Supply:</span>
+                                <span class="text-mono text-neon-purple">
+                                    <span class="lang-en">Supply:</span>
+                                    <span class="lang-pt">Oferta:</span>
+                                </span>
                                 <span class="text-mono">2,100,000,000,000</span>
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Preço:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Price:</span>
+                                    <span class="lang-pt">Preço:</span>
+                                </span>
                                 <span class="text-mono text-neon-green">$0.00001234</span>
                             </div>
                             
@@ -389,17 +717,26 @@
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Volume 24h:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Volume 24h:</span>
+                                    <span class="lang-pt">Volume 24h:</span>
+                                </span>
                                 <span class="text-mono">$2.78M</span>
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Holders:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Holders:</span>
+                                    <span class="lang-pt">Detentores:</span>
+                                </span>
                                 <span class="text-mono">11,254</span>
                             </div>
                             
                             <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 0.5rem; margin-top: 1rem; font-size: 0.8rem;">
-                                <span class="text-mono text-neon-cyan">Technical Score:</span>
+                                <span class="text-mono text-neon-cyan">
+                                    <span class="lang-en">Technical Score:</span>
+                                    <span class="lang-pt">Pontuação Técnica:</span>
+                                </span>
                                 <div style="display: flex; margin-top: 0.5rem;">
                                     <div style="flex: 9; height: 8px; background-color: var(--neon-cyan); border-radius: 4px;"></div>
                                     <div style="flex: 1; height: 8px; background-color: rgba(0, 255, 255, 0.2); border-radius: 0 4px 4px 0;"></div>
@@ -414,12 +751,18 @@
                             </div>
                             
                             <div style="border-top: 1px solid var(--neon-green); border-bottom: 1px solid var(--neon-green); padding: 0.5rem 0; margin-bottom: 1rem; display: flex; justify-content: space-between;">
-                                <span class="text-mono text-neon-blue">Supply:</span>
+                                <span class="text-mono text-neon-blue">
+                                    <span class="lang-en">Supply:</span>
+                                    <span class="lang-pt">Oferta:</span>
+                                </span>
                                 <span class="text-mono">21,000,000</span>
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Preço:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Price:</span>
+                                    <span class="lang-pt">Preço:</span>
+                                </span>
                                 <span class="text-mono text-neon-red">$38.47</span>
                             </div>
                             
@@ -434,17 +777,26 @@
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Volume 24h:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Volume 24h:</span>
+                                    <span class="lang-pt">Volume 24h:</span>
+                                </span>
                                 <span class="text-mono">$23.5M</span>
                             </div>
                             
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span class="text-mono text-secondary">Holders:</span>
+                                <span class="text-mono text-secondary">
+                                    <span class="lang-en">Holders:</span>
+                                    <span class="lang-pt">Detentores:</span>
+                                </span>
                                 <span class="text-mono">42,862</span>
                             </div>
                             
                             <div style="background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 0.5rem; margin-top: 1rem; font-size: 0.8rem;">
-                                <span class="text-mono text-neon-green">Technical Score:</span>
+                                <span class="text-mono text-neon-green">
+                                    <span class="lang-en">Technical Score:</span>
+                                    <span class="lang-pt">Pontuação Técnica:</span>
+                                </span>
                                 <div style="display: flex; margin-top: 0.5rem;">
                                     <div style="flex: 7; height: 8px; background-color: var(--neon-green); border-radius: 4px;"></div>
                                     <div style="flex: 3; height: 8px; background-color: rgba(0, 255, 143, 0.2); border-radius: 0 4px 4px 0;"></div>
@@ -455,72 +807,140 @@
                     </div>
                     
                     <div class="text-center mt-3">
-                        <button class="btn">Explorar mais RuneCards</button>
+                        <button class="btn" id="explore-more-btn">
+                            <span class="lang-en">Explore more RuneCards</span>
+                            <span class="lang-pt">Explorar mais RuneCards</span>
+                        </button>
+                        
+                        <div class="navigation-buttons mt-2">
+                            <button class="btn btn-sm" id="runecards-prev-btn">
+                                <span class="lang-en">← Interactive Tour</span>
+                                <span class="lang-pt">← Tour Interativo</span>
+                            </button>
+                            <button class="btn btn-sm btn-primary" id="runecards-next-btn">
+                                <span class="lang-en">Platform Access →</span>
+                                <span class="lang-pt">Acesso à Plataforma →</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
             
             <section class="mt-3 mb-3 fade-in" style="animation-delay: 1.2s;">
-                <h2>Acesso à Plataforma</h2>
+                <h2>
+                    <span class="lang-en">Platform Access</span>
+                    <span class="lang-pt">Acesso à Plataforma</span>
+                </h2>
                 
                 <div class="card">
                     <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
                         <div>
-                            <h3 class="mb-2">Versão Beta</h3>
-                            <p>Nossa versão Beta está em fase final de desenvolvimento e será lançada em breve para um grupo seleto de usuários.</p>
+                            <h3 class="mb-2">
+                                <span class="lang-en">Beta Version</span>
+                                <span class="lang-pt">Versão Beta</span>
+                            </h3>
+                            <p>
+                                <span class="lang-en">Our Beta version is in final development phase and will be released soon to a select group of users.</span>
+                                <span class="lang-pt">Nossa versão Beta está em fase final de desenvolvimento e será lançada em breve para um grupo seleto de usuários.</span>
+                            </p>
                             
                             <div class="terminal-box mt-2 mb-2" style="font-size: 0.85rem;">
                                 <span class="text-neon-green">$ beta-status</span>
-                                <br>→ Progresso: 85% completo
-                                <br>→ Data prevista: Q3 2024
-                                <br>→ Inscritos: 378 usuários
-                                <br>→ Vagas restantes: 122
+                                <br>→ <span class="lang-en">Progress: 85% complete</span><span class="lang-pt">Progresso: 85% completo</span>
+                                <br>→ <span class="lang-en">Expected date: Q3 2024</span><span class="lang-pt">Data prevista: Q3 2024</span>
+                                <br>→ <span class="lang-en">Registered: 378 users</span><span class="lang-pt">Inscritos: 378 usuários</span>
+                                <br>→ <span class="lang-en">Available spots: 122</span><span class="lang-pt">Vagas restantes: 122</span>
                             </div>
                             
-                            <p class="text-neon-cyan text-mono" style="font-size: 0.9rem;">Garanta seu lugar no programa Beta!</p>
+                            <p class="text-neon-cyan text-mono" style="font-size: 0.9rem;">
+                                <span class="lang-en">Secure your spot in the Beta program!</span>
+                                <span class="lang-pt">Garanta seu lugar no programa Beta!</span>
+                            </p>
                             
                             <div class="mt-2">
-                                <button class="btn btn-primary">Inscrever-se</button>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 class="mb-2">Planos de Acesso</h3>
-                            <p>Após o lançamento oficial, a plataforma terá os seguintes planos disponíveis:</p>
-                            
-                            <div class="mt-2">
-                                <div class="mb-2">
-                                    <span class="text-neon-purple">◇ Basic</span> - Gratuito
-                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">Acesso a dados básicos e RuneCards limitadas</p>
-                                </div>
-                                
-                                <div class="mb-2">
-                                    <span class="text-neon-cyan">◇ Pro</span> - $19/mês
-                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">Dados em tempo real, alertas e acesso completo às RuneCards</p>
-                                </div>
-                                
-                                <div class="mb-2">
-                                    <span class="text-neon-green">◇ Enterprise</span> - $99/mês
-                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">API completa, dashboard personalizado e suporte dedicado</p>
-                                </div>
+                                <button class="btn btn-primary">
+                                    <span class="lang-en">Sign Up</span>
+                                    <span class="lang-pt">Inscrever-se</span>
+                                </button>
                             </div>
                         </div>
                         
                         <div>
-                            <h3 class="mb-2">Mantenha-se Atualizado</h3>
-                            <p>Receba as atualizações mais recentes sobre o desenvolvimento da plataforma e o lançamento da versão Beta.</p>
+                            <h3 class="mb-2">
+                                <span class="lang-en">Access Plans</span>
+                                <span class="lang-pt">Planos de Acesso</span>
+                            </h3>
+                            <p>
+                                <span class="lang-en">After the official launch, the platform will have the following plans available:</span>
+                                <span class="lang-pt">Após o lançamento oficial, a plataforma terá os seguintes planos disponíveis:</span>
+                            </p>
                             
                             <div class="mt-2">
-                                <input type="email" placeholder="Seu e-mail" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; background-color: var(--bg-primary); border: 1px solid var(--neon-cyan); border-radius: 4px; color: var(--text-primary); font-family: var(--font-mono);">
+                                <div class="mb-2">
+                                    <span class="text-neon-purple">◇ Basic</span> - <span class="lang-en">Free</span><span class="lang-pt">Gratuito</span>
+                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">
+                                        <span class="lang-en">Access to basic data and limited RuneCards</span>
+                                        <span class="lang-pt">Acesso a dados básicos e RuneCards limitados</span>
+                                    </p>
+                                </div>
                                 
-                                <button class="btn btn-primary" style="width: 100%;">Assinar Newsletter</button>
+                                <div class="mb-2">
+                                    <span class="text-neon-cyan">◇ Pro</span> - $19/<span class="lang-en">month</span><span class="lang-pt">mês</span>
+                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">
+                                        <span class="lang-en">Real-time data, alerts and full access to RuneCards</span>
+                                        <span class="lang-pt">Dados em tempo real, alertas e acesso completo às RuneCards</span>
+                                    </p>
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <span class="text-neon-green">◇ Enterprise</span> - $99/<span class="lang-en">month</span><span class="lang-pt">mês</span>
+                                    <p class="text-secondary" style="font-size: 0.85rem; margin: 0.3rem 0 0 1.5rem;">
+                                        <span class="lang-en">Full API, customized dashboard and dedicated support</span>
+                                        <span class="lang-pt">API completa, dashboard personalizado e suporte dedicado</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="mb-2">
+                                <span class="lang-en">Stay Updated</span>
+                                <span class="lang-pt">Mantenha-se Atualizado</span>
+                            </h3>
+                            <p>
+                                <span class="lang-en">Receive the latest updates on platform development and Beta launch.</span>
+                                <span class="lang-pt">Receba as atualizações mais recentes sobre o desenvolvimento da plataforma e o lançamento da versão Beta.</span>
+                            </p>
+                            
+                            <div class="mt-2">
+                                <input type="email" placeholder="Your email" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; background-color: var(--bg-primary); border: 1px solid var(--neon-cyan); border-radius: 4px; color: var(--text-primary); font-family: var(--font-mono);">
+                                
+                                <button class="btn btn-primary" style="width: 100%;">
+                                    <span class="lang-en">Subscribe to Newsletter</span>
+                                    <span class="lang-pt">Assinar Newsletter</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="text-center mt-3">
-                    <button class="btn" onclick="window.location.href='bootoshi.html'">Conhecer Bootoshi <span class="text-neon-green">→</span></button>
+                    <button class="btn" id="meet-bootoshi-btn" onclick="window.location.href='bootoshi.html'">
+                        <span class="lang-en">Meet Bootoshi</span>
+                        <span class="lang-pt">Conhecer Bootoshi</span>
+                        <span class="text-neon-green">→</span>
+                    </button>
+                    
+                    <div class="navigation-buttons mt-2">
+                        <button class="btn btn-sm" id="platform-prev-btn">
+                            <span class="lang-en">← RuneCards</span>
+                            <span class="lang-pt">← RuneCards</span>
+                        </button>
+                        <button class="btn btn-sm btn-primary" id="back-to-top-btn">
+                            <span class="lang-en">Back to Top ↑</span>
+                            <span class="lang-pt">Voltar ao Topo ↑</span>
+                        </button>
+                    </div>
                 </div>
             </section>
         </div>
@@ -532,13 +952,33 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
-            <p>RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</p>
+            <p>
+                <span class="lang-en">RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Developed with <span class="text-neon-pink">♥</span> for the Bitcoin community</span>
+                <span class="lang-pt">RUNES Analytics Pro &copy; 2023-<span id="current-year-pt">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</span>
+            </p>
         </div>
     </footer>
     
     <script>
         // Atualizar ano no footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.getElementById('current-year-pt').textContent = new Date().getFullYear();
+        
+        // Add data-text attribute for glitch effect
+        document.querySelectorAll('.glitch-text').forEach(el => {
+            if (!el.getAttribute('data-text')) {
+                const langEnElement = el.querySelector('.lang-en');
+                const langPtElement = el.querySelector('.lang-pt');
+                
+                if (langEnElement && document.documentElement.lang === 'en') {
+                    el.setAttribute('data-text', langEnElement.textContent);
+                } else if (langPtElement && document.documentElement.lang === 'pt') {
+                    el.setAttribute('data-text', langPtElement.textContent);
+                } else {
+                    el.setAttribute('data-text', el.textContent.trim());
+                }
+            }
+        });
         
         // Tabs na demo interativa
         document.querySelectorAll('.feature-tab').forEach(tab => {
@@ -552,9 +992,498 @@
                 tab.classList.add('active');
                 
                 // Atualizar título na demo interativa
-                document.querySelector('.interactive-title').textContent = 'RUNES Analytics Pro - ' + tab.textContent.trim();
+                const interactiveTitle = document.querySelector('.interactive-title');
+                const tabText = tab.querySelector(`.lang-${document.documentElement.lang}`).textContent.trim();
+                interactiveTitle.textContent = 'RUNES Analytics Pro - ' + tabText;
             });
         });
+        
+        // Video Player
+        const playButton = document.getElementById('play-tour-video');
+        const video = document.getElementById('tour-video');
+        const videoOverlay = document.querySelector('.video-overlay');
+        const playPauseButton = document.getElementById('play-pause');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const videoTime = document.getElementById('video-time');
+        const muteButton = document.getElementById('mute-button');
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        const subtitlesButton = document.getElementById('subtitles-button');
+        const subtitlesContainer = document.getElementById('subtitles-container');
+        const subtitlesText = document.getElementById('subtitles-text');
+        
+        let subtitlesEnabled = false;
+        
+        if (playButton && video && videoOverlay) {
+            // Botão de play no overlay
+            playButton.addEventListener('click', () => {
+                video.play();
+                videoOverlay.style.display = 'none';
+            });
+            
+            // Atualizar o botão de play/pause
+            function updatePlayPauseButton() {
+                playPauseButton.textContent = video.paused ? '▶' : '❚❚';
+            }
+            
+            // Controle de play/pause
+            playPauseButton.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    videoOverlay.style.display = 'none';
+                } else {
+                    video.pause();
+                }
+                updatePlayPauseButton();
+            });
+            
+            // Barra de progresso
+            video.addEventListener('timeupdate', () => {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressBar.style.width = `${percent}%`;
+                
+                // Atualizar o tempo
+                const currentMinutes = Math.floor(video.currentTime / 60);
+                const currentSeconds = Math.floor(video.currentTime % 60);
+                const durationMinutes = Math.floor(video.duration / 60) || 0;
+                const durationSeconds = Math.floor(video.duration % 60) || 0;
+                
+                videoTime.textContent = `${currentMinutes.toString().padStart(2, '0')}:${currentSeconds.toString().padStart(2, '0')} / ${durationMinutes.toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
+                
+                // Atualizar legendas
+                if (subtitlesEnabled) {
+                    // Lógica para exibir legendas baseadas no tempo atual
+                    // Isso pode ser integrado com arquivos VTT ou definido manualmente
+                    const currentTime = video.currentTime;
+                    
+                    // Exemplo de legendas manuais
+                    const captions = [
+                        { start: 2, end: 5, text: "Bem-vindo ao RUNES Analytics Pro" },
+                        { start: 6, end: 10, text: "A plataforma mais avançada para análise de tokens Runes" },
+                        { start: 11, end: 15, text: "Vamos explorar os principais recursos..." }
+                    ];
+                    
+                    const currentCaption = captions.find(caption => 
+                        currentTime >= caption.start && currentTime <= caption.end
+                    );
+                    
+                    if (currentCaption) {
+                        subtitlesText.textContent = currentCaption.text;
+                        subtitlesContainer.style.opacity = 1;
+                    } else {
+                        subtitlesContainer.style.opacity = 0;
+                    }
+                }
+            });
+            
+            // Clicar na barra de progresso
+            progressContainer.addEventListener('click', (e) => {
+                const rect = progressContainer.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                video.currentTime = pos * video.duration;
+            });
+            
+            // Controle de mudo/som
+            muteButton.addEventListener('click', () => {
+                video.muted = !video.muted;
+                muteButton.textContent = video.muted ? '🔇' : '🔊';
+            });
+            
+            // Controle de tela cheia
+            fullscreenButton.addEventListener('click', () => {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            });
+            
+            // Botão de legendas
+            subtitlesButton.addEventListener('click', () => {
+                subtitlesEnabled = !subtitlesEnabled;
+                subtitlesButton.style.color = subtitlesEnabled ? 'white' : 'var(--neon-cyan)';
+                subtitlesButton.style.textShadow = subtitlesEnabled ? '0 0 8px var(--neon-cyan)' : 'none';
+                
+                if (!subtitlesEnabled) {
+                    subtitlesContainer.style.opacity = 0;
+                }
+            });
+            
+            // Eventos de pausa/fim
+            video.addEventListener('pause', () => {
+                updatePlayPauseButton();
+                if (video.currentTime === 0 || video.ended) {
+                    videoOverlay.style.display = 'flex';
+                }
+            });
+            
+            video.addEventListener('play', () => {
+                updatePlayPauseButton();
+            });
+            
+            video.addEventListener('ended', () => {
+                videoOverlay.style.display = 'flex';
+                updatePlayPauseButton();
+            });
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            // Função para rolar suavemente até a seção
+            function scrollToSection(sectionId) {
+                const section = document.querySelector(sectionId);
+                if (section) {
+                    window.scrollTo({
+                        top: section.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            
+            // Voltar ao topo
+            document.getElementById('back-to-top-btn')?.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Navegação entre seções
+            const sectionMap = {
+                'prev-section-btn': '#video-tour',
+                'next-section-btn': '#interactive-tour',
+                'interactive-prev-btn': '#video-tour',
+                'interactive-next-btn': '#runecards-showcase',
+                'runecards-prev-btn': '#interactive-tour',
+                'runecards-next-btn': '#platform-access',
+                'platform-prev-btn': '#runecards-showcase'
+            };
+            
+            // Adiciona ids para as seções para facilitar a navegação
+            const sections = document.querySelectorAll('main section');
+            if (sections.length >= 1) sections[0].id = 'video-tour';
+            if (sections.length >= 2) sections[1].id = 'interactive-tour';
+            if (sections.length >= 3) sections[2].id = 'runecards-showcase';
+            if (sections.length >= 4) sections[3].id = 'platform-access';
+            
+            // Adiciona listeners para todos os botões de navegação
+            Object.keys(sectionMap).forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        scrollToSection(sectionMap[btnId]);
+                    });
+                }
+            });
+            
+            // Navegação entre features
+            const featureTabs = document.querySelectorAll('.feature-tab');
+            const prevFeatureBtn = document.getElementById('prev-feature-btn');
+            const nextFeatureBtn = document.getElementById('next-feature-btn');
+            
+            if (prevFeatureBtn && nextFeatureBtn && featureTabs.length > 0) {
+                prevFeatureBtn.addEventListener('click', function() {
+                    let activeIndex = -1;
+                    featureTabs.forEach((tab, index) => {
+                        if (tab.classList.contains('active')) {
+                            activeIndex = index;
+                        }
+                    });
+                    
+                    if (activeIndex > 0) {
+                        featureTabs[activeIndex].classList.remove('active');
+                        featureTabs[activeIndex - 1].classList.add('active');
+                        
+                        // Atualiza o conteúdo da demo
+                        updateDemoContent(featureTabs[activeIndex - 1]);
+                    }
+                });
+                
+                nextFeatureBtn.addEventListener('click', function() {
+                    let activeIndex = -1;
+                    featureTabs.forEach((tab, index) => {
+                        if (tab.classList.contains('active')) {
+                            activeIndex = index;
+                        }
+                    });
+                    
+                    if (activeIndex < featureTabs.length - 1) {
+                        featureTabs[activeIndex].classList.remove('active');
+                        featureTabs[activeIndex + 1].classList.add('active');
+                        
+                        // Atualiza o conteúdo da demo
+                        updateDemoContent(featureTabs[activeIndex + 1]);
+                    }
+                });
+                
+                // Função para atualizar o conteúdo da demo com base na tab
+                function updateDemoContent(tab) {
+                    // Atualizar título na demo interativa
+                    const interactiveTitle = document.querySelector('.interactive-title');
+                    const tabText = tab.querySelector(`.lang-${document.documentElement.lang}`).textContent.trim();
+                    interactiveTitle.textContent = 'RUNES Analytics Pro - ' + tabText;
+                    
+                    // Aqui pode adicionar lógica para mudar o conteúdo da demo
+                    // de acordo com o recurso selecionado
+                }
+            }
+            
+            // Botão para explorar mais RuneCards
+            document.getElementById('explore-more-btn')?.addEventListener('click', function() {
+                alert('Mais RuneCards serão disponibilizados no lançamento da plataforma!');
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Selecionar todos os botões de simulação
+            const simulationButtons = document.querySelectorAll('.demo-button');
+            
+            // Adicionar evento de clique para cada botão
+            simulationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    simulateFeature(action);
+                });
+            });
+            
+            // Função para simular o recurso selecionado
+            function simulateFeature(action) {
+                const interactiveContent = document.querySelector('.interactive-content');
+                const currentLang = document.documentElement.lang || 'en';
+                
+                let simulationContent = '';
+                
+                // Definir o conteúdo baseado na ação e idioma
+                switch (action) {
+                    case 'simulate-dashboard':
+                        simulationContent = `
+                            <div class="simulation-content">
+                                <div class="simulation-header">
+                                    <h3 class="text-neon-cyan">
+                                        ${currentLang === 'en' ? 'Dashboard Preview' : 'Pré-visualização do Dashboard'}
+                                    </h3>
+                                    <button class="simulation-close">✕</button>
+                                </div>
+                                <div class="simulation-body">
+                                    <div style="width: 100%; height: 200px; background: linear-gradient(135deg, rgba(0,255,255,0.1) 0%, rgba(0,0,0,0.3) 100%); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                                            <div class="text-neon-cyan">
+                                                ${currentLang === 'en' ? 'Dashboard Visualization' : 'Visualização do Dashboard'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-2 text-center">
+                                        ${currentLang === 'en' ? 'Live data visualization of top RUNES tokens' : 'Visualização de dados ao vivo dos principais tokens RUNES'}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'simulate-onchain':
+                        simulationContent = `
+                            <div class="simulation-content">
+                                <div class="simulation-header">
+                                    <h3 class="text-neon-cyan">
+                                        ${currentLang === 'en' ? 'On-Chain Analysis' : 'Análise On-Chain'}
+                                    </h3>
+                                    <button class="simulation-close">✕</button>
+                                </div>
+                                <div class="simulation-body text-center">
+                                    <div class="simulated-chart" style="height: 200px; background: linear-gradient(180deg, rgba(0,255,255,0.1) 0%, rgba(0,0,0,0) 100%); margin-bottom: 1rem; border-radius: 4px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                                        <div class="text-center">
+                                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">⛓️</div>
+                                            <div class="text-neon-cyan">
+                                                ${currentLang === 'en' ? 'Blockchain Analysis' : 'Análise Blockchain'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        ${currentLang === 'en' ? 'Real-time blockchain data analysis for RUNES tokens' : 'Análise de dados blockchain em tempo real para tokens RUNES'}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'simulate-alerts':
+                        simulationContent = `
+                            <div class="simulation-content">
+                                <div class="simulation-header">
+                                    <h3 class="text-neon-cyan">
+                                        ${currentLang === 'en' ? 'Custom Alerts' : 'Alertas Personalizados'}
+                                    </h3>
+                                    <button class="simulation-close">✕</button>
+                                </div>
+                                <div class="simulation-body">
+                                    <div class="alert-demo">
+                                        <div class="alert-item">
+                                            <div class="alert-icon">🔔</div>
+                                            <div class="alert-content">
+                                                <div class="alert-title">CYPHER</div>
+                                                <div class="alert-message">
+                                                    ${currentLang === 'en' ? 'Price increased by 12% in the last hour' : 'Preço aumentou 12% na última hora'}
+                                                </div>
+                                                <div class="alert-time">14:32:05</div>
+                                            </div>
+                                        </div>
+                                        <div class="alert-item">
+                                            <div class="alert-icon">🐋</div>
+                                            <div class="alert-content">
+                                                <div class="alert-title">SATOSHI</div>
+                                                <div class="alert-message">
+                                                    ${currentLang === 'en' ? 'Whale movement detected: 1.2M tokens' : 'Movimento de baleia detectado: 1.2M tokens'}
+                                                </div>
+                                                <div class="alert-time">13:45:22</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'simulate-whale':
+                        simulationContent = `
+                            <div class="simulation-content">
+                                <div class="simulation-header">
+                                    <h3 class="text-neon-cyan">
+                                        ${currentLang === 'en' ? 'Whale Tracker' : 'Rastreador de Baleias'}
+                                    </h3>
+                                    <button class="simulation-close">✕</button>
+                                </div>
+                                <div class="simulation-body">
+                                    <div class="whale-activity">
+                                        <div class="whale-map" style="height: 180px; background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,40,80,0.4) 100%); border-radius: 4px; position: relative; margin-bottom: 1rem;">
+                                            <div class="whale-node" style="position: absolute; top: 30%; left: 20%; width: 20px; height: 20px; background: var(--neon-purple); border-radius: 50%; box-shadow: 0 0 10px var(--neon-purple);"></div>
+                                            <div class="whale-node" style="position: absolute; top: 60%; left: 50%; width: 30px; height: 30px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 15px var(--neon-cyan);"></div>
+                                            <div class="whale-node" style="position: absolute; top: 40%; left: 70%; width: 15px; height: 15px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 8px var(--neon-green);"></div>
+                                            <div style="position: absolute; top: 45%; left: 35%; font-size: 1.5rem;">🐋</div>
+                                        </div>
+                                        <div class="whale-info text-center">
+                                            <p>
+                                                ${currentLang === 'en' ? 'Interactive map of top token holders and their transactions' : 'Mapa interativo dos principais detentores de tokens e suas transações'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                }
+                
+                // Substituir o conteúdo da área interativa
+                if (simulationContent) {
+                    // Salvar o conteúdo original
+                    const originalContent = interactiveContent.innerHTML;
+                    interactiveContent.innerHTML = simulationContent;
+                    
+                    // Adicionar manipulador de evento para o botão de fechar
+                    const closeButton = interactiveContent.querySelector('.simulation-close');
+                    if (closeButton) {
+                        closeButton.addEventListener('click', function() {
+                            // Restaurar o conteúdo original
+                            interactiveContent.innerHTML = originalContent;
+                            
+                            // Reconectar eventos aos botões
+                            document.querySelectorAll('.demo-button').forEach(button => {
+                                button.addEventListener('click', function() {
+                                    const action = this.getAttribute('data-action');
+                                    simulateFeature(action);
+                                });
+                            });
+                        });
+                    }
+                }
+            }
+        });
     </script>
+    <script type="module">
+        import { TourSimulator } from './components/TourSimulator.js';
+        // Assuming language setup provides these globally or via import
+        const getCurrentLanguage = window.getCurrentLanguage || (() => 'en');
+        const translatePage = window.translatePage || ((lang) => console.warn('translatePage not defined'));
+        const initializeLanguageSwitcher = window.initializeLanguageSwitcher || (() => console.warn('initializeLanguageSwitcher not defined'));
+
+        // Initialize language features first
+        initializeLanguageSwitcher();
+
+        // Instantiate the TourSimulator
+        const tour = new TourSimulator(
+            'tour-simulation-area',                 // Correct ID
+            '#interactive-tour-buttons button',     // Correct Selector for TourSimulator internal use
+            getCurrentLanguage()
+        );
+        // Make instance globally accessible for debug/external buttons
+        window.tourSimulator = tour; 
+
+        // Language switcher integration
+        const langSelector = document.getElementById('language-selector');
+        if (langSelector) {
+            langSelector.addEventListener('change', (event) => {
+                const newLang = event.target.value;
+                translatePage(newLang);
+                tour.setLanguage(newLang);
+                tour.updateAnalyticsDashboard();
+            });
+        }
+
+        // Check for Pitch Mode AFTER instantiation
+        // TourSimulator constructor already reads the param and sets this.isPitchMode
+        // It also handles starting pitch mode automatically in its init() method.
+        // So, we just log here if detected.
+        if (tour.isPitchMode) { 
+             console.log('Pitch/Bootoshi mode detected by demo.html script (handled by TourSimulator constructor).');
+        }
+
+         // Analytics Button Listener
+         const analyticsButton = document.getElementById('view-analytics-btn');
+         if (analyticsButton) {
+             if (!analyticsButton.dataset.listenerAdded) {
+                  analyticsButton.addEventListener('click', () => {
+                     tour.createAnalyticsDashboard();
+                 });
+                 analyticsButton.dataset.listenerAdded = 'true';
+             }
+         }
+
+         // Ensure interactive buttons outside the tour area still work (if any)
+         // Example: The buttons inside the .interactive-content area
+         document.querySelectorAll('.demo-button[data-action]').forEach(button => {
+              // Avoid adding listeners if in pitch mode where these might be hidden/disabled
+             if (!tour.isPitchMode) {
+                 button.addEventListener('click', function() {
+                     const action = this.getAttribute('data-action');
+                     // Map data-action to data-simulates if needed, or handle differently
+                     const simMap = {
+                         'simulate-dashboard': 'dashboard',
+                         'simulate-onchain': 'onChainAnalysis',
+                         'simulate-alerts': 'customAlerts',
+                         'simulate-whale': 'whaleTracker'
+                     };
+                     const simType = simMap[action];
+                     if (simType) {
+                          console.log(`Demo button clicked for: ${simType}`);
+                          // Ensure the main tour list button is also visually activated
+                          tour.updateButtonActiveState(simType);
+                          // Show the simulation via the main simulator instance
+                          tour.showSimulation(simType);
+                     } else {
+                         console.warn(`Unhandled demo button action: ${action}`);
+                     }
+                 });
+             }
+         });
+
+    </script>
+    <!-- Add Analytics trigger button -->
+    <button id="view-analytics-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 500; padding: 8px 12px; background-color: var(--neon-magenta); color: white; border: none; border-radius: 5px; font-family: var(--font-mono); cursor: pointer; box-shadow: 0 0 10px var(--neon-magenta);">View Tour Analytics</button>
+
+    <!-- Background Music -->
+    <audio id="tour-bg-music" loop preload="auto" src="media/audio/cyberpunk-background.mp3"></audio> <!-- Substitua pelo caminho real -->
+    <button id="toggle-music-btn" class="tour-music-toggle" title="Toggle Background Music">🎵</button>
+
 </body>
 </html> 

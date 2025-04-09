@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Demo WebSocket</title>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --text-color: #c9d1d9;
+      --primary-color: #58a6ff;
+      --secondary-color: #1f6feb;
+      --accent-color: #ffa657;
+      --error-color: #f85149;
+      --success-color: #56d364;
+      --border-color: #30363d;
+      --card-bg: #161b22;
+      --header-bg: #21262d;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--header-bg);
+      color: var(--text-color);
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    h2 {
+      font-size: 1.4rem;
+      margin: 1rem 0;
+      color: var(--primary-color);
+    }
+    
+    h3 {
+      font-size: 1.2rem;
+      margin: 0.8rem 0;
+      color: var(--accent-color);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    @media (min-width: 768px) {
+      .container {
+        grid-template-columns: 300px 1fr;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .container {
+        grid-template-columns: 300px 1fr 300px;
+      }
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    button {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--primary-color);
+    }
+    
+    button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+    
+    .success {
+      background-color: var(--success-color);
+      color: black;
+    }
+    
+    .danger {
+      background-color: var(--error-color);
+    }
+    
+    input, select, textarea {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.5rem;
+      color: var(--text-color);
+      font-size: 0.9rem;
+      width: 100%;
+    }
+    
+    .input-group {
+      margin-bottom: 1rem;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+    }
+    
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      background-color: var(--header-bg);
+      border-radius: 4px;
+    }
+    
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    
+    .status-online {
+      background-color: var(--success-color);
+    }
+    
+    .status-offline {
+      background-color: var(--error-color);
+    }
+    
+    .ws-log {
+      height: 300px;
+      overflow-y: auto;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.5rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+    
+    .log-entry {
+      margin: 2px 0;
+      padding: 2px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .log-info {
+      color: var(--text-color);
+    }
+    
+    .log-error {
+      color: var(--error-color);
+    }
+    
+    .log-success {
+      color: var(--success-color);
+    }
+    
+    .ws-clients {
+      margin-top: 1rem;
+    }
+    
+    .ws-clients ul, .ws-messages ul {
+      list-style: none;
+    }
+    
+    .ws-clients li, .ws-messages li {
+      background-color: rgba(255, 255, 255, 0.05);
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+    
+    .client-type, .client-id {
+      font-size: 0.8rem;
+      color: var(--accent-color);
+      margin-left: 0.5rem;
+    }
+    
+    .client-id {
+      color: var(--primary-color);
+      font-family: monospace;
+    }
+    
+    .client-stats {
+      font-size: 0.8rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .ws-messages li {
+      border-left: 3px solid var(--accent-color);
+    }
+    
+    .message-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+    }
+    
+    .message-from {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    .message-time {
+      font-size: 0.8rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .message-content {
+      font-family: monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    
+    .tabs {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    
+    .tab {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      background-color: var(--card-bg);
+    }
+    
+    .tab.active {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .json-tree {
+      font-family: monospace;
+      font-size: 0.85rem;
+      white-space: pre;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+    
+    .ws-status, .ws-clients, .ws-messages {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RUNES Analytics Pro</h1>
+    <p>Demo do Sistema de Comunicação WebSocket</p>
+  </header>
+
+  <div class="container">
+    <div class="left-panel">
+      <div class="card control-panel">
+        <h2>Controles</h2>
+        
+        <div class="status-bar" id="ws-status">
+          <div>Servidor: <span class="status-offline">offline</span></div>
+          <div>Clientes: 0</div>
+        </div>
+        
+        <div class="button-group">
+          <button id="start-server-btn">Iniciar Servidor</button>
+          <button id="stop-server-btn" disabled>Parar Servidor</button>
+        </div>
+        
+        <div class="tabs">
+          <div class="tab active" data-tab="client-tab">Cliente</div>
+          <div class="tab" data-tab="message-tab">Mensagem</div>
+          <div class="tab" data-tab="test-tab">Teste</div>
+        </div>
+        
+        <div class="tab-content active" id="client-tab">
+          <div class="input-group">
+            <label for="client-type">Tipo de Cliente:</label>
+            <select id="client-type">
+              <option value="ui">UI</option>
+              <option value="analytics">Analytics</option>
+              <option value="agent">Agent</option>
+              <option value="monitor">Monitor</option>
+              <option value="visualizer">Visualizer</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label for="client-name">Nome do Cliente:</label>
+            <input type="text" id="client-name" placeholder="Nome personalizado (opcional)">
+          </div>
+          
+          <div class="button-group">
+            <button id="connect-client-btn">Conectar Cliente</button>
+            <button id="disconnect-client-btn" disabled>Desconectar Cliente</button>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="message-tab">
+          <div class="input-group">
+            <label for="message-type">Tipo de Mensagem:</label>
+            <select id="message-type">
+              <option value="chat">Chat</option>
+              <option value="rune_update">Atualização de Rune</option>
+              <option value="market_alert">Alerta de Mercado</option>
+              <option value="network_stats">Estatísticas de Rede</option>
+              <option value="transaction_notification">Notificação de Transação</option>
+              <option value="data_request">Solicitação de Dados</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label for="message-target">Destinatário:</label>
+            <input type="text" id="message-target" placeholder="ID do cliente ou 'all'">
+          </div>
+          
+          <div class="input-group">
+            <label for="message-input">Conteúdo da Mensagem:</label>
+            <textarea id="message-input" rows="5" placeholder='{"content": "Olá!"}'></textarea>
+          </div>
+          
+          <div class="button-group">
+            <button id="send-message-btn" disabled>Enviar Mensagem</button>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="test-tab">
+          <div class="input-group">
+            <label for="test-clients">Número de Clientes de Teste:</label>
+            <input type="number" id="test-clients" value="5" min="1" max="100">
+          </div>
+          
+          <div class="input-group">
+            <label for="test-messages">Mensagens por Cliente:</label>
+            <input type="number" id="test-messages" value="10" min="1" max="100">
+          </div>
+          
+          <div class="input-group">
+            <label for="test-delay">Atraso (ms):</label>
+            <input type="number" id="test-delay" value="50" min="10" max="1000">
+          </div>
+          
+          <div class="button-group">
+            <button id="create-test-clients-btn">Criar Clientes de Teste</button>
+            <button id="run-stress-test-btn">Teste de Carga</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>Clientes Conectados</h2>
+        <div id="ws-clients">
+          <p>Nenhum cliente conectado.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="main-panel">
+      <div class="card">
+        <h2>Log de Eventos</h2>
+        <div class="button-group">
+          <button id="clear-log-btn">Limpar Log</button>
+          <button id="pause-log-btn">Pausar</button>
+        </div>
+        <div id="ws-log" class="ws-log"></div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      <div class="card">
+        <h2>Mensagens Recentes</h2>
+        <div id="ws-messages">
+          <p>Nenhuma mensagem trocada.</p>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>Templates de Mensagem</h2>
+        <div class="input-group">
+          <label for="template-select">Selecione um template:</label>
+          <select id="template-select">
+            <option value="">Selecione...</option>
+            <option value="rune_update">Atualização de Rune</option>
+            <option value="market_alert">Alerta de Mercado</option>
+            <option value="transaction">Transação com Runes</option>
+            <option value="network_stats">Estatísticas de Rede</option>
+          </select>
+        </div>
+        <div id="template-content" class="json-tree" style="margin-top: 1rem;"></div>
+        <button id="use-template-btn" style="margin-top: 1rem;">Usar Template</button>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <p>RUNES Analytics Pro - WebSocket Demo &copy; 2024</p>
+  </footer>
+
+  <!-- Importa o cliente WebSocket -->
+  <script src="js/websocket-client.js"></script>
+  <script src="js/websocket-data-handlers.js"></script>
+  <script src="js/websocket-demo.js"></script>
+  
+  <script>
+    // Inicialização após carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+      // Inicializa o WebSocketDemo
+      WebSocketDemo.init();
+      
+      // Ativa as tabs
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(tc => tc.classList.remove('active'));
+          
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+      });
+      
+      // Templates de mensagens
+      const templates = {
+        rune_update: {
+          type: 'rune_update',
+          runeName: 'OrdiRune',
+          data: {
+            name: 'OrdiRune',
+            symbol: 'ORD',
+            supply: 1000000,
+            holders: 2500,
+            transactions: 15000,
+            createdAt: new Date().toISOString(),
+            lastActivity: new Date().toISOString()
+          }
+        },
+        market_alert: {
+          type: 'market_alert',
+          alertType: 'price_spike',
+          data: {
+            type: 'price_change',
+            runeName: 'OrdiRune',
+            symbol: 'ORD',
+            change: 25.5,
+            previousPrice: 10.0,
+            currentPrice: 12.55,
+            timestamp: new Date().toISOString(),
+            severity: 'medium'
+          }
+        },
+        transaction: {
+          type: 'transaction_notification',
+          txid: '1a2b3c4d5e6f7g8h9i0j',
+          data: {
+            txid: '1a2b3c4d5e6f7g8h9i0j',
+            blockHeight: 800000,
+            confirmations: 3,
+            fee: 0.0001,
+            size: 225,
+            timestamp: new Date().toISOString(),
+            inputs: [
+              { address: '1abc...', value: 0.01 }
+            ],
+            outputs: [
+              { 
+                address: '1def...', 
+                value: 0.009, 
+                runes: [
+                  { name: 'OrdiRune', amount: 100 }
+                ]
+              }
+            ]
+          }
+        },
+        network_stats: {
+          type: 'network_stats',
+          network: 'Bitcoin',
+          data: {
+            blockHeight: 800000,
+            hashrate: '200 EH/s',
+            difficulty: 56000000000000,
+            mempoolSize: 5000,
+            totalTransactions: 800000000,
+            totalRuneTransactions: 100000,
+            avgBlockTime: 10.2
+          }
+        }
+      };
+      
+      // Template selector
+      const templateSelect = document.getElementById('template-select');
+      const templateContent = document.getElementById('template-content');
+      const useTemplateBtn = document.getElementById('use-template-btn');
+      
+      templateSelect.addEventListener('change', function() {
+        const selected = this.value;
+        if (selected && templates[selected]) {
+          templateContent.textContent = JSON.stringify(templates[selected], null, 2);
+        } else {
+          templateContent.textContent = '';
+        }
+      });
+      
+      useTemplateBtn.addEventListener('click', function() {
+        const selected = templateSelect.value;
+        if (selected && templates[selected]) {
+          const messageInput = document.getElementById('message-input');
+          const messageType = document.getElementById('message-type');
+          
+          messageInput.value = JSON.stringify(templates[selected]);
+          
+          // Seleciona o tipo de mensagem correspondente
+          const typeOptions = messageType.options;
+          for (let i = 0; i < typeOptions.length; i++) {
+            if (typeOptions[i].value === templates[selected].type) {
+              messageType.selectedIndex = i;
+              break;
+            }
+          }
+          
+          // Alterna para a tab de mensagem
+          document.querySelector('[data-tab="message-tab"]').click();
+        }
+      });
+      
+      // Botões de controle
+      const startServerBtn = document.getElementById('start-server-btn');
+      const stopServerBtn = document.getElementById('stop-server-btn');
+      const connectClientBtn = document.getElementById('connect-client-btn');
+      const disconnectClientBtn = document.getElementById('disconnect-client-btn');
+      const sendMessageBtn = document.getElementById('send-message-btn');
+      const clearLogBtn = document.getElementById('clear-log-btn');
+      const pauseLogBtn = document.getElementById('pause-log-btn');
+      const createTestClientsBtn = document.getElementById('create-test-clients-btn');
+      const runStressTestBtn = document.getElementById('run-stress-test-btn');
+      
+      let logPaused = false;
+      
+      // Evento para iniciar servidor
+      startServerBtn.addEventListener('click', function() {
+        WebSocketDemo.startServer();
+        startServerBtn.disabled = true;
+        stopServerBtn.disabled = false;
+      });
+      
+      // Evento para parar servidor
+      stopServerBtn.addEventListener('click', function() {
+        WebSocketDemo.stopServer();
+        startServerBtn.disabled = false;
+        stopServerBtn.disabled = true;
+      });
+      
+      // Evento para conectar cliente
+      connectClientBtn.addEventListener('click', function() {
+        const clientType = document.getElementById('client-type').value;
+        const clientName = document.getElementById('client-name').value || null;
+        
+        WebSocketDemo.connectClient({
+          type: clientType,
+          name: clientName
+        });
+        
+        connectClientBtn.disabled = true;
+        disconnectClientBtn.disabled = false;
+        sendMessageBtn.disabled = false;
+      });
+      
+      // Evento para desconectar cliente
+      disconnectClientBtn.addEventListener('click', function() {
+        WebSocketDemo.disconnectClient();
+        connectClientBtn.disabled = false;
+        disconnectClientBtn.disabled = true;
+        sendMessageBtn.disabled = true;
+      });
+      
+      // Evento para enviar mensagem
+      sendMessageBtn.addEventListener('click', function() {
+        const messageInput = document.getElementById('message-input');
+        const messageType = document.getElementById('message-type').value;
+        const messageTarget = document.getElementById('message-target').value || null;
+        
+        let messageContent;
+        try {
+          messageContent = JSON.parse(messageInput.value);
+        } catch (e) {
+          messageContent = { content: messageInput.value };
+        }
+        
+        // Adiciona o tipo se não estiver no objeto
+        if (!messageContent.type) {
+          messageContent.type = messageType;
+        }
+        
+        WebSocketDemo.sendMessage(messageContent, null, messageTarget);
+      });
+      
+      // Evento para limpar log
+      clearLogBtn.addEventListener('click', function() {
+        WebSocketDemo.clearLog();
+      });
+      
+      // Evento para pausar/retomar log
+      pauseLogBtn.addEventListener('click', function() {
+        const logElement = document.getElementById('ws-log');
+        logPaused = !logPaused;
+        
+        if (logPaused) {
+          logElement.style.opacity = '0.5';
+          pauseLogBtn.textContent = 'Retomar';
+        } else {
+          logElement.style.opacity = '1';
+          pauseLogBtn.textContent = 'Pausar';
+        }
+      });
+      
+      // Criar clientes de teste
+      createTestClientsBtn.addEventListener('click', function() {
+        const count = parseInt(document.getElementById('test-clients').value, 10) || 5;
+        WebSocketDemo.createTestClients(count);
+      });
+      
+      // Executar teste de carga
+      runStressTestBtn.addEventListener('click', function() {
+        const count = parseInt(document.getElementById('test-clients').value, 10) || 5;
+        const messages = parseInt(document.getElementById('test-messages').value, 10) || 10;
+        const delay = parseInt(document.getElementById('test-delay').value, 10) || 50;
+        
+        WebSocketDemo.runStressTest(count, messages, delay);
+      });
+      
+      // Intercepta logs originais para pausar conforme necessário
+      const originalLog = WebSocketDemo.log;
+      WebSocketDemo.log = function(message, type = 'info') {
+        if (!logPaused) {
+          originalLog.call(WebSocketDemo, message, type);
+        }
+      };
+    });
+  </script>
+</body>
+</html> 

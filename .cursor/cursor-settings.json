@@ -1,0 +1,23 @@
+{
+  "models": {
+    "local": {
+      "llama-local": {
+        "name": "Llama Local",
+        "provider": "custom",
+        "apiBaseUrl": "http://localhost:1234/v1",
+        "chatCompletionEndpoint": "/chat/completions",
+        "completionEndpoint": "/completions",
+        "apiKey": "",
+        "headers": {},
+        "modelType": "chat"
+      }
+    }
+  },
+  "modelGroups": [
+    {
+      "title": "Locais",
+      "models": ["llama-local"]
+    }
+  ],
+  "preferredModel": "llama-local"
+}

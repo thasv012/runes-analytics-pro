@@ -1,0 +1,51 @@
+<!-- presentation-runes.en.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Final Presentation</title>
+    <link rel="stylesheet" href="styles/presentation.css" />
+  </head>  
+<body>
+  <div class="presentation">
+    <section class="intro">
+      <h1>RUNES Analytics Pro</h1>
+      <button id="language-toggle">🌐 Português</button>
+      <p>The evolution of Bitcoin-native token analytics starts here.</p>
+      <script>
+        const langBtn = document.getElementById('language-toggle');
+        langBtn.addEventListener('click', () => {
+          window.location.href = "presentation-runes.pt.html";
+        });
+      </script>
+      
+    </section>
+    <section class="vision">
+      <h2>Vision & Purpose</h2>
+      <p>We believe in data freedom. Runes Analytics Pro empowers Bitcoin communities with decentralized, real-time intelligence on the Runes ecosystem.</p>
+    </section>
+
+    <section class="tech">
+      <h2>Technical Differentials</h2>
+      <ul>
+        <li>Modular API Middleware with Transformer Layer</li>
+        <li>Advanced IndexedDB cache & diagnostics</li>
+        <li>Gamified UX with virtual portfolios</li>
+        <li>Multi-API fallback with smart normalization</li>
+      </ul>
+    </section>
+
+    <section class="future">
+      <h2>Web3 Roadmap & Beyond</h2>
+      <p>From portfolio simulations to social sentiment AI, our path leads to complete integration with the future of Bitcoin finance.</p>
+    </section>
+
+    <section class="cta">
+      <h2>Let’s Build the Next Layer Together</h2>
+      <p>We invite the visionaries, builders and believers of Bitcoin to join this open revolution.</p>
+      <strong>Runes are more than tokens — they are the soul of Satoshi’s intent.</strong>
+    </section>
+  </div>
+</body>
+</html>

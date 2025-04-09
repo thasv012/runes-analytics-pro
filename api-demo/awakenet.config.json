@@ -1,0 +1,150 @@
+{
+  "network": {
+    "id": "runes-mainnet-01",
+    "name": "RUNES Analytics Pro",
+    "version": "0.8.5",
+    "endpoint": "wss://mesh.runes.pro/node",
+    "fallbackEndpoints": [
+      "wss://backup1.runes.pro/node",
+      "wss://backup2.runes.pro/node"
+    ]
+  },
+  "nodes": {
+    "storage": [
+      {
+        "id": "storage-node-1",
+        "name": "São Paulo Storage α",
+        "endpoint": "200.158.12.45:9000",
+        "status": "online",
+        "region": "sa-east-1",
+        "capabilities": ["storage", "indexing", "compute-lite"],
+        "maxStorage": 1024,
+        "allocatedStorage": 980,
+        "features": {
+          "compression": true,
+          "encryption": true,
+          "deduplication": true
+        }
+      },
+      {
+        "id": "storage-node-2",
+        "name": "Frankfurt Storage β",
+        "endpoint": "192.168.45.20:9000",
+        "status": "online",
+        "region": "eu-central-1",
+        "capabilities": ["storage", "indexing"],
+        "maxStorage": 2048,
+        "allocatedStorage": 1800,
+        "features": {
+          "compression": true,
+          "encryption": true,
+          "deduplication": true
+        }
+      },
+      {
+        "id": "storage-node-3",
+        "name": "Tokyo Storage γ",
+        "endpoint": "217.33.128.4:9000",
+        "status": "online",
+        "region": "ap-northeast-1",
+        "capabilities": ["storage", "indexing", "compute-full"],
+        "maxStorage": 4096,
+        "allocatedStorage": 3500,
+        "features": {
+          "compression": true,
+          "encryption": true,
+          "deduplication": true
+        }
+      },
+      {
+        "id": "storage-node-4",
+        "name": "Virginia Storage δ",
+        "endpoint": "54.221.145.32:9000",
+        "status": "offline",
+        "region": "us-east-1",
+        "capabilities": ["storage", "indexing", "backup"],
+        "maxStorage": 8192,
+        "allocatedStorage": 7680,
+        "features": {
+          "compression": true,
+          "encryption": true,
+          "deduplication": true
+        },
+        "lastSeen": "2025-04-04T12:30:45Z",
+        "maintenanceScheduled": "2025-04-07T10:00:00Z",
+        "maintenanceReason": "Hardware upgrade"
+      }
+    ],
+    "compute": [
+      {
+        "id": "compute-node-1",
+        "name": "Paris Compute α",
+        "endpoint": "35.180.122.65:9001",
+        "status": "online",
+        "region": "eu-west-3",
+        "capabilities": ["compute-full", "training", "inference"],
+        "hardware": {
+          "cpu": "AMD EPYC 7763 64-Core",
+          "cores": 64,
+          "ram": 512,
+          "gpu": "NVIDIA H100",
+          "gpuCount": 8,
+          "gpuMemory": 320
+        }
+      },
+      {
+        "id": "compute-node-2",
+        "name": "Oregon Compute β",
+        "endpoint": "52.36.178.90:9001",
+        "status": "online",
+        "region": "us-west-2",
+        "capabilities": ["compute-full", "inference"],
+        "hardware": {
+          "cpu": "Intel Xeon Platinum 8375C",
+          "cores": 36,
+          "ram": 256,
+          "gpu": "NVIDIA A100",
+          "gpuCount": 4,
+          "gpuMemory": 160
+        }
+      }
+    ],
+    "coordinator": [
+      {
+        "id": "coord-node-1",
+        "name": "São Paulo Coordinator Primary",
+        "endpoint": "200.158.12.40:9002",
+        "status": "online",
+        "region": "sa-east-1",
+        "capabilities": ["coordination", "load-balancing", "monitoring"],
+        "role": "primary"
+      },
+      {
+        "id": "coord-node-2",
+        "name": "Dublin Coordinator Secondary",
+        "endpoint": "54.194.123.45:9002",
+        "status": "online",
+        "region": "eu-west-1",
+        "capabilities": ["coordination", "load-balancing", "monitoring"],
+        "role": "secondary"
+      }
+    ]
+  },
+  "monitoring": {
+    "enabled": true,
+    "interval": 30,
+    "metrics": ["cpu", "memory", "disk", "network", "tasks"],
+    "alerts": {
+      "diskUsage": 85,
+      "memoryUsage": 90,
+      "cpuUsage": 95,
+      "responseTime": 500
+    }
+  },
+  "client": {
+    "reconnectAttempts": 5,
+    "reconnectDelay": 2000,
+    "timeout": 30000,
+    "debug": false
+  }
+} 

@@ -77,6 +77,26 @@
                     <label id="signature-label" for="include-signature">Incluir assinatura</label>
                 </div>
 
+                <!-- Adicionando controles para texto personalizado -->
+                <div class="control-group checkbox-group">
+                    <input type="checkbox" id="include-text" checked>
+                    <label id="text-toggle-label" for="include-text">Incluir texto</label>
+                </div>
+
+                <div id="text-options" class="control-group nested-control">
+                    <label for="custom-text-input" class="control-label">Texto:</label>
+                    <textarea id="custom-text-input" class="form-textarea" placeholder="Digite seu texto aqui..." rows="2"></textarea>
+                    
+                    <div class="control-group">
+                        <label id="text-position-label" for="text-position">Posição do texto:</label>
+                        <select id="text-position" class="control-select">
+                            <option value="center">Centro</option>
+                            <option value="top">Topo</option>
+                            <option value="bottom">Base</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="action-buttons">
                     <button id="generate-button" class="primary-button">
                         <span class="button-icon"><i class="fas fa-magic"></i></span>
@@ -144,5 +164,36 @@
     <script src="js/neural-banner.js"></script>
     <script src="js/banner-backgrounds.js"></script>
     <script src="js/banner-utils.js"></script>
+
+    <!-- Adicionar exemplo de uso da API -->
+    <script>
+        // Exemplo de como usar a API do NeuralBanner programaticamente
+        document.addEventListener('DOMContentLoaded', () => {
+            // Adicionar botão de exemplo de API ao rodapé
+            const apiExampleButton = document.createElement('button');
+            apiExampleButton.className = 'small-button';
+            apiExampleButton.innerHTML = '<i class="fas fa-code"></i> API Demo';
+            apiExampleButton.style.marginLeft = '20px';
+            
+            apiExampleButton.addEventListener('click', async () => {
+                // Exemplo de geração via API
+                const canvas = await NeuralBanner.generate({
+                    style: "neural-glow",
+                    lang: "PT", 
+                    text: "RUNES Analytics Pro — Domine o ecossistema Bitcoin",
+                    resolution: "1920x1080",
+                    textPosition: "center",
+                    includeSignature: true
+                });
+                
+                // Exibir mensagem de sucesso
+                alert('Banner gerado via API! Verifique o console para mais detalhes.');
+                console.log('Banner gerado via API. Você pode usar NeuralBanner.download() para baixar.');
+            });
+            
+            // Adicionar ao rodapé
+            document.querySelector('.footer-info').appendChild(apiExampleButton);
+        });
+    </script>
 </body>
 </html> 

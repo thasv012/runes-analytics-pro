@@ -520,10 +520,10 @@
       
       // Create gradient for the area fill
       const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, 'rgba(0, 255, 255, 0.5)');
-      gradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+      gradient.addColorStop(0, 'rgba(92,225,230,1)');   // cyan
+      gradient.addColorStop(1, 'rgba(92,225,230,0)'); // fade
       
-      // Create chart
+      // Create chart with glow effects and animation
       new Chart(ctx, {
         type: 'line',
         data: {
@@ -532,12 +532,21 @@
             {
               label: 'Whale Volume (USD Million)',
               data: whaleVolume,
-              borderColor: 'rgb(0, 255, 255)',
+              borderColor: '#5ce1e6',
               backgroundColor: gradient,
               fill: true,
-              tension: 0.4,
-              borderWidth: 3,
-              yAxisID: 'y'
+              tension: 0.3,
+              borderWidth: 2,
+              yAxisID: 'y',
+              pointStyle: 'circle',
+              pointRadius: 5,
+              pointHoverRadius: 8,
+              pointBackgroundColor: 'rgba(92,225,230,1)',
+              pointBorderColor: 'rgba(92,225,230,0.5)',
+              pointHoverBackgroundColor: 'rgba(92,225,230,0.8)',
+              pointHoverBorderColor: 'rgba(92,225,230,1)',
+              pointShadowBlur: 10,
+              pointShadowColor: 'rgba(92,225,230,0.5)'
             },
             {
               label: 'Price Impact (%)',
@@ -547,7 +556,7 @@
               borderWidth: 2,
               borderDash: [5, 5],
               fill: false,
-              tension: 0.4,
+              tension: 0.3,
               yAxisID: 'y1'
             }
           ]
@@ -558,6 +567,15 @@
           interaction: {
             mode: 'index',
             intersect: false,
+          },
+          animations: {
+            tension: {
+              duration: 1000,
+              easing: 'easeOutQuad',
+              from: 0.5,
+              to: 0.3,
+              loop: true
+            }
           },
           scales: {
             y: {
@@ -610,12 +628,57 @@
             },
             tooltip: {
               mode: 'index',
-              intersect: false
+              intersect: false,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.datasetIndex === 0) {
+                    label += '$' + context.parsed.y + 'M';
+                  } else {
+                    label += context.parsed.y + '%';
+                  }
+                  return label;
+                },
+                afterLabel: function(context) {
+                  if (context.datasetIndex === 0) { // Only for Whale Volume dataset
+                    return [
+                      'Wallet: bc1q...2v',
+                      'Date: ' + dates[context.dataIndex],
+                      'Time: 14:' + (30 + context.dataIndex * 5) + ' UTC'
+                    ];
+                  }
+                }
+              }
             }
           }
         }
       });
     });
+
+    function activateBootoshiMode() {
+      console.log("%c🧠 Neural Core Awakening... King Bootoshi Access Granted", "color:#5ce1e6; font-size:16px; font-weight:bold");
+      window.runesc = {
+        scanNetwork: async () => {
+          console.log("%c⚡ Scanning Runes network for alpha signals...", "color:#ff6b6b");
+          await new Promise(r => setTimeout(r, 1500));
+          console.log("%c🔍 Detected 3 whale movements in last 24h", "color:#5ce1e6");
+          await new Promise(r => setTimeout(r, 800));
+          console.log("%c🚀 Found potential accumulation pattern on PEPE rune", "color:#5ce1e6");
+          await new Promise(r => setTimeout(r, 1200));
+          console.log("%c💎 Neural prediction: 87% chance of market movement within 48h", "color:#5ce1e6");
+          return true;
+        },
+        activateNeuralVision: () => {
+          document.body.classList.add("neural-vision");
+          console.log("%c👁️ Neural vision activated - You now see what the machine sees", "color:#ff9e43");
+          return "Vision active. Try hovering over any token card now.";
+        }
+      };
+      return "🔓 Bootoshi command center ready. Try runesc.scanNetwork() or runesc.activateNeuralVision()";
+    }
   </script>
 </body>
 </html> 

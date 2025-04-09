@@ -1,0 +1,40 @@
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.8);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #0D0208;
+  border: 1px solid #00FF41;
+  color: #00FF41;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  font-family: monospace;
+}
+
+.compare-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.token-card {
+  flex: 1;
+  border: 1px solid #FF5722;
+  padding: 1rem;
+  border-radius: 6px;
+  background-color: rgba(255, 87, 34, 0.1);
+}
+
+.vs {
+  font-size: 2rem;
+  color: #FF5722;
+  align-self: center;
+}

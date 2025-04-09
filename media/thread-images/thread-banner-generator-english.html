@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Thread Banner Generator</title>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --text-color: #c9d1d9;
+      --primary-color: #58a6ff;
+      --secondary-color: #1f6feb;
+      --accent-color: #ffa657;
+      --error-color: #f85149;
+      --success-color: #56d364;
+      --border-color: #30363d;
+      --card-bg: #161b22;
+      --header-bg: #21262d;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .form-group {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .form-row {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: inherit;
+    }
+    
+    button {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--primary-color);
+    }
+    
+    .banner-container {
+      width: 100%;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+    
+    .banner {
+      width: 1200px;
+      height: 675px;
+      background-color: var(--card-bg);
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .banner-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
+    }
+    
+    .banner-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .banner-title {
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .banner-subtitle {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .banner-description {
+      font-size: 1.5rem;
+      max-width: 80%;
+      margin-bottom: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .banner-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .stat-item {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .banner-logo {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    .download-btn {
+      background-color: var(--success-color);
+      color: #000;
+      margin-top: 2rem;
+    }
+    
+    .banner-footer {
+      position: absolute;
+      bottom: 2rem;
+      left: 3rem;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .templates-container {
+      margin-top: 2rem;
+    }
+    
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .template-item {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .template-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border-color: var(--primary-color);
+    }
+    
+    .template-preview {
+      width: 100%;
+      height: 100px;
+      background-color: var(--bg-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+    
+    .template-name {
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .banner-title,
+    .banner-subtitle,
+    .banner-description {
+      animation: slideUp 0.5s ease-out forwards;
+    }
+    
+    .banner-title { animation-delay: 0.1s; }
+    .banner-subtitle { animation-delay: 0.3s; }
+    .banner-description { animation-delay: 0.5s; }
+    
+    .banner-stats {
+      animation: fadeIn 0.5s ease-out 0.7s forwards;
+      opacity: 0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .banner {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+      }
+      
+      .banner-title {
+        font-size: 3.5rem;
+      }
+      
+      .banner-subtitle {
+        font-size: 1.8rem;
+      }
+      
+      .banner-description {
+        font-size: 1.2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+      
+      .banner-title {
+        font-size: 2.5rem;
+      }
+      
+      .banner-subtitle {
+        font-size: 1.5rem;
+      }
+      
+      .banner-description {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>RUNES Analytics Pro - Thread Banner Generator</h1>
+      <p>Create high-quality banners for your Twitter thread</p>
+    </header>
+    
+    <div class="controls">
+      <div class="form-group">
+        <div class="form-row">
+          <label for="banner-template">Banner Template</label>
+          <select id="banner-template">
+            <option value="evolution">Project Evolution</option>
+            <option value="gpu-mesh">GPU Mesh Network</option>
+            <option value="websocket">Real-Time WebSockets</option>
+            <option value="roadmap">Roadmap and Sprints</option>
+            <option value="ai-analysis">AI Analysis</option>
+            <option value="whales-tracking">Whale Tracking</option>
+            <option value="comparison">Comparative Analysis</option>
+            <option value="next-evolution">Next Evolution</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <label for="banner-title">Title</label>
+          <input type="text" id="banner-title" placeholder="Enter title...">
+        </div>
+        
+        <div class="form-row">
+          <label for="banner-subtitle">Subtitle</label>
+          <input type="text" id="banner-subtitle" placeholder="Enter subtitle...">
+        </div>
+        
+        <div class="form-row">
+          <label for="banner-description">Description</label>
+          <textarea id="banner-description" rows="3" placeholder="Enter description..."></textarea>
+        </div>
+        
+        <div class="form-row">
+          <label for="background-style">Background Style</label>
+          <select id="background-style">
+            <option value="gradient">Gradient</option>
+            <option value="neural">Neural Network</option>
+            <option value="mesh">GPU Mesh</option>
+            <option value="cyber">Cyberpunk</option>
+            <option value="minimal">Minimal</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <label for="color-scheme">Color Scheme</label>
+          <select id="color-scheme">
+            <option value="blue">Blue</option>
+            <option value="purple">Purple</option>
+            <option value="orange">Orange</option>
+            <option value="green">Green</option>
+            <option value="red">Red</option>
+            <option value="multicolor">Multicolor</option>
+          </select>
+        </div>
+        
+        <button id="generate-btn">Generate Banner</button>
+        <button id="download-btn" class="download-btn">Download Banner</button>
+      </div>
+      
+      <div class="form-group">
+        <h2>Preview</h2>
+        <p>Customize your banner using the options on the left</p>
+        
+        <div class="banner-container">
+          <div id="banner" class="banner">
+            <div class="banner-bg" id="banner-bg"></div>
+            <div class="banner-content">
+              <div class="banner-logo">
+                <span class="logo-dot"></span>RUNES Analytics Pro
+              </div>
+              <h1 class="banner-title" id="preview-title">Project Evolution</h1>
+              <h2 class="banner-subtitle" id="preview-subtitle">From MVP to complete analytics platform</h2>
+              <p class="banner-description" id="preview-description">Our journey in building the ultimate Runes analysis tool, providing accurate insights and real-time data.</p>
+              
+              <div class="banner-stats">
+                <div class="stat-item">
+                  <div class="stat-value">8</div>
+                  <div class="stat-label">GPU Nodes</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">1.2s</div>
+                  <div class="stat-label">Latency</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">3400+</div>
+                  <div class="stat-label">Wallets</div>
+                </div>
+              </div>
+              
+              <div class="banner-footer">
+                #RunesAnalyticsPro #BitcoinL1
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="templates-container">
+      <h2>Available Templates</h2>
+      <p>Click on a template to quickly load its settings</p>
+      
+      <div class="template-grid" id="template-grid">
+        <!-- Templates will be generated here -->
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const bannerTemplate = document.getElementById('banner-template');
+      const bannerTitle = document.getElementById('banner-title');
+      const bannerSubtitle = document.getElementById('banner-subtitle');
+      const bannerDescription = document.getElementById('banner-description');
+      const backgroundStyle = document.getElementById('background-style');
+      const colorScheme = document.getElementById('color-scheme');
+      const generateBtn = document.getElementById('generate-btn');
+      const downloadBtn = document.getElementById('download-btn');
+      const previewTitle = document.getElementById('preview-title');
+      const previewSubtitle = document.getElementById('preview-subtitle');
+      const previewDescription = document.getElementById('preview-description');
+      const bannerBg = document.getElementById('banner-bg');
+      const banner = document.getElementById('banner');
+      const templateGrid = document.getElementById('template-grid');
+      
+      // Templates data
+      const templates = {
+        'evolution': {
+          title: 'Project Evolution',
+          subtitle: 'From MVP to complete analytics platform',
+          description: 'Our journey in building the ultimate Runes analysis tool, providing accurate insights and real-time data.',
+          background: 'gradient',
+          color: 'blue',
+          stats: [
+            { value: '8', label: 'GPU Nodes' },
+            { value: '1.2s', label: 'Latency' },
+            { value: '3400+', label: 'Wallets' }
+          ]
+        },
+        'gpu-mesh': {
+          title: 'GPU Mesh Network',
+          subtitle: 'Our competitive edge',
+          description: 'Distributed GPU processing delivers unmatched speeds and reliability through our proprietary mesh network.',
+          background: 'mesh',
+          color: 'purple',
+          stats: [
+            { value: '87%', label: 'Efficiency' },
+            { value: '8', label: 'Active Nodes' },
+            { value: '24/7', label: 'Uptime' }
+          ]
+        },
+        'websocket': {
+          title: 'Real-Time WebSockets',
+          subtitle: 'Instant updates without delays',
+          description: 'We left polling behind and implemented a cutting-edge WebSocket system for real-time data delivery.',
+          background: 'cyber',
+          color: 'green',
+          stats: [
+            { value: '78%', label: 'Latency Reduction' },
+            { value: '<1s', label: 'Update Time' },
+            { value: '99.9%', label: 'Reliability' }
+          ]
+        },
+        'roadmap': {
+          title: 'Structured Roadmap',
+          subtitle: 'Agile sprints with clear deliverables',
+          description: 'Our development methodology ensures consistent feature delivery with transparency and reliability.',
+          background: 'minimal',
+          color: 'blue',
+          stats: [
+            { value: '4', label: 'Sprints' },
+            { value: '65%', label: 'Completion' },
+            { value: 'Q2', label: 'Next Release' }
+          ]
+        },
+        'ai-analysis': {
+          title: 'AI-Powered Analysis',
+          subtitle: 'Neural networks detecting patterns humans miss',
+          description: 'Our artificial intelligence engine detects patterns, anomalies, and market sentiment with unprecedented accuracy.',
+          background: 'neural',
+          color: 'purple',
+          stats: [
+            { value: '82%', label: 'Accuracy' },
+            { value: '92%', label: 'Detection Rate' },
+            { value: '30min', label: 'Early Warning' }
+          ]
+        },
+        'whales-tracking': {
+          title: 'Whale Tracking System',
+          subtitle: 'Following smart money in real-time',
+          description: 'Our wallet labeling technology identifies key market players and alerts you when significant movements occur.',
+          background: 'cyber',
+          color: 'orange',
+          stats: [
+            { value: '3400+', label: 'Labeled Wallets' },
+            { value: '$200K+', label: 'Movement Threshold' },
+            { value: '12', label: 'GENAI Whales' }
+          ]
+        },
+        'comparison': {
+          title: 'RUNES Analytics vs Others',
+          subtitle: 'The definitive choice for Runes analysis',
+          description: 'See how our platform stands head and shoulders above the competition with exclusive features and capabilities.',
+          background: 'gradient',
+          color: 'red',
+          stats: [
+            { value: '1.2s', label: 'vs 5-10s' },
+            { value: 'Real-time', label: 'vs Delayed' },
+            { value: '✓', label: 'Whale Tracking' }
+          ]
+        },
+        'next-evolution': {
+          title: 'The Next Evolution',
+          subtitle: 'Upcoming features that will change everything',
+          description: 'Our roadmap includes revolutionary capabilities that will transform how you analyze and interact with Runes.',
+          background: 'neural',
+          color: 'multicolor',
+          stats: [
+            { value: '5x', label: 'Speed Increase' },
+            { value: 'Neural', label: 'Pattern Recognition' },
+            { value: 'Cross-Chain', label: 'Intelligence' }
+          ]
+        }
+      };
+      
+      // Initialize templates grid
+      function initTemplateGrid() {
+        templateGrid.innerHTML = '';
+        
+        Object.keys(templates).forEach(key => {
+          const template = templates[key];
+          const templateItem = document.createElement('div');
+          templateItem.className = 'template-item';
+          templateItem.innerHTML = `
+            <div class="template-preview">${template.title.charAt(0)}</div>
+            <div class="template-name">${template.title}</div>
+          `;
+          
+          templateItem.addEventListener('click', () => {
+            bannerTemplate.value = key;
+            loadTemplate(key);
+          });
+          
+          templateGrid.appendChild(templateItem);
+        });
+      }
+      
+      // Load template data to form
+      function loadTemplate(templateKey) {
+        const template = templates[templateKey];
+        if (!template) return;
+        
+        bannerTitle.value = template.title;
+        bannerSubtitle.value = template.subtitle;
+        bannerDescription.value = template.description;
+        backgroundStyle.value = template.background;
+        colorScheme.value = template.color;
+        
+        generateBanner();
+      }
+      
+      // Generate banner based on form values
+      function generateBanner() {
+        // Update preview
+        previewTitle.textContent = bannerTitle.value || 'Enter a title';
+        previewSubtitle.textContent = bannerSubtitle.value || 'Enter a subtitle';
+        previewDescription.textContent = bannerDescription.value || 'Enter a description';
+        
+        // Background style
+        let bgStyle = '';
+        switch(backgroundStyle.value) {
+          case 'gradient':
+            let gradientColors = getGradientColors(colorScheme.value);
+            bgStyle = `linear-gradient(135deg, ${gradientColors.join(', ')})`;
+            break;
+          case 'neural':
+            bgStyle = 'radial-gradient(circle at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%), url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'1200\' height=\'675\' viewBox=\'0 0 1200 675\'%3E%3Cg fill=\'none\' stroke=\'%23' + getColorHex(colorScheme.value) + '\' stroke-width=\'2\' opacity=\'0.2\'%3E%3C' + generateNeuralPattern() + '%3E%3C/g%3E%3C/svg%3E")';
+            break;
+          case 'mesh':
+            bgStyle = 'radial-gradient(circle at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%), url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'1200\' height=\'675\' viewBox=\'0 0 1200 675\'%3E%3Cg fill=\'none\' stroke=\'%23' + getColorHex(colorScheme.value) + '\' stroke-width=\'2\' opacity=\'0.2\'%3E%3C' + generateMeshPattern() + '%3E%3C/g%3E%3C/svg%3E")';
+            break;
+          case 'cyber':
+            bgStyle = 'linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.9) 100%), url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'1200\' height=\'675\' viewBox=\'0 0 1200 675\'%3E%3Cg fill=\'none\' stroke=\'%23' + getColorHex(colorScheme.value) + '\' stroke-width=\'2\' opacity=\'0.2\'%3E%3C' + generateCyberPattern() + '%3E%3C/g%3E%3C/svg%3E")';
+            break;
+          case 'minimal':
+            bgStyle = 'linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 100%)';
+            break;
+        }
+        
+        bannerBg.style.background = bgStyle;
+        
+        // Animation reset
+        const animatedElements = [previewTitle, previewSubtitle, previewDescription];
+        animatedElements.forEach(el => {
+          el.style.animation = 'none';
+          el.offsetHeight; // Trigger reflow
+          el.style.animation = '';
+        });
+        
+        const statsContainer = document.querySelector('.banner-stats');
+        statsContainer.style.animation = 'none';
+        statsContainer.offsetHeight;
+        statsContainer.style.animation = '';
+        
+        // Set color scheme
+        banner.style.setProperty('--accent-color', getAccentColor(colorScheme.value));
+      }
+      
+      // Utility functions for background generation
+      function getGradientColors(color) {
+        switch(color) {
+          case 'blue': return ['#1a365d', '#2a4365', '#2c5282', '#2b6cb0'];
+          case 'purple': return ['#44337a', '#553c9a', '#6b46c1', '#805ad5'];
+          case 'orange': return ['#7b341e', '#9c4221', '#c05621', '#dd6b20'];
+          case 'green': return ['#22543d', '#276749', '#2f855a', '#38a169'];
+          case 'red': return ['#742a2a', '#9b2c2c', '#c53030', '#e53e3e'];
+          case 'multicolor': return ['#1a365d', '#44337a', '#7b341e', '#22543d'];
+        }
+      }
+      
+      function getColorHex(color) {
+        switch(color) {
+          case 'blue': return '3182ce';
+          case 'purple': return '805ad5';
+          case 'orange': return 'dd6b20';
+          case 'green': return '38a169';
+          case 'red': return 'e53e3e';
+          case 'multicolor': return '3182ce';
+        }
+      }
+      
+      function getAccentColor(color) {
+        switch(color) {
+          case 'blue': return '#4299e1';
+          case 'purple': return '#9f7aea';
+          case 'orange': return '#ed8936';
+          case 'green': return '#48bb78';
+          case 'red': return '#f56565';
+          case 'multicolor': return '#fbd38d';
+        }
+      }
+      
+      function generateNeuralPattern() {
+        let pattern = '';
+        // Generate random neural network pattern
+        const points = 15;
+        const connections = 30;
+        const nodes = [];
+        
+        for (let i = 0; i < points; i++) {
+          nodes.push({
+            x: Math.floor(Math.random() * 1200),
+            y: Math.floor(Math.random() * 675)
+          });
+        }
+        
+        for (let i = 0; i < connections; i++) {
+          const start = nodes[Math.floor(Math.random() * nodes.length)];
+          const end = nodes[Math.floor(Math.random() * nodes.length)];
+          pattern += `line x1=\'${start.x}\' y1=\'${start.y}\' x2=\'${end.x}\' y2=\'${end.y}\' `;
+        }
+        
+        return pattern;
+      }
+      
+      function generateMeshPattern() {
+        let pattern = '';
+        // Generate mesh grid pattern
+        const gridSize = 100;
+        
+        for (let x = 0; x < 1200; x += gridSize) {
+          pattern += `line x1=\'${x}\' y1=\'0\' x2=\'${x}\' y2=\'675\' `;
+        }
+        
+        for (let y = 0; y < 675; y += gridSize) {
+          pattern += `line x1=\'0\' y1=\'${y}\' x2=\'1200\' y2=\'${y}\' `;
+        }
+        
+        return pattern;
+      }
+      
+      function generateCyberPattern() {
+        let pattern = '';
+        // Generate cyberpunk-like pattern with horizontal lines
+        const lineCount = 20;
+        const lineSpacing = 675 / lineCount;
+        
+        for (let i = 0; i < lineCount; i++) {
+          const y = i * lineSpacing;
+          const offset = Math.sin(i * 0.5) * 100;
+          pattern += `line x1=\'${-200 + offset}\' y1=\'${y}\' x2=\'${1200 + offset}\' y2=\'${y}\' `;
+        }
+        
+        return pattern;
+      }
+      
+      // Download banner as image
+      downloadBtn.addEventListener('click', function() {
+        html2canvas(banner).then(canvas => {
+          const link = document.createElement('a');
+          link.download = `runes-analytics-thread-${bannerTemplate.value}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      });
+      
+      // Event listeners
+      bannerTemplate.addEventListener('change', function() {
+        loadTemplate(this.value);
+      });
+      
+      generateBtn.addEventListener('click', generateBanner);
+      
+      // HTML2Canvas for downloading (simplified mock)
+      window.html2canvas = function(element) {
+        return {
+          then: function(callback) {
+            const canvas = {
+              toDataURL: function() {
+                return '#'; // In a real implementation, this would be the data URL
+              }
+            };
+            callback(canvas);
+            alert('In a real implementation, this would download the banner.\nFor now, please use screenshot tools to capture the banner.');
+          }
+        };
+      };
+      
+      // Initialize
+      initTemplateGrid();
+      loadTemplate('evolution');
+    });
+  </script>
+</body>
+</html> 

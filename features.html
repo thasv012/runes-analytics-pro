@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNES Analytics Pro - Features</title>
+    <title data-en="RUNES Analytics Pro - Features" data-pt="RUNES Analytics Pro - Recursos">RUNES Analytics Pro - Features</title>
     <meta name="description" content="Explore the features and capabilities of the RUNES Analytics Pro platform.">
     
     <!-- Fontes -->
@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Estilos -->
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="styles/language-styles.css">
     <link rel="stylesheet" href="styles/cyberpunk.css"> 
     <style>
         /* Estilos específicos para features.html */
@@ -34,7 +36,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('images/dashboard-mockup.webp') no-repeat center center; /* Placeholder image */
+            background: url('media/images/dashboard-mockup.webp') no-repeat center center; /* Placeholder image */
             background-size: cover;
             transform: scale(1.1); /* Initial scale for parallax */
             transition: transform 0.5s ease-out;
@@ -128,244 +130,91 @@
             padding-left: 0.8rem;
         }
         
-        /* Specific card animations */
-        .feature-card.whale-tracker::after { /* Water ripple effect */
-            content: '';
+        /* Video Section */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+            margin: 2rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+        }
+        
+        .video-container iframe, 
+        .video-container video {
             position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(0, 150, 200, 0.3) 0%, transparent 70%);
-            transform: scale(0);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 2px solid var(--neon-cyan);
             border-radius: 50%;
-        }
-        .feature-card.whale-tracker:hover::after {
-            transform: scale(2);
-            opacity: 1;
-            transition-duration: 1s; /* Slower ripple spread */
-        }
-        
-        .feature-card.market-analysis .feature-icon { /* Pulsing graph */
-             animation: pulse 1.5s infinite ease-in-out alternate;
-        }
-
-        .feature-card.gamified::before { /* Growing shine */
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
-            transform: scale(0);
-            opacity: 0;
-            transition: transform 0.6s ease, opacity 0.6s ease;
-        }
-        .feature-card.gamified:hover::before {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .feature-card.explorer .feature-icon { /* Zoom effect */
-             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-         .feature-card.explorer:hover .feature-icon {
-             transform: scale(1.2);
-         }
-
-        .feature-card.social::after { /* Network pulse */
-            content: '';
-            position: absolute;
-            top: 10%; left: 10%; width: 80%; height: 80%;
-            border: 1px dashed var(--neon-purple);
-            border-radius: 5px;
-            opacity: 0;
-            animation: network-pulse 2s infinite linear;
-        }
-        .feature-card.social:hover::after { opacity: 0.5; }
-        @keyframes network-pulse {
-            0% { transform: scale(0.95); }
-            50% { transform: scale(1.05); border-color: var(--neon-pink); }
-            100% { transform: scale(0.95); }
-        }
-        
-        .feature-card.ipfs::before { /* Connected blocks */
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(var(--neon-green) 1px, transparent 1px),
-                linear-gradient(to right, var(--neon-green) 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .feature-card.ipfs:hover::before { opacity: 0.1; }
-
-        /* Demonstration Section */
-        .demo-section { margin-bottom: 4rem; }
-        .demo-video-placeholder {
-            background-color: #111;
-            border: 1px dashed var(--border-neon);
-            height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-        .workflow-timeline { /* Basic timeline styling */
-            border-left: 2px solid var(--neon-cyan);
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        .timeline-item {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        .timeline-item::before {
-            content: '◆';
-            position: absolute;
-            left: -2.2rem;
-            top: 0;
-            color: var(--neon-cyan);
-            font-size: 1.2rem;
-            background-color: var(--bg-primary);
-            padding: 0 0.3rem;
-        }
-        .timeline-item h4 { color: var(--neon-cyan); margin-bottom: 0.3rem; }
-        .timeline-item p { font-size: 0.9rem; color: var(--text-secondary); }
-
-        /* Comparison Table */
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 4rem;
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.1);
-        }
-        .comparison-table th, .comparison-table td {
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            text-align: center;
-        }
-        .comparison-table th {
-            background-color: var(--bg-secondary);
-            color: var(--neon-blue);
-            font-family: var(--font-display);
-        }
-        .comparison-table td:first-child {
-            text-align: left;
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-        .comparison-table .highlight {
-            background-color: rgba(0, 255, 100, 0.1);
-            color: var(--neon-green);
-            font-weight: bold;
-        }
-        .comparison-table .advantage-icon {
-            color: var(--neon-green);
-            font-size: 1.2rem;
-        }
-        .comparison-table .disadvantage-icon {
-            color: #ff4d4d; /* Neon red */
-             font-size: 1.2rem;
-        }
-
-        /* Call to Action */
-        .cta-section {
-            text-align: center;
-            padding: 3rem 1rem;
-            background: linear-gradient(rgba(15, 20, 40, 0.8), rgba(10, 15, 30, 0.95));
-            border-radius: 8px;
-            border-top: 2px solid var(--neon-purple);
-        }
-        .cta-link {
-            display: block;
-            margin-top: 1rem;
-            color: var(--neon-cyan);
-            text-decoration: underline;
-            font-size: 0.9rem;
-        }
-        .cta-link:hover {
-            color: var(--text-primary);
-        }
-        
-        /* Glitch Button */
-        .btn-glitch {
-             position: relative;
-        }
-        .btn-glitch:hover::before,
-        .btn-glitch:hover::after {
-            content: 'Experience the features';
-            position: absolute;
-            top: 0; left: 0;
-            padding: inherit; /* Match button padding */
-            width: 100%; height: 100%;
-            background: var(--bg-primary); /* Match button background */
-            color: var(--text-primary); /* Match button text color */
-            border: inherit; /* Match button border */
-            border-radius: inherit; /* Match button border-radius */
-            box-sizing: border-box;
-        }
-        .btn-glitch:hover::before {
-            left: 2px;
-            text-shadow: -1px 0 var(--neon-pink);
-            animation: glitch-effect-btn 0.5s infinite linear alternate-reverse;
-        }
-        .btn-glitch:hover::after {
-            left: -2px;
-            text-shadow: 1px 0 var(--neon-cyan);
-            animation: glitch-effect-btn 0.8s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-effect-btn {
-            0% { clip-path: inset(85% 0 5% 0); opacity: 0.8; }
-            25% { clip-path: inset(20% 0 50% 0); opacity: 1; }
-            50% { clip-path: inset(40% 0 10% 0); opacity: 0.7; }
-            75% { clip-path: inset(70% 0 25% 0); opacity: 0.9; }
-            100% { clip-path: inset(10% 0 80% 0); opacity: 0.8; }
-        }
-
-        /* Language Toggle Button */
-        #language-toggle {
-            position: fixed;
-            top: 15px; /* Adjusted position */
-            right: 15px;
-            z-index: 1000; /* Ensure it's above other elements */
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--neon-blue);
-            color: var(--text-primary);
-            padding: 5px 10px;
-            border-radius: 4px;
             cursor: pointer;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
+            z-index: 2;
             transition: all 0.3s ease;
         }
-        #language-toggle:hover {
-             background: rgba(0, 170, 255, 0.2);
-             color: var(--neon-cyan);
-             box-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
+        
+        .video-play-button:hover {
+            background: rgba(0, 255, 255, 0.4);
+            transform: translate(-50%, -50%) scale(1.1);
         }
-
+        
+        .video-play-button i {
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
     </style>
     
     <!-- Scripts -->
     <script src="js/presentation-transitions.js" defer></script>
     <script src="js/presentation-nav.js" defer></script>
+    <script src="language-switcher.js" defer></script>
 </head>
 <body>
-    <!-- Botão de Troca de Idioma -->
-    <button id="language-toggle">🇧🇷 Português</button>
-
-    <!-- Header (Criado via JavaScript por presentation-nav.js) -->
+    <!-- Header (Criado via JavaScript) -->
     <header class="site-header"></header>
     
     <!-- Conteúdo principal -->
     <main class="content-area">
         <div class="container">
             <section class="hero fade-in text-center">
-                <h1 class="glitch-text" data-text="Features & Capabilities">Features & Capabilities</h1>
-                <p class="text-neon-green text-mono">Unlock the power of RUNES tokens analysis</p>
+                <h1 class="glitch-text" data-text="Features & Capabilities">
+                    <span class="lang-en">Features & Capabilities</span>
+                    <span class="lang-pt">Recursos & Funcionalidades</span>
+                </h1>
+                <p class="text-neon-green text-mono">
+                    <span class="lang-en">Unlock the power of RUNES tokens analysis</span>
+                    <span class="lang-pt">Desbloqueie o poder da análise de tokens RUNES</span>
+                </p>
             </section>
 
             <!-- Dashboard Showcase -->
@@ -373,14 +222,29 @@
                 <div class="dashboard-img"></div>
                 <div class="dashboard-overlay">
                     <div class="dashboard-caption">
-                        <h2>Intuitive Dashboard</h2>
-                        <p>Visualize the entire Runes ecosystem at a glance. Customizable widgets, real-time data streams, and powerful charting tools.</p>
+                        <h2>
+                            <span class="lang-en">Intuitive Dashboard</span>
+                            <span class="lang-pt">Dashboard Intuitivo</span>
+                        </h2>
+                        <p>
+                            <span class="lang-en">Visualize the entire Runes ecosystem at a glance. Customizable widgets, real-time data streams, and powerful charting tools.</span>
+                            <span class="lang-pt">Visualize todo o ecossistema Runes de relance. Widgets personalizáveis, fluxos de dados em tempo real e ferramentas poderosas de gráficos.</span>
+                        </p>
                     </div>
                 </div>
-                 <!-- Callouts -->
-                <div class="callout callout-1">Real-time Price Feed</div>
-                <div class="callout callout-2">Whale Activity Alerts</div>
-                <div class="callout callout-3">On-chain Metrics Widget</div>
+                <!-- Callouts -->
+                <div class="callout callout-1">
+                    <span class="lang-en">Real-time Price Feed</span>
+                    <span class="lang-pt">Feed de Preços em Tempo Real</span>
+                </div>
+                <div class="callout callout-2">
+                    <span class="lang-en">Whale Activity Alerts</span>
+                    <span class="lang-pt">Alertas de Atividade de Baleias</span>
+                </div>
+                <div class="callout callout-3">
+                    <span class="lang-en">On-chain Metrics Widget</span>
+                    <span class="lang-pt">Widget de Métricas On-chain</span>
+                </div>
             </section>
 
             <!-- Features Grid -->
@@ -388,177 +252,219 @@
                 <!-- Whale Tracking -->
                 <div class="card feature-card whale-tracker">
                     <div class="feature-icon">🐋</div>
-                    <h3>Whale Tracking</h3>
-                    <p>Identify whale accumulation patterns with real-time monitoring of large transactions and wallet movements.</p>
+                    <h3>
+                        <span class="lang-en">Whale Tracking</span>
+                        <span class="lang-pt">Rastreamento de Baleias</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Identify whale accumulation patterns with real-time monitoring of large transactions and wallet movements.</span>
+                        <span class="lang-pt">Identifique padrões de acumulação de baleias com monitoramento em tempo real de grandes transações e movimentações de carteiras.</span>
+                    </p>
                     <div class="metrics">
-                        Detection accuracy: <span class="text-neon-green">94.5%</span><br>
-                        Response time: <span class="text-neon-green">&lt;1.5s</span>
+                        <span class="lang-en">Detection accuracy:</span>
+                        <span class="lang-pt">Precisão de detecção:</span>
+                        <span class="text-neon-green">94.5%</span><br>
+                        <span class="lang-en">Response time:</span>
+                        <span class="lang-pt">Tempo de resposta:</span>
+                        <span class="text-neon-green">&lt;1.5s</span>
                     </div>
                 </div>
 
                 <!-- Market Analysis -->
                 <div class="card feature-card market-analysis">
                      <div class="feature-icon">📈</div>
-                    <h3>Market Analysis</h3>
-                    <p>Advanced pattern recognition algorithms to spot market trends before they happen. Correlate data across multiple sources.</p>
+                    <h3>
+                        <span class="lang-en">Market Analysis</span>
+                        <span class="lang-pt">Análise de Mercado</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Advanced pattern recognition algorithms to spot market trends before they happen. Correlate data across multiple sources.</span>
+                        <span class="lang-pt">Algoritmos avançados de reconhecimento de padrões para detectar tendências de mercado antes que aconteçam. Correlaciona dados de múltiplas fontes.</span>
+                    </p>
                     <div class="metrics">
-                        Pattern detection: <span class="text-neon-green">89% accuracy</span><br>
-                        Historical correlation: <span class="text-neon-green">92%</span>
+                        <span class="lang-en">Pattern detection:</span>
+                        <span class="lang-pt">Detecção de padrões:</span>
+                        <span class="text-neon-green">89% accuracy</span><br>
+                        <span class="lang-en">Historical correlation:</span>
+                        <span class="lang-pt">Correlação histórica:</span>
+                        <span class="text-neon-green">92%</span>
                     </div>
                 </div>
 
                 <!-- Gamified Experience -->
                 <div class="card feature-card gamified">
                     <div class="feature-icon">🏆</div>
-                    <h3>Gamified Experience</h3>
-                    <p>Learn while you earn through achievements, challenges, and level progression. Master Runes analysis in a fun way.</p>
+                    <h3>
+                        <span class="lang-en">Gamified Experience</span>
+                        <span class="lang-pt">Experiência Gamificada</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Learn while you earn through achievements, challenges, and level progression. Master Runes analysis in a fun way.</span>
+                        <span class="lang-pt">Aprenda enquanto ganha através de conquistas, desafios e progressão de nível. Domine a análise de Runes de forma divertida.</span>
+                    </p>
                     <div class="sub-features">
-                        ◇ Daily missions<br>
-                        ◇ Unlock achievements<br>
-                        ◇ Compete on leaderboards
+                        <span class="lang-en">◇ Daily missions<br>◇ Unlock achievements<br>◇ Compete on leaderboards</span>
+                        <span class="lang-pt">◇ Missões diárias<br>◇ Desbloqueie conquistas<br>◇ Compita em rankings</span>
                     </div>
                 </div>
 
                 <!-- Token Explorer -->
                 <div class="card feature-card explorer">
                     <div class="feature-icon">🔍</div>
-                    <h3>Token Explorer</h3>
-                    <p>Search, filter, and discover Runes tokens with comprehensive metadata, on-chain data, and market stats.</p>
+                    <h3>
+                        <span class="lang-en">Token Explorer</span>
+                        <span class="lang-pt">Explorador de Tokens</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Search, filter, and discover Runes tokens with comprehensive metadata, on-chain data, and market stats.</span>
+                        <span class="lang-pt">Pesquise, filtre e descubra tokens Runes com metadados abrangentes, dados on-chain e estatísticas de mercado.</span>
+                    </p>
                      <div class="sub-features">
-                        ◇ Advanced filtering<br>
-                        ◇ Custom sorting<br>
-                        ◇ Detailed token info
+                        <span class="lang-en">◇ Advanced filtering<br>◇ Custom sorting<br>◇ Detailed token info</span>
+                        <span class="lang-pt">◇ Filtragem avançada<br>◇ Ordenação personalizada<br>◇ Informações detalhadas de tokens</span>
                     </div>
                 </div>
 
                 <!-- Social Analysis -->
                 <div class="card feature-card social">
                     <div class="feature-icon">💬</div>
-                    <h3>Social Analysis</h3>
-                    <p>Track sentiment, social media mentions, and community activity correlated with token performance and price action.</p>
+                    <h3>
+                        <span class="lang-en">Social Analysis</span>
+                        <span class="lang-pt">Análise Social</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Track sentiment, social media mentions, and community activity correlated with token performance and price action.</span>
+                        <span class="lang-pt">Acompanhe sentimento, menções em redes sociais e atividade da comunidade correlacionada com o desempenho do token e ação de preço.</span>
+                    </p>
                     <div class="metrics">
-                        Social pulse accuracy: <span class="text-neon-green">87%</span><br>
-                        Trend prediction: <span class="text-neon-green">79%</span>
+                        <span class="lang-en">Social pulse accuracy:</span>
+                        <span class="lang-pt">Precisão de pulso social:</span>
+                        <span class="text-neon-green">87%</span><br>
+                        <span class="lang-en">Trend prediction:</span>
+                        <span class="lang-pt">Previsão de tendência:</span>
+                        <span class="text-neon-green">79%</span>
                     </div>
                 </div>
 
                 <!-- IPFS Integration -->
                 <div class="card feature-card ipfs">
                     <div class="feature-icon">💾</div>
-                    <h3>IPFS Integration</h3>
-                    <p>Share token insights, analysis snapshots, and RunesCards via decentralized storage for permanent, verifiable records.</p>
+                    <h3>
+                        <span class="lang-en">IPFS Integration</span>
+                        <span class="lang-pt">Integração IPFS</span>
+                    </h3>
+                    <p>
+                        <span class="lang-en">Share token insights, analysis snapshots, and RunesCards via decentralized storage for permanent, verifiable records.</span>
+                        <span class="lang-pt">Compartilhe insights de tokens, capturas de análise e RunesCards via armazenamento descentralizado para registros permanentes e verificáveis.</span>
+                    </p>
                     <div class="sub-features">
-                        ◇ Permanent cards<br>
-                        ◇ Verifiable sharing<br>
-                        ◇ IPFS data integrity
+                        <span class="lang-en">◇ Permanent cards<br>◇ Verifiable sharing<br>◇ IPFS data integrity</span>
+                        <span class="lang-pt">◇ Cartões permanentes<br>◇ Compartilhamento verificável<br>◇ Integridade de dados IPFS</span>
                     </div>
                 </div>
             </section>
 
             <!-- Demonstration Section -->
             <section class="demo-section fade-in" style="animation-delay: 0.6s;">
-                <h2>See it in Action</h2>
-                <div class="demo-video-placeholder">
-                    [ Animated Platform Mockup / Video Placeholder ]
+                <h2>
+                    <span class="lang-en">See it in Action</span>
+                    <span class="lang-pt">Veja em Ação</span>
+                </h2>
+                
+                <div class="video-container">
+                    <div class="video-overlay">
+                        <div class="video-play-button" id="play-demo-video">
+                            <i>▶</i>
+                        </div>
+                    </div>
+                    <video id="demo-video" poster="media/images/features-demo-poster.webp" controls preload="none">
+                        <source src="media/videos/features-demo.mp4" type="video/mp4">
+                        <span class="lang-en">Your browser does not support the video tag.</span>
+                        <span class="lang-pt">Seu navegador não suporta o elemento de vídeo.</span>
+                    </video>
                 </div>
-                <h3>Typical Workflow</h3>
+                
+                <h3>
+                    <span class="lang-en">Typical Workflow</span>
+                    <span class="lang-pt">Fluxo de Trabalho Típico</span>
+                </h3>
                 <div class="workflow-timeline">
                     <div class="timeline-item">
-                        <h4>1. Connect Wallet</h4>
-                        <p>Securely link your preferred wallet to access personalized features.</p>
+                        <h4>
+                            <span class="lang-en">1. Connect Wallet</span>
+                            <span class="lang-pt">1. Conectar Carteira</span>
+                        </h4>
+                        <p>
+                            <span class="lang-en">Securely link your preferred wallet to access personalized features.</span>
+                            <span class="lang-pt">Conecte sua carteira preferida de forma segura para acessar recursos personalizados.</span>
+                        </p>
                     </div>
                      <div class="timeline-item">
-                        <h4>2. Configure Dashboard</h4>
-                        <p>Drag, drop, and resize widgets to create your perfect analysis view.</p>
+                        <h4>
+                            <span class="lang-en">2. Configure Dashboard</span>
+                            <span class="lang-pt">2. Configurar Dashboard</span>
+                        </h4>
+                        <p>
+                            <span class="lang-en">Drag, drop, and resize widgets to create your perfect analysis view.</span>
+                            <span class="lang-pt">Arraste, solte e redimensione widgets para criar sua visualização de análise perfeita.</span>
+                        </p>
                     </div>
                      <div class="timeline-item">
-                        <h4>3. Explore Tokens</h4>
-                        <p>Use the Token Explorer to find Runes based on specific criteria.</p>
+                        <h4>
+                            <span class="lang-en">3. Explore Tokens</span>
+                            <span class="lang-pt">3. Explorar Tokens</span>
+                        </h4>
+                        <p>
+                            <span class="lang-en">Use the Token Explorer to find Runes based on specific criteria.</span>
+                            <span class="lang-pt">Use o Explorador de Tokens para encontrar Runes com base em critérios específicos.</span>
+                        </p>
                     </div>
                      <div class="timeline-item">
-                        <h4>4. Analyze Trends</h4>
-                        <p>Leverage market analysis tools and whale tracking to spot opportunities.</p>
+                        <h4>
+                            <span class="lang-en">4. Analyze Trends</span>
+                            <span class="lang-pt">4. Analisar Tendências</span>
+                        </h4>
+                        <p>
+                            <span class="lang-en">Leverage market analysis tools and whale tracking to spot opportunities.</span>
+                            <span class="lang-pt">Aproveite ferramentas de análise de mercado e rastreamento de baleias para identificar oportunidades.</span>
+                        </p>
                     </div>
                      <div class="timeline-item">
-                        <h4>5. Share Insights</h4>
-                        <p>Generate a RunesCard or snapshot and share it via IPFS.</p>
+                        <h4>
+                            <span class="lang-en">5. Share Insights</span>
+                            <span class="lang-pt">5. Compartilhar Insights</span>
+                        </h4>
+                        <p>
+                            <span class="lang-en">Generate a RunesCard or snapshot and share it via IPFS.</span>
+                            <span class="lang-pt">Gere um RunesCard ou snapshot e compartilhe via IPFS.</span>
+                        </p>
                     </div>
                 </div>
-            </section>
-
-            <!-- Comparison Table -->
-             <section class="comparison-section fade-in" style="animation-delay: 0.8s;">
-                <h2>Compared to Traditional Tools</h2>
-                 <div style="overflow-x: auto;"> <!-- Ensure table is scrollable on small screens -->
-                    <table class="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>Feature</th>
-                                <th>RUNES Analytics Pro</th>
-                                <th>Traditional Explorers</th>
-                                <th>Generic Charting Tools</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Runes Specific Data</td>
-                                <td class="highlight">Deep Integration <span class="advantage-icon">✔</span></td>
-                                <td>Basic <span class="disadvantage-icon">✖</span></td>
-                                <td>None <span class="disadvantage-icon">✖</span></td>
-                            </tr>
-                            <tr>
-                                <td>Whale Tracking</td>
-                                <td class="highlight">Advanced Real-time <span class="advantage-icon">✔</span></td>
-                                <td>Limited / Manual <span class="disadvantage-icon">✖</span></td>
-                                <td>None <span class="disadvantage-icon">✖</span></td>
-                            </tr>
-                             <tr>
-                                <td>Gamification</td>
-                                <td class="highlight">Integrated System <span class="advantage-icon">✔</span></td>
-                                <td>None <span class="disadvantage-icon">✖</span></td>
-                                <td>None <span class="disadvantage-icon">✖</span></td>
-                            </tr>
-                             <tr>
-                                <td>Social Sentiment Analysis</td>
-                                <td class="highlight">Built-in Correlation <span class="advantage-icon">✔</span></td>
-                                <td>None <span class="disadvantage-icon">✖</span></td>
-                                <td>None <span class="disadvantage-icon">✖</span></td>
-                            </tr>
-                             <tr>
-                                <td>IPFS Sharing</td>
-                                <td class="highlight">Native Support <span class="advantage-icon">✔</span></td>
-                                <td>None <span class="disadvantage-icon">✖</span></td>
-                                <td>Manual <span class="disadvantage-icon">✖</span></td>
-                            </tr>
-                            <tr>
-                                <td>Customizable Dashboard</td>
-                                <td class="highlight">Fully Flexible <span class="advantage-icon">✔</span></td>
-                                <td>Fixed Layout <span class="disadvantage-icon">✖</span></td>
-                                <td>Yes (Generic)</td>
-                            </tr>
-                             <tr>
-                                <td>Real-time Updates</td>
-                                <td class="highlight">Sub-second Latency <span class="advantage-icon">✔</span></td>
-                                <td>Delayed / Manual Refresh</td>
-                                <td>Variable</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                 </div>
             </section>
 
             <!-- Call to Action -->
             <section class="cta-section fade-in" style="animation-delay: 1s;">
-                <h2>Ready to Dive Deeper?</h2>
-                <p>Experience the next generation of Runes token analysis.</p>
-                <button class="btn btn-primary btn-glitch mt-2">Experience the features</button>
-                <a href="#" class="cta-link">Read Technical Documentation</a> <!-- Update href -->
+                <h2>
+                    <span class="lang-en">Ready to Dive Deeper?</span>
+                    <span class="lang-pt">Pronto para Mergulhar Mais Fundo?</span>
+                </h2>
+                <p>
+                    <span class="lang-en">Experience the next generation of Runes token analysis.</span>
+                    <span class="lang-pt">Experimente a próxima geração de análise de tokens Runes.</span>
+                </p>
+                <button class="btn btn-primary btn-glitch mt-2">
+                    <span class="lang-en">Experience the features</span>
+                    <span class="lang-pt">Experimente os recursos</span>
+                </button>
+                <a href="#" class="cta-link">
+                    <span class="lang-en">Read Technical Documentation</span>
+                    <span class="lang-pt">Leia a Documentação Técnica</span>
+                </a>
             </section>
-
         </div>
     </main>
     
-    <!-- Footer (Criado via JavaScript por presentation-nav.js) -->
+    <!-- Footer (Criado via JavaScript) -->
     <footer class="site-footer"></footer>
     
     <script>
@@ -587,23 +493,39 @@
         
         // Add data-text attribute for glitch effect
         document.querySelectorAll('.glitch-text').forEach(el => {
-            el.setAttribute('data-text', el.textContent);
+            if (!el.getAttribute('data-text')) {
+                const langEnElement = el.querySelector('.lang-en');
+                const langPtElement = el.querySelector('.lang-pt');
+                
+                if (langEnElement && document.documentElement.lang === 'en') {
+                    el.setAttribute('data-text', langEnElement.textContent);
+                } else if (langPtElement && document.documentElement.lang === 'pt') {
+                    el.setAttribute('data-text', langPtElement.textContent);
+                } else {
+                    el.setAttribute('data-text', el.textContent.trim());
+                }
+            }
         });
 
-        // Placeholder for footer content generation if not handled by nav script
-        const footer = document.querySelector('.site-footer');
-        if (footer && !footer.innerHTML.trim()) {
-            footer.innerHTML = `<div class="container">
-                <p>RUNES Analytics Pro &copy; 2023-${new Date().getFullYear()} | Powering the Runes Revolution</p>
-            </div>`;
-        }
-
-        // Language Toggle Logic
-        const langToggleButton = document.getElementById('language-toggle');
-        if (langToggleButton) {
-            langToggleButton.addEventListener('click', () => {
-                // Assuming the Portuguese version is named features.pt.html
-                window.location.href = 'features.pt.html'; 
+        // Video Player
+        const playButton = document.getElementById('play-demo-video');
+        const video = document.getElementById('demo-video');
+        const videoOverlay = document.querySelector('.video-overlay');
+        
+        if (playButton && video && videoOverlay) {
+            playButton.addEventListener('click', () => {
+                video.play();
+                videoOverlay.style.display = 'none';
+            });
+            
+            video.addEventListener('pause', () => {
+                if (video.currentTime === 0 || video.ended) {
+                    videoOverlay.style.display = 'flex';
+                }
+            });
+            
+            video.addEventListener('ended', () => {
+                videoOverlay.style.display = 'flex';
             });
         }
     </script>

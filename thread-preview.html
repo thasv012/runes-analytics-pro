@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Preview da Thread</title>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --text-color: #c9d1d9;
+      --primary-color: #58a6ff;
+      --secondary-color: #1f6feb;
+      --accent-color: #ffa657;
+      --error-color: #f85149;
+      --success-color: #56d364;
+      --border-color: #30363d;
+      --card-bg: #161b22;
+      --header-bg: #21262d;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+    }
+    
+    .subtitle {
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tweet {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    
+    .tweet-number {
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    
+    .tweet-heading {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+    }
+    
+    .tweet-content {
+      margin-bottom: 1.5rem;
+      white-space: pre-line;
+    }
+    
+    .tweet-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .tweet-hashtags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .hashtag {
+      color: var(--primary-color);
+      font-size: 0.9rem;
+    }
+    
+    .navigate-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    
+    button {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--primary-color);
+    }
+    
+    .tools {
+      margin-top: 3rem;
+      text-align: center;
+    }
+    
+    .tools h2 {
+      margin-bottom: 1rem;
+      color: var(--accent-color);
+    }
+    
+    .tools-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    pre {
+      background-color: var(--card-bg);
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    code {
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    
+    .section-title {
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>RUNES Analytics Pro</h1>
+      <div class="subtitle">Visualização da Thread Épica</div>
+      <p>Esta é uma prévia da thread completa com todos os tweets e imagens.</p>
+    </header>
+    
+    <div class="section-title">Thread Completa</div>
+    
+    <!-- Tweet 1 -->
+    <div class="tweet" id="tweet-1">
+      <div class="tweet-number">1/8</div>
+      <h3 class="tweet-heading">Evolução do Projeto</h3>
+      <div class="tweet-content">
+        🧵 1/8 | RUNES Analytics Pro: Evolução do Projeto
+
+Do MVP à plataforma completa de análise de tokens $Runes 📊
+
+A jornada teve 3 fases principais:
+1️⃣ Construção da base e MVP
+2️⃣ Integração de recursos avançados
+3️⃣ Otimização e escalabilidade
+
+Hoje, operamos com latência de apenas 1.2s mesmo sob alta carga.
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-evolution.png" alt="Evolução do Projeto" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#RunesAnalyticsPro</span>
+        <span class="hashtag">#BitcoinL1</span>
+      </div>
+    </div>
+    
+    <!-- Tweet 2 -->
+    <div class="tweet" id="tweet-2">
+      <div class="tweet-number">2/8</div>
+      <h3 class="tweet-heading">GPU Mesh Network</h3>
+      <div class="tweet-content">
+        🧵 2/8 | GPU Mesh Network: Nosso diferencial
+
+Nossa rede distribuída de GPUs garante análises mais rápidas do que qualquer concorrente 🔥
+
+✅ 8 nós ativos processando simultaneamente
+✅ Tolerância a falhas com redistribuição automática
+✅ Monitoramento em tempo real do desempenho
+
+Eficiência e velocidade incomparáveis.
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-gpu-mesh.png" alt="GPU Mesh Network" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#BitcoinRunes</span>
+        <span class="hashtag">#DataAnalytics</span>
+      </div>
+    </div>
+    
+    <!-- Tweet 3 -->
+    <div class="tweet" id="tweet-3">
+      <div class="tweet-number">3/8</div>
+      <h3 class="tweet-heading">WebSockets em Tempo Real</h3>
+      <div class="tweet-content">
+        🧵 3/8 | WebSockets: Atualizações em Tempo Real
+
+Deixamos o polling para trás e implementamos WebSockets para atualizações instantâneas 💨
+
+🚀 Redução de 78% na latência
+🔄 Reconexão automática em caso de queda
+📡 Comunicação bidirecional otimizada
+
+Veja as atualizações de preço em tempo real, sem delays.
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-websocket.png" alt="WebSockets" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#RealTimeData</span>
+        <span class="hashtag">#WebTech</span>
+      </div>
+    </div>
+    
+    <!-- Tweet 4 -->
+    <div class="tweet" id="tweet-4">
+      <div class="tweet-number">4/8</div>
+      <h3 class="tweet-heading">Roadmap e Sprints</h3>
+      <div class="tweet-content">
+        🧵 4/8 | Roadmap Estruturado em Sprints Ágeis
+
+Nossa metodologia garante entregas consistentes de valor 📋
+
+✅ Sprint 1: WebSockets (Concluído)
+🔄 Sprint 2: Presets de Simulação (65% concluído)
+📅 Sprint 3: Métricas de GPU (Próximo sprint)
+📅 Sprint 4: Expansão dos Comandos do Agente (Q2)
+
+Desenvolvimento focado e transparente.
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-roadmap.png" alt="Roadmap e Sprints" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#ProductDevelopment</span>
+        <span class="hashtag">#Agile</span>
+      </div>
+    </div>
+    
+    <!-- Tweet 5 -->
+    <div class="tweet" id="tweet-5">
+      <div class="tweet-number">5/8</div>
+      <h3 class="tweet-heading">Análise com IA</h3>
+      <div class="tweet-content">
+        🧵 5/8 | IA Potencializando a Análise de Tokens
+
+Nossa engine de IA detecta padrões e sentimentos que escapam à análise tradicional 🧠
+
+💡 Análise semântica de comunidades
+📈 Previsão de tendências baseada em padrões históricos
+🔍 Detecção de anomalias em transações
+
+Insights mais profundos para suas decisões.
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-ai-analysis.png" alt="Análise com IA" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#AI</span>
+        <span class="hashtag">#MarketIntelligence</span>
+      </div>
+    </div>
+    
+    <!-- Tweet 6 -->
+    <div class="tweet" id="tweet-6">
+      <div class="tweet-number">6/8</div>
+      <h3 class="tweet-heading">Rastreamento de Baleias</h3>
+      <div class="tweet-content">
+        🧵 6/8 | Whale Tracker: Detectando Movimentações Importantes
+
+Nosso sistema de rotulagem de carteiras identifica atores-chave do mercado 🐋
+
+👁️ Identifica padrões de movimentação de grandes holders
+🏷️ Classifica e categoriza carteiras automaticamente
+⚡ Alertas instantâneos sobre movimentações significativas
+
+Descubra quem está por trás das grandes transações.
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-whales-tracking.png" alt="Whale Tracker" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#WhaleWatching</span>
+        <span class="hashtag">#CryptoTrading</span>
+      </div>
+    </div>
+    
+    <!-- Tweet 7 -->
+    <div class="tweet" id="tweet-7">
+      <div class="tweet-number">7/8</div>
+      <h3 class="tweet-heading">Análise Comparativa</h3>
+      <div class="tweet-content">
+        🧵 7/8 | RUNES Analytics Pro vs Competidores
+
+Por que somos a escolha definitiva para análise de tokens Runes:
+
+| Recurso | RUNES Analytics | Outros |
+|---------|-----------------|--------|
+| Latência | 1.2s | 5-10s |
+| Alertas | Tempo real | Delayed |
+| Rastreamento de Baleias | ✓ | ✗ |
+| Análise de IA | ✓ | Limitada |
+| Rede GPU Mesh | ✓ | ✗ |
+
+A diferença é clara.
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-comparison.png" alt="Comparativo" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#Comparison</span>
+        <span class="hashtag">#BestInClass</span>
+      </div>
+    </div>
+    
+    <!-- Tweet 8 -->
+    <div class="tweet" id="tweet-8">
+      <div class="tweet-number">8/8</div>
+      <h3 class="tweet-heading">Próxima Evolução</h3>
+      <div class="tweet-content">
+        🧵 8/8 | O Futuro: A Próxima Evolução
+
+Em breve, vamos revolucionar ainda mais a análise de Runes com:
+
+🧠 Sistema de Reconhecimento de Padrões Neurais
+📊 Inteligência Cross-Chain
+🌐 Rede de Análise Descentralizada
+⚡ Indexação Ultrarrápida (5x mais veloz)
+
+"Enquanto outros constroem dashboards, nós criamos uma rede de inteligência"
+
+Fique atento ao anúncio oficial na próxima semana!
+      </div>
+      <img src="media/thread-images/runes-analytics-thread-next-evolution.png" alt="Próxima Evolução" class="tweet-image">
+      <div class="tweet-hashtags">
+        <span class="hashtag">#Future</span>
+        <span class="hashtag">#Innovation</span>
+        <span class="hashtag">#RunesAnalyticsPro</span>
+      </div>
+    </div>
+    
+    <div class="navigate-buttons">
+      <button id="prev-btn">Anterior</button>
+      <button id="next-btn">Próximo</button>
+    </div>
+    
+    <div class="section-title">Ferramentas</div>
+    
+    <div class="tools">
+      <h2>Geração de Recursos Visuais</h2>
+      <div class="tools-buttons">
+        <button onclick="window.open('media/thread-images/thread-banner-generator.html', '_blank')">Gerador de Banners</button>
+        <button onclick="window.open('media/thread-images/gpu-mesh-visualizer.html', '_blank')">Visualizador GPU Mesh</button>
+      </div>
+    </div>
+    
+    <div class="section-title">Instruções</div>
+    
+    <p>Para utilizar as ferramentas e publicar a thread:</p>
+    
+    <pre><code>1. Utilize o Gerador de Banners para criar imagens personalizadas
+2. Use o Visualizador GPU Mesh para capturar visualizações dinâmicas
+3. Baixe todas as imagens para sua pasta de mídia
+4. Para publicar no Twitter, use os textos pré-formatados acima
+5. Adicione as imagens correspondentes a cada tweet
+6. Publique os tweets em sequência para formar a thread completa</code></pre>
+    
+    <div class="section-title">Markdown da Thread</div>
+    
+    <p>O arquivo markdown completo da thread está disponível em:</p>
+    <pre><code>thread-runes-analytics.md</code></pre>
+    
+    <div class="copyright">
+      RUNES Analytics Pro - Gerador de Thread Épica © 2024
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tweets = document.querySelectorAll('.tweet');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      let currentTweet = 0;
+      
+      // Função para mostrar apenas o tweet atual
+      function showCurrentTweet() {
+        tweets.forEach((tweet, index) => {
+          if (index === currentTweet) {
+            tweet.style.display = 'block';
+          } else {
+            tweet.style.display = 'none';
+          }
+        });
+        
+        // Atualiza estado dos botões
+        prevBtn.disabled = currentTweet === 0;
+        nextBtn.disabled = currentTweet === tweets.length - 1;
+      }
+      
+      // Evento para botão anterior
+      prevBtn.addEventListener('click', function() {
+        if (currentTweet > 0) {
+          currentTweet--;
+          showCurrentTweet();
+        }
+      });
+      
+      // Evento para botão próximo
+      nextBtn.addEventListener('click', function() {
+        if (currentTweet < tweets.length - 1) {
+          currentTweet++;
+          showCurrentTweet();
+        }
+      });
+      
+      // Inicializa mostrando todos os tweets
+      tweets.forEach(tweet => {
+        tweet.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html> 

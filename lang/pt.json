@@ -267,5 +267,36 @@
   
   "scan_qr_title": "Escaneie para Acesso Móvel",
   "scan_qr_subtitle": "Use a câmera do seu celular para escanear este QR code",
-  "qr_url_prefix": "URL de acesso:"
+  "qr_url_prefix": "URL de acesso:",
+
+  // --- Tour Interativo ---
+  "tour.dashboard.title": "Prévia do Dashboard",
+  "tour.dashboard.chartData": "Dados de Gráfico Simulados (ex: Tendências de Preço)",
+  "tour.dashboard.leaderboardData": "Top Traders (Simulado)",
+  "tour.dashboard.xpLabel": "XP",
+  "tour.dashboard.card1Title": "Valor do Portfólio",
+  "tour.dashboard.card1Content": "R$ 80.123,45 (Simulado)",
+  "tour.dashboard.card2Title": "Atividade Recente",
+  "tour.dashboard.card2Content": "5 Novas Transações (Simulado)",
+  "tour.onChain.title": "Análise On-Chain",
+  "tour.onChain.chartData": "Volume de Transação Simulado",
+  "tour.onChain.tooltip": "Volume: {value} em {date}",
+  "tour.onChain.explanation": "Análise revela acumulação crescente por holders.",
+  "tour.alerts.title": "Alertas Personalizados",
+  "tour.alerts.formContent": "Formulário de Criação de Alerta Simulado (ex: Preço > R$50)",
+  "tour.alerts.success": "✅ Alerta criado com sucesso!",
+  "tour.alerts.createButton": "Criar Alerta",
+  "tour.whaleTracker.title": "Rastreador de Baleias",
+  "tour.whaleTracker.feed": [
+    "🐋 Carteira 0xABC... moveu 15.2M COOK para Binance",
+    "🚨 Transferência grande: 5B PUPS da KuCoin para carteira desconhecida",
+    "💰 Baleia 0xDEF... acumulou 1.1M WZRD",
+    "📉 Saída significativa: 8.8M RSIC da OKX",
+    "📈 Baleia 0xGHI... comprou 25M WANKO"
+  ],
+  "tour.whaleTracker.terminal.monitoring": "👁️ Monitorando movimentos de grandes holders...",
+  "tour.whaleTracker.terminal.activity.line1": "✅ Baleia 0xA1 mov. 3.2M ORDI → endereço desconhecido",
+  "tour.whaleTracker.terminal.activity.line2": "✅ Baleia 0xB2 comprou 1.5M SATS na Uniswap",
+  "tour.whaleTracker.terminal.activity.line3": "✅ Baleia 0xC3 depositou 500K RATS na Bybit",
+  "tour.closeButton.title": "Fechar Simulação"
 } 

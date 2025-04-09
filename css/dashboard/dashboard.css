@@ -1,0 +1,985 @@
+/* dashboard.css - Estilos para o dashboard analítico de Runes
+ * Tema principal: Cyberpunk com elementos neon e visualização moderna de dados
+ */
+
+/* ===== Variáveis e Configurações Globais ===== */
+:root {
+    /* Cores primárias */
+    --primary-color: #00ff88;
+    --primary-dark: #00cc66;
+    --primary-light: #33ffaa;
+    
+    /* Cores secundárias */
+    --secondary-color: #ff00cc;
+    --secondary-dark: #cc0099;
+    --secondary-light: #ff33dd;
+    
+    /* Cores para elementos de dados */
+    --positive-color: #00ff88;
+    --negative-color: #ff3366;
+    --neutral-color: #33ccff;
+    
+    /* Cores de fundo */
+    --bg-dark: #121212;
+    --bg-card: #1e1e2e;
+    --bg-card-hover: #2a2a3a;
+    
+    /* Cores para texto */
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #999999;
+    
+    /* Cores para bordas */
+    --border-color: #333344;
+    --border-glow: rgba(0, 255, 136, 0.5);
+    
+    /* Sombras */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.7);
+    
+    /* Outras configurações */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --transition-speed: 0.3s;
+}
+
+/* ===== Estilos para o Dashboard Principal ===== */
+.runes-dashboard {
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    color: var(--text-primary);
+    background-color: var(--bg-dark);
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.dashboard-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.dashboard-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.timeframe-selector {
+    display: flex;
+    gap: 5px;
+}
+
+.timeframe-btn {
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.timeframe-btn:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.timeframe-btn.active {
+    background-color: var(--primary-dark);
+    color: var(--text-primary);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px var(--border-glow);
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.action-btn:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.action-btn i {
+    font-size: 16px;
+}
+
+/* Botão de atualização com animação */
+.action-btn.rotating {
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Seção de filtros */
+.dashboard-filters {
+    background-color: var(--bg-card);
+    padding: 15px;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.filter-group input, 
+.filter-group select {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 10px;
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+}
+
+.filter-group input:focus, 
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--border-glow);
+}
+
+.filter-action {
+    display: flex;
+    align-items: flex-end;
+}
+
+.btn-apply-filters {
+    background-color: var(--primary-dark);
+    color: var(--text-primary);
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+}
+
+.btn-apply-filters:hover {
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--border-glow);
+}
+
+/* Layout do dashboard */
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.widget-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.dashboard-widget {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius-md);
+    padding: 15px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    flex: 1;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-widget:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-dark);
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.widget-header h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* Layout específico para cada linha */
+.market-overview-row {
+    height: auto;
+}
+
+.main-charts-row {
+    height: 400px;
+}
+
+.main-charts-row .dashboard-widget {
+    min-height: 400px;
+}
+
+.data-row {
+    height: 400px;
+}
+
+.data-row .dashboard-widget {
+    min-height: 400px;
+}
+
+.bottom-row {
+    height: 300px;
+}
+
+.bottom-row .dashboard-widget {
+    min-height: 300px;
+}
+
+/* Loader e mensagens */
+.dashboard-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(0, 255, 136, 0.2);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    margin-bottom: 15px;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.dashboard-error {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255, 0, 0, 0.2);
+    border-left: 4px solid var(--negative-color);
+    padding: 15px;
+    border-radius: var(--border-radius-md);
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+    max-width: 400px;
+    z-index: 9999;
+}
+
+.error-icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.error-message {
+    flex: 1;
+    color: var(--text-primary);
+}
+
+.error-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.error-close:hover {
+    color: var(--text-primary);
+}
+
+/* ===== Market Overview Widget ===== */
+.market-overview-widget {
+    display: flex;
+    flex-direction: column;
+}
+
+.market-overview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.market-stat-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-card {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius-sm);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    background-color: rgba(0, 255, 136, 0.1);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.total-market-cap .stat-icon {
+    background-color: rgba(0, 255, 136, 0.1);
+}
+
+.total-volume .stat-icon {
+    background-color: rgba(33, 150, 243, 0.1);
+}
+
+.active-tokens .stat-icon {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.total-holders .stat-icon {
+    background-color: rgba(156, 39, 176, 0.1);
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.stat-change {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.stat-change.positive {
+    color: var(--positive-color);
+}
+
+.stat-change.negative {
+    color: var(--negative-color);
+}
+
+.stat-change.neutral {
+    color: var(--neutral-color);
+}
+
+.mini-chart {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 40px;
+    opacity: 0.5;
+}
+
+.market-trend {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius-sm);
+    padding: 15px;
+}
+
+.trend-header h4 {
+    font-size: 15px;
+    margin: 0 0 10px 0;
+    color: var(--text-primary);
+}
+
+.trend-data {
+    display: flex;
+    justify-content: space-between;
+}
+
+.trend-up, .trend-down, .trend-stable {
+    text-align: center;
+    flex: 1;
+}
+
+.trend-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.trend-up .trend-icon {
+    color: var(--positive-color);
+}
+
+.trend-down .trend-icon {
+    color: var(--negative-color);
+}
+
+.trend-stable .trend-icon {
+    color: var(--neutral-color);
+}
+
+.trend-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.trend-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.market-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.highlight-card {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius-sm);
+    padding: 15px;
+    text-align: center;
+}
+
+.highlight-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.highlight-token {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.highlight-value {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.best-performer .highlight-value {
+    color: var(--positive-color);
+}
+
+.worst-performer .highlight-value {
+    color: var(--negative-color);
+}
+
+.most-active .highlight-value {
+    color: var(--neutral-color);
+}
+
+.last-updated {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.update-label {
+    margin-right: 5px;
+}
+
+/* Animação para valores atualizados */
+.value-updated {
+    animation: flash-update 1s;
+}
+
+@keyframes flash-update {
+    0% { color: var(--text-primary); }
+    50% { color: var(--primary-color); }
+    100% { color: var(--text-primary); }
+}
+
+/* ===== Top Tokens Widget ===== */
+.top-tokens-widget {
+    display: flex;
+    flex-direction: column;
+}
+
+.tokens-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+}
+
+.search-box input {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 10px;
+    padding-right: 30px;
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--border-glow);
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.clear-search-btn:hover {
+    color: var(--text-primary);
+}
+
+.display-settings select {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 10px;
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+}
+
+.tokens-table-container {
+    flex: 1;
+    overflow: auto;
+    margin: 15px 0;
+}
+
+.tokens-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-primary);
+}
+
+.tokens-table th {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-secondary);
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.tokens-table th.sortable {
+    cursor: pointer;
+}
+
+.tokens-table th.sortable:hover {
+    color: var(--primary-color);
+}
+
+.tokens-table th.sort-asc::after {
+    content: " ▲";
+    font-size: 10px;
+    color: var(--primary-color);
+}
+
+.tokens-table th.sort-desc::after {
+    content: " ▼";
+    font-size: 10px;
+    color: var(--primary-color);
+}
+
+.tokens-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+}
+
+.token-row {
+    transition: background-color var(--transition-speed);
+    cursor: pointer;
+}
+
+.token-row:hover {
+    background-color: rgba(0, 255, 136, 0.05);
+}
+
+.token-row.selected-token {
+    background-color: rgba(0, 255, 136, 0.1);
+    border-left: 2px solid var(--primary-color);
+}
+
+.token-name-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.token-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+.token-name-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.token-ticker {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.token-full-name {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.token-price {
+    font-weight: 700;
+}
+
+.token-change.positive {
+    color: var(--positive-color);
+}
+
+.token-change.negative {
+    color: var(--negative-color);
+}
+
+.token-change.neutral {
+    color: var(--neutral-color);
+}
+
+.tokens-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.pagination-btn {
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.token-loading, .no-tokens {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 30px 0;
+}
+
+/* ===== Price Chart Widget ===== */
+.price-chart-widget {
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.token-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.selected-token {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.token-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.token-change {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.token-change.positive {
+    color: var(--positive-color);
+}
+
+.token-change.negative {
+    color: var(--negative-color);
+}
+
+.token-change.neutral {
+    color: var(--neutral-color);
+}
+
+.chart-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.chart-type-selector {
+    display: flex;
+    gap: 5px;
+}
+
+.chart-type-btn {
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.chart-type-btn:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.chart-type-btn.active {
+    background-color: var(--primary-dark);
+    color: var(--text-primary);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px var(--border-glow);
+}
+
+.chart-timeframe-selector {
+    display: flex;
+    gap: 5px;
+}
+
+.chart-container {
+    flex: 1;
+    position: relative;
+    min-height: 300px;
+    margin: 15px 0;
+}
+
+.chart-loading, .chart-no-data {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 5;
+    color: var(--text-muted);
+}
+
+.chart-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.chart-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Média Queries para Responsividade */
+@media (max-width: 1200px) {
+    .market-stat-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .market-highlights {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .widget-row {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .dashboard-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .filter-row {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-action {
+        width: 100%;
+    }
+    
+    .btn-apply-filters {
+        width: 100%;
+    }
+}
+
+/* Modo escuro (padrão) */
+.dark-mode {
+    --bg-dark: #121212;
+    --bg-card: #1e1e2e;
+    --bg-card-hover: #2a2a3a;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #999999;
+    --border-color: #333344;
+}
+
+/* Classe para ocultar elementos */
+.hidden {
+    display: none !important;
+}

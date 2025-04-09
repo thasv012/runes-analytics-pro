@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - GPU Mesh Demo</title>
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/neural-connect.css">
+  <style>
+    :root {
+      --primary: #5ce1e6;
+      --secondary: #9d4edd;
+      --background: #1a1a2e;
+      --card-bg: rgba(30, 30, 60, 0.6);
+      --text: #e0e0ff;
+      --border: rgba(92, 225, 230, 0.3);
+      --success: #55ff55;
+      --warning: #ffaa00;
+      --error: #ff5555;
+    }
+    
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: 'Rajdhani', 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    
+    h2 {
+      color: var(--secondary);
+      font-size: 1.5rem;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-top: 0;
+    }
+    
+    .task-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .task-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .card h3 {
+      color: var(--primary);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card h3::before {
+      content: '⟁';
+      display: inline-block;
+      font-size: 1.2em;
+    }
+    
+    .mesh-status {
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      font-family: monospace;
+      margin-bottom: 1rem;
+    }
+    
+    .mesh-status.connected {
+      border-left: 4px solid var(--success);
+    }
+    
+    .mesh-status.connecting {
+      border-left: 4px solid var(--warning);
+    }
+    
+    .mesh-status.disconnected {
+      border-left: 4px solid var(--error);
+    }
+    
+    .task-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    label {
+      font-weight: 500;
+      color: var(--primary);
+    }
+    
+    input, select {
+      padding: 0.75rem;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: rgba(30, 30, 60, 0.4);
+      color: var(--text);
+      font-family: monospace;
+    }
+    
+    button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(92, 225, 230, 0.3);
+    }
+    
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .console-container {
+      padding: 0;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+    
+    .console-header {
+      background: rgba(20, 20, 40, 0.7);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    .console-title {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .console-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .console-actions button {
+      background: rgba(92, 225, 230, 0.2);
+      color: var(--primary);
+      padding: 0.5rem 0.75rem;
+      margin: 0;
+      font-size: 0.8rem;
+    }
+    
+    .console-actions-btn {
+      background: rgba(157, 78, 221, 0.2);
+      color: var(--secondary);
+      padding: 0.5rem 0.75rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      transition: all 0.3s ease;
+      margin: 0;
+    }
+    
+    .console-actions-btn:hover {
+      background: rgba(157, 78, 221, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .gpu-mesh-console {
+      height: 300px;
+      margin: 0;
+      border-radius: 0;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+    
+    .task-history {
+      margin-top: 2rem;
+    }
+    
+    .task-history h3 {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    
+    th {
+      text-align: left;
+      padding: 0.75rem;
+      color: var(--primary);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(92, 225, 230, 0.1);
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .status-success {
+      background: rgba(85, 255, 85, 0.2);
+      color: var(--success);
+    }
+    
+    .status-error {
+      background: rgba(255, 85, 85, 0.2);
+      color: var(--error);
+    }
+    
+    .status-pending {
+      background: rgba(255, 170, 0, 0.2);
+      color: var(--warning);
+    }
+
+    /* Estilos para a visualização de rede */
+    .network-container {
+      width: 100%;
+      min-height: 400px;
+      margin-top: 2rem;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(20, 20, 40, 0.7);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 1000;
+      pointer-events: none;
+      max-width: 250px;
+    }
+
+    .legend {
+      display: flex;
+      margin-top: 1rem;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .legend-color.connected {
+      background-color: var(--success);
+    }
+
+    .legend-color.connecting {
+      background-color: var(--warning);
+    }
+
+    .legend-color.disconnected {
+      background-color: var(--error);
+    }
+
+    .gpu-simulation {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+      padding: 8px;
+      background: rgba(92, 225, 230, 0.1);
+      border-radius: 5px;
+      border: 1px dashed rgba(92, 225, 230, 0.3);
+    }
+    
+    .gpu-simulation input {
+      width: 60px;
+      text-align: center;
+    }
+    
+    .control-btn.highlight {
+      background: linear-gradient(to bottom right, #5ce1e6, #9d4edd);
+      color: white;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .control-btn.highlight:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      100% {
+        left: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>RUNES Analytics Pro</h1>
+      <h2>GPU Mesh Client Demo</h2>
+    </header>
+    
+    <div class="card network-container">
+      <div class="console-header">
+        <h3 class="console-title">Visualização da Rede GPU Mesh</h3>
+        <div class="console-actions">
+          <button id="reset-view-btn">Resetar Visualização</button>
+          <div class="gpu-simulation">
+            <label for="gpuNodesInput">Nós GPU:</label>
+            <input 
+              type="number" 
+              id="gpuNodesInput" 
+              class="control-input"
+              value="3"
+              min="1"
+              max="20"
+            />
+            <button id="simulateGpuBtn" class="control-btn highlight">
+              <i class="fa fa-microchip"></i> Adicionar GPUs
+            </button>
+          </div>
+          <button id="add-gpu-nodes" class="console-actions-btn">
+            <i class="fa fa-bolt"></i> Adicionar 5 GPUs (API)
+          </button>
+        </div>
+      </div>
+      <div id="network-visualizer"></div>
+      <div class="legend">
+        <div class="legend-item">
+          <span class="legend-color connected"></span>
+          <span>Conectado</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color connecting"></span>
+          <span>Reconectando</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color disconnected"></span>
+          <span>Desconectado</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="task-panel">
+      <div class="card">
+        <h3>Configurações da Mesh</h3>
+        
+        <div id="mesh-status" class="mesh-status disconnected">
+          Status: Desconectado
+        </div>
+        
+        <div class="task-form">
+          <div class="form-group">
+            <label for="endpoint-select">Endpoint:</label>
+            <select id="endpoint-select">
+              <option value="local">Local (ws://localhost:8081/mesh)</option>
+              <option value="remote">Remoto (wss://mesh.runes.pro/node)</option>
+              <option value="custom">Customizado</option>
+            </select>
+          </div>
+          
+          <div id="custom-endpoint-group" class="form-group" style="display: none;">
+            <label for="custom-endpoint">Endpoint Customizado:</label>
+            <input type="text" id="custom-endpoint" placeholder="ws://exemplo.com/mesh">
+          </div>
+          
+          <button id="connect-btn">Conectar à Mesh</button>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>Enviar Tarefa</h3>
+        
+        <div class="task-form">
+          <div class="form-group">
+            <label for="task-id">ID da Tarefa:</label>
+            <input type="text" id="task-id" placeholder="TASK-EMBED-RUNE-0425" value="TASK-EMBED-RUNE-0425">
+          </div>
+          
+          <div class="form-group">
+            <label for="model-select">Modelo:</label>
+            <select id="model-select">
+              <option value="cypher-v1">cypher-v1</option>
+              <option value="runegpt-v2">runegpt-v2</option>
+              <option value="neuro-embed">neuro-embed</option>
+              <option value="rune-classifier">rune-classifier</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="input-data-url">URL dos Dados de Entrada:</label>
+            <input type="text" id="input-data-url" placeholder="https://runes.pro/data/batch-0425.json" value="https://runes.pro/data/batch-0425.json">
+          </div>
+          
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="return-logs" checked>
+              Retornar logs em tempo real
+            </label>
+          </div>
+          
+          <button id="send-task-btn" disabled>Enviar Tarefa</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card console-container">
+      <div class="console-header">
+        <h3 class="console-title">Console de Logs</h3>
+        <div class="console-actions">
+          <button id="clear-console-btn">Limpar Console</button>
+        </div>
+      </div>
+      <div id="gpu-mesh-console" class="gpu-mesh-console"></div>
+    </div>
+    
+    <div class="card task-history">
+      <h3>Histórico de Tarefas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID da Tarefa</th>
+            <th>Tempo</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="task-history-table">
+          <tr>
+            <td colspan="4" style="text-align: center;">Nenhuma tarefa executada ainda</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <script type="module">
+    import { gpuMeshClient } from './js/gpuMeshClient.js';
+    import { GpuMeshNetworkVisualizer } from './js/gpuMeshVisualization.js';
+    import { simulateGpuNodes } from './scripts/addGpuNodes.js';
+    import { notifyOwl } from './js/mesh-notify.js';
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Elementos DOM
+      const meshStatusEl = document.getElementById('mesh-status');
+      const endpointSelect = document.getElementById('endpoint-select');
+      const customEndpointGroup = document.getElementById('custom-endpoint-group');
+      const customEndpointInput = document.getElementById('custom-endpoint');
+      const connectBtn = document.getElementById('connect-btn');
+      const taskIdInput = document.getElementById('task-id');
+      const modelSelect = document.getElementById('model-select');
+      const inputDataUrlInput = document.getElementById('input-data-url');
+      const returnLogsCheckbox = document.getElementById('return-logs');
+      const sendTaskBtn = document.getElementById('send-task-btn');
+      const clearConsoleBtn = document.getElementById('clear-console-btn');
+      const taskHistoryTable = document.getElementById('task-history-table');
+      const resetViewBtn = document.getElementById('reset-view-btn');
+      
+      // Define o elemento de console
+      gpuMeshClient.setConsoleElement('gpu-mesh-console');
+      
+      // Gera um ID de tarefa único
+      taskIdInput.value = `TASK-EMBED-RUNE-${Date.now().toString(36)}`;
+      
+      // Inicializa o visualizador de rede
+      const networkVisualizer = new GpuMeshNetworkVisualizer({
+        containerId: 'network-visualizer',
+        gpuMeshClient: gpuMeshClient,
+        width: document.getElementById('network-visualizer').clientWidth,
+        height: 400
+      });
+      
+      try {
+        await networkVisualizer.init();
+        console.log('Visualizador de rede inicializado com sucesso');
+      } catch (error) {
+        console.error('Erro ao inicializar visualizador de rede:', error);
+      }
+      
+      // Reset da visualização
+      resetViewBtn.addEventListener('click', () => {
+        networkVisualizer.clear();
+        networkVisualizer.setupDemoNodes();
+      });
+      
+      // Simulação de nós GPU via evento de clique nos botões
+      const simulateGpuBtn = document.getElementById('simulateGpuBtn');
+      const gpuNodesInput = document.getElementById('gpuNodesInput');
+      const addGpuNodesBtn = document.getElementById('add-gpu-nodes');
+      
+      simulateGpuBtn.addEventListener('click', () => {
+        const count = parseInt(gpuNodesInput.value);
+        
+        if (isNaN(count) || count <= 0) {
+          gpuMeshClient.appendToConsole('⚠️ Erro: Número inválido de nós');
+          return;
+        }
+        
+        if (count > 20) {
+          gpuMeshClient.appendToConsole('⚠️ Aviso: Número máximo de nós limitado a 20 para desempenho');
+          gpuNodesInput.value = 20;
+          return;
+        }
+        
+        gpuMeshClient.appendToConsole(`📊 Iniciando simulação de ${count} nós GPU...`);
+        networkVisualizer.simulateGpuNodes(count);
+        gpuMeshClient.appendToConsole(`✅ Adicionados ${count} nós GPU à rede Mesh!`);
+      });
+      
+      // Botão para adicionar via API externa
+      addGpuNodesBtn.addEventListener('click', () => {
+        gpuMeshClient.appendToConsole(`🔄 Adicionando 5 GPUs via API externa...`);
+        const novos = simulateGpuNodes(5);
+        notifyOwl("Adição manual de GPUs", { 
+          total: novos.length,
+          via: "botão na interface"
+        });
+        gpuMeshClient.appendToConsole(`✅ ${novos.length} GPUs adicionados via API!`);
+      });
+      
+      // Adapta o tamanho do visualizador ao redimensionar a janela
+      window.addEventListener('resize', () => {
+        const container = document.getElementById('network-visualizer');
+        if (container && networkVisualizer) {
+          networkVisualizer.resize(container.clientWidth, 400);
+        }
+      });
+      
+      // Handler para alteração do endpoint
+      endpointSelect.addEventListener('change', () => {
+        if (endpointSelect.value === 'custom') {
+          customEndpointGroup.style.display = 'flex';
+        } else {
+          customEndpointGroup.style.display = 'none';
+        }
+      });
+      
+      // Handler para conexão com a mesh
+      connectBtn.addEventListener('click', async () => {
+        try {
+          // Atualiza status
+          meshStatusEl.className = 'mesh-status connecting';
+          meshStatusEl.textContent = 'Status: Conectando...';
+          
+          // Seleciona o endpoint
+          let endpoint;
+          switch (endpointSelect.value) {
+            case 'local':
+              endpoint = 'ws://localhost:8081/mesh';
+              break;
+            case 'remote':
+              endpoint = 'wss://mesh.runes.pro/node';
+              break;
+            case 'custom':
+              endpoint = customEndpointInput.value;
+              break;
+          }
+          
+          // Conecta ao endpoint
+          connectBtn.disabled = true;
+          connectBtn.textContent = 'Conectando...';
+          
+          await gpuMeshClient.init(endpoint);
+          
+          // Atualiza status após conexão
+          meshStatusEl.className = 'mesh-status connected';
+          meshStatusEl.textContent = `Status: Conectado a ${endpoint}`;
+          
+          connectBtn.textContent = 'Reconectar';
+          connectBtn.disabled = false;
+          
+          // Habilita o botão de envio de tarefas
+          sendTaskBtn.disabled = false;
+          
+          // Limpa e reinicia o visualizador de rede
+          networkVisualizer.clear();
+          
+          // Adiciona nó cliente
+          networkVisualizer.addNode({
+            id: 'client',
+            label: 'Cliente',
+            status: 'connected',
+            type: 'client',
+            endpoint: endpoint
+          });
+          
+          // Adiciona alguns nós de servidor para demonstração
+          for (let i = 0; i < 4; i++) {
+            const status = i === 0 ? 'connected' : (i === 1 ? 'connecting' : 'disconnected');
+            networkVisualizer.addNode({
+              id: `server-${i + 1}`,
+              label: `Nó ${i + 1}`,
+              status: status,
+              type: 'server'
+            });
+            networkVisualizer.addEdge('client', `server-${i + 1}`);
+          }
+          
+        } catch (error) {
+          console.error('Erro ao conectar:', error);
+          
+          // Atualiza status após falha
+          meshStatusEl.className = 'mesh-status disconnected';
+          meshStatusEl.textContent = `Status: Falha na conexão - ${error.message}`;
+          
+          connectBtn.textContent = 'Tentar Novamente';
+          connectBtn.disabled = false;
+          
+          // Desabilita o botão de envio de tarefas
+          sendTaskBtn.disabled = true;
+        }
+      });
+      
+      // Handler para envio de tarefas
+      sendTaskBtn.addEventListener('click', async () => {
+        try {
+          // Prepara a tarefa
+          const task = {
+            taskId: taskIdInput.value,
+            model: modelSelect.value,
+            inputDataURL: inputDataUrlInput.value,
+            returnLogs: returnLogsCheckbox.checked
+          };
+          
+          // Desabilita o botão durante o envio
+          sendTaskBtn.disabled = true;
+          sendTaskBtn.textContent = 'Enviando...';
+          
+          // Envia a tarefa
+          const result = await gpuMeshClient.sendTask(task);
+          
+          // Atualiza o histórico
+          updateTaskHistory();
+          
+          // Gera um novo ID para a próxima tarefa
+          taskIdInput.value = `TASK-EMBED-RUNE-${Date.now().toString(36)}`;
+          
+        } catch (error) {
+          console.error('Erro ao enviar tarefa:', error);
+          gpuMeshClient.appendToConsole(`⚠️ Erro ao enviar tarefa: ${error.message}`);
+        } finally {
+          // Restaura o botão
+          sendTaskBtn.disabled = false;
+          sendTaskBtn.textContent = 'Enviar Tarefa';
+        }
+      });
+      
+      // Handler para limpar console
+      clearConsoleBtn.addEventListener('click', () => {
+        gpuMeshClient.clearConsole();
+      });
+      
+      // Atualiza o histórico de tarefas
+      function updateTaskHistory() {
+        const history = gpuMeshClient.getTaskHistory();
+        
+        if (history.length === 0) {
+          taskHistoryTable.innerHTML = `
+            <tr>
+              <td colspan="4" style="text-align: center;">Nenhuma tarefa executada ainda</td>
+            </tr>
+          `;
+          return;
+        }
+        
+        // Limpa a tabela
+        taskHistoryTable.innerHTML = '';
+        
+        // Adiciona as tarefas, da mais recente para a mais antiga
+        history.reverse().forEach(task => {
+          const row = document.createElement('tr');
+          
+          // Calcula a duração
+          const duration = task.endTime ? Math.round((task.endTime - task.startTime) / 1000) : '—';
+          
+          // Determina a classe de status
+          let statusClass, statusText;
+          if (gpuMeshClient.isTaskPending(task.taskId)) {
+            statusClass = 'pending';
+            statusText = 'Em Progresso';
+          } else if (task.success) {
+            statusClass = 'success';
+            statusText = 'Concluída';
+          } else {
+            statusClass = 'error';
+            statusText = 'Falha';
+          }
+          
+          row.innerHTML = `
+            <td>${task.taskId}</td>
+            <td>${duration}s</td>
+            <td><span class="status-badge status-${statusClass}">${statusText}</span></td>
+            <td>
+              <button class="view-logs-btn" data-task-id="${task.taskId}">Ver Logs</button>
+            </td>
+          `;
+          
+          taskHistoryTable.appendChild(row);
+        });
+        
+        // Adiciona listeners para os botões de ver logs
+        document.querySelectorAll('.view-logs-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const taskId = btn.getAttribute('data-task-id');
+            // TODO: Implementar visualização de logs da tarefa
+            alert(`Logs da tarefa ${taskId} serão implementados em breve.`);
+          });
+        });
+      }
+      
+      // Eventos para atualizar a interface
+      gpuMeshClient.on('connected', (data) => {
+        meshStatusEl.className = 'mesh-status connected';
+        meshStatusEl.textContent = `Status: Conectado a ${data.endpoint}`;
+        sendTaskBtn.disabled = false;
+      });
+      
+      gpuMeshClient.on('disconnected', () => {
+        meshStatusEl.className = 'mesh-status disconnected';
+        meshStatusEl.textContent = 'Status: Desconectado';
+        sendTaskBtn.disabled = true;
+      });
+      
+      gpuMeshClient.on('reconnecting', (data) => {
+        meshStatusEl.className = 'mesh-status connecting';
+        meshStatusEl.textContent = `Status: Tentando reconectar (${data.attempt}/${data.maxAttempts})`;
+      });
+      
+      gpuMeshClient.on('taskCompleted', () => {
+        updateTaskHistory();
+      });
+      
+      // Tenta conectar automaticamente ao nó local
+      setTimeout(() => {
+        if (!gpuMeshClient.isConnected) {
+          connectBtn.click();
+        }
+      }, 1000);
+    });
+  </script>
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function() {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					head.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					head.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function(msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			console.log('Live reload enabled.');
+		})();
+	}
+	// ]]>
+</script>
+</body>
+</html> 

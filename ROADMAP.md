@@ -303,3 +303,21 @@ A RUNES Analytics Pro é uma plataforma de análise exclusiva para tokens Runes 
 Para instruções detalhadas, consulte o arquivo [GETTING-STARTED.md](GETTING-STARTED.md).
 
 📅 Última atualização: 05/04/2025 às 03:40
+
+## 🎬 Modo de Apresentação Interativa (Pitch)
+
+📌 **Detalhes:**
+- A funcionalidade de apresentação gamificada, inicialmente planejada em `build-demo-presentation.js`, foi integrada ao `TourSimulator.js`.
+- O `TourSimulator` agora possui suporte à ativação do modo de apresentação via parâmetro de URL `?mode=pitch`.
+- Um botão "Ver Apresentação" foi adicionado à `demo.html`, que ativa este modo.
+- A apresentação simula interações reais da plataforma, como ganhos de XP, desbloqueio de conquistas, sugestões da IA e alertas.
+- A navegação entre as seções do tour é automática, com transições e lógica gamificada.
+- Análises de comportamento durante o modo pitch podem ser registradas via `TourAnalytics` (se configurado).
+
+🧪 **Para testar:**
+Acesse `demo.html?mode=pitch` no seu navegador (após iniciar um servidor local na pasta do projeto, se necessário).
+
+📁 **Arquivos Impactados:**
+- `demo.html` (adição de botão e script de inicialização)
+- `components/TourSimulator.js` (implementação da lógica `presentationMode` e `startPitchMode`)
+- `styles/demo.css` ou `<style>` em `demo.html` (estilos para o botão `.neon-btn`)

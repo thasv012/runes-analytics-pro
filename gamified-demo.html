@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a15">
+    <title data-en="RUNES Analytics Pro - Gamified Demo" data-pt="RUNES Analytics Pro - Demo Gamificada">RUNES Analytics Pro - Gamified Demo</title>
+    <meta name="description" content="Experience the gamified version of RUNES Analytics Pro with interactive features, achievements, and neural intelligence.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ChartJS (for demo graphs) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="styles/language-styles.css">
+    <style>
+        /* Efeito Glitch para o título */
+        .glitch-text {
+            position: relative;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin: 2rem 0;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.8);
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #00BFFF;
+            animation: glitch-animation 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            opacity: 0.8;
+        }
+        
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: 2px 0 #FF00FF;
+            animation: glitch-animation 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            opacity: 0.8;
+        }
+        
+        @keyframes glitch-animation {
+            0% {
+                transform: translateX(-2px);
+            }
+            25% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(2px);
+            }
+            75% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-2px);
+            }
+        }
+        
+        .intro-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #8A2BE2;
+        }
+        
+        .btn-glow {
+            display: inline-block;
+            background: linear-gradient(90deg, #8A2BE2, #00BFFF);
+            color: white;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+        
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.8);
+        }
+        
+        .btn-glow::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            transform: rotate(30deg);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glow:hover::after {
+            transform: rotate(0deg);
+        }
+        
+        .footer-note {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Video Section */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+            margin: 2rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--primary-cyan, #00FFFF);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+        }
+        
+        .video-container iframe, 
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 2px solid var(--primary-cyan, #00FFFF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .video-play-button:hover {
+            background: rgba(0, 255, 255, 0.4);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .video-play-button i {
+            font-size: 2.5rem;
+            color: var(--primary-cyan, #00FFFF);
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Criado via JavaScript) -->
+    <header class="site-header"></header>
+    
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="terminal">
+            <div class="terminal-text" data-i18n="loading">Loading...</div>
+            <div class="loading-progress"><div class="progress-bar"></div></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content-area">
+        <div class="container">
+            <!-- Intro Section -->
+            <section class="intro-container" id="intro-section">
+                <h1 class="glitch-text" data-text="Experience RUNES: Gamified Intelligence">
+                    <span class="lang-en">Experience RUNES: Gamified Intelligence</span>
+                    <span class="lang-pt">Experimente RUNES: Inteligência Gamificada</span>
+                </h1>
+                
+                <p>
+                    <span class="lang-en">Dive into the first Runes token analysis system with complete gamification, AI and whale tracking.</span>
+                    <span class="lang-pt">Mergulhe no primeiro sistema de análise de tokens Runes com gamificação completa, IA e rastreamento de baleias.</span>
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>
+                            <span class="lang-en">Gamified Analysis</span>
+                            <span class="lang-pt">Análise Gamificada</span>
+                        </h3>
+                        <p>
+                            <span class="lang-en">Earn XP, level up and unlock achievements while analyzing Runes tokens.</span>
+                            <span class="lang-pt">Ganhe XP, suba de nível e desbloqueie conquistas enquanto analisa tokens Runes.</span>
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                        <h3>
+                            <span class="lang-en">Neural AI</span>
+                            <span class="lang-pt">IA Neural</span>
+                        </h3>
+                        <p>
+                            <span class="lang-en">Receive intelligent suggestions based on sentiment analysis and on-chain movements.</span>
+                            <span class="lang-pt">Receba sugestões inteligentes baseadas em análise de sentimento e movimentações on-chain.</span>
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-whale"></i></div>
+                        <h3>
+                            <span class="lang-en">Whale Tracking</span>
+                            <span class="lang-pt">Rastreamento de Baleias</span>
+                        </h3>
+                        <p>
+                            <span class="lang-en">Detect and monitor large token movements in real time.</span>
+                            <span class="lang-pt">Detecte e monitore grandes movimentações de tokens em tempo real.</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <a href="#" class="btn-glow" id="launch-demo-btn">
+                    <span class="lang-en">🚀 Launch Gamified Mode</span>
+                    <span class="lang-pt">🚀 Iniciar Modo Gamificado</span>
+                </a>
+                
+                <p class="footer-note">
+                    <span class="lang-en">An immersive experience from RUNES Analytics Pro.<br>Developed with neural and blockchain technology.</span>
+                    <span class="lang-pt">Uma experiência imersiva do RUNES Analytics Pro.<br>Desenvolvido com tecnologia neural e blockchain.</span>
+                </p>
+            </section>
+
+            <!-- Video Tour Section -->
+            <section class="video-section fade-in" style="animation-delay: 0.6s;">
+                <h2>
+                    <span class="lang-en">Watch The Demo Tour</span>
+                    <span class="lang-pt">Assista ao Tour da Demo</span>
+                </h2>
+                
+                <div class="video-container">
+                    <div class="video-overlay">
+                        <div class="video-play-button" id="play-demo-video">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <video id="demo-video" poster="media/images/gamified-demo-poster.webp" controls preload="none">
+                        <source src="media/videos/gamified-demo.mp4" type="video/mp4">
+                        <span class="lang-en">Your browser does not support the video tag.</span>
+                        <span class="lang-pt">Seu navegador não suporta o elemento de vídeo.</span>
+                    </video>
+                </div>
+                
+                <div class="text-center mt-3 mb-3">
+                    <p>
+                        <span class="lang-en">Watch the full tour of the gamified features in action</span>
+                        <span class="lang-pt">Assista ao tour completo das funcionalidades gamificadas em ação</span>
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Container da Demo (inicialmente oculto) -->
+            <div id="runes-demo-container" style="display: none;"></div>
+        </div>
+    </main>
+    
+    <!-- Footer (Criado via JavaScript) -->
+    <footer class="site-footer"></footer>
+    
+    <!-- Script da Demo -->
+    <script src="demo-animation.js"></script>
+    <script src="js/presentation-transitions.js" defer></script>
+    <script src="js/presentation-nav.js" defer></script>
+    <script src="language-switcher.js" defer></script>
+    <script src="language-switcher-patch.js" defer></script>
+    
+    <script>
+        // Easter Egg no Console
+        console.log("%c👁️ You've unlocked the Eye of Satoshi.", "color: #8A2BE2; font-size: 20px; font-weight: bold;");
+        
+        // Add data-text attribute for glitch effect
+        document.querySelectorAll('.glitch-text').forEach(el => {
+            if (!el.getAttribute('data-text')) {
+                const langEnElement = el.querySelector('.lang-en');
+                const langPtElement = el.querySelector('.lang-pt');
+                
+                if (langEnElement && document.documentElement.lang === 'en') {
+                    el.setAttribute('data-text', langEnElement.textContent);
+                } else if (langPtElement && document.documentElement.lang === 'pt') {
+                    el.setAttribute('data-text', langPtElement.textContent);
+                } else {
+                    el.setAttribute('data-text', el.textContent.trim());
+                }
+            }
+        });
+        
+        // Botão de Iniciar Demo
+        document.getElementById('launch-demo-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('[Gamified Demo] Launch button clicked.');
+
+            // Ocultar intro
+            const introSection = document.getElementById('intro-section');
+            if (introSection) introSection.style.display = 'none';
+            const demoContainer = document.getElementById('runes-demo-container');
+            if (demoContainer) demoContainer.style.display = 'block';
+            else { console.error('[Gamified Demo] Demo container not found.'); return; }
+
+            // Initialize the demo using the newly created script
+            if (window.RunesDemo && typeof window.RunesDemo.init === 'function') {
+                try {
+                    console.log('[Gamified Demo] Attempting to initialize RunesDemo...');
+                    // Pass the container element to init
+                    window.RunesDemo.init(demoContainer);
+                    console.log('[Gamified Demo] RunesDemo initialized successfully.');
+                    // Add ESC listener
+                    document.addEventListener('keydown', function escapeHandler(e) {
+                         if (e.key === 'Escape') {
+                              console.log('[Gamified Demo] Escape pressed, hiding demo.');
+                             demoContainer.style.display = 'none';
+                             if(introSection) introSection.style.display = 'block';
+                             document.removeEventListener('keydown', escapeHandler);
+                              if (window.RunesDemo && typeof window.RunesDemo.destroy === 'function') {
+                                  window.RunesDemo.destroy();
+                              }
+                         }
+                     }, { once: true });
+                } catch (error) {
+                     console.error("[Gamified Demo] Error during RunesDemo.init():", error);
+                     alert("Demo initialization failed. Check console.");
+                     if(demoContainer) demoContainer.style.display = 'none';
+                     if(introSection) introSection.style.display = 'block';
+                }
+            } else {
+                console.error("[Gamified Demo] RunesDemo.init not found. Check demo-animation.js.");
+                alert("Demo core component missing. Check console.");
+                if(demoContainer) demoContainer.style.display = 'none';
+                if(introSection) introSection.style.display = 'block';
+            }
+        });
+        
+        // Video Player
+        const playButton = document.getElementById('play-demo-video');
+        const video = document.getElementById('demo-video');
+        const videoOverlay = document.querySelector('.video-overlay');
+        
+        if (playButton && video && videoOverlay) {
+            playButton.addEventListener('click', () => {
+                video.play();
+                videoOverlay.style.display = 'none';
+            });
+            
+            video.addEventListener('pause', () => {
+                if (video.currentTime === 0 || video.ended) {
+                    videoOverlay.style.display = 'flex';
+                }
+            });
+            
+            video.addEventListener('ended', () => {
+                videoOverlay.style.display = 'flex';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+{
+  "ai": {
+    "provider": "anthropic",
+    "model": "claude-3-5-sonnet",
+    "systemPrompt": "Você é um especialista em desenvolvimento com foco em Runes, Bitcoin e Web3. Responda de forma direta, técnica e sem introduções."
+  },
+  "keybindings": {
+    "ai": {
+      "explain-code": "ctrl+alt+e",
+      "edit-code": "ctrl+alt+c",
+      "optimize-code": "ctrl+alt+o",
+      "debug-code": "ctrl+alt+d",
+      "generate-docs": "ctrl+alt+g"
+    },
+    "runes": {
+      "test-gpu-node": "ctrl+shift+t",
+      "add-gpu-nodes": "ctrl+shift+a"
+    }
+  },
+  "commands": {
+    "custom": [
+      {
+        "name": "Adicionar 5 Nós GPU",
+        "command": "cursor.runCustomCommand",
+        "args": {
+          "language": "javascript",
+          "command": "import { simulateGpuNodes } from './scripts/addGpuNodes.js'; simulateGpuNodes(5); console.log('✅ 5 nós GPU adicionados à rede Mesh');"
+        },
+        "keybinding": "ctrl+shift+a"
+      },
+      {
+        "name": "Testar Conexão GPU Mesh",
+        "command": "cursor.runCustomCommand",
+        "args": {
+          "language": "javascript",
+          "command": "console.log('🔄 Testando conexão com GPU Mesh...'); fetch('/api/mesh/status').then(r => r.json()).then(data => console.log('Status GPU Mesh:', data)).catch(e => console.error('❌ Erro na conexão GPU Mesh:', e));"
+        },
+        "keybinding": "ctrl+shift+t"
+      },
+      {
+        "name": "Ask in ChatGPT",
+        "command": "cursor.askGPT",
+        "args": {
+          "useSelection": true,
+          "mode": "chat"
+        },
+        "keybinding": "ctrl+shift+c"
+      },
+      {
+        "name": "Analisar Código Runes",
+        "command": "cursor.runCustomCommand",
+        "args": {
+          "language": "javascript",
+          "command": "console.log('🔍 Analisando código...'); const selection = cursor.getSelectedText(); cursor.askGPT({ text: `Analise este código do projeto Runes:\n\n${selection}\n\nForneça insights sobre otimização, segurança e escalabilidade.` });"
+        },
+        "keybinding": "ctrl+shift+r"
+      }
+    ],
+    "terminal": [
+      {
+        "name": "Iniciar Live Server",
+        "command": "npx live-server --port=3000",
+        "keybinding": "ctrl+alt+l"
+      },
+      {
+        "name": "Abrir Demo GPU Mesh",
+        "command": "start http://localhost:3000/gpu-mesh-demo.html",
+        "keybinding": "ctrl+alt+m"
+      }
+    ]
+  },
+  "ui": {
+    "panels": {
+      "layout": "split-right",
+      "size": 40
+    },
+    "tabs": {
+      "openFiles": [
+        "app.js",
+        "gpu-mesh-demo.html",
+        "js/gpuMeshVisualization.js",
+        "scripts/addGpuNodes.js"
+      ]
+    },
+    "theme": "dark"
+  },
+  "workflow": {
+    "autoSave": true,
+    "livePreview": true,
+    "aiComments": true
+  }
+} 

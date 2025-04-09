@@ -1,0 +1,67 @@
+{
+  "app_name": "RUNES Analytics Pro",
+  "app_description": "Plataforma avançada de análise para tokens RUNES no Bitcoin",
+  
+  "nav": {
+    "home": "Início",
+    "dashboard": "Painel",
+    "analytics": "Análises",
+    "market": "Mercado",
+    "portfolio": "Portfólio",
+    "settings": "Configurações",
+    "about": "Sobre"
+  },
+  
+  "header": {
+    "search_placeholder": "Buscar RUNES...",
+    "profile": "Perfil",
+    "notifications": "Notificações",
+    "help": "Ajuda"
+  },
+  
+  "footer": {
+    "copyright": "© 2024 RUNES Analytics Pro. Todos os direitos reservados.",
+    "terms": "Termos de Serviço",
+    "privacy": "Política de Privacidade",
+    "contact": "Fale Conosco"
+  },
+  
+  "buttons": {
+    "learn_more": "Saiba Mais",
+    "get_started": "Começar",
+    "view_details": "Ver Detalhes",
+    "sign_in": "Entrar",
+    "sign_up": "Cadastrar",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "load_more": "Carregar Mais",
+    "connect_wallet": "Conectar Carteira"
+  },
+  
+  "labels": {
+    "price": "Preço",
+    "market_cap": "Capitalização de Mercado",
+    "volume": "Volume",
+    "supply": "Fornecimento",
+    "holders": "Portadores",
+    "transactions": "Transações",
+    "created": "Criado",
+    "updated": "Atualizado"
+  },
+  
+  "alerts": {
+    "success": "Sucesso!",
+    "error": "Erro!",
+    "warning": "Aviso!",
+    "info": "Informação"
+  },
+  
+  "errors": {
+    "not_found": "Não encontrado",
+    "server_error": "Erro no servidor",
+    "connection_failed": "Falha na conexão",
+    "authentication_required": "Autenticação necessária",
+    "permission_denied": "Permissão negada"
+  }
+} 

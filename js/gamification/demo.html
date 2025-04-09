@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Gamification Demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: 'Rajdhani', 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    
+    h2 {
+      color: var(--secondary);
+      font-size: 1.5rem;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-top: 0;
+    }
+    
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 992px) {
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .demo-panel {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .demo-panel h3 {
+      color: var(--primary);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .actions-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .action-group {
+      background: rgba(30, 30, 60, 0.4);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    
+    .action-group h4 {
+      color: var(--secondary);
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    button {
+      padding: 0.75rem 1rem;
+      border-radius: 5px;
+      border: none;
+      background: rgba(92, 225, 230, 0.2);
+      color: var(--primary);
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      background: rgba(92, 225, 230, 0.3);
+      box-shadow: 0 4px 15px rgba(92, 225, 230, 0.3);
+    }
+    
+    .challenge-demo {
+      background: rgba(30, 30, 60, 0.4);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      margin-top: 1rem;
+    }
+    
+    .challenge-demo h4 {
+      color: var(--secondary);
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    
+    #floating-xp-bar {
+      position: static;
+      margin-bottom: 1rem;
+    }
+    
+    #floating-xp-bar .floating-xp-bar {
+      position: static;
+      display: inline-flex;
+    }
+    
+    #achievements-panel {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>RUNES Analytics Pro</h1>
+      <h2>Gamification System Demo</h2>
+    </header>
+    
+    <div id="floating-xp-bar"></div>
+    
+    <div class="demo-grid">
+      <div class="demo-panel">
+        <h3>User Profile</h3>
+        <div id="user-profile"></div>
+      </div>
+      
+      <div class="demo-panel">
+        <h3>Demo Actions</h3>
+        <div class="actions-panel">
+          <div class="action-group">
+            <h4>XP Actions</h4>
+            <div class="action-buttons">
+              <button id="add-xp-small">+10 XP</button>
+              <button id="add-xp-medium">+50 XP</button>
+              <button id="add-xp-large">+100 XP</button>
+              <button id="add-xp-huge">+1000 XP</button>
+            </div>
+          </div>
+          
+          <div class="action-group">
+            <h4>GPU Mesh Tasks</h4>
+            <div class="action-buttons">
+              <button id="simple-mesh-task">Simple Task</button>
+              <button id="medium-mesh-task">Medium Task</button>
+              <button id="complex-mesh-task">Complex Task</button>
+              <button id="fast-mesh-task">Fast Task</button>
+            </div>
+          </div>
+          
+          <div class="action-group">
+            <h4>Analysis Actions</h4>
+            <div class="action-buttons">
+              <button id="token-analysis">Analyze Token</button>
+              <button id="indepth-analysis">In-depth Analysis</button>
+              <button id="share-analysis">Share Analysis</button>
+              <button id="detect-anomaly">Detect Anomaly</button>
+            </div>
+          </div>
+          
+          <div class="action-group">
+            <h4>Predictions</h4>
+            <div class="action-buttons">
+              <button id="make-prediction">Make Prediction</button>
+              <button id="correct-prediction">Correct Prediction</button>
+              <button id="wrong-prediction">Wrong Prediction</button>
+            </div>
+          </div>
+          
+          <div class="action-group">
+            <h4>Other Actions</h4>
+            <div class="action-buttons">
+              <button id="detect-whale">Detect Whale</button>
+              <button id="daily-login">Simulate Login</button>
+              <button id="reset-progress">Reset Progress</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="challenge-demo">
+          <h4>Challenge Progress Demo</h4>
+          <p>Complete these actions to see challenge progress in action:</p>
+          <ul>
+            <li>Click "Analyze Token" 5 times for "Daily Analyst" challenge</li>
+            <li>Click "Simple Mesh Task" 3 times for "Mesh User" challenge</li>
+            <li>Click "Correct Prediction" for "Accurate Predictor" challenge</li>
+            <li>Click "Detect Whale" 3 times for "Whale Hunter" challenge</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div id="achievements-panel" class="demo-panel">
+      <h3>Recent Achievements</h3>
+      <p>As you perform actions, any earned achievements will be displayed here and through notifications.</p>
+      <div id="achievements-list"></div>
+    </div>
+  </div>
+  
+  <script type="module">
+    import gamification, { 
+      UserProfile, 
+      createFloatingXPBar, 
+      xpService, 
+      achievementsManager, 
+      awardXPForAction, 
+      notificationSystem 
+    } from './index.js';
+    
+    // Create user profile
+    const profile = new UserProfile('user-profile', {
+      theme: 'dark',
+      compact: false
+    });
+    
+    // Create floating XP bar
+    createFloatingXPBar('floating-xp-bar');
+    
+    // Initialize achievements list
+    const achievementsList = document.getElementById('achievements-list');
+    
+    // Helper to update achievements list
+    function updateAchievementsList() {
+      const badges = achievementsManager.getAllBadges(true);
+      
+      if (badges.length === 0) {
+        achievementsList.innerHTML = '<p>No achievements yet. Perform actions to earn badges!</p>';
+        return;
+      }
+      
+      achievementsList.innerHTML = `
+        <div class="badges-container">
+          ${badges.map(badge => `
+            <div class="badge-item">
+              <div class="badge-icon">${badge.icon}</div>
+              <div class="badge-info">
+                <div class="badge-name">${badge.name}</div>
+                <div class="badge-date">${new Date(badge.awardedAt).toLocaleDateString()}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    
+    // Update achievements list initially
+    updateAchievementsList();
+    
+    // Listen for achievement events
+    document.addEventListener('badge:earned', () => {
+      updateAchievementsList();
+    });
+    
+    // XP Actions
+    document.getElementById('add-xp-small').addEventListener('click', async () => {
+      await xpService.awardXP(10, 'Demo action');
+    });
+    
+    document.getElementById('add-xp-medium').addEventListener('click', async () => {
+      await xpService.awardXP(50, 'Demo action');
+    });
+    
+    document.getElementById('add-xp-large').addEventListener('click', async () => {
+      await xpService.awardXP(100, 'Demo action');
+    });
+    
+    document.getElementById('add-xp-huge').addEventListener('click', async () => {
+      await xpService.awardXP(1000, 'Demo action');
+    });
+    
+    // GPU Mesh Tasks
+    document.getElementById('simple-mesh-task').addEventListener('click', () => {
+      const taskId = 'task-' + Math.floor(Math.random() * 1000);
+      const startTime = Date.now() - 3000;
+      const endTime = Date.now();
+      
+      document.dispatchEvent(new CustomEvent('gpuMesh:taskCompleted', {
+        detail: {
+          id: taskId,
+          complexity: 2,
+          duration: 3000,
+          type: 'simple',
+          startTime,
+          endTime
+        }
+      }));
+    });
+    
+    document.getElementById('medium-mesh-task').addEventListener('click', () => {
+      const taskId = 'task-' + Math.floor(Math.random() * 1000);
+      const startTime = Date.now() - 5000;
+      const endTime = Date.now();
+      
+      document.dispatchEvent(new CustomEvent('gpuMesh:taskCompleted', {
+        detail: {
+          id: taskId,
+          complexity: 5,
+          duration: 5000,
+          type: 'medium',
+          startTime,
+          endTime
+        }
+      }));
+    });
+    
+    document.getElementById('complex-mesh-task').addEventListener('click', () => {
+      const taskId = 'task-' + Math.floor(Math.random() * 1000);
+      const startTime = Date.now() - 10000;
+      const endTime = Date.now();
+      
+      document.dispatchEvent(new CustomEvent('gpuMesh:taskCompleted', {
+        detail: {
+          id: taskId,
+          complexity: 8,
+          duration: 10000,
+          type: 'complex',
+          startTime,
+          endTime
+        }
+      }));
+    });
+    
+    document.getElementById('fast-mesh-task').addEventListener('click', () => {
+      const taskId = 'task-' + Math.floor(Math.random() * 1000);
+      const startTime = Date.now() - 800;
+      const endTime = Date.now();
+      
+      document.dispatchEvent(new CustomEvent('gpuMesh:taskCompleted', {
+        detail: {
+          id: taskId,
+          complexity: 6,
+          duration: 800,
+          type: 'fast',
+          startTime,
+          endTime
+        }
+      }));
+    });
+    
+    // Analysis Actions
+    document.getElementById('token-analysis').addEventListener('click', () => {
+      const tokenId = 'rune-' + Math.floor(Math.random() * 1000);
+      
+      document.dispatchEvent(new CustomEvent('analysis:completed', {
+        detail: {
+          tokenId,
+          analysisType: 'standard',
+          isInDepth: false,
+          timestamp: new Date()
+        }
+      }));
+    });
+    
+    document.getElementById('indepth-analysis').addEventListener('click', () => {
+      const tokenId = 'rune-' + Math.floor(Math.random() * 1000);
+      
+      document.dispatchEvent(new CustomEvent('analysis:completed', {
+        detail: {
+          tokenId,
+          analysisType: 'advanced',
+          isInDepth: true,
+          timestamp: new Date()
+        }
+      }));
+    });
+    
+    document.getElementById('share-analysis').addEventListener('click', () => {
+      const tokenId = 'rune-' + Math.floor(Math.random() * 1000);
+      
+      document.dispatchEvent(new CustomEvent('analysis:shared', {
+        detail: {
+          tokenId,
+          platform: 'community',
+          timestamp: new Date()
+        }
+      }));
+    });
+    
+    document.getElementById('detect-anomaly').addEventListener('click', () => {
+      const tokenId = 'rune-' + Math.floor(Math.random() * 1000);
+      
+      document.dispatchEvent(new CustomEvent('analysis:anomalyDetected', {
+        detail: {
+          tokenId,
+          type: 'unusual-pattern',
+          severity: 'medium',
+          timestamp: new Date()
+        }
+      }));
+    });
+    
+    // Prediction Actions
+    let currentPredictionId = null;
+    
+    document.getElementById('make-prediction').addEventListener('click', () => {
+      const tokenId = 'rune-' + Math.floor(Math.random() * 1000);
+      currentPredictionId = 'pred-' + Math.floor(Math.random() * 1000);
+      
+      document.dispatchEvent(new CustomEvent('prediction:made', {
+        detail: {
+          id: currentPredictionId,
+          tokenId,
+          prediction: 'up',
+          confidence: 0.8,
+          timestamp: new Date()
+        }
+      }));
+    });
+    
+    document.getElementById('correct-prediction').addEventListener('click', () => {
+      if (!currentPredictionId) {
+        alert('Please make a prediction first');
+        return;
+      }
+      
+      document.dispatchEvent(new CustomEvent('prediction:result', {
+        detail: {
+          id: currentPredictionId,
+          actual: 'up',
+          correct: true,
+          timestamp: new Date()
+        }
+      }));
+      
+      currentPredictionId = null;
+    });
+    
+    document.getElementById('wrong-prediction').addEventListener('click', () => {
+      if (!currentPredictionId) {
+        alert('Please make a prediction first');
+        return;
+      }
+      
+      document.dispatchEvent(new CustomEvent('prediction:result', {
+        detail: {
+          id: currentPredictionId,
+          actual: 'down',
+          correct: false,
+          timestamp: new Date()
+        }
+      }));
+      
+      currentPredictionId = null;
+    });
+    
+    // Other Actions
+    document.getElementById('detect-whale').addEventListener('click', () => {
+      const walletId = 'wallet-' + Math.floor(Math.random() * 1000);
+      
+      document.dispatchEvent(new CustomEvent('whale:detected', {
+        detail: {
+          walletId,
+          tokenId: 'rune-' + Math.floor(Math.random() * 1000),
+          amount: Math.floor(Math.random() * 1000000) + 100000,
+          timestamp: new Date()
+        }
+      }));
+    });
+    
+    document.getElementById('daily-login').addEventListener('click', async () => {
+      // Simulate a login - this will trigger the login streak logic
+      achievementsManager.checkLoginStreak();
+      
+      // Award login XP
+      await awardXPForAction('firstLogin', 15);
+    });
+    
+    document.getElementById('reset-progress').addEventListener('click', async () => {
+      if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+        await xpService.resetProgress();
+        await achievementsManager.resetAchievements();
+        updateAchievementsList();
+      }
+    });
+  </script>
+</body>
+</html> 

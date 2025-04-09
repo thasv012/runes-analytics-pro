@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // Usa a variável do .env
+  // directUrl = env("DIRECT_URL") // Descomente se usar pooler + migrations
+}
+
+// Modelo de Usuário (para autenticação e favoritos)
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  favorites     UserFavorite[] // Relação com favoritos
+  // Adicione aqui campos do NextAuth.js se usar Adapter:
+  // accounts      Account[]
+  // sessions      Session[]
+}
+
+// Modelo para Tokens Runes
+model RuneToken {
+  id            String    @id // Pode ser o ID Rune (ex: "840000:3") ou um CUID se preferir indexação interna
+  name          String    @unique // Nome Rune (ex: "UNCOMMON.GOODS")
+  blockNumber   Int       // Bloco onde foi etched
+  timestamp     DateTime  // Timestamp do etch
+  totalSupply   BigInt?   // Supply total (usar BigInt para números grandes)
+  holdersCount  Int?      // Contagem de holders (pode vir de API)
+  marketCapSats BigInt?   // Market cap em sats (pode vir de API)
+  volume24hSats BigInt?   // Volume 24h em sats (pode vir de API)
+  etchTxId      String?   // ID da transação de etch
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  favoritedBy   UserFavorite[] // Relação com usuários que favoritaram
+  transactions  WhaleTransaction[] // Relação com transações de baleia
+
+  @@index([name]) // Indexar nome para busca rápida
+  @@index([blockNumber])
+}
+
+// Modelo de associação para favoritos (Muitos-para-Muitos User <-> RuneToken)
+model UserFavorite {
+  userId      String
+  runeTokenId String
+  assignedAt  DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  runeToken   RuneToken @relation(fields: [runeTokenId], references: [id], onDelete: Cascade)
+
+  @@id([userId, runeTokenId]) // Chave primária composta
+}
+
+// Modelo para registrar transações de "baleias"
+model WhaleTransaction {
+  id          String   @id @default(cuid())
+  txId        String   @unique // ID da transação na blockchain
+  runeTokenId String   // ID do RuneToken associado
+  fromAddress String?  // Endereço de origem (pode ser nulo para mints)
+  toAddress   String   // Endereço de destino
+  amount      BigInt   // Quantidade movida (usar BigInt)
+  valueSats   BigInt?  // Valor estimado em Sats (se aplicável/calculável)
+  timestamp   DateTime // Timestamp da transação
+  isWhaleBuy  Boolean? // Heurística: Compra de baleia?
+  isWhaleSell Boolean? // Heurística: Venda de baleia?
+  createdAt   DateTime @default(now())
+
+  runeToken   RuneToken @relation(fields: [runeTokenId], references: [id], onDelete: Cascade)
+
+  @@index([runeTokenId])
+  @@index([timestamp])
+  @@index([toAddress])
+}
+
+// --- Modelos Opcionais para NextAuth.js Prisma Adapter ---
+// Descomente se for usar autenticação com Adapter
+
+// model Account {
+//   id                String  @id @default(cuid())
+//   userId            String
+//   type              String
+//   provider          String
+//   providerAccountId String
+//   refresh_token     String? @db.Text
+//   access_token      String? @db.Text
+//   expires_at        Int?
+//   token_type        String?
+//   scope             String?
+//   id_token          String? @db.Text
+//   session_state     String?
+//   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   @@unique([provider, providerAccountId])
+// }
+
+// model Session {
+//   id           String   @id @default(cuid())
+//   sessionToken String   @unique
+//   userId       String
+//   expires      DateTime
+//   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
+
+// model VerificationToken {
+//   identifier String
+//   token      String   @unique
+//   expires    DateTime
+//   @@unique([identifier, token])
+// }

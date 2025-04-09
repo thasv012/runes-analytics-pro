@@ -1,0 +1,90 @@
+# RUNES Analytics Pro - Neural Banner Generator
+# Comandos CLI para geração de banners
+
+# -----------------------------------------
+# Exemplos de uso via linha de comando (CLI)
+# -----------------------------------------
+
+# Gerar um banner básico no estilo cyberpunk
+npm run banner:create --style="cyberpunk" --text="RUNES ANALYTICS PRO" --lang="PT"
+
+# Gerar um banner para slide de apresentação
+npm run banner:create --style="neural-glow" --text="Domine o ecossistema Bitcoin" --lang="PT" --resolution="1920x1080" --no-signature
+
+# Gerar um banner com QR code para compartilhamento
+npm run banner:create --style="runes-art" --text="Acompanhe as baleias em tempo real" --qr="https://runesanalytics.pro" --position="bottom-right"
+
+# Gerar um banner para alerta de baleias
+npm run banner:create --style="bitcoin-abstract" --text="ALERTA DE BALEIA: 500 BTC movimentados" --lang="PT" --resolution="1000x500"
+
+# Gerar banner com tema claro
+npm run banner:create --style="neural-glow" --text="Análise de dados de Runes" --theme="light"
+
+# Gerar um card de token vertical
+npm run banner:create --style="runes-art" --text="GENAI\nSupply: 21.000.000\nBurned: 5.000.000" --resolution="600x800" --position="bottom"
+
+# Exportar todos os estilos com o mesmo texto
+npm run banner:export-all --text="RUNES Analytics Pro" --output="./exports"
+
+# Gerar um banner com texto multilinha
+npm run banner:create --style="cyberpunk" --text="Linha 1\nLinha 2\nLinha 3" --position="center"
+
+# Gerar um banner de conquista
+npm run banner:create --style="runes-art" --text="NÍVEL 10 ALCANÇADO!\nMestre de Runes" --position="top"
+
+# Gerar banner para slide e salvar com nome específico
+npm run banner:create --style="neural-glow" --text="RUNES: O futuro no Bitcoin" --output="slide-apresentacao.png"
+
+# -------------------------------------------
+# Opções disponíveis para o comando banner:create
+# -------------------------------------------
+
+# --style       (obrigatório) Estilo do banner: cyberpunk, neural-glow, runes-art, bitcoin-abstract
+# --text        (obrigatório) Texto a ser exibido no banner
+# --lang        (opcional) Idioma: PT, EN (padrão: PT)
+# --resolution  (opcional) Resolução: 1280x720, 1920x1080, 1200x630, etc. (padrão: 1280x720)
+# --position    (opcional) Posição do texto: center, top, bottom (padrão: center)
+# --qr          (opcional) URL para gerar QR code
+# --qr-position (opcional) Posição do QR: bottom-right, bottom-left, top-right, top-left (padrão: bottom-right)
+# --theme       (opcional) Tema: dark, light (padrão: dark)
+# --output      (opcional) Nome do arquivo de saída (padrão: banner-{timestamp}.png)
+# --no-signature (opcional) Não incluir assinatura no banner
+
+# -------------------------------------------
+# Exemplos para integração em scripts
+# -------------------------------------------
+
+# Bash/Shell:
+# ------------
+# #!/bin/bash
+# 
+# # Gerar banner para cada token em uma lista
+# TOKENS=("GENAI" "DOGI" "MEME" "ORDI")
+# 
+# for token in "${TOKENS[@]}"; do
+#   npm run banner:create --style="runes-art" --text="Token: $token" --output="token-$token.png"
+#   echo "Banner gerado para $token"
+# done
+
+# PowerShell:
+# -----------
+# # Gerar banners para diferentes resoluções
+# $resolutions = @("1920x1080", "1280x720", "800x600")
+# 
+# foreach ($res in $resolutions) {
+#   npm run banner:create --style="cyberpunk" --text="RUNES Analytics Pro" --resolution="$res" --output="banner-$res.png"
+#   Write-Host "Banner gerado com resolução $res"
+# }
+
+# -------------------------------------------
+# Scripts auxiliares
+# -------------------------------------------
+
+# Gerar todos os estilos para uma apresentação
+# ./scripts/generate-presentation-banners.sh "Título da Apresentação"
+
+# Gerar banners para tokens recentes
+# ./scripts/generate-token-cards.sh --top=10
+
+# Gerar alertas para movimentações relevantes
+# ./scripts/generate-whale-alerts.sh --min-btc=100 

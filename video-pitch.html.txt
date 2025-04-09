@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNES Analytics Pro - Vídeo Pitch</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        :root {
+            --video-primary: #00FF41;
+            --video-bg: #0D0208;
+            --video-highlight: #FF5722;
+            --video-dark: #0A0A0A;
+            --video-light: #E0E0E0;
+            --scene-transition: 1s;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--video-bg);
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #video-container {
+            position: relative;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            transform-origin: top left;
+            background-color: black;
+        }
+
+        @media (max-width: 1920px) {
+            #video-container {
+                transform: scale(0.5);
+            }
+        }
+
+        @media (max-width: 960px) {
+            #video-container {
+                transform: scale(0.25);
+            }
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity var(--scene-transition) ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--video-light);
+            overflow: hidden;
+        }
+
+        .scene.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* Cena 1 - Abertura Mística */
+        #scene1 {
+            background-color: black;
+        }
+
+        #particle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .rune-particle {
+            position: absolute;
+            background-color: var(--video-primary);
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px var(--video-primary);
+        }
+
+        .intro-text {
+            position: relative;
+            font-size: 3rem;
+            color: var(--video-primary);
+            text-shadow: 0 0 10px var(--video-primary);
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        #intro-logo {
+            position: relative;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 7rem;
+            color: var(--video-primary);
+            text-shadow: 0 0 20px var(--video-primary);
+            z-index: 3;
+            margin-top: 30px;
+            opacity: 0;
+        }
+
+        .typing-effect {
+            border-right: 0.15em solid var(--video-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3.5s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--video-primary) }
+        }
+
+        /* Cena 2 - Apresentação Emocional */
+        #scene2 {
+            background-color: var(--video-dark);
+            perspective: 1000px;
+        }
+
+        .dashboard-container {
+            position: relative;
+            width: 70%;
+            height: 70%;
+            transform-style: preserve-3d;
+            transform: rotateX(10deg);
+            z-index: 1;
+        }
+
+        .dashboard-element {
+            position: absolute;
+            border: 1px solid var(--video-primary);
+            background-color: rgba(0, 255, 65, 0.05);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+            border-radius: 5px;
+            opacity: 0;
+            transform: translateZ(0px);
+            transition: all 0.5s ease;
+        }
+
+        .data-flow {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--video-primary), transparent);
+            height: 2px;
+            opacity: 0;
+        }
+
+        .terminal-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-top: 1px solid var(--video-primary);
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .terminal-line {
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--video-primary);
+            margin: 5px 0;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Cena 3 - Diferenciais Técnicos */
+        #scene3 {
+            background-color: var(--video-dark);
+        }
+
+        .keyword-container {
+            position: relative;
+            width: 80%;
+            height: 70%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .keyword {
+            margin: 20px;
+            padding: 15px 30px;
+            background-color: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--video-primary);
+            border-radius: 30px;
+            font-size: 2rem;
+            color: var(--video-primary);
+            text-shadow: 0 0 10px var(--video-primary);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s ease;
+        }
+
+        .feature-icon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 65, 0.1);
+            border: 2px solid var(--video-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--video-primary);
+            font-size: 2.5rem;
+            opacity: 0;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .feature-flow {
+            position: absolute;
+            background-color: var(--video-primary);
+            height: 2px;
+            opacity: 0;
+            box-shadow: 0 0 10px var(--video-primary);
+        }
+
+        /* Cena 4 - Momento de Gratidão */
+        #scene4 {
+            background-color: black;
+        }
+
+        .neural-net {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--video-primary);
+            opacity: 0;
+            box-shadow: 0 0 10px var(--video-primary);
+        }
+
+        .connection {
+            position: absolute;
+            background-color: var(--video-primary);
+            height: 1px;
+            opacity: 0;
+            transform-origin: left center;
+            box-shadow: 0 0 5px var(--video-primary);
+        }
+
+        .rune-card {
+            position: relative;
+            width: 300px;
+            height: 420px;
+            perspective: 1000px;
+            z-index: 2;
+            opacity: 0;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            transform: rotateY(30deg);
+        }
+
+        .card-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: linear-gradient(135deg, rgba(191, 0, 255, 0.1), rgba(0, 0, 0, 0.5));
+            border: 2px solid var(--video-highlight);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 87, 34, 0.3);
+        }
+
+        .card-title {
+            font-size: 2rem;
+            color: var(--video-highlight);
+            text-shadow: 0 0 10px var(--video-highlight);
+            margin-bottom: 20px;
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--video-highlight);
+            margin: 10px 0;
+        }
+
+        .card-stat {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .morse-blink {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--video-primary);
+            opacity: 0;
+        }
+
+        /* Cena 5 - Encerramento */
+        #scene5 {
+            background-color: var(--video-dark);
+            text-align: center;
+        }
+
+        .dashboard-preview {
+            width: 80%;
+            height: 60%;
+            border: 2px solid var(--video-primary);
+            border-radius: 10px;
+            background-color: rgba(0, 255, 65, 0.05);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .final-text {
+            font-size: 2.5rem;
+            color: var(--video-primary);
+            text-shadow: 0 0 10px var(--video-primary);
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .final-logo {
+            font-size: 4rem;
+            color: var(--video-primary);
+            text-shadow: 0 0 20px var(--video-primary);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .ascii-art {
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--video-primary);
+            white-space: pre;
+            line-height: 1;
+            margin-top: 40px;
+            opacity: 0;
+        }
+
+        /* Narration Markers */
+        .narration-marker {
+            display: none;
+        }
+
+        /* Progress Controls */
+        #video-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            background-color: rgba(13, 2, 8, 0.7);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--video-primary);
+        }
+
+        #play-pause {
+            background: none;
+            border: none;
+            color: var(--video-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #progress-bar {
+            width: 300px;
+            height: 10px;
+            background-color: rgba(0, 255, 65, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #progress-indicator {
+            height: 100%;
+            width: 0%;
+            background-color: var(--video-primary);
+            box-shadow: 0 0 10px var(--video-primary);
+            transition: width 0.3s linear;
+        }
+
+        .scene-marker {
+            position: absolute;
+            top: -5px;
+            width: 3px;
+            height: 20px;
+            background-color: var(--video-highlight);
+            border-radius: 3px;
+        }
+
+        #time-display {
+            color: var(--video-primary);
+            margin-left: 10px;
+            font-family: monospace;
+            font-size: 1rem;
+        }
+
+        /* Efeitos Adicionais */
+        .glitch {
+            animation: glitch 0.5s linear infinite;
+        }
+
+        @keyframes glitch {
+            2%, 64% {
+                transform: translate(2px, 0) skew(0deg);
+            }
+            4%, 60% {
+                transform: translate(-2px, 0) skew(0deg);
+            }
+            62% {
+                transform: translate(0, 0) skew(5deg);
+            }
+        }
+
+        /* Partículas */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: var(--video-primary);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 10s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-500px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Vinheta para criar efeito cinematográfico */
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* Efeito de ruído (noise) */
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUfEQ4rMnmM0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAFASURBVGje7Ze9DsFgFIafo4OEwWSxGm0Gq8nOYDXZDAaDzWTwBwaDxWK0WIw2m83gb7e1NHFN4jpOSJPnTNXT5rnvr1KGYTQppQywBapAFvgAj0CHUuoK4Louj6AAvAJJ4A7UgRvwBDpSyikPSBtYGaQecAdaQBO4SSmXFoADUDfoXwZWJlIR0jZI3LANBzCkPsQLrMKEQDrAJgSy9QMhlR8IQlqAo9FeIIUIaQG2Znsbe6RSKYIg/JUZDocYhoFlWTiOw2g0YjweR4OEQRzHYTabMZ/PmUwmjiBfP5XEYjEqlQr9fp9cLkc6nXba/+vxer0sl0s6nQ7FYpFarUa5XMbzPPL5PKlU6jeQWq1GsVgkmUxSLpcpFAoAtNttyuUy2WyWVCqF7/u/T9a27bxpmtXhcIjjOLiuiz77BgizWq1q7wh9AAAAAElFTkSuQmCC');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 21;
+        }
+
+        /* Efeito de scanlines para parecer tela antiga */
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.05) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 22;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <!-- Cena 1: Abertura Mística -->
+        <section id="scene1" class="scene">
+            <div id="particle-container"></div>
+            <!-- VOICE LINE: "Nascida do silêncio do Bloco 0..." -->
+            <div class="narration-marker">Nascida do silêncio do Bloco 0...</div>
+            <h1 class="intro-text typing-effect">Nascida do silêncio do Bloco 0...</h1>
+            <div id="intro-logo">RUNES Analytics Pro</div>
+        </section>
+
+        <!-- Cena 2: Apresentação Emocional -->
+        <section id="scene2" class="scene">
+            <div class="dashboard-container">
+                <div class="dashboard-element" style="top: 10%; left: 10%; width: 40%; height: 30%;">
+                    <div class="card-title" style="font-size: 1.5rem; padding: 10px;">Dashboard Principal</div>
+                </div>
+                <div class="dashboard-element" style="top: 10%; right: 10%; width: 30%; height: 30%;">
+                    <div class="card-title" style="font-size: 1.5rem; padding: 10px;">Métricas em Tempo Real</div>
+                </div>
+                <div class="dashboard-element" style="bottom: 20%; left: 20%; width: 25%; height: 25%;">
+                    <div class="card-title" style="font-size: 1.5rem; padding: 10px;">Análise On-Chain</div>
+                </div>
+                <div class="dashboard-element" style="bottom: 20%; right: 20%; width: 25%; height: 25%;">
+                    <div class="card-title" style="font-size: 1.5rem; padding: 10px;">Rastreador de Baleias</div>
+                </div>
+                
+                <!-- Data Flow Lines -->
+                <div class="data-flow" style="top: 25%; left: 50%; width: 10%; height: 2px;"></div>
+                <div class="data-flow" style="top: 40%; left: 30%; width: 15%; height: 2px; transform: rotate(45deg);"></div>
+                <div class="data-flow" style="top: 40%; right: 30%; width: 15%; height: 2px; transform: rotate(-45deg);"></div>
+            </div>
+            
+            <!-- VOICE LINE: "Uma plataforma que respira dados e pulsa com o ritmo do mercado..." -->
+            <div class="narration-marker">Uma plataforma que respira dados e pulsa com o ritmo do mercado...</div>
+            
+            <div class="terminal-bg">
+                <div class="terminal-line">$ iniciando RUNES Analytics Pro...</div>
+                <div class="terminal-line">$ conectando nós da rede blockchain...</div>
+                <div class="terminal-line">$ indexando tokens disponíveis...</div>
+                <div class="terminal-line">$ analisando padrões de mercado...</div>
+                <div class="terminal-line">$ sistema pronto. bem-vindo ao futuro das análises crypto.</div>
+            </div>
+        </section>
+
+        <!-- Cena 3: Diferenciais Técnicos -->
+        <section id="scene3" class="scene">
+            <!-- VOICE LINE: "Tecnologia de ponta em cada pixel. Inteligência em cada decisão." -->
+            <div class="narration-marker">Tecnologia de ponta em cada pixel. Inteligência em cada decisão.</div>
+            
+            <div class="keyword-container">
+                <div class="keyword">Cache Inteligente</div>
+                <div class="keyword">APIs Unificadas</div>
+                <div class="keyword">Whale Tracking</div>
+                <div class="keyword">Simulação de Trades</div>
+                
+                <!-- Feature Icons -->
+                <div class="feature-icon" style="top: 25%; left: 25%;">⚡</div>
+                <div class="feature-icon" style="top: 25%; right: 25%;">🔄</div>
+                <div class="feature-icon" style="bottom: 25%; left: 25%;">🐳</div>
+                <div class="feature-icon" style="bottom: 25%; right: 25%;">📊</div>
+                
+                <!-- Feature Flows -->
+                <div class="feature-flow" style="top: 40%; left: 35%; width: 30%; transform: rotate(0deg);"></div>
+                <div class="feature-flow" style="top: 50%; left: 35%; width: 30%; transform: rotate(0deg);"></div>
+                <div class="feature-flow" style="left: 40%; top: 35%; height: 30%; width: 2px; transform: rotate(0deg);"></div>
+                <div class="feature-flow" style="right: 40%; top: 35%; height: 30%; width: 2px; transform: rotate(0deg);"></div>
+            </div>
+        </section>
+
+        <!-- Cena 4: Momento de Gratidão -->
+        <section id="scene4" class="scene">
+            <!-- VOICE LINE: "Uma homenagem aos visionários, construtores de um novo amanhã financeiro." -->
+            <div class="narration-marker">Uma homenagem aos visionários, construtores de um novo amanhã financeiro.</div>
+            
+            <div class="neural-net" id="neural-network"></div>
+            
+            <div class="rune-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-title">CYPHER</div>
+                        <div class="card-divider"></div>
+                        <div class="card-stat">
+                            <span>Oferta:</span>
+                            <span>21,000,000</span>
+                        </div>
+                        <div class="card-stat">
+                            <span>Preço:</span>
+                            <span>$0.047</span>
+                        </div>
+                        <div class="card-stat">
+                            <span>24h:</span>
+                            <span>+8.4%</span>
+                        </div>
+                        <div class="card-stat">
+                            <span>7d:</span>
+                            <span>-2.1%</span>
+                        </div>
+                        <div class="card-stat">
+                            <span>Volume 24h:</span>
+                            <span>$1.45M</span>
+                        </div>
+                        <div class="card-stat">
+                            <span>Holders:</span>
+                            <span>5,472</span>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-stat">
+                            <span>Pontuação Técnica:</span>
+                            <span>8.0/10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="morse-blink" id="morse-code"></div>
+        </section>
+
+        <!-- Cena 5: Encerramento -->
+        <section id="scene5" class="scene">
+            <!-- VOICE LINE: "RUNES Analytics Pro. Construído por visionários. Para visionários." -->
+            <div class="narration-marker">RUNES Analytics Pro. Construído por visionários. Para visionários.</div>
+            
+            <div class="dashboard-preview"></div>
+            
+            <div class="final-text">RUNES Analytics Pro.</div>
+            <div class="final-text">Construído por visionários. Para visionários.</div>
+            
+            <div class="final-logo">runesanalytics.pro</div>
+            
+            <pre class="ascii-art">
+                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                  ▓                                  ▓
+                  ▓  O que está oculto entre os     ▓
+                  ▓  blocos?                        ▓
+                  ▓                                  ▓
+                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            </pre>
+        </section>
+
+        <!-- Efeitos visuais -->
+        <div class="vignette"></div>
+        <div class="noise"></div>
+        <div class="scanlines"></div>
+    </div>
+
+    <!-- Controles do vídeo -->
+    <div id="video-controls">
+        <button id="play-pause">▶</button>
+        <div id="progress-bar">
+            <div id="progress-indicator"></div>
+            <div class="scene-marker" style="left: 0%"></div>
+            <div class="scene-marker" style="left: 20%"></div>
+            <div class="scene-marker" style="left: 40%"></div>
+            <div class="scene-marker" style="left: 60%"></div>
+            <div class="scene-marker" style="left: 80%"></div>
+        </div>
+        <div id="time-display">00:00 / 01:45</div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variáveis para controle do vídeo
+            const totalDuration = 105; // 1min45s em segundos
+            const scenes = document.querySelectorAll('.scene');
+            const sceneDurations = [15, 20, 20, 25, 25]; // Duração de cada cena em segundos
+            const sceneStartTimes = [0]; 
+            
+            // Calcular tempo de início de cada cena
+            for (let i = 1; i < sceneDurations.length; i++) {
+                sceneStartTimes.push(sceneStartTimes[i-1] + sceneDurations[i-1]);
+            }
+            
+            // Elementos do controle de vídeo
+            const playPauseBtn = document.getElementById('play-pause');
+            const progressIndicator = document.getElementById('progress-indicator');
+            const progressBar = document.getElementById('progress-bar');
+            const timeDisplay = document.getElementById('time-display');
+            
+            // Variáveis de estado
+            let currentTime = 0;
+            let isPlaying = false;
+            let animationFrameId = null;
+            
+            // Funções para controle das animações
+            function initScene1() {
+                // Criar partículas de runa
+                const particleContainer = document.getElementById('particle-container');
+                for (let i = 0; i < 300; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'rune-particle';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particleContainer.appendChild(particle);
+                }
+                
+                // Animações da Cena 1
+                setTimeout(() => {
+                    const particles = document.querySelectorAll('.rune-particle');
+                    particles.forEach((particle, index) => {
+                        setTimeout(() => {
+                            particle.style.opacity = '0.7';
+                            particle.style.transform = 'scale(1.5)';
+                            setTimeout(() => {
+                                particle.style.opacity = '0';
+                            }, 2000 + Math.random() * 2000);
+                        }, index * 10);
+                    });
+                }, 1000);
+                
+                setTimeout(() => {
+                    document.querySelector('.intro-text').style.opacity = '1';
+                    document.querySelector('.intro-text').style.transform = 'translateY(0)';
+                }, 3000);
+                
+                setTimeout(() => {
+                    document.getElementById('intro-logo').style.opacity = '1';
+                    document.getElementById('intro-logo').classList.add('glitch');
+                }, 7000);
+            }
+            
+            function initScene2() {
+                // Animações dos elementos do dashboard
+                const dashboardElements = document.querySelectorAll('.dashboard-element');
+                dashboardElements.forEach((element, index) => {
+                    setTimeout
+                        element.style.opacity = '1';
+                        element.style.transform = `translateZ(${20 + index * 10}px)`;
+                    }, 1000 + index * 800);
+                });
+                
+                // Animações das linhas de fluxo de dados
+                const dataFlows = document.querySelectorAll('.data-flow');
+                dataFlows.forEach((flow, index) => {
+                    setTimeout(() => {
+                        flow.style.opacity = '1';
+                        
+                        // Animação pulsante para as linhas de fluxo
+                        setInterval(() => {
+                            flow.style.opacity = '0.3';
+                            setTimeout(() => {
+                                flow.style.opacity = '1';
+                            }, 500);
+                        }, 2000);
+                    }, 3000 + index * 500);
+                });
+                
+                // Animações das linhas de terminal
+                const terminalLines = document.querySelectorAll('.terminal-line');
+                terminalLines.forEach((line, index) => {
+                    setTimeout(() => {
+                        line.style.opacity = '1';
+                        line.style.transform = 'translateY(0)';
+                    }, 1000 + index * 800);
+                });
+            }
+            
+            function initScene3() {
+                // Animações das palavras-chave
+                const keywords = document.querySelectorAll('.keyword');
+                keywords.forEach((keyword, index) => {
+                    setTimeout(() => {
+                        keyword.style.opacity = '1';
+                        keyword.style.transform = 'scale(1)';
+                        
+                        // Efeito de pulso nas palavras-chave
+                        setTimeout(() => {
+                            keyword.style.transform = 'scale(1.1)';
+                            setTimeout(() => {
+                                keyword.style.transform = 'scale(1)';
+                            }, 200);
+                        }, 300);
+                    }, 1000 + index * 600);
+                });
+                
+                // Animações dos ícones de recurso
+                const featureIcons = document.querySelectorAll('.feature-icon');
+                featureIcons.forEach((icon, index) => {
+                    setTimeout(() => {
+                        icon.style.opacity = '1';
+                        
+                        // Efeito de rotação suave para os ícones
+                        let rotation = 0;
+                        setInterval(() => {
+                            rotation += 1;
+                            icon.style.transform = `rotate(${rotation}deg)`;
+                        }, 50);
+                    }, 3000 + index * 500);
+                });
+                
+                // Animações dos fluxos de recursos
+                const featureFlows = document.querySelectorAll('.feature-flow');
+                featureFlows.forEach((flow, index) => {
+                    setTimeout(() => {
+                        flow.style.opacity = '1';
+                        
+                        // Efeito de pulso para os fluxos
+                        setInterval(() => {
+                            flow.style.opacity = '0.3';
+                            setTimeout(() => {
+                                flow.style.opacity = '1';
+                            }, 500);
+                        }, 2000);
+                    }, 4000 + index * 400);
+                });
+                
+                // Adicionar partículas flutuantes
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.bottom = '0';
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    document.getElementById('scene3').appendChild(particle);
+                }
+            }
+            
+            function initScene4() {
+                // Criar rede neural
+                const neuralNetwork = document.getElementById('neural-network');
+                const nodeCount = 30;
+                const nodes = [];
+                
+                // Criar nós
+                for (let i = 0; i < nodeCount; i++) {
+                    const node = document.createElement('div');
+                    node.className = 'node';
+                    node.style.left = `${Math.random() * 90 + 5}%`;
+                    node.style.top = `${Math.random() * 90 + 5}%`;
+                    neuralNetwork.appendChild(node);
+                    nodes.push(node);
+                    
+                    // Animar nós aparecendo gradualmente
+                    setTimeout(() => {
+                        node.style.opacity = '1';
+                    }, 1000 + i * 100);
+                }
+                
+                // Criar conexões entre nós
+                for (let i = 0; i < nodeCount; i++) {
+                    for (let j = i + 1; j < nodeCount; j++) {
+                        // Apenas criando conexões entre alguns nós, não todos
+                        if (Math.random() > 0.7) continue;
+                        
+                        const connection = document.createElement('div');
+                        connection.className = 'connection';
+                        
+                        // Posição e geometria da linha de conexão
+                        const node1Rect = nodes[i].getBoundingClientRect();
+                        const node2Rect = nodes[j].getBoundingClientRect();
+                        
+                        const x1 = node1Rect.left + node1Rect.width / 2;
+                        const y1 = node1Rect.top + node1Rect.height / 2;
+                        const x2 = node2Rect.left + node2Rect.width / 2;
+                        const y2 = node2Rect.top + node2Rect.height / 2;
+                        
+                        const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                        
+                        connection.style.width = `${distance}px`;
+                        connection.style.transform = `rotate(${angle}deg)`;
+                        connection.style.left = `${x1}px`;
+                        connection.style.top = `${y1}px`;
+                        
+                        neuralNetwork.appendChild(connection);
+                        
+                        // Animar conexões aparecendo gradualmente
+                        setTimeout(() => {
+                            connection.style.opacity = '0.5';
+                        }, 3000 + (i + j) * 50);
+                    }
+                }
+                
+                // Animar o cartão de Runa
+                setTimeout(() => {
+                    document.querySelector('.rune-card').style.opacity = '1';
+                    
+                    // Animação suave de rotação do cartão
+                    let rotationY = 30;
+                    let rotationDirection = 1;
+                    
+                    setInterval(() => {
+                        rotationY += 0.1 * rotationDirection;
+                        
+                        if (rotationY > 40) rotationDirection = -1;
+                        if (rotationY < 20) rotationDirection = 1;
+                        
+                        document.querySelector('.card-inner').style.transform = `rotateY(${rotationY}deg)`;
+                    }, 50);
+                }, 5000);
+                
+                // Código Morse para "Nakamoto"
+                // N (-.): longo, curto
+                // A (.-): curto, longo
+                // K (-.-): longo, curto, longo
+                // A (.-): curto, longo
+                // M (--): longo, longo
+                // O (---): longo, longo, longo
+                // T (-): longo
+                // O (---): longo, longo, longo
+                const morseCode = [
+                    {duration: 800, pause: 200}, {duration: 200, pause: 500}, // N
+                    {duration: 200, pause: 200}, {duration: 800, pause: 500}, // A
+                    {duration: 800, pause: 200}, {duration: 200, pause: 200}, {duration: 800, pause: 500}, // K
+                    {duration: 200, pause: 200}, {duration: 800, pause: 500}, // A
+                    {duration: 800, pause: 200}, {duration: 800, pause: 500}, // M
+                    {duration: 800, pause: 200}, {duration: 800, pause: 200}, {duration: 800, pause: 500}, // O
+                    {duration: 800, pause: 500}, // T
+                    {duration: 800, pause: 200}, {duration: 800, pause: 200}, {duration: 800, pause: 1000} // O
+                ];
+                
+                // Animar o código Morse
+                const morseElement = document.getElementById('morse-code');
+                
+                setTimeout(() => {
+                    let currentIndex = 0;
+                    
+                    function playNextMorse() {
+                        if (currentIndex >= morseCode.length) return;
+                        
+                        const {duration, pause} = morseCode[currentIndex];
+                        
+                        morseElement.style.opacity = '1';
+                        
+                        setTimeout(() => {
+                            morseElement.style.opacity = '0';
+                            
+                            setTimeout(() => {
+                                currentIndex++;
+                                playNextMorse();
+                            }, pause);
+                        }, duration);
+                    }
+                    
+                    playNextMorse();
+                }, 8000);
+            }
+            
+            function initScene5() {
+                // Animar o dashboard preview
+                setTimeout(() => {
+                    const dashboardPreview = document.querySelector('.dashboard-preview');
+                    dashboardPreview.style.opacity = '1';
+                    dashboardPreview.style.transform = 'translateY(0)';
+                }, 1000);
+                
+                // Animar textos finais
+                const finalTexts = document.querySelectorAll('.final-text');
+                finalTexts.forEach((text, index) => {
+                    setTimeout(() => {
+                        text.style.opacity = '1';
+                        text.style.transform = 'translateY(0)';
+                    }, 3000 + index * 1000);
+                });
+                
+                // Animar logo final
+                setTimeout(() => {
+                    const finalLogo = document.querySelector('.final-logo');
+                    finalLogo.style.opacity = '1';
+                    finalLogo.style.transform = 'scale(1)';
+                    
+                    // Efeito de brilho pulsante
+                    setInterval(() => {
+                        finalLogo.style.textShadow = '0 0 30px var(--video-primary)';
+                        setTimeout(() => {
+                            finalLogo.style.textShadow = '0 0 20px var(--video-primary)';
+                        }, 500);
+                    }, 1000);
+                }, 5000);
+                
+                // Animar ASCII art
+                setTimeout(() => {
+                    document.querySelector('.ascii-art').style.opacity = '1';
+                }, 7000);
+                
+                // Adicionar partículas flutuantes
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.bottom = '0';
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    document.getElementById('scene5').appendChild(particle);
+                }
+            }
+            
+            // Controle de cenas
+            function showScene(index) {
+                scenes.forEach((scene, i) => {
+                    if (i === index) {
+                        scene.classList.add('active');
+                        
+                        // Inicializar animações da cena
+                        if (i === 0) initScene1();
+                        else if (i === 1) initScene2();
+                        else if (i === 2) initScene3();
+                        else if (i === 3) initScene4();
+                        else if (i === 4) initScene5();
+                    } else {
+                        scene.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Determinar qual cena mostrar com base no tempo atual
+            function updateSceneBasedOnTime() {
+                let currentScene = 0;
+                
+                for (let i = 1; i < sceneStartTimes.length; i++) {
+                    if (currentTime >= sceneStartTimes[i]) {
+                        currentScene = i;
+                    }
+                }
+                
+                showScene(currentScene);
+            }
+            
+            // Atualizar o display de tempo
+            function updateTimeDisplay() {
+                const minutes = Math.floor(currentTime / 60);
+                const seconds = Math.floor(currentTime % 60);
+                const totalMinutes = Math.floor(totalDuration / 60);
+                const totalSeconds = Math.floor(totalDuration % 60);
+                
+                timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} / ${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+            }
+            
+            // Atualizar progresso do vídeo
+            function updateProgress() {
+                const progress = (currentTime / totalDuration) * 100;
+                progressIndicator.style.width = `${progress}%`;
+            }
+            
+            // Função para animar o "vídeo"
+            function animate() {
+                if (isPlaying) {
+                    currentTime += 0.05; // Incremento de tempo
+                    
+                    if (currentTime >= totalDuration) {
+                        currentTime = totalDuration;
+                        isPlaying = false;
+                        playPauseBtn.textContent = '▶';
+                    }
+                    
+                    updateProgress();
+                    updateTimeDisplay();
+                    updateSceneBasedOnTime();
+                    
+                    animationFrameId = requestAnimationFrame(animate);
+                }
+            }
+            
+            // Event listeners para controles de vídeo
+            playPauseBtn.addEventListener('click', () => {
+                isPlaying = !isPlaying;
+                
+                if (isPlaying) {
+                    playPauseBtn.textContent = '❚❚';
+                    animationFrameId = requestAnimationFrame(animate);
+                } else {
+                    playPauseBtn.textContent = '▶';
+                    cancelAnimationFrame(animationFrameId);
+                }
+            });
+            
+            // Clique na barra de progresso
+            progressBar.addEventListener('click', (event) => {
+                const rect = progressBar.getBoundingClientRect();
+                const clickPosition = (event.clientX - rect.left) / rect.width;
+                
+                currentTime = clickPosition * totalDuration;
+                
+                updateProgress();
+                updateTimeDisplay();
+                updateSceneBasedOnTime();
+            });
+            
+            // Inicializar a primeira cena
+            showScene(0);
+            updateTimeDisplay();
+            
+            // Criar instância de SVG para runes-glitch-logo.svg
+            function createRunesGlitchLogo() {
+                const svgContent = `
+                <svg width="240" height="80" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+                    <style>
+                        .logo-text { fill: #00FF41; font-family: 'Arial Black', sans-serif; font-size: 28px; }
+                        .glitch-effect { animation: glitch 3s infinite; }
+                        
+                        @keyframes glitch {
+                            0%, 100% { transform: translate(0); }
+                            20% { transform: translate(-2px, 2px); }
+                            40% { transform: translate(2px, -2px); }
+                            60% { transform: translate(-2px, -2px); }
+                            80% { transform: translate(2px, 2px); }
+                        }
+                        
+                        .circuit-line {
+                            stroke: #00FF41;
+                            stroke-width: 1;
+                            fill: none;
+                            stroke-dasharray: 10;
+                            stroke-dashoffset: 100;
+                            animation: dash 5s linear infinite;
+                        }
+                        
+                        @keyframes dash {
+                            to { stroke-dashoffset: 0; }
+                        }
+                    </style>
+                    
+                    <g class="glitch-effect">
+                        <text x="10" y="45" class="logo-text">RUNES</text>
+                        <text x="120" y="45" class="logo-text" style="fill: #8A2BE2;">Analytics</text>
+                        <text x="195" y="45" class="logo-text" style="fill: #39FF14; font-size: 22px;">Pro</text>
+                    </g>
+                    
+                    <path class="circuit-line" d="M5,60 H235 M10,70 H230 M15,5 V75 M225,5 V75" />
+                    <path class="circuit-line" d="M40,5 C100,20 140,60 200,75" />
+                    <path class="circuit-line" d="M40,75 C100,60 140,20 200,5" />
+                </svg>
+                `;
+                
+                const logoContainer = document.createElement('div');
+                logoContainer.innerHTML = svgContent;
+                
+                // Para uso posterior, podemos exportar este SVG ou adicionar diretamente ao DOM
+                // Por exemplo, podemos substituir o texto do logo na Cena 1 por este SVG
+                return logoContainer.innerHTML;
+            }
+            
+            // Gerar mock JSON para o CypherCard
+            function createCypherCardJson() {
+                return {
+                    "name": "CYPHER",
+                    "supply": 21000000,
+                    "price": 0.047,
+                    "change24h": 8.4,
+                    "change7d": -2.1,
+                    "volume24h": 1450000,
+                    "holders": 5472,
+                    "technicalScore": 8.0,
+                    "creationDate": "2023-10-31",
+                    "creator": "anonymous",
+                    "description": "Privacidade e segurança para um novo paradigma financeiro.",
+                    "tags": ["privacy", "security", "defi", "runes"]
+                };
+            }
+            
+            // Gerar ASCII footer
+            function createAsciiFooter() {
+                return `
+                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                  ▓                                  ▓
+                  ▓  O que está oculto entre os     ▓
+                  ▓  blocos?                        ▓
+                  ▓                                  ▓
+                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+                `;
+            }
+            
+            // Criando os assets básicos (estes podem ser salvos como arquivos separados)
+            const runesGlitchLogo = createRunesGlitchLogo();
+            const cypherCardJson = createCypherCardJson();
+            const asciiFooter = createAsciiFooter();
+            
+            // Exportar os assets para uso posterior se necessário
+            window.videoAssets = {
+                runesGlitchLogo,
+                cypherCardJson,
+                asciiFooter
+            };
+        });
+    </script>
+</body>
+</html>

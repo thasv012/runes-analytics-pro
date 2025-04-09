@@ -133,7 +133,7 @@
   "label.sigils": "Sigils",
   
   "status.online": "Online",
-  "status.offline": "Offline",
+  "status.offline": "Offline", 
   "status.degraded": "Degraded",
   "status.connected": "Connected",
   "status.disconnected": "Disconnected",
@@ -267,5 +267,36 @@
   
   "scan_qr_title": "Scan for Mobile Access",
   "scan_qr_subtitle": "Use your phone camera to scan this QR code",
-  "qr_url_prefix": "Access URL:"
+  "qr_url_prefix": "Access URL:",
+
+  // --- Interactive Tour ---
+  "tour.dashboard.title": "Dashboard Preview",
+  "tour.dashboard.chartData": "Simulated Chart Data (e.g., Price Trends)",
+  "tour.dashboard.leaderboardData": "Top Traders (Simulated)",
+  "tour.dashboard.xpLabel": "XP",
+  "tour.dashboard.card1Title": "Portfolio Value",
+  "tour.dashboard.card1Content": "$15,430.21 (Simulated)",
+  "tour.dashboard.card2Title": "Recent Activity",
+  "tour.dashboard.card2Content": "5 New Trades (Simulated)",
+  "tour.onChain.title": "On-Chain Analysis",
+  "tour.onChain.chartData": "Simulated Transaction Volume",
+  "tour.onChain.tooltip": "Volume: {value} on {date}",
+  "tour.onChain.explanation": "Analysis reveals increasing holder accumulation.",
+  "tour.alerts.title": "Custom Alerts",
+  "tour.alerts.formContent": "Simulated Alert Creation Form (e.g., Price > $10)",
+  "tour.alerts.success": "✅ Alert created successfully!",
+  "tour.alerts.createButton": "Create Alert",
+  "tour.whaleTracker.title": "Whale Tracker",
+  "tour.whaleTracker.feed": [
+    "🐋 Wallet 0xABC... moved 15.2M COOK to Binance",
+    "🚨 Large transfer: 5B PUPS from KuCoin to unknown wallet",
+    "💰 Whale 0xDEF... accumulated 1.1M WZRD",
+    "📉 Significant outflow: 8.8M RSIC from OKX",
+    "📈 Whale 0xGHI... bought 25M WANKO"
+  ],
+  "tour.whaleTracker.terminal.monitoring": "👁️ Monitoring large holder movements...",
+  "tour.whaleTracker.terminal.activity.line1": "✅ Whale 0xA1 mov. 3.2M ORDI → unknown address",
+  "tour.whaleTracker.terminal.activity.line2": "✅ Whale 0xB2 bought 1.5M SATS on Uniswap",
+  "tour.whaleTracker.terminal.activity.line3": "✅ Whale 0xC3 deposited 500K RATS to Bybit",
+  "tour.closeButton.title": "Close Simulation"
 } 

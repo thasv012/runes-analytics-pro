@@ -198,6 +198,23 @@
       font-size: 0.8rem;
     }
     
+    .console-actions-btn {
+      background: rgba(157, 78, 221, 0.2);
+      color: var(--secondary);
+      padding: 0.5rem 0.75rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      transition: all 0.3s ease;
+      margin: 0;
+    }
+    
+    .console-actions-btn:hover {
+      background: rgba(157, 78, 221, 0.4);
+      transform: translateY(-2px);
+    }
+    
     .gpu-mesh-console {
       height: 300px;
       margin: 0;
@@ -255,6 +272,114 @@
       background: rgba(255, 170, 0, 0.2);
       color: var(--warning);
     }
+
+    /* Estilos para a visualização de rede */
+    .network-container {
+      width: 100%;
+      min-height: 400px;
+      margin-top: 2rem;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(20, 20, 40, 0.7);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 1000;
+      pointer-events: none;
+      max-width: 250px;
+    }
+
+    .legend {
+      display: flex;
+      margin-top: 1rem;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .legend-color.connected {
+      background-color: var(--success);
+    }
+
+    .legend-color.connecting {
+      background-color: var(--warning);
+    }
+
+    .legend-color.disconnected {
+      background-color: var(--error);
+    }
+
+    .gpu-simulation {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+      padding: 8px;
+      background: rgba(92, 225, 230, 0.1);
+      border-radius: 5px;
+      border: 1px dashed rgba(92, 225, 230, 0.3);
+    }
+    
+    .gpu-simulation input {
+      width: 60px;
+      text-align: center;
+    }
+    
+    .control-btn.highlight {
+      background: linear-gradient(to bottom right, #5ce1e6, #9d4edd);
+      color: white;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .control-btn.highlight:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      100% {
+        left: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -263,6 +388,47 @@
       <h1>RUNES Analytics Pro</h1>
       <h2>GPU Mesh Client Demo</h2>
     </header>
+    
+    <div class="card network-container">
+      <div class="console-header">
+        <h3 class="console-title">Visualização da Rede GPU Mesh</h3>
+        <div class="console-actions">
+          <button id="reset-view-btn">Resetar Visualização</button>
+          <div class="gpu-simulation">
+            <label for="gpuNodesInput">Nós GPU:</label>
+            <input 
+              type="number" 
+              id="gpuNodesInput" 
+              class="control-input"
+              value="3"
+              min="1"
+              max="20"
+            />
+            <button id="simulateGpuBtn" class="control-btn highlight">
+              <i class="fa fa-microchip"></i> Adicionar GPUs
+            </button>
+          </div>
+          <button id="add-gpu-nodes" class="console-actions-btn">
+            <i class="fa fa-bolt"></i> Adicionar 5 GPUs (API)
+          </button>
+        </div>
+      </div>
+      <div id="network-visualizer"></div>
+      <div class="legend">
+        <div class="legend-item">
+          <span class="legend-color connected"></span>
+          <span>Conectado</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color connecting"></span>
+          <span>Reconectando</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color disconnected"></span>
+          <span>Desconectado</span>
+        </div>
+      </div>
+    </div>
     
     <div class="task-panel">
       <div class="card">
@@ -359,8 +525,11 @@
   
   <script type="module">
     import { gpuMeshClient } from './js/gpuMeshClient.js';
+    import { GpuMeshNetworkVisualizer } from './js/gpuMeshVisualization.js';
+    import { simulateGpuNodes } from './scripts/addGpuNodes.js';
+    import { notifyOwl } from './js/mesh-notify.js';
     
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       // Elementos DOM
       const meshStatusEl = document.getElementById('mesh-status');
       const endpointSelect = document.getElementById('endpoint-select');
@@ -374,12 +543,77 @@
       const sendTaskBtn = document.getElementById('send-task-btn');
       const clearConsoleBtn = document.getElementById('clear-console-btn');
       const taskHistoryTable = document.getElementById('task-history-table');
+      const resetViewBtn = document.getElementById('reset-view-btn');
       
       // Define o elemento de console
       gpuMeshClient.setConsoleElement('gpu-mesh-console');
       
       // Gera um ID de tarefa único
       taskIdInput.value = `TASK-EMBED-RUNE-${Date.now().toString(36)}`;
+      
+      // Inicializa o visualizador de rede
+      const networkVisualizer = new GpuMeshNetworkVisualizer({
+        containerId: 'network-visualizer',
+        gpuMeshClient: gpuMeshClient,
+        width: document.getElementById('network-visualizer').clientWidth,
+        height: 400
+      });
+      
+      try {
+        await networkVisualizer.init();
+        console.log('Visualizador de rede inicializado com sucesso');
+      } catch (error) {
+        console.error('Erro ao inicializar visualizador de rede:', error);
+      }
+      
+      // Reset da visualização
+      resetViewBtn.addEventListener('click', () => {
+        networkVisualizer.clear();
+        networkVisualizer.setupDemoNodes();
+      });
+      
+      // Simulação de nós GPU via evento de clique nos botões
+      const simulateGpuBtn = document.getElementById('simulateGpuBtn');
+      const gpuNodesInput = document.getElementById('gpuNodesInput');
+      const addGpuNodesBtn = document.getElementById('add-gpu-nodes');
+      
+      simulateGpuBtn.addEventListener('click', () => {
+        const count = parseInt(gpuNodesInput.value);
+        
+        if (isNaN(count) || count <= 0) {
+          gpuMeshClient.appendToConsole('⚠️ Erro: Número inválido de nós');
+          return;
+        }
+        
+        if (count > 20) {
+          gpuMeshClient.appendToConsole('⚠️ Aviso: Número máximo de nós limitado a 20 para desempenho');
+          gpuNodesInput.value = 20;
+          return;
+        }
+        
+        gpuMeshClient.appendToConsole(`📊 Iniciando simulação de ${count} nós GPU...`);
+        networkVisualizer.simulateGpuNodes(count);
+        gpuMeshClient.appendToConsole(`✅ Adicionados ${count} nós GPU à rede Mesh!`);
+      });
+      
+      // Botão para adicionar via API externa
+      addGpuNodesBtn.addEventListener('click', () => {
+        gpuMeshClient.appendToConsole(`🔄 Adicionando 5 GPUs via API externa...`);
+        const novos = simulateGpuNodes(5);
+        notifyOwl("Adição manual de GPUs", { 
+          total: novos.length,
+          via: "botão na interface"
+        });
+        gpuMeshClient.appendToConsole(`✅ ${novos.length} GPUs adicionados via API!`);
+      });
+      
+      // Adapta o tamanho do visualizador ao redimensionar a janela
+      window.addEventListener('resize', () => {
+        const container = document.getElementById('network-visualizer');
+        if (container && networkVisualizer) {
+          networkVisualizer.resize(container.clientWidth, 400);
+        }
+      });
       
       // Handler para alteração do endpoint
       endpointSelect.addEventListener('change', () => {
@@ -426,6 +660,30 @@
           
           // Habilita o botão de envio de tarefas
           sendTaskBtn.disabled = false;
+          
+          // Limpa e reinicia o visualizador de rede
+          networkVisualizer.clear();
+          
+          // Adiciona nó cliente
+          networkVisualizer.addNode({
+            id: 'client',
+            label: 'Cliente',
+            status: 'connected',
+            type: 'client',
+            endpoint: endpoint
+          });
+          
+          // Adiciona alguns nós de servidor para demonstração
+          for (let i = 0; i < 4; i++) {
+            const status = i === 0 ? 'connected' : (i === 1 ? 'connecting' : 'disconnected');
+            networkVisualizer.addNode({
+              id: `server-${i + 1}`,
+              label: `Nó ${i + 1}`,
+              status: status,
+              type: 'server'
+            });
+            networkVisualizer.addEdge('client', `server-${i + 1}`);
+          }
           
         } catch (error) {
           console.error('Erro ao conectar:', error);

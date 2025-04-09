@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUNES Analytics Pro - Gerador de Banners para Thread</title>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --text-color: #c9d1d9;
+      --primary-color: #58a6ff;
+      --secondary-color: #1f6feb;
+      --accent-color: #ffa657;
+      --error-color: #f85149;
+      --success-color: #56d364;
+      --border-color: #30363d;
+      --card-bg: #161b22;
+      --header-bg: #21262d;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .form-group {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .form-row {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: inherit;
+    }
+    
+    button {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--primary-color);
+    }
+    
+    .banner-container {
+      width: 100%;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+    
+    .banner {
+      width: 1200px;
+      height: 675px;
+      background-color: var(--card-bg);
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .banner-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
+    }
+    
+    .banner-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .banner-title {
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .banner-subtitle {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .banner-description {
+      font-size: 1.5rem;
+      max-width: 80%;
+      margin-bottom: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .banner-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .stat-item {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .banner-logo {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      display: flex;
+      align-items: center;
+    }
+    
+    .banner-logo span {
+      color: var(--accent-color);
+    }
+    
+    .banner-logo::before {
+      content: "";
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      margin-right: 0.75rem;
+    }
+    
+    .banner-number {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      font-size: 1.25rem;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .banner-mesh {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .banner-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 1rem;
+    }
+    
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .template-item {
+      background-color: var(--card-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+    
+    .template-item:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-5px);
+    }
+    
+    .template-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .template-description {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>RUNES Analytics Pro - Gerador de Banners para Thread</h1>
+      <p>Crie banners impressionantes para sua thread épica</p>
+    </header>
+    
+    <div class="controls">
+      <div class="form-group">
+        <h2>Personalização</h2>
+        
+        <div class="form-row">
+          <label for="banner-template">Template:</label>
+          <select id="banner-template">
+            <option value="evolution">Evolução do Projeto</option>
+            <option value="gpu-mesh">Rede GPU Mesh</option>
+            <option value="websocket">WebSockets em Tempo Real</option>
+            <option value="roadmap">Roadmap com Sprints</option>
+            <option value="ai-analysis">Análise de IA</option>
+            <option value="next-evolution">Próxima Evolução</option>
+            <option value="whales-tracking">Rastreamento de Baleias</option>
+            <option value="comparison">Comparação com Competidores</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <label for="banner-title">Título:</label>
+          <input type="text" id="banner-title" value="RUNES Analytics Pro">
+        </div>
+        
+        <div class="form-row">
+          <label for="banner-subtitle">Subtítulo:</label>
+          <input type="text" id="banner-subtitle" value="Evolução do Projeto">
+        </div>
+        
+        <div class="form-row">
+          <label for="banner-description">Descrição:</label>
+          <textarea id="banner-description" rows="3">Do MVP à plataforma completa de análise de tokens Runes</textarea>
+        </div>
+        
+        <div class="form-row">
+          <label for="banner-number">Número da Thread:</label>
+          <input type="text" id="banner-number" value="1/8">
+        </div>
+        
+        <div class="actions">
+          <button id="generate-btn">Gerar Banner</button>
+          <button id="download-btn" class="success">Baixar Imagem</button>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <h2>Templates Pré-configurados</h2>
+        <p>Clique em um template para carregar configurações predefinidas</p>
+        
+        <div class="templates-grid">
+          <div class="template-item" data-template="evolution">
+            <div class="template-title">Evolução do Projeto</div>
+            <div class="template-description">Mostre como o projeto evoluiu desde o início</div>
+          </div>
+          
+          <div class="template-item" data-template="gpu-mesh">
+            <div class="template-title">Rede GPU Mesh</div>
+            <div class="template-description">Destaque a arquitetura de rede GPU Mesh</div>
+          </div>
+          
+          <div class="template-item" data-template="websocket">
+            <div class="template-title">WebSockets em Tempo Real</div>
+            <div class="template-description">Foco na comunicação em tempo real</div>
+          </div>
+          
+          <div class="template-item" data-template="roadmap">
+            <div class="template-title">Roadmap com Sprints</div>
+            <div class="template-description">Visão geral do roadmap e sprints</div>
+          </div>
+          
+          <div class="template-item" data-template="ai-analysis">
+            <div class="template-title">Análise de IA</div>
+            <div class="template-description">Recursos de análise com inteligência artificial</div>
+          </div>
+          
+          <div class="template-item" data-template="next-evolution">
+            <div class="template-title">Próxima Evolução</div>
+            <div class="template-description">Teaser dos próximos recursos revolucionários</div>
+          </div>
+          
+          <div class="template-item" data-template="whales-tracking">
+            <div class="template-title">Rastreamento de Baleias</div>
+            <div class="template-description">Sistema de monitoramento de baleias</div>
+          </div>
+          
+          <div class="template-item" data-template="comparison">
+            <div class="template-title">Comparação</div>
+            <div class="template-description">Compare com competidores</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="banner-container">
+      <div class="banner" id="banner">
+        <div class="banner-bg" id="banner-bg"></div>
+        <div class="banner-mesh">
+          <canvas id="mesh-canvas"></canvas>
+        </div>
+        <div class="banner-content">
+          <div class="banner-logo">RUNES <span>Analytics Pro</span></div>
+          <h1 class="banner-title" id="display-title">RUNES Analytics Pro</h1>
+          <h2 class="banner-subtitle" id="display-subtitle">Evolução do Projeto</h2>
+          <p class="banner-description" id="display-description">Do MVP à plataforma completa de análise de tokens Runes</p>
+          
+          <div class="banner-stats">
+            <div class="stat-item">
+              <div class="stat-value">78%</div>
+              <div class="stat-label">Latência Reduzida</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">8</div>
+              <div class="stat-label">Nós GPU Ativos</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">1.2s</div>
+              <div class="stat-label">Tempo de Resposta</div>
+            </div>
+          </div>
+          
+          <div class="banner-number" id="display-number">🧵 1/8</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="banner-actions">
+      <button id="download-image-btn" class="success">Baixar como Imagem</button>
+    </div>
+  </div>
+  
+  <script>
+    const templates = {
+      'evolution': {
+        title: 'RUNES Analytics Pro',
+        subtitle: 'Evolução do Projeto',
+        description: 'Do MVP à plataforma completa de análise de tokens Runes',
+        number: '1/8',
+        backgroundColor: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
+      },
+      'gpu-mesh': {
+        title: 'GPU Mesh Network',
+        subtitle: 'Processamento Distribuído',
+        description: '8 nós ativos garantindo performance superior nas análises',
+        number: '2/8',
+        backgroundColor: 'linear-gradient(135deg, #000428 0%, #004e92 100%)'
+      },
+      'websocket': {
+        title: 'WebSockets',
+        subtitle: 'Atualizações em Tempo Real',
+        description: 'Redução de 78% na latência com nossa arquitetura otimizada',
+        number: '3/8',
+        backgroundColor: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)'
+      },
+      'roadmap': {
+        title: 'Roadmap Estruturado',
+        subtitle: 'Sprints Ágeis',
+        description: '4 sprints principais com objetivos claros e mensuráveis',
+        number: '4/8',
+        backgroundColor: 'linear-gradient(135deg, #141e30 0%, #243b55 100%)'
+      },
+      'ai-analysis': {
+        title: 'Análise com IA',
+        subtitle: 'Inteligência Artificial',
+        description: 'Sistema de análise de sentimento e predição de movimentos',
+        number: '5/8',
+        backgroundColor: 'linear-gradient(135deg, #232526 0%, #414345 100%)'
+      },
+      'next-evolution': {
+        title: 'Próxima Evolução',
+        subtitle: 'Recursos Revolucionários',
+        description: 'O futuro da análise de Runes com tecnologias inovadoras',
+        number: '8/8',
+        backgroundColor: 'linear-gradient(135deg, #000000 0%, #434343 100%)'
+      },
+      'whales-tracking': {
+        title: 'Whale Tracker',
+        subtitle: 'Monitore as Baleias',
+        description: 'Sistema de rotulagem de carteiras para identificar movimentos importantes',
+        number: '6/8',
+        backgroundColor: 'linear-gradient(135deg, #000046 0%, #1CB5E0 100%)'
+      },
+      'comparison': {
+        title: 'Análise Comparativa',
+        subtitle: 'RUNES Analytics vs Competidores',
+        description: 'Recursos exclusivos que nos destacam no mercado',
+        number: '7/8',
+        backgroundColor: 'linear-gradient(135deg, #16222A 0%, #3A6073 100%)'
+      }
+    };
+    
+    // Elementos DOM
+    const bannerTemplate = document.getElementById('banner-template');
+    const bannerTitle = document.getElementById('banner-title');
+    const bannerSubtitle = document.getElementById('banner-subtitle');
+    const bannerDescription = document.getElementById('banner-description');
+    const bannerNumber = document.getElementById('banner-number');
+    const displayTitle = document.getElementById('display-title');
+    const displaySubtitle = document.getElementById('display-subtitle');
+    const displayDescription = document.getElementById('display-description');
+    const displayNumber = document.getElementById('display-number');
+    const bannerBg = document.getElementById('banner-bg');
+    const generateBtn = document.getElementById('generate-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const downloadImageBtn = document.getElementById('download-image-btn');
+    const templateItems = document.querySelectorAll('.template-item');
+    const canvas = document.getElementById('mesh-canvas');
+    const ctx = canvas.getContext('2d');
+    const banner = document.getElementById('banner');
+    
+    // Configurações iniciais
+    let currentTemplate = 'evolution';
+    let particles = [];
+    let animationFrameId;
+    
+    // Inicializa o canvas com tamanho adequado
+    function initCanvas() {
+      canvas.width = banner.clientWidth;
+      canvas.height = banner.clientHeight;
+      
+      // Criar partículas iniciais
+      createParticles();
+      
+      // Iniciar animação
+      animate();
+    }
+    
+    // Cria partículas para animação
+    function createParticles() {
+      particles = [];
+      const particleCount = 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 2 + 1,
+          color: 'rgba(255, 255, 255, ' + (Math.random() * 0.5 + 0.1) + ')',
+          speedX: Math.random() * 1 - 0.5,
+          speedY: Math.random() * 1 - 0.5,
+          connections: []
+        });
+      }
+    }
+    
+    // Anima as partículas
+    function animate() {
+      animationFrameId = requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Atualiza posições
+      particles.forEach(particle => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        
+        // Verifica limites do canvas
+        if (particle.x < 0 || particle.x > canvas.width) {
+          particle.speedX *= -1;
+        }
+        
+        if (particle.y < 0 || particle.y > canvas.height) {
+          particle.speedY *= -1;
+        }
+        
+        // Desenha partícula
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color;
+        ctx.fill();
+        
+        // Reset conexões
+        particle.connections = [];
+      });
+      
+      // Conecta partículas próximas
+      connectParticles();
+    }
+    
+    // Conecta partículas que estão próximas
+    function connectParticles() {
+      const maxDistance = 150;
+      
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < maxDistance) {
+            const opacity = 1 - (distance / maxDistance);
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.2})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            particles[i].connections.push(j);
+            particles[j].connections.push(i);
+          }
+        }
+      }
+    }
+    
+    // Atualiza o banner com as configurações do template
+    function updateBanner() {
+      const template = templates[currentTemplate];
+      
+      displayTitle.textContent = bannerTitle.value;
+      displaySubtitle.textContent = bannerSubtitle.value;
+      displayDescription.textContent = bannerDescription.value;
+      displayNumber.textContent = `🧵 ${bannerNumber.value}`;
+      
+      bannerBg.style.background = template.backgroundColor;
+    }
+    
+    // Carrega template
+    function loadTemplate(templateName) {
+      if (templates[templateName]) {
+        currentTemplate = templateName;
+        const template = templates[templateName];
+        
+        bannerTitle.value = template.title;
+        bannerSubtitle.value = template.subtitle;
+        bannerDescription.value = template.description;
+        bannerNumber.value = template.number;
+        
+        updateBanner();
+      }
+    }
+    
+    // Download do banner como imagem
+    function downloadBannerAsImage() {
+      html2canvas(banner, {
+        backgroundColor: null,
+        useCORS: true,
+        scale: 2
+      }).then(canvas => {
+        const image = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = `runes-analytics-thread-${currentTemplate}.png`;
+        link.click();
+      });
+    }
+    
+    // Eventos
+    bannerTemplate.addEventListener('change', function() {
+      loadTemplate(this.value);
+    });
+    
+    generateBtn.addEventListener('click', updateBanner);
+    
+    downloadImageBtn.addEventListener('click', downloadBannerAsImage);
+    downloadBtn.addEventListener('click', downloadBannerAsImage);
+    
+    templateItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const templateName = this.getAttribute('data-template');
+        bannerTemplate.value = templateName;
+        loadTemplate(templateName);
+      });
+    });
+    
+    // Inicializa ao carregar
+    window.addEventListener('load', function() {
+      initCanvas();
+      loadTemplate('evolution');
+      updateBanner();
+    });
+    
+    window.addEventListener('resize', function() {
+      canvas.width = banner.clientWidth;
+      canvas.height = banner.clientHeight;
+    });
+  </script>
+  
+  <!-- Scripts -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</body>
+</html> 

@@ -1,0 +1,27 @@
+        // runes-analytics-pro/prisma/schema.prisma
+
+        generator client {
+          provider = "prisma-client-js"
+        }
+
+        datasource db {
+          provider = "postgresql" // Ou "mysql", "sqlite", etc.
+          url      = env("DATABASE_URL")
+        }
+
+        // Modelo para Tokens Rune
+        model RuneToken {
+          id            String   @id @default(cuid())
+          name          String   // Nome do Rune (pode não ser único)
+          ticker        String   @unique // Ticker/Símbolo (deve ser único)
+          decimals      Int      // Número de casas decimais
+          block         Int?     // Bloco em que foi "etchado"
+          supply        String?  // Fornecimento total (como String para números grandes)
+          limitPerMint  String?  // Limite por mint (como String)
+          remaining     String?  // Quantidade restante para mintar (como String)
+          holders       Int?     // Número de detentores
+          txCount       Int?     // Número de transações
+          etchTxId      String?  // ID da transação de etch
+          createdAt     DateTime @default(now())
+          updatedAt     DateTime @updatedAt
+        }

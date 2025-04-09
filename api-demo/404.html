@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - RUNES Analytics Pro</title>
+  <style>
+    :root {
+      --primary: #5ce1e6;
+      --secondary: #9d4edd;
+      --background: #0a0a1a;
+      --text: #e0e0ff;
+    }
+    
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 10rem;
+      margin: 0;
+      line-height: 1;
+      text-shadow: 0 0 10px rgba(92, 225, 230, 0.5);
+    }
+    
+    h2 {
+      color: var(--secondary);
+      font-size: 2rem;
+      margin-top: 0;
+      margin-bottom: 2rem;
+    }
+    
+    p {
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(92, 225, 230, 0.2);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 20px rgba(92, 225, 230, 0.3);
+    }
+    
+    .rune-symbol {
+      font-size: 2rem;
+      margin-top: 2rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <h1>404</h1>
+  <h2>Rune not found</h2>
+  <p>The token you're looking for was not found on the blockchain, or it may have been inscribed in another block.</p>
+  <a href="/" class="btn">Return to Genesis Pulse</a>
+  <div class="rune-symbol">⟁</div>
+</body>
+</html> 

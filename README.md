@@ -168,3 +168,22 @@ MIT
 ---
 
 Desenvolvido por Thierry BTC para o projeto RUNES Analytics Pro.
+
+## 🎬 Modo de Apresentação Interativa (Pitch)
+
+Esta funcionalidade permite uma demonstração automática e gamificada dos recursos do RUNES Analytics Pro.
+
+📌 **Detalhes:**
+- A lógica reside no `TourSimulator.js`, ativada pelo parâmetro de URL `?mode=pitch`.
+- O botão "Ver Apresentação" na `demo.html` inicia este modo.
+- Simula interações como XP, conquistas e sugestões da IA.
+- Navega automaticamente pelas seções do tour.
+- Pode registrar análises via `TourAnalytics`.
+
+🧪 **Como Ativar:**
+Acesse `demo.html?mode=pitch` no navegador.
+
+📁 **Arquivos Chave:**
+- `demo.html`: Contém o botão e o script inicializador.
+- `components/TourSimulator.js`: Contém a lógica do modo pitch.
+- Estilos CSS: Definição do `.neon-btn`.

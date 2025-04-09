@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a15">
     <title data-en="RUNES Analytics Pro - Advanced Token Analysis Platform" data-pt="RUNES Analytics Pro - Plataforma Avançada de Análise de Tokens">RUNES Analytics Pro - Advanced Token Analysis Platform</title>
     <meta name="description" content="RUNES Analytics Pro is an advanced analytics platform for RUNES tokens on Bitcoin, focused on whale tracking, market manipulation detection, and strategic insights for traders.">
     
@@ -722,6 +723,145 @@
     
     <!-- Scripts -->
     <script src="script.js"></script>
+    // video-demo-sequence.js
+(function() {
+  // Sequência para demonstrações em vídeo
+  window.RunesVideoDemo = {
+    startSequence: async function() {
+      // 1. Inicia com a animação de carregamento
+      window.RunesDemo.init();
+      
+      // 2. Espera o carregamento terminar
+      await sleep(5000);
+      
+      // 3. Simula uma análise de token
+      await simulateTokenAnalysis();
+      
+      // 4. Espera e mostra uma sugestão de IA
+      await sleep(3000);
+      window.RunesDemo.simulateAIAction();
+      
+      // 5. Espera e interage com a sugestão
+      await sleep(4000);
+      const suggestedBtn = document.querySelector('.analyze-suggested-btn');
+      if (suggestedBtn) suggestedBtn.click();
+      
+      // 6. Espera e mostra atividade de baleia
+      await sleep(3000);
+      window.RunesDemo.simulateWhaleAction();
+      
+      // 7. Desbloqueia uma conquista
+      await sleep(2000);
+      window.RunesDemo.simulateAchievement('whale_spotter');
+      
+      // 8. Abre o perfil do usuário
+      await sleep(3000);
+      document.querySelector('.view-profile-btn').click();
+      
+      // 9. Encerra com uma mensagem na tela
+      await sleep(5000);
+      showVideoOutro();
+    }
+  };
+  
+  // Utilitários
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  async function simulateTokenAnalysis() {
+    const analyzeBtn = document.querySelector('.analyze-token-btn');
+    if (analyzeBtn) analyzeBtn.click();
+    return sleep(2000);
+  }
+  
+  function showVideoOutro() {
+    const outro = document.createElement('div');
+    outro.className = 'video-outro';
+    outro.innerHTML = `
+      <div class="outro-content">
+        <h2>This isn't just analytics.</h2>
+        <h2>It's a challenge.</h2>
+        <h3>Master Runes. Earn your path.</h3>
+      </div>
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      .video-outro {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      }
+      
+      .outro-content {
+        text-align: center;
+        color: white;
+      }
+      
+      .outro-content h2 {
+        font-size: 3rem;
+        margin: 0.5rem 0;
+        animation: fadeInUp 1s forwards;
+        opacity: 0;
+      }
+      
+      .outro-content h2:nth-child(1) {
+        animation-delay: 0.5s;
+      }
+      
+      .outro-content h2:nth-child(2) {
+        animation-delay: 2s;
+      }
+      
+      .outro-content h3 {
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        color: #8A2BE2;
+        opacity: 0;
+        animation: glow 2s forwards;
+        animation-delay: 4s;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes glow {
+        from {
+          opacity: 0;
+          text-shadow: none;
+        }
+        to {
+          opacity: 1;
+          text-shadow: 0 0 10px #8A2BE2, 0 0 20px #8A2BE2;
+        }
+      }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(outro);
+    
+    // Remover após 8 segundos
+    setTimeout(() => {
+      outro.remove();
+    }, 8000);
+  }
+})();
     <script src="language-switcher.js"></script>
 </body>
 </html> 

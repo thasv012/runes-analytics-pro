@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNES Analytics Pro - Arquitetura</title>
-    <meta name="description" content="Arquitetura técnica da plataforma RUNES Analytics Pro">
+    <title data-lang-en="RUNES Analytics Pro - Architecture" data-lang-pt="RUNES Analytics Pro - Arquitetura">RUNES Analytics Pro - Arquitetura</title>
+    <meta name="description" data-lang-en="Technical architecture of RUNES Analytics Pro platform" data-lang-pt="Arquitetura técnica da plataforma RUNES Analytics Pro" content="Arquitetura técnica da plataforma RUNES Analytics Pro">
     
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,10 +13,13 @@
     
     <!-- Estilos -->
     <link rel="stylesheet" href="styles/cyberpunk.css">
+    <link rel="stylesheet" href="styles/shared.css">
+    <link rel="stylesheet" href="styles/language.css">
     
     <!-- Scripts -->
     <script src="js/presentation-transitions.js" defer></script>
     <script src="js/presentation-nav.js" defer></script>
+    <script src="language-switcher.js" defer></script>
 </head>
 <body>
     <!-- Header (Criado via JavaScript) -->
@@ -26,8 +29,14 @@
     <main class="content-area">
         <div class="container">
             <section class="hero fade-in">
-                <h1 class="glitch-text">Arquitetura do Sistema</h1>
-                <p class="text-neon-cyan text-mono">Blueprint Técnico - v1.0</p>
+                <h1 class="glitch-text">
+                    <span class="lang-en">System Architecture</span>
+                    <span class="lang-pt">Arquitetura do Sistema</span>
+                </h1>
+                <p class="text-neon-cyan text-mono">
+                    <span class="lang-en">Technical Blueprint - v1.0</span>
+                    <span class="lang-pt">Blueprint Técnico - v1.0</span>
+                </p>
                 
                 <div class="terminal-box mt-3 mb-3">
                     $ systemctl status runes-analytics-pro
@@ -42,10 +51,16 @@
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.3s;">
-                <h2>Visão Geral da Arquitetura</h2>
+                <h2>
+                    <span class="lang-en">Architecture Overview</span>
+                    <span class="lang-pt">Visão Geral da Arquitetura</span>
+                </h2>
                 
                 <div class="card">
-                    <p class="mb-2">Nossa plataforma foi projetada com uma arquitetura modular, escalável e resiliente, permitindo o processamento eficiente de grandes volumes de dados e fornecendo respostas em tempo real aos usuários.</p>
+                    <p class="mb-2">
+                        <span class="lang-en">Our platform has been designed with a modular, scalable, and resilient architecture, allowing for efficient processing of large data volumes and providing real-time responses to users.</span>
+                        <span class="lang-pt">Nossa plataforma foi projetada com uma arquitetura modular, escalável e resiliente, permitindo o processamento eficiente de grandes volumes de dados e fornecendo respostas em tempo real aos usuários.</span>
+                    </p>
                     
                     <div class="terminal-box text-mono" style="font-size: 0.75rem; line-height: 1.2;">
                         <pre style="margin: 0; white-space: pre;">
@@ -67,126 +82,258 @@
                         </pre>
                     </div>
                     
-                    <p class="mt-2 mb-0">A arquitetura segue o padrão de microserviços, com componentes independentes que se comunicam através de APIs bem definidas, permitindo manutenção simplificada e evolução contínua.</p>
+                    <p class="mt-2 mb-0">
+                        <span class="lang-en">The architecture follows the microservices pattern, with independent components that communicate through well-defined APIs, allowing for simplified maintenance and continuous evolution.</span>
+                        <span class="lang-pt">A arquitetura segue o padrão de microserviços, com componentes independentes que se comunicam através de APIs bem definidas, permitindo manutenção simplificada e evolução contínua.</span>
+                    </p>
                 </div>
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.6s;">
-                <h2>Camadas do Sistema</h2>
+                <h2>
+                    <span class="lang-en">System Layers</span>
+                    <span class="lang-pt">Camadas do Sistema</span>
+                </h2>
                 
                 <div class="grid">
                     <div class="card parallax" data-parallax-intensity="0.02">
                         <h3>Frontend</h3>
-                        <p>Interface do usuário desenvolvida com React e Next.js, focada em performance e UX.</p>
+                        <p>
+                            <span class="lang-en">User interface developed with React and Next.js, focused on performance and UX.</span>
+                            <span class="lang-pt">Interface do usuário desenvolvida com React e Next.js, focada em performance e UX.</span>
+                        </p>
                         <div class="text-neon-blue mt-2">
-                            <span class="text-mono">&#9679;</span> Dashboard interativo
-                            <br><span class="text-mono">&#9679;</span> Visualizações responsivas
-                            <br><span class="text-mono">&#9679;</span> Atualização em tempo real
-                            <br><span class="text-mono">&#9679;</span> Theme dark/light
+                            <span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Interactive Dashboard</span>
+                            <span class="lang-pt">Dashboard interativo</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Responsive Visualizations</span>
+                            <span class="lang-pt">Visualizações responsivas</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Real-time Updates</span>
+                            <span class="lang-pt">Atualização em tempo real</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Dark/Light Theme</span>
+                            <span class="lang-pt">Theme dark/light</span>
                         </div>
                     </div>
                     
                     <div class="card parallax" data-parallax-intensity="0.03">
                         <h3>Backend API</h3>
-                        <p>Serviço RESTful responsável por intermediar requisições entre cliente e dados.</p>
+                        <p>
+                            <span class="lang-en">RESTful service responsible for mediating requests between client and data.</span>
+                            <span class="lang-pt">Serviço RESTful responsável por intermediar requisições entre cliente e dados.</span>
+                        </p>
                         <div class="text-neon-purple mt-2">
                             <span class="text-mono">&#9679;</span> Node.js + Express
-                            <br><span class="text-mono">&#9679;</span> Autenticação JWT
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">JWT Authentication</span>
+                            <span class="lang-pt">Autenticação JWT</span>
                             <br><span class="text-mono">&#9679;</span> Rate limiting
-                            <br><span class="text-mono">&#9679;</span> Documentação OpenAPI
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">OpenAPI Documentation</span>
+                            <span class="lang-pt">Documentação OpenAPI</span>
                         </div>
                     </div>
                     
                     <div class="card parallax" data-parallax-intensity="0.04">
-                        <h3>Data Services</h3>
-                        <p>Serviços especializados em coleta, processamento e análise de dados.</p>
+                        <h3>
+                            <span class="lang-en">Data Services</span>
+                            <span class="lang-pt">Data Services</span>
+                        </h3>
+                        <p>
+                            <span class="lang-en">Specialized services for data collection, processing, and analysis.</span>
+                            <span class="lang-pt">Serviços especializados em coleta, processamento e análise de dados.</span>
+                        </p>
                         <div class="text-neon-green mt-2">
-                            <span class="text-mono">&#9679;</span> Integração com APIs externas
-                            <br><span class="text-mono">&#9679;</span> Processamento assíncrono
-                            <br><span class="text-mono">&#9679;</span> Análise em tempo real
-                            <br><span class="text-mono">&#9679;</span> Normalização de dados
+                            <span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">External API Integration</span>
+                            <span class="lang-pt">Integração com APIs externas</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Asynchronous Processing</span>
+                            <span class="lang-pt">Processamento assíncrono</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Real-time Analysis</span>
+                            <span class="lang-pt">Análise em tempo real</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Data Normalization</span>
+                            <span class="lang-pt">Normalização de dados</span>
                         </div>
                     </div>
                     
                     <div class="card parallax" data-parallax-intensity="0.03">
                         <h3>Cache System</h3>
-                        <p>Sistema de cache multi-nível que reduz a latência e melhora a performance.</p>
+                        <p>
+                            <span class="lang-en">Multi-level cache system that reduces latency and improves performance.</span>
+                            <span class="lang-pt">Sistema de cache multi-nível que reduz a latência e melhora a performance.</span>
+                        </p>
                         <div class="text-neon-pink mt-2">
-                            <span class="text-mono">&#9679;</span> Cache em memória
-                            <br><span class="text-mono">&#9679;</span> Cache distribuído
-                            <br><span class="text-mono">&#9679;</span> Invalidação inteligente
-                            <br><span class="text-mono">&#9679;</span> Política de retenção
+                            <span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Memory Cache</span>
+                            <span class="lang-pt">Cache em memória</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Distributed Cache</span>
+                            <span class="lang-pt">Cache distribuído</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Smart Invalidation</span>
+                            <span class="lang-pt">Invalidação inteligente</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Retention Policy</span>
+                            <span class="lang-pt">Política de retenção</span>
                         </div>
                     </div>
                     
                     <div class="card parallax" data-parallax-intensity="0.02">
                         <h3>Database</h3>
-                        <p>Armazenamento persistente otimizado para consultas analíticas de alta performance.</p>
+                        <p>
+                            <span class="lang-en">Persistent storage optimized for high-performance analytical queries.</span>
+                            <span class="lang-pt">Armazenamento persistente otimizado para consultas analíticas de alta performance.</span>
+                        </p>
                         <div class="text-neon-cyan mt-2">
                             <span class="text-mono">&#9679;</span> PostgreSQL
-                            <br><span class="text-mono">&#9679;</span> Índices otimizados
-                            <br><span class="text-mono">&#9679;</span> Particionamento de dados
-                            <br><span class="text-mono">&#9679;</span> Backup automatizado
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Optimized Indexes</span>
+                            <span class="lang-pt">Índices otimizados</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Data Partitioning</span>
+                            <span class="lang-pt">Particionamento de dados</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Automated Backups</span>
+                            <span class="lang-pt">Backup automatizado</span>
                         </div>
                     </div>
                     
                     <div class="card parallax" data-parallax-intensity="0.04">
-                        <h3>Analytics Engine</h3>
-                        <p>Motor de análise que processa métricas e gera insights em tempo real.</p>
+                        <h3>
+                            <span class="lang-en">Analytics Engine</span>
+                            <span class="lang-pt">Analytics Engine</span>
+                        </h3>
+                        <p>
+                            <span class="lang-en">Analysis engine that processes metrics and generates real-time insights.</span>
+                            <span class="lang-pt">Motor de análise que processa métricas e gera insights em tempo real.</span>
+                        </p>
                         <div class="text-neon-blue mt-2">
-                            <span class="text-mono">&#9679;</span> Algoritmos preditivos
-                            <br><span class="text-mono">&#9679;</span> Correlação multi-token
-                            <br><span class="text-mono">&#9679;</span> Detecção de padrões
-                            <br><span class="text-mono">&#9679;</span> Alertas inteligentes
+                            <span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Predictive Algorithms</span>
+                            <span class="lang-pt">Algoritmos preditivos</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Multi-token Correlation</span>
+                            <span class="lang-pt">Correlação multi-token</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Pattern Detection</span>
+                            <span class="lang-pt">Detecção de padrões</span>
+                            <br><span class="text-mono">&#9679;</span> 
+                            <span class="lang-en">Smart Alerts</span>
+                            <span class="lang-pt">Alertas inteligentes</span>
                         </div>
                     </div>
                 </div>
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.9s;">
-                <h2>Fluxo de Dados</h2>
+                <h2>
+                    <span class="lang-en">Data Flow</span>
+                    <span class="lang-pt">Fluxo de Dados</span>
+                </h2>
                 
                 <div class="card bg-dark">
-                    <p class="mb-3">O sistema coleta dados de múltiplas fontes, processa-os através de diversas camadas e disponibiliza informações refinadas para o usuário final:</p>
+                    <p class="mb-3">
+                        <span class="lang-en">The system collects data from multiple sources, processes it through various layers, and provides refined information to the end user:</span>
+                        <span class="lang-pt">O sistema coleta dados de múltiplas fontes, processa-os através de diversas camadas e disponibiliza informações refinadas para o usuário final:</span>
+                    </p>
                     
                     <div class="text-mono" style="font-size: 0.85rem; line-height: 1.5;">
                         <div class="mb-2">
-                            <span class="text-neon-green">1.</span> <span class="text-neon-cyan">Coleta de Dados</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ APIs externas (mercados, blockchain, social)</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Dados on-chain (transações, contratos)</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Fontes alternativas (forums, sentiment analysis)</span>
+                            <span class="text-neon-green">1.</span> <span class="text-neon-cyan">
+                                <span class="lang-en">Data Collection</span>
+                                <span class="lang-pt">Coleta de Dados</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">External APIs (markets, blockchain, social)</span>
+                                <span class="lang-pt">APIs externas (mercados, blockchain, social)</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">On-chain data (transactions, contracts)</span>
+                                <span class="lang-pt">Dados on-chain (transações, contratos)</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Alternative sources (forums, sentiment analysis)</span>
+                                <span class="lang-pt">Fontes alternativas (forums, sentiment analysis)</span>
+                            </span>
                         </div>
                         
                         <div class="mb-2">
-                            <span class="text-neon-green">2.</span> <span class="text-neon-cyan">Processamento</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Normalização e padronização</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Enriquecimento e correlação</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Cálculo de métricas e indicadores</span>
+                            <span class="text-neon-green">2.</span> <span class="text-neon-cyan">
+                                <span class="lang-en">Processing</span>
+                                <span class="lang-pt">Processamento</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Normalization and standardization</span>
+                                <span class="lang-pt">Normalização e padronização</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Enrichment and correlation</span>
+                                <span class="lang-pt">Enriquecimento e correlação</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Calculation of metrics and indicators</span>
+                                <span class="lang-pt">Cálculo de métricas e indicadores</span>
+                            </span>
                         </div>
                         
                         <div class="mb-2">
-                            <span class="text-neon-green">3.</span> <span class="text-neon-cyan">Armazenamento</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Dados brutos (histórico completo)</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Dados processados (métricas e análises)</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Cache para acesso rápido</span>
+                            <span class="text-neon-green">3.</span> <span class="text-neon-cyan">
+                                <span class="lang-en">Storage</span>
+                                <span class="lang-pt">Armazenamento</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Raw data (complete history)</span>
+                                <span class="lang-pt">Dados brutos (histórico completo)</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Processed data (metrics and analysis)</span>
+                                <span class="lang-pt">Dados processados (métricas e análises)</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Cache for quick access</span>
+                                <span class="lang-pt">Cache para acesso rápido</span>
+                            </span>
                         </div>
                         
                         <div class="mb-2">
-                            <span class="text-neon-green">4.</span> <span class="text-neon-cyan">Distribuição</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ API REST para aplicações</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Websockets para atualizações em tempo real</span>
-                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ Sistema de notificações para eventos importantes</span>
+                            <span class="text-neon-green">4.</span> <span class="text-neon-cyan">
+                                <span class="lang-en">Distribution</span>
+                                <span class="lang-pt">Distribuição</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">REST API for applications</span>
+                                <span class="lang-pt">API REST para aplicações</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Websockets for real-time updates</span>
+                                <span class="lang-pt">Websockets para atualizações em tempo real</span>
+                            </span>
+                            <br><span class="text-secondary" style="padding-left: 1.5rem;">→ 
+                                <span class="lang-en">Notification system for important events</span>
+                                <span class="lang-pt">Sistema de notificações para eventos importantes</span>
+                            </span>
                         </div>
                     </div>
                     
                     <div class="text-center mt-3">
-                        <button class="btn" onclick="window.location.href='features.html'">Explorar Recursos <span class="text-neon-green">→</span></button>
+                        <button class="btn" onclick="window.location.href='features.html'">
+                            <span class="lang-en">Explore Features <span class="text-neon-green">→</span></span>
+                            <span class="lang-pt">Explorar Recursos <span class="text-neon-green">→</span></span>
+                        </button>
                     </div>
                 </div>
             </section>
             
             <section class="mt-3 mb-3 fade-in" style="animation-delay: 1.2s;">
-                <h2>Tecnologias Utilizadas</h2>
+                <h2>
+                    <span class="lang-en">Technologies Used</span>
+                    <span class="lang-pt">Tecnologias Utilizadas</span>
+                </h2>
                 
                 <div class="card">
                     <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem;">
@@ -213,7 +360,10 @@
                         </div>
                         
                         <div>
-                            <h3 class="mb-1">Banco de Dados</h3>
+                            <h3 class="mb-1">
+                                <span class="lang-en">Database</span>
+                                <span class="lang-pt">Banco de Dados</span>
+                            </h3>
                             <ul class="text-secondary" style="list-style-type: none; padding-left: 0;">
                                 <li><span class="text-neon-green">→</span> PostgreSQL</li>
                                 <li><span class="text-neon-green">→</span> Redis</li>
@@ -234,7 +384,10 @@
                         </div>
                         
                         <div>
-                            <h3 class="mb-1">APIs Integradas</h3>
+                            <h3 class="mb-1">
+                                <span class="lang-en">Integrated APIs</span>
+                                <span class="lang-pt">APIs Integradas</span>
+                            </h3>
                             <ul class="text-secondary" style="list-style-type: none; padding-left: 0;">
                                 <li><span class="text-neon-blue">→</span> Bitcoin RPC</li>
                                 <li><span class="text-neon-blue">→</span> Exchange APIs</li>
@@ -251,7 +404,10 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
-            <p>RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</p>
+            <p>
+                <span class="lang-en">RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Developed with <span class="text-neon-pink">♥</span> for the Bitcoin community</span>
+                <span class="lang-pt">RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</span>
+            </p>
         </div>
     </footer>
     

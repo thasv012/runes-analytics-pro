@@ -1,0 +1,562 @@
+/* Basic styles for the tour simulator */
+:root {
+    --tour-bg: #0a0a14; /* Darker background for contrast */
+    --tour-border: var(--neon-cyan);
+    --tour-text: #e5e5e5; /* Slightly brighter text */
+    --tour-text-secondary: #a0a0b0;
+    --tour-accent: var(--neon-magenta);
+    --tour-highlight: var(--neon-yellow);
+    --tour-glow-shadow: 0 0 6px var(--tour-border), 0 0 12px var(--tour-border), 0 0 18px rgba(0, 255, 255, 0.25);
+    --tour-terminal-bg: #030308;
+    --tour-terminal-text: #00ffcc;
+    --tour-terminal-prompt: #ffffff;
+    --tour-success: #00e673;
+    --tour-error: #ff4040;
+    --tour-error-glow: 0 0 8px var(--tour-error), 0 0 15px rgba(255, 64, 64, 0.5);
+}
+
+.tour-simulation-container {
+    position: relative;
+    min-height: 350px;
+    background-color: var(--tour-bg);
+    border: 1px solid var(--tour-border);
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 0;
+    overflow: hidden;
+    color: var(--tour-text);
+    font-family: var(--font-mono), 'Courier New', Courier, monospace;
+    box-shadow: var(--tour-glow-shadow), inset 0 0 15px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transform: translateY(15px) scale(0.97);
+    /* Smoother transition */
+    transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: none;
+}
+
+.tour-simulation-container.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.simulation-content {
+    position: absolute;
+    top: 50px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    opacity: 0;
+    transform: scale(0.98);
+    /* Slightly longer delay, smoother curve */
+    transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) 0.15s, transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.simulation-content.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.simulation-content h3 {
+    font-family: var(--font-display), 'Orbitron', sans-serif;
+    color: var(--tour-accent);
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px var(--tour-accent);
+    position: absolute;
+    top: -15px;
+    left: 25px;
+    width: calc(100% - 80px);
+    text-align: left;
+}
+
+/* Specific simulation styles */
+
+/* Dashboard */
+.sim-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Slightly larger components */
+    gap: 20px;
+    width: 100%;
+    align-items: stretch; /* Make grid items same height */
+}
+
+.sim-dashboard .component {
+    background-color: rgba(42, 42, 62, 0.7); /* Slightly transparent */
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px dashed var(--tour-accent);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.sim-dashboard .component:hover {
+    transform: translateY(-3px);
+    border-style: solid;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.sim-dashboard .component h4 {
+    color: var(--tour-highlight);
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.sim-dashboard .component p, .sim-dashboard .component {
+     font-size: 0.9em;
+     color: var(--tour-text-secondary);
+}
+
+.sim-dashboard .chart {
+    grid-column: span 2; /* Make chart wider */
+    min-height: 120px; /* Increased height */
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    color: var(--tour-text-secondary);
+    border: 1px solid var(--tour-highlight);
+}
+
+/* On-Chain Analysis */
+.sim-on-chain .chart {
+    /* Ensure container allows canvas to fill */
+    display: flex; 
+    align-items: stretch;
+    justify-content: center;
+    padding: 10px; /* Add padding around canvas */
+}
+
+.sim-on-chain .chart canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.sim-on-chain .explanation {
+    font-style: italic;
+    color: var(--tour-terminal-text); /* Use terminal green */
+    margin-top: 10px;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+/* Custom Alerts */
+.sim-alerts {
+     justify-content: flex-start; /* Align content top */
+     padding-top: 20px;
+}
+
+.sim-alerts .form {
+    background-color: rgba(42, 42, 62, 0.7);
+    padding: 25px;
+    border-radius: 5px;
+    border: 1px dashed var(--tour-accent);
+    margin-bottom: 20px;
+    width: 80%;
+    color: var(--tour-text-secondary);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.sim-alerts .create-button {
+    /* Use shared button style if available, or define here */
+    padding: 10px 20px;
+    background: var(--tour-accent);
+    color: var(--tour-bg);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    transition: all 0.3s ease;
+    margin-right: 15px;
+    box-shadow: 0 0 8px var(--tour-accent);
+}
+
+.sim-alerts .create-button:hover {
+    background: var(--tour-highlight);
+    color: var(--tour-bg);
+    box-shadow: 0 0 12px var(--tour-highlight);
+}
+
+.sim-alerts .feedback-container {
+    height: 30px; /* Reserve space for badge */
+    margin-top: 10px;
+}
+
+.sim-alerts .success-badge {
+    background-color: var(--tour-success);
+    color: var(--tour-bg);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effect */
+    display: inline-block; /* Needed for transform */
+}
+
+.sim-alerts .success-badge.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Whale Tracker */
+.sim-whale-tracker {
+    justify-content: flex-start; /* Align top */
+    padding-top: 20px;
+}
+
+.sim-whale-tracker .feed {
+    list-style: none;
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid var(--tour-border);
+    background-color: rgba(42, 42, 62, 0.5);
+    border-radius: 4px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.sim-whale-tracker .feed li {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    border-bottom: 1px dashed rgba(0, 255, 255, 0.2);
+    padding-bottom: 8px;
+    color: var(--tour-text-secondary);
+    transition: color 0.3s ease;
+}
+
+.sim-whale-tracker .feed li:hover {
+     color: var(--tour-highlight);
+}
+
+.sim-whale-tracker .feed li:last-child {
+    border-bottom: none;
+}
+
+.sim-whale-tracker .terminal-box {
+    background-color: var(--tour-terminal-bg);
+    border: 1px solid var(--tour-terminal-text);
+    padding: 15px 20px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 0.95em;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.6);
+    min-height: 120px; /* Ensure space for animation */
+}
+
+.terminal-box code {
+    display: block;
+    white-space: pre-wrap;
+    color: var(--tour-terminal-text);
+    line-height: 1.6;
+}
+
+.terminal-box code .prompt {
+    color: var(--tour-terminal-prompt);
+}
+
+.terminal-box code .output-line {
+    opacity: 0;
+    animation: type-in 0.05s forwards;
+    display: block; /* Ensure each line takes full width */
+}
+
+@keyframes type-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Whale Tracker Feed Scrollbar */
+.sim-whale-tracker .feed::-webkit-scrollbar {
+  width: 6px;
+}
+.sim-whale-tracker .feed::-webkit-scrollbar-track {
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 3px;
+}
+.sim-whale-tracker .feed::-webkit-scrollbar-thumb {
+  background-color: var(--tour-border);
+  border-radius: 3px;
+  border: 1px solid var(--tour-bg);
+}
+
+/* Close button */
+.close-simulation-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--tour-error);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.6); /* Brighter border */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 28px;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Add bounce */
+    z-index: 10;
+    box-shadow: var(--tour-error-glow);
+}
+
+.tour-simulation-container.active .close-simulation-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.close-simulation-btn:hover {
+    background: #ff1a1a; /* Brighter red on hover */
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 0 0 12px var(--tour-error), 0 0 20px rgba(255, 64, 64, 0.6); /* Intense glow */
+    border-color: white;
+}
+
+/* Initial Placeholder */
+.initial-placeholder {
+    color: var(--tour-text-secondary);
+}
+.initial-placeholder h3 {
+    position: static; /* Override absolute positioning */
+    width: auto;
+    text-align: center;
+    margin-bottom: 10px; /* Add some space */
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .tour-simulation-container {
+        min-height: 300px;
+        padding: 15px;
+    }
+    .simulation-content {
+        top: 45px;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+    }
+    .simulation-content h3 {
+        font-size: 1.1em;
+        top: -10px;
+        left: 15px;
+        width: calc(100% - 60px);
+    }
+    .sim-dashboard {
+        grid-template-columns: 1fr; /* Stack dashboard items */
+    }
+    .sim-dashboard .chart {
+        grid-column: span 1;
+    }
+    .sim-alerts .form,
+    .sim-whale-tracker .terminal-box {
+        width: 100%;
+    }
+    .close-simulation-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+        line-height: 23px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+/* Add more cyberpunk styles: glow effects, specific fonts, SVG icons */
+
+/* Pitch Mode Specific Styles */
+.tour-simulation-container.pitch-mode {
+    /* Optional: Slightly different background/border during pitch? */
+}
+
+.tour-simulation-container.pitch-mode .close-simulation-btn {
+    opacity: 0.5 !important;
+    pointer-events: none; /* Disable clicks */
+    cursor: not-allowed;
+}
+
+.tour-simulation-container.pitch-mode .tour-nav-btn {
+    opacity: 0.4 !important;
+    pointer-events: none; /* Disable clicks */
+    cursor: not-allowed !important;
+}
+
+/* Recording Button Styles */
+.tour-record-btn {
+    position: absolute; /* Or place relative to nav */
+    top: 15px; /* Example position */
+    left: 15px; /* Example position */
+    background-color: rgba(255, 64, 64, 0.8); /* Red like record */
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    font-size: 0.85em;
+    z-index: 11; /* Above nav/content */
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(255, 64, 64, 0.5);
+}
+
+.tour-record-btn:hover {
+    background-color: rgba(255, 0, 0, 0.9);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.7);
+}
+
+.tour-record-btn.recording {
+     background-color: rgba(200, 0, 0, 0.9);
+     animation: pulse-record 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-record {
+    0% { box-shadow: 0 0 8px rgba(255, 0, 0, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); }
+    100% { box-shadow: 0 0 8px rgba(255, 0, 0, 0.5); }
+}
+
+/* Analytics Modal Styles */
+.analytics-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: none; /* Initially hidden, use JS to control */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.analytics-modal-overlay.visible {
+    display: flex; /* Show using flex */
+    opacity: 1;
+}
+
+.analytics-modal-content {
+    background-color: var(--tour-bg, #10101e);
+    padding: 30px 40px;
+    border-radius: 8px;
+    border: 1px solid var(--tour-accent, magenta);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), var(--tour-glow-shadow, 0 0 15px rgba(0, 255, 255, 0.3));
+    position: relative;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: var(--tour-text, #e5e5e5);
+    /* Add animation */
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.analytics-modal-overlay.visible .analytics-modal-content {
+     transform: scale(1);
+}
+
+.analytics-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--tour-text-secondary, #a0a0b0);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+.analytics-modal-close:hover {
+    color: var(--tour-error, #ff4040);
+}
+
+.analytics-modal-content h2 {
+    text-align: center;
+    color: var(--tour-accent, magenta);
+    margin-top: 0; /* Remove default margin */
+    margin-bottom: 25px;
+    font-family: var(--font-display);
+}
+
+.analytics-chart-container {
+     height: 350px;
+     margin-bottom: 20px;
+     position: relative;
+}
+ .analytics-actions {
+     display: flex;
+     justify-content: center;
+     gap: 15px;
+     margin-top: 20px;
+     border-top: 1px solid rgba(255, 255, 255, 0.1);
+     padding-top: 20px;
+ }
+ .analytics-actions button {
+     padding: 8px 15px;
+     background-color: var(--tour-accent);
+     color: var(--tour-bg);
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+     font-family: var(--font-mono);
+     transition: background-color 0.3s ease;
+ }
+  .analytics-actions button:hover {
+     background-color: var(--tour-highlight);
+ }
+
+/* Style for the active button in the manual selection list */
+#interactive-tour-buttons .list-group-item-action.active {
+     background-color: rgba(var(--neon-cyan-rgb, 0, 255, 255), 0.2);
+     border-color: var(--neon-cyan);
+     color: var(--neon-cyan);
+     box-shadow: inset 0 0 10px rgba(var(--neon-cyan-rgb, 0, 255, 255), 0.4);
+}
+
+/* --- Background Music Toggle Button --- */
+.tour-music-toggle {
+    position: fixed;
+    bottom: 10px;
+    left: 10px; /* Position opposite to analytics button */
+    z-index: 500;
+    background-color: rgba(var(--neon-purple-rgb), 0.6); /* Use a different accent */
+    color: white;
+    border: 1px solid var(--neon-purple);
+    border-radius: 50%; /* Make it round */
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    line-height: 38px; /* Center icon */
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--neon-purple);
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.tour-music-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+.tour-music-toggle.playing {
+    background-color: rgba(var(--neon-purple-rgb), 0.9);
+    box-shadow: 0 0 15px var(--neon-purple), 0 0 25px rgba(var(--neon-purple-rgb), 0.5);
+} 

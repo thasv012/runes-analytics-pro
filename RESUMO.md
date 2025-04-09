@@ -1,4 +1,40 @@
-# RESUMO DO PROJETO - RUNES Analytics Pro
+# RUNES Analytics Pro - Resumo do Projeto
+
+## 📊 Visão Geral
+
+RUNES Analytics é uma plataforma de análise de dados para tokens Runes no ecossistema Bitcoin. Fornece visualizações interativas, análises em tempo real e ferramentas para tomada de decisão sobre tokens Runes.
+
+## 🛠️ Componentes Principais
+
+- **Dashboard Interativo**: Visualizações e estatísticas para tokens Runes
+- **Sistema de Dados em Tempo Real**: Integração com APIs para dados atualizados
+- **Motor de Análise**: Algoritmos de análise baseados em métricas de mercado
+- **GPU Mesh Network**: Rede distribuída para processamento de tarefas
+- **Visualizador de Rede**: Interface gráfica para monitoramento da rede GPU Mesh
+
+## 🚀 Novidades: Ambiente de Produtividade com Cursor
+
+Implementamos um ambiente de desenvolvimento integrado com a IA do Cursor para agilizar o desenvolvimento:
+
+1. **Comandos Personalizados**: Via `.cursor-config.json`, com atalhos para tarefas comuns
+2. **Agente IA Local**: Sistema inteligente que responde a comandos como `/gpu`, `/rune` e `/mesh`
+3. **Simulador de GPUs**: Adiciona e gerencia nós GPU na visualização com dados que atualizam a cada 2s
+4. **Sistema de Notificações**: Framework para alertas e eventos críticos em tempo real
+5. **Layout Visual**: Interface estilo Notion que mostra o fluxo de trabalho recomendado
+
+### 💡 Como Acessar
+
+- **Configuração Rápida**: Consulte [CONFIGURACAO-RAPIDA.md](CONFIGURACAO-RAPIDA.md)
+- **Guia Completo**: Veja [USANDO-CURSOR-PRO.md](USANDO-CURSOR-PRO.md)
+- **Demo Online**: [http://localhost:3000/cursor-productivity-layout.html](http://localhost:3000/cursor-productivity-layout.html)
+
+## 📈 Roadmap
+
+- Melhorar algoritmos de análise de Runes
+- Adicionar mais integrações com APIs externas
+- Implementar sistema de alertas personalizados
+- Desenvolver visualizações avançadas para fluxos de transações
+- Expandir rede GPU Mesh para processamento distribuído
 
 ## Informações Essenciais
 - **Diretório de Trabalho**: `C:\Users\Thierry\Desktop\runes-analytics-novo`

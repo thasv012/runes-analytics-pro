@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNES Analytics Pro - Web3</title>
-    <meta name="description" content="Integração Web3 e blockchain na plataforma RUNES Analytics Pro">
+    <title data-en="RUNES Analytics Pro - Web3" data-pt="RUNES Analytics Pro - Web3">RUNES Analytics Pro - Web3</title>
+    <meta name="description" data-en="Web3 and blockchain integration in the RUNES Analytics Pro platform" data-pt="Integração Web3 e blockchain na plataforma RUNES Analytics Pro" content="Integração Web3 e blockchain na plataforma RUNES Analytics Pro">
     
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +13,8 @@
     
     <!-- Estilos -->
     <link rel="stylesheet" href="styles/cyberpunk.css">
+    <link rel="stylesheet" href="styles/shared.css">
+    <link rel="stylesheet" href="styles/language-styles.css">
     <style>
         /* Estilos específicos para esta página */
         .web3-card {
@@ -118,6 +120,7 @@
     <!-- Scripts -->
     <script src="js/presentation-transitions.js" defer></script>
     <script src="js/presentation-nav.js" defer></script>
+    <script src="language-switcher.js" defer></script>
 </head>
 <body>
     <!-- Header (Criado via JavaScript) -->
@@ -127,8 +130,14 @@
     <main class="content-area">
         <div class="container">
             <section class="hero fade-in">
-                <h1 class="glitch-text">Integração Web3</h1>
-                <p class="text-neon-purple text-mono">O futuro descentralizado da análise de tokens</p>
+                <h1 class="glitch-text">
+                    <span class="lang-en">Web3 Integration</span>
+                    <span class="lang-pt">Integração Web3</span>
+                </h1>
+                <p class="text-neon-purple text-mono">
+                    <span class="lang-en">The decentralized future of token analysis</span>
+                    <span class="lang-pt">O futuro descentralizado da análise de tokens</span>
+                </p>
                 
                 <div class="terminal-box mt-3 mb-3">
                     $ blockchain-status --network=bitcoin --protocol=runes
@@ -139,90 +148,148 @@
                     <br>→ Total Runes: <span class="text-neon-cyan">1,248</span>
                     <br>→ Active Nodes: <span class="text-neon-green">14,682</span>
                     <br>
-                    <br>Blockchain connection established. Ready for Web3 integration.
+                    <br><span class="lang-en">Blockchain connection established. Ready for Web3 integration.</span>
+                    <span class="lang-pt">Conexão blockchain estabelecida. Pronto para integração Web3.</span>
                 </div>
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.3s;">
-                <h2>Integração Blockchain</h2>
+                <h2>
+                    <span class="lang-en">Blockchain Integration</span>
+                    <span class="lang-pt">Integração Blockchain</span>
+                </h2>
                 
                 <div class="card web3-card">
-                    <p class="mb-3">A RUNES Analytics Pro integra-se diretamente com a blockchain Bitcoin para fornecer dados on-chain precisos, atualizados e sem intermediários. Nossa plataforma monitora em tempo real transações, emissão de tokens, movimentações e outros eventos relacionados ao protocolo Runes.</p>
+                    <p class="mb-3">
+                        <span class="lang-en">RUNES Analytics Pro integrates directly with the Bitcoin blockchain to provide precise, up-to-date on-chain data without intermediaries. Our platform monitors transactions, token issuance, movements, and other events related to the Runes protocol in real-time.</span>
+                        <span class="lang-pt">A RUNES Analytics Pro integra-se diretamente com a blockchain Bitcoin para fornecer dados on-chain precisos, atualizados e sem intermediários. Nossa plataforma monitora em tempo real transações, emissão de tokens, movimentações e outros eventos relacionados ao protocolo Runes.</span>
+                    </p>
                     
                     <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
                         <div class="text-center">
                             <div class="blockchain-icon">₿</div>
                             <h3>Bitcoin Core</h3>
-                            <p>Conexão direta com nós Bitcoin para acesso a dados primitivos da blockchain, garantindo confiabilidade e precisão.</p>
+                            <p>
+                                <span class="lang-en">Direct connection to Bitcoin nodes for access to primitive blockchain data, ensuring reliability and accuracy.</span>
+                                <span class="lang-pt">Conexão direta com nós Bitcoin para acesso a dados primitivos da blockchain, garantindo confiabilidade e precisão.</span>
+                            </p>
                         </div>
                         
                         <div class="text-center">
                             <div class="blockchain-icon">⟠</div>
                             <h3>Runes Protocol</h3>
-                            <p>Implementação completa do protocolo Runes (BIP-428), permitindo rastreamento e análise de tokens em tempo real.</p>
+                            <p>
+                                <span class="lang-en">Complete implementation of the Runes protocol (BIP-428), enabling real-time token tracking and analysis.</span>
+                                <span class="lang-pt">Implementação completa do protocolo Runes (BIP-428), permitindo rastreamento e análise de tokens em tempo real.</span>
+                            </p>
                         </div>
                         
                         <div class="text-center">
                             <div class="blockchain-icon">🔍</div>
                             <h3>On-chain Analytics</h3>
-                            <p>Análise avançada de dados on-chain, incluindo métricas de atividade, distribuição e comportamento de endereços.</p>
+                            <p>
+                                <span class="lang-en">Advanced on-chain data analysis, including activity metrics, distribution, and address behavior.</span>
+                                <span class="lang-pt">Análise avançada de dados on-chain, incluindo métricas de atividade, distribuição e comportamento de endereços.</span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.6s;">
-                <h2>Fluxo de Integração</h2>
+                <h2>
+                    <span class="lang-en">Integration Flow</span>
+                    <span class="lang-pt">Fluxo de Integração</span>
+                </h2>
                 
                 <div class="card web3-card">
-                    <p class="mb-3">Nosso sistema processa dados blockchain em múltiplas camadas, desde a captura de eventos on-chain até a apresentação de insights ao usuário:</p>
+                    <p class="mb-3">
+                        <span class="lang-en">Our system processes blockchain data in multiple layers, from capturing on-chain events to presenting insights to the user:</span>
+                        <span class="lang-pt">Nosso sistema processa dados blockchain em múltiplas camadas, desde a captura de eventos on-chain até a apresentação de insights ao usuário:</span>
+                    </p>
                     
                     <div class="integration-flow">
                         <div class="integration-step">
                             <div class="integration-step-number">1</div>
                             <div class="integration-step-content">
-                                <h3 class="mb-1">Captura de Dados</h3>
-                                <p class="mb-0">Os nodes Bitcoin conectados monitoram a blockchain em tempo real, capturando blocos, transações e eventos relacionados ao protocolo Runes.</p>
+                                <h3 class="mb-1">
+                                    <span class="lang-en">Data Capture</span>
+                                    <span class="lang-pt">Captura de Dados</span>
+                                </h3>
+                                <p class="mb-0">
+                                    <span class="lang-en">Connected Bitcoin nodes monitor the blockchain in real-time, capturing blocks, transactions, and events related to the Runes protocol.</span>
+                                    <span class="lang-pt">Os nodes Bitcoin conectados monitoram a blockchain em tempo real, capturando blocos, transações e eventos relacionados ao protocolo Runes.</span>
+                                </p>
                             </div>
                         </div>
                         
                         <div class="integration-step">
                             <div class="integration-step-number">2</div>
                             <div class="integration-step-content">
-                                <h3 class="mb-1">Processamento</h3>
-                                <p class="mb-0">Os dados brutos são processados, decodificados e enriquecidos com metadados adicionais, identificando tokens Runes e suas operações.</p>
+                                <h3 class="mb-1">
+                                    <span class="lang-en">Processing</span>
+                                    <span class="lang-pt">Processamento</span>
+                                </h3>
+                                <p class="mb-0">
+                                    <span class="lang-en">Raw data is processed, decoded, and enriched with additional metadata, identifying Runes tokens and their operations.</span>
+                                    <span class="lang-pt">Os dados brutos são processados, decodificados e enriquecidos com metadados adicionais, identificando tokens Runes e suas operações.</span>
+                                </p>
                             </div>
                         </div>
                         
                         <div class="integration-step">
                             <div class="integration-step-number">3</div>
                             <div class="integration-step-content">
-                                <h3 class="mb-1">Armazenamento</h3>
-                                <p class="mb-0">As informações processadas são armazenadas em banco de dados otimizado para consultas analíticas, mantendo histórico completo.</p>
+                                <h3 class="mb-1">
+                                    <span class="lang-en">Storage</span>
+                                    <span class="lang-pt">Armazenamento</span>
+                                </h3>
+                                <p class="mb-0">
+                                    <span class="lang-en">Processed information is stored in a database optimized for analytical queries, maintaining a complete history.</span>
+                                    <span class="lang-pt">As informações processadas são armazenadas em banco de dados otimizado para consultas analíticas, mantendo histórico completo.</span>
+                                </p>
                             </div>
                         </div>
                         
                         <div class="integration-step">
                             <div class="integration-step-number">4</div>
                             <div class="integration-step-content">
-                                <h3 class="mb-1">Análise</h3>
-                                <p class="mb-0">Algoritmos de análise processam os dados armazenados, identificando padrões, correlações e métricas relevantes.</p>
+                                <h3 class="mb-1">
+                                    <span class="lang-en">Analysis</span>
+                                    <span class="lang-pt">Análise</span>
+                                </h3>
+                                <p class="mb-0">
+                                    <span class="lang-en">Analysis algorithms process stored data, identifying patterns, correlations, and relevant metrics.</span>
+                                    <span class="lang-pt">Algoritmos de análise processam os dados armazenados, identificando padrões, correlações e métricas relevantes.</span>
+                                </p>
                             </div>
                         </div>
                         
                         <div class="integration-step">
                             <div class="integration-step-number">5</div>
                             <div class="integration-step-content">
-                                <h3 class="mb-1">API</h3>
-                                <p class="mb-0">Os resultados das análises são disponibilizados através de API REST e WebSockets para consumo em tempo real.</p>
+                                <h3 class="mb-1">
+                                    <span class="lang-en">API</span>
+                                    <span class="lang-pt">API</span>
+                                </h3>
+                                <p class="mb-0">
+                                    <span class="lang-en">Analysis results are made available through REST API and WebSockets for real-time consumption.</span>
+                                    <span class="lang-pt">Os resultados das análises são disponibilizados através de API REST e WebSockets para consumo em tempo real.</span>
+                                </p>
                             </div>
                         </div>
                         
                         <div class="integration-step">
                             <div class="integration-step-number">6</div>
                             <div class="integration-step-content">
-                                <h3 class="mb-1">Visualização</h3>
-                                <p class="mb-0">Os dados são transformados em visualizações interativas e insights acionáveis na interface do usuário.</p>
+                                <h3 class="mb-1">
+                                    <span class="lang-en">Visualization</span>
+                                    <span class="lang-pt">Visualização</span>
+                                </h3>
+                                <p class="mb-0">
+                                    <span class="lang-en">Data is transformed into interactive visualizations and actionable insights in the user interface.</span>
+                                    <span class="lang-pt">Os dados são transformados em visualizações interativas e insights acionáveis na interface do usuário.</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -230,108 +297,228 @@
             </section>
             
             <section class="mt-3 fade-in" style="animation-delay: 0.9s;">
-                <h2>Recursos Web3</h2>
+                <h2>
+                    <span class="lang-en">Web3 Features</span>
+                    <span class="lang-pt">Recursos Web3</span>
+                </h2>
                 
                 <div class="grid">
                     <div class="card web3-card">
                         <h3>Wallet Connect</h3>
-                        <p>Conecte sua carteira Bitcoin para experiência personalizada e acesso a recursos premium.</p>
+                        <p>
+                            <span class="lang-en">Connect your Bitcoin wallet for a personalized experience and access to premium features.</span>
+                            <span class="lang-pt">Conecte sua carteira Bitcoin para experiência personalizada e acesso a recursos premium.</span>
+                        </p>
                         <div class="terminal-box mt-2" style="font-size: 0.85rem;">
-                            <span class="text-neon-green"># Carteiras suportadas</span>
+                            <span class="text-neon-green">
+                                <span class="lang-en"># Supported wallets</span>
+                                <span class="lang-pt"># Carteiras suportadas</span>
+                            </span>
                             <br>- Leather Wallet
                             <br>- Xverse
                             <br>- Hiro Wallet
                             <br>- Unisat
                         </div>
                         <div class="text-center mt-2">
-                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">Status: <span class="text-neon-yellow">⟳ EM DESENVOLVIMENTO</span></span>
+                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">
+                                <span class="lang-en">Status: <span class="text-neon-yellow">⟳ IN DEVELOPMENT</span></span>
+                                <span class="lang-pt">Status: <span class="text-neon-yellow">⟳ EM DESENVOLVIMENTO</span></span>
+                            </span>
                         </div>
                     </div>
                     
                     <div class="card web3-card">
                         <h3>Token Scanner</h3>
-                        <p>Visualizador avançado de tokens Runes com histórico completo de transações e análise de distribuição.</p>
+                        <p>
+                            <span class="lang-en">Advanced Runes token viewer with complete transaction history and distribution analysis.</span>
+                            <span class="lang-pt">Visualizador avançado de tokens Runes com histórico completo de transações e análise de distribuição.</span>
+                        </p>
                         <ul class="mt-2 text-secondary" style="list-style-type: none; padding-left: 0;">
-                            <li><span class="text-neon-purple">◇</span> Rastreamento de transações</li>
-                            <li><span class="text-neon-purple">◇</span> Mapa de distribuição</li>
-                            <li><span class="text-neon-purple">◇</span> Análise de holders</li>
-                            <li><span class="text-neon-purple">◇</span> Timeline de eventos</li>
+                            <li><span class="text-neon-purple">◇</span> 
+                                <span class="lang-en">Transaction tracking</span>
+                                <span class="lang-pt">Rastreamento de transações</span>
+                            </li>
+                            <li><span class="text-neon-purple">◇</span> 
+                                <span class="lang-en">Distribution map</span>
+                                <span class="lang-pt">Mapa de distribuição</span>
+                            </li>
+                            <li><span class="text-neon-purple">◇</span> 
+                                <span class="lang-en">Holder analysis</span>
+                                <span class="lang-pt">Análise de holders</span>
+                            </li>
+                            <li><span class="text-neon-purple">◇</span> 
+                                <span class="lang-en">Event timeline</span>
+                                <span class="lang-pt">Timeline de eventos</span>
+                            </li>
                         </ul>
                         <div class="text-center mt-2">
-                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">Status: <span class="text-neon-green">✓ ATIVO</span></span>
+                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">
+                                <span class="lang-en">Status: <span class="text-neon-green">✓ ACTIVE</span></span>
+                                <span class="lang-pt">Status: <span class="text-neon-green">✓ ATIVO</span></span>
+                            </span>
                         </div>
                     </div>
                     
                     <div class="card web3-card">
                         <h3>DeFi Analytics</h3>
-                        <p>Análise de protocolos DeFi que suportam tokens Runes, incluindo liquidez, volume e oportunidades.</p>
+                        <p>
+                            <span class="lang-en">Analysis of DeFi protocols that support Runes tokens, including liquidity, volume, and opportunities.</span>
+                            <span class="lang-pt">Análise de protocolos DeFi que suportam tokens Runes, incluindo liquidez, volume e oportunidades.</span>
+                        </p>
                         <ul class="mt-2 text-secondary" style="list-style-type: none; padding-left: 0;">
-                            <li><span class="text-neon-blue">◇</span> Pools de liquidez</li>
-                            <li><span class="text-neon-blue">◇</span> Volumes de trading</li>
-                            <li><span class="text-neon-blue">◇</span> Métricas de APY/APR</li>
-                            <li><span class="text-neon-blue">◇</span> Comparativo cross-chain</li>
+                            <li><span class="text-neon-blue">◇</span> 
+                                <span class="lang-en">Liquidity pools</span>
+                                <span class="lang-pt">Pools de liquidez</span>
+                            </li>
+                            <li><span class="text-neon-blue">◇</span> 
+                                <span class="lang-en">Trading volumes</span>
+                                <span class="lang-pt">Volumes de trading</span>
+                            </li>
+                            <li><span class="text-neon-blue">◇</span> 
+                                <span class="lang-en">APY/APR metrics</span>
+                                <span class="lang-pt">Métricas de APY/APR</span>
+                            </li>
+                            <li><span class="text-neon-blue">◇</span> 
+                                <span class="lang-en">Cross-chain comparative</span>
+                                <span class="lang-pt">Comparativo cross-chain</span>
+                            </li>
                         </ul>
                         <div class="text-center mt-2">
-                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">Status: <span class="text-neon-pink">◇ PLANEJADO</span></span>
+                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">
+                                <span class="lang-en">Status: <span class="text-neon-pink">◇ PLANNED</span></span>
+                                <span class="lang-pt">Status: <span class="text-neon-pink">◇ PLANEJADO</span></span>
+                            </span>
                         </div>
                     </div>
                     
                     <div class="card web3-card">
                         <h3>NFT Explorer</h3>
-                        <p>Explorador de NFTs baseados em Runes e Ordinals, com visualização, métricas e análise de mercado.</p>
+                        <p>
+                            <span class="lang-en">Explorer for NFTs based on Runes and Ordinals, with visualization, metrics, and market analysis.</span>
+                            <span class="lang-pt">Explorador de NFTs baseados em Runes e Ordinals, com visualização, métricas e análise de mercado.</span>
+                        </p>
                         <ul class="mt-2 text-secondary" style="list-style-type: none; padding-left: 0;">
-                            <li><span class="text-neon-green">◇</span> Visualizador de coleções</li>
-                            <li><span class="text-neon-green">◇</span> Raridade e atributos</li>
-                            <li><span class="text-neon-green">◇</span> Histórico de transações</li>
-                            <li><span class="text-neon-green">◇</span> Floor price e volume</li>
+                            <li><span class="text-neon-green">◇</span> 
+                                <span class="lang-en">Collection viewer</span>
+                                <span class="lang-pt">Visualizador de coleções</span>
+                            </li>
+                            <li><span class="text-neon-green">◇</span> 
+                                <span class="lang-en">Rarity and attributes</span>
+                                <span class="lang-pt">Raridade e atributos</span>
+                            </li>
+                            <li><span class="text-neon-green">◇</span> 
+                                <span class="lang-en">Transaction history</span>
+                                <span class="lang-pt">Histórico de transações</span>
+                            </li>
+                            <li><span class="text-neon-green">◇</span> 
+                                <span class="lang-en">Floor price and volume</span>
+                                <span class="lang-pt">Floor price e volume</span>
+                            </li>
                         </ul>
                         <div class="text-center mt-2">
-                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">Status: <span class="text-neon-yellow">⟳ EM DESENVOLVIMENTO</span></span>
+                            <span class="text-neon-cyan text-mono" style="font-size: 0.9rem;">
+                                <span class="lang-en">Status: <span class="text-neon-yellow">⟳ IN DEVELOPMENT</span></span>
+                                <span class="lang-pt">Status: <span class="text-neon-yellow">⟳ EM DESENVOLVIMENTO</span></span>
+                            </span>
                         </div>
                     </div>
                 </div>
             </section>
             
             <section class="mt-3 mb-3 fade-in" style="animation-delay: 1.2s;">
-                <h2>O Futuro Descentralizado</h2>
+                <h2>
+                    <span class="lang-en">The Decentralized Future</span>
+                    <span class="lang-pt">O Futuro Descentralizado</span>
+                </h2>
                 
                 <div class="card web3-card">
-                    <p class="mb-3">Nossa visão é evoluir progressivamente para uma plataforma cada vez mais descentralizada, transferindo funcionalidades e governança para a comunidade, mantendo o espírito verdadeiro do Bitcoin e da Web3.</p>
+                    <p class="mb-3">
+                        <span class="lang-en">Our vision is to progressively evolve towards an increasingly decentralized platform, transferring functionality and governance to the community, maintaining the true spirit of Bitcoin and Web3.</span>
+                        <span class="lang-pt">Nossa visão é evoluir progressivamente para uma plataforma cada vez mais descentralizada, transferindo funcionalidades e governança para a comunidade, mantendo o espírito verdadeiro do Bitcoin e da Web3.</span>
+                    </p>
                     
                     <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
                         <div class="mt-1">
-                            <h3 class="mb-1">Fase 1 (Atual)</h3>
+                            <h3 class="mb-1">
+                                <span class="lang-en">Phase 1 (Current)</span>
+                                <span class="lang-pt">Fase 1 (Atual)</span>
+                            </h3>
                             <ul class="text-secondary" style="list-style-type: none; padding-left: 0;">
-                                <li><span class="text-neon-cyan">→</span> Conexão com nós Bitcoin</li>
-                                <li><span class="text-neon-cyan">→</span> Análise on-chain</li>
-                                <li><span class="text-neon-cyan">→</span> API aberta com dados públicos</li>
-                                <li><span class="text-neon-cyan">→</span> Integração wallet</li>
+                                <li><span class="text-neon-cyan">→</span> 
+                                    <span class="lang-en">Connection to Bitcoin nodes</span>
+                                    <span class="lang-pt">Conexão com nós Bitcoin</span>
+                                </li>
+                                <li><span class="text-neon-cyan">→</span> 
+                                    <span class="lang-en">On-chain analysis</span>
+                                    <span class="lang-pt">Análise on-chain</span>
+                                </li>
+                                <li><span class="text-neon-cyan">→</span> 
+                                    <span class="lang-en">Open API with public data</span>
+                                    <span class="lang-pt">API aberta com dados públicos</span>
+                                </li>
+                                <li><span class="text-neon-cyan">→</span> 
+                                    <span class="lang-en">Wallet integration</span>
+                                    <span class="lang-pt">Integração wallet</span>
+                                </li>
                             </ul>
                         </div>
                         
                         <div class="mt-1">
-                            <h3 class="mb-1">Fase 2 (Próximos Passos)</h3>
+                            <h3 class="mb-1">
+                                <span class="lang-en">Phase 2 (Next Steps)</span>
+                                <span class="lang-pt">Fase 2 (Próximos Passos)</span>
+                            </h3>
                             <ul class="text-secondary" style="list-style-type: none; padding-left: 0;">
-                                <li><span class="text-neon-purple">→</span> Noode próprio descentralizado</li>
-                                <li><span class="text-neon-purple">→</span> Integração com DeFi</li>
-                                <li><span class="text-neon-purple">→</span> Contratos inteligentes</li>
-                                <li><span class="text-neon-purple">→</span> Plug-ins da comunidade</li>
+                                <li><span class="text-neon-purple">→</span> 
+                                    <span class="lang-en">Decentralized own node</span>
+                                    <span class="lang-pt">Noode próprio descentralizado</span>
+                                </li>
+                                <li><span class="text-neon-purple">→</span> 
+                                    <span class="lang-en">DeFi integration</span>
+                                    <span class="lang-pt">Integração com DeFi</span>
+                                </li>
+                                <li><span class="text-neon-purple">→</span> 
+                                    <span class="lang-en">Smart contracts</span>
+                                    <span class="lang-pt">Contratos inteligentes</span>
+                                </li>
+                                <li><span class="text-neon-purple">→</span> 
+                                    <span class="lang-en">Community plugins</span>
+                                    <span class="lang-pt">Plug-ins da comunidade</span>
+                                </li>
                             </ul>
                         </div>
                         
                         <div class="mt-1">
-                            <h3 class="mb-1">Fase 3 (Futuro)</h3>
+                            <h3 class="mb-1">
+                                <span class="lang-en">Phase 3 (Future)</span>
+                                <span class="lang-pt">Fase 3 (Futuro)</span>
+                            </h3>
                             <ul class="text-secondary" style="list-style-type: none; padding-left: 0;">
-                                <li><span class="text-neon-green">→</span> Governança descentralizada</li>
-                                <li><span class="text-neon-green">→</span> DAO para gestão de features</li>
-                                <li><span class="text-neon-green">→</span> Infraestrutura distribuída</li>
-                                <li><span class="text-neon-green">→</span> Incentivos para node operators</li>
+                                <li><span class="text-neon-green">→</span> 
+                                    <span class="lang-en">Decentralized governance</span>
+                                    <span class="lang-pt">Governança descentralizada</span>
+                                </li>
+                                <li><span class="text-neon-green">→</span> 
+                                    <span class="lang-en">DAO for feature management</span>
+                                    <span class="lang-pt">DAO para gestão de features</span>
+                                </li>
+                                <li><span class="text-neon-green">→</span> 
+                                    <span class="lang-en">Distributed infrastructure</span>
+                                    <span class="lang-pt">Infraestrutura distribuída</span>
+                                </li>
+                                <li><span class="text-neon-green">→</span> 
+                                    <span class="lang-en">Incentives for node operators</span>
+                                    <span class="lang-pt">Incentivos para node operators</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     
                     <div class="text-center mt-3">
-                        <button class="btn" onclick="window.location.href='demo.html'">Ver Demo <span class="text-neon-green">→</span></button>
+                        <button class="btn" onclick="window.location.href='demo.html'">
+                            <span class="lang-en">View Demo <span class="text-neon-green">→</span></span>
+                            <span class="lang-pt">Ver Demo <span class="text-neon-green">→</span></span>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -341,7 +528,10 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
-            <p>RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</p>
+            <p>
+                <span class="lang-en">RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Developed with <span class="text-neon-pink">♥</span> for the Bitcoin community</span>
+                <span class="lang-pt">RUNES Analytics Pro &copy; 2023-<span id="current-year">2024</span> | Desenvolvido com <span class="text-neon-pink">♥</span> para a comunidade Bitcoin</span>
+            </p>
         </div>
     </footer>
     

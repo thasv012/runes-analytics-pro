@@ -540,4 +540,101 @@ input[type="text"] {
 
 .mt-1 { margin-top: var(--spacing-sm); }
 .mt-2 { margin-top: var(--spacing-md); }
-.mt-3 { margin-top: var(--spacing-lg); } 
+.mt-3 { margin-top: var(--spacing-lg); }
+
+/* Estilo para o textarea do texto personalizado */
+.form-textarea {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-md);
+  transition: all var(--transition-fast);
+  resize: vertical;
+  min-height: 60px;
+  font-family: var(--font-main);
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(92, 108, 255, 0.25);
+}
+
+.control-label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Estilo para o painel de texto no preview */
+.text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.text-overlay-content {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: var(--spacing-md);
+  max-width: 80%;
+}
+
+/* Posições de texto */
+.text-position-top {
+  align-items: flex-start;
+  padding-top: var(--spacing-xl);
+}
+
+.text-position-bottom {
+  align-items: flex-end;
+  padding-bottom: var(--spacing-xl);
+}
+
+.text-position-center {
+  align-items: center;
+}
+
+/* Estilos para o botão de API demo */
+.api-demo-button {
+  background-color: var(--accent-tertiary);
+  color: white;
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.api-demo-button:hover {
+  background-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+/* Animação de pulsação para o texto */
+@keyframes textGlow {
+  0% { text-shadow: 0 0 10px rgba(92, 108, 255, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(92, 108, 255, 0.8); }
+  100% { text-shadow: 0 0 10px rgba(92, 108, 255, 0.5); }
+}
+
+.text-glow {
+  animation: textGlow 2s infinite;
+} 
