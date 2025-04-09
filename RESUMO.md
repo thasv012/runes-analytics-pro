@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RUNES Analytics Pro - Resumo do Projeto
 
 ## 📊 Visão Geral
@@ -83,3 +84,6 @@ Para mais detalhes sobre o desenvolvimento, consulte:
 - `PROXIMO-SPRINT.md` - Detalhes do próximo sprint 
 
 📅 Última atualização: 05/04/2025 às 00:40
+=======
+# RESUMO DO PROJETO - INSTRUÇÕES
+>>>>>>> 0ab230d3200b043f615acbdc7d957dd69ed40f70
