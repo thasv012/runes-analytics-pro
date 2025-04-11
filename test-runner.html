@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whale Tracker Test Runner</title>
+    <!-- Link to your main stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Link Font Awesome (ensure this path/method is correct for your setup) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Basic styles for layout */
+        body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; }
+        #runes-whale-tracker-component {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #fff;
+            max-width: 800px;
+            margin: auto;
+        }
+        /* Ensure styles from styles.css for the component are applied */
+    </style>
+
+    <!-- === Global Dependencies Placeholders === -->
+    <script>
+        // --- 1. Mock WhaleSocketService ---
+        // Simulates connecting and receiving messages
+        class MockWhaleSocketService {
+            constructor(url = 'wss://mock-test-server') {
+                this.url = url;
+                this.isConnected = false;
+                this.callback = null;
+                this.intervalId = null;
+                console.log(`[Mock WS Service] Initialized for ${url}`);
+            }
+
+            connect(onMessageCallback) {
+                console.log("[Mock WS Service] connect() called.");
+                this.disconnect(); // Clear previous interval if any
+                this.callback = onMessageCallback;
+                this.isConnected = true;
+                console.log("[Mock WS Service] Faking connection OPEN.");
+
+                // Start simulating messages after a short delay
+                this.intervalId = setInterval(() => {
+                    if (!this.isConnected) return; // Don't send if "disconnected"
+
+                    const fakeTx = {
+                        type: 'transfer',
+                        id: 'mock_tx_' + Date.now(),
+                        from: 'bc1q_mock_' + Math.random().toString(16).slice(2, 8),
+                        to: 'bc1p_mock_' + Math.random().toString(16).slice(2, 8),
+                        rune: ['SATOSHI•NAKAMOTO', 'UNCOMMON•GOODS', 'Z•Z•Z•FEHU•Z•Z•Z'][Math.floor(Math.random() * 3)],
+                        amount: Math.floor(1000 + Math.random() * 500000),
+                        impact: Math.random() * 10, // 0-10 impact
+                        time: Date.now(),
+                    };
+                    // console.log("[Mock WS Service] Simulating message:", fakeTx);
+                    if (this.callback) {
+                        // Simulate the structure of a WebSocket message event
+                        this.callback({ data: JSON.stringify(fakeTx) });
+                    }
+                }, 5000 + Math.random() * 4000); // Send every 5-9 seconds
+                 console.log("[Mock WS Service] Started message simulation interval.");
+            }
+
+            disconnect() {
+                console.log("[Mock WS Service] disconnect() called.");
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                    console.log("[Mock WS Service] Stopped message simulation interval.");
+                }
+                this.isConnected = false;
+                 console.log("[Mock WS Service] Faking connection CLOSE.");
+            }
+        }
+        // Make it available globally for the tracker component
+        window.WhaleSocketService = MockWhaleSocketService;
+
+        // --- 2. Mock runesSoundManager ---
+        window.runesSoundManager = {
+            play(key) {
+                console.log(`[Mock Sound] Attempting to play sound: ${key}`);
+                const audio = document.getElementById('whale-alert-sound');
+                if (key === 'whaleAlert' && audio) {
+                    console.log('[Mock Sound] Playing #whale-alert-sound');
+                    audio.currentTime = 0;
+                    audio.play().catch(e => console.warn("Audio play failed:", e));
+                } else if (!audio && key === 'whaleAlert') {
+                    console.warn('[Mock Sound] Audio element #whale-alert-sound not found.');
+                }
+            }
+        };
+
+        // --- 3. Mock TourAnalytics ---
+        window.TourAnalytics = {
+            log(event, payload) {
+                console.log(`[Mock Analytics] Event: "${event}"`, payload);
+            }
+            // Add other methods if your component uses them
+        };
+
+        // --- 4. Mock Translate Function ---
+        window.translate = function(key, fallback) {
+             // console.log(`[Mock Translate] Key: ${key}, Fallback: ${fallback}`);
+             // Simple fallback for testing
+             const translations = {
+                 "whaleTracker.alertTitle": "Whale Alert!",
+                 "whaleTracker.alertAddress": "Address",
+                 "whaleTracker.alertMoved": "Moved",
+                 "whaleTracker.alertTime": "Time",
+                 "whaleTracker.pauseTooltip": "Pause Live Feed",
+                 "whaleTracker.pauseButton": "Pause Live",
+                 "whaleTracker.resumeTooltip": "Resume Live Feed",
+                 "whaleTracker.resumeButton": "Resume Live"
+                 // Add other keys used in the component if needed
+             };
+             return translations[key] || fallback || key;
+        }
+
+    </script>
+</head>
+<body>
+
+    <h1>Runes Whale Tracker Test Page</h1>
+
+    <!-- The main container for your component -->
+    <div id="runes-whale-tracker-component">
+        <!-- The RunesWhaleTracker component will render its content here -->
+        <p>Loading Whale Tracker...</p>
+    </div>
+
+    <!-- Audio element for the alert sound -->
+    <!-- IMPORTANT: Adjust src path if needed. Create the directories and add an MP3 file -->
+    <audio id="whale-alert-sound" src="media/audio/whale-alert.mp3" preload="auto"></audio>
+
+    <!-- Load the component's JavaScript file -->
+    <!-- Ensure the path is correct relative to this HTML file -->
+    <!-- IMPORTANT: Load AFTER the placeholders above are defined -->
+<script type="module" src="components/runes-whale-tracker.js"></script>
+
+    <hr style="margin-top: 40px;">
+    <h2>Testing Notes:</h2>
+    <ul>
+        <li>Check the browser console (F12) for logs from the component and mock services.</li>
+        <li>The "Live Whale Event Feed" should start populating with mock events every 5-9 seconds.</li>
+        <li>Events with impact >= 7 should trigger console logs for alerts, sound, and analytics.</li>
+        <li>Test the "Pause/Resume Live" button to stop/start the flow of events into the feed.</li>
+        <li>Check Local Storage (Application tab in DevTools) for `whaleEventHistory`.</li>
+        <li>Ensure the `whale-alert.mp3` file exists at the correct path and the browser is allowed to play audio.</li>
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault Dashboard</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1, h2 { color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        button { padding: 10px 15px; margin: 5px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        pre { background-color: #eee; padding: 15px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; max-height: 300px; overflow-y: auto; border: 1px solid #ddd; }
+        .status { margin-bottom: 20px; background-color: #e9ecef; padding: 10px; border-radius: 4px; }
+        .error { color: red; font-weight: bold; }
+        .success { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Vault Dashboard</h1>
+
+        <div class="status" id="status-area">
+            <h2>Status Atual</h2>
+            <p>Carregando status...</p>
+        </div>
+
+        <h2>Ações Disponíveis</h2>
+        <div id="actions-area">
+            <button data-script="init">🛠️ Inicializar Estrutura</button>
+            <button data-script="fix">✨ Corrigir Nomes</button>
+            <button data-script="generate">📊 Gerar Painel</button>
+            <button data-script="build">🔥 Gerar Consolidado</button>
+            <button data-script="validate">✅ Validar Tudo</button>
+            <!-- Botão Watch removido por ser um processo longo -->
+        </div>
+
+        <h2>Resultados da Última Ação</h2>
+        <pre id="output-area">Aguardando execução de uma ação...</pre>
+    </div>
+
+    <script>
+        const statusArea = document.getElementById('status-area');
+        const actionsArea = document.getElementById('actions-area');
+        const outputArea = document.getElementById('output-area');
+
+        function updateStatus() {
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    statusArea.innerHTML = `
+                        <h2>Status Atual</h2>
+                        <p>Painel Principal Existe: ${data.dashboardExists ? '✔️ Sim' : '❌ Não'}</p>
+                        <p>Última Atualização (Status): ${new Date(data.lastUpdated).toLocaleString('pt-BR')}</p>
+                        `;
+                })
+                .catch(error => {
+                    statusArea.innerHTML = `<p class="error">Erro ao carregar status: ${error}</p>`;
+                });
+        }
+
+        function runScript(scriptName) {
+            outputArea.textContent = `Executando ${scriptName}...`;
+            // Desabilitar botões durante a execução
+            actionsArea.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+            fetch(`/run/${scriptName}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    let output = `--- Resultado de ${scriptName} (${new Date().toLocaleTimeString('pt-BR')}) ---\n`;
+                    if (data.error) {
+                        output += `ERRO: ${data.error}\n`;
+                        output += '\n--- STDOUT ---\n';
+                        output += data.stdout || '(vazio)';
+                        output += '\n--- STDERR ---\n';
+                        output += data.stderr || '(vazio)';
+                        outputArea.classList.add('error');
+                    } else {
+                        output += data.message + '\n';
+                        output += '\n--- STDOUT ---\n';
+                        output += data.stdout || '(vazio)';
+                        if (data.stderr) {
+                           output += '\n--- STDERR (Avisos) ---\n';
+                           output += data.stderr;
+                        }
+                         outputArea.classList.remove('error');
+                    }
+                    outputArea.textContent = output;
+                })
+                .catch(error => {
+                    outputArea.textContent = `ERRO DE REDE ao executar ${scriptName}: ${error}`;
+                    outputArea.classList.add('error');
+                })
+                .finally(() => {
+                    // Habilitar botões novamente
+                    actionsArea.querySelectorAll('button').forEach(btn => btn.disabled = false);
+                    updateStatus(); // Atualiza o status após a ação
+                });
+        }
+
+        actionsArea.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON' && event.target.dataset.script) {
+                runScript(event.target.dataset.script);
+            }
+        });
+
+        // Carregar status inicial
+        updateStatus();
+    </script>
+</body>
+</html> 

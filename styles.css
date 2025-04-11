@@ -307,3 +307,76 @@ body {
 .btn-remove:hover {
     background: rgba(239, 68, 68, 0.3);
 }
+
+/* === Whale Tracker Live Event Feed Styles === */
+#whale-events-panel-container {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(15, 52, 96, 0.5); /* primary-color slightly transparent */
+  border: 1px solid var(--border-color, #53c9c7);
+  border-radius: 5px;
+}
+
+#whale-events-panel-container h3 {
+  color: var(--accent-color, #53c9c7);
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.live-event-feed { /* Applied to #whale-events-panel */
+  height: 200px; /* Adjust height as needed */
+  overflow-y: auto; /* Enable scrolling */
+  border: 1px dashed rgba(83, 201, 199, 0.3); /* accent-color dashed border */
+  padding: 10px;
+  background-color: var(--input-bg, #16213e); /* Slightly darker background */
+  display: flex;
+  flex-direction: column-reverse; /* Newest events appear at the bottom and scroll up */
+}
+
+.event-item {
+  padding: 6px 8px;
+  margin-bottom: 5px; /* Use margin instead of gap for flex-direction-reverse */
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.85em;
+  border-left: 3px solid var(--accent-color, #53c9c7); /* Default accent color */
+  background-color: rgba(0,0,0, 0.2);
+  opacity: 0; /* Start hidden for animation */
+  animation: eventFadeIn 0.5s ease forwards;
+  color: var(--text-color, #e0e0e0);
+}
+
+/* Style based on impact using data attributes */
+.event-item[data-impact-level="low"] { border-left-color: #4CAF50; /* Green */ }
+.event-item[data-impact-level="medium"] { border-left-color: #FFC107; /* Yellow */ }
+.event-item[data-impact-level="high"] {
+  border-left-color: #FF5722; /* Orange/Red */
+  font-weight: bold;
+  background-color: rgba(255, 87, 34, 0.1);
+}
+
+.event-timestamp {
+  color: #aaa;
+  margin-right: 10px;
+}
+
+/* Placeholder text style */
+.event-placeholder {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+}
+
+@keyframes eventFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === End Live Event Feed Styles === */
+
+/* Ensure existing toast styles are also present */
+#whale-toast-container { /* ... */ }
+.whale-toast { /* ... */ }
+/* ... other styles ... */

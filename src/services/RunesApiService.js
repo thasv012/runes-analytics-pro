@@ -1,6 +1,7 @@
 // src/services/RunesApiService.js
 import OrdiscanAPI from '../api/ordiscan.js';
 import MagicEdenAPI from '../api/magiceden.js';
+import GeniiDataAPI from '../api/geniidata.js'; // Import GeniiData API
 // Import other APIs (OKX, GeniiData) here when they are implemented
 // import OkxAPI from '../api/okx.js';
 // import GeniiDataAPI from '../api/geniidata.js';
@@ -11,6 +12,7 @@ import { ApiMiddleware } from '../utils/ApiMiddleware.js'; // Likely used by the
 import { MockData } from '../mocks/mock-data.js';
 
 const CACHE_TTL = 60 * 5 * 1000; // Cache for 5 minutes (in milliseconds)
+const HOLDER_CACHE_TTL = 15 * 60 * 1000; // Cache holder data for 15 minutes
 
 export const RunesApiService = {
 
@@ -67,7 +69,7 @@ export const RunesApiService = {
         }
     },
 
-    async getRuneInfo(idOrName, preferredSource = 'ordiscan') { 
+    async getRuneInfo(idOrName, preferredSource = 'magiceden') { // Default preference to ME now?
          if (!idOrName) {
              console.error("[RunesService] Rune ID or Name is required to fetch info.");
              return null;
@@ -78,68 +80,113 @@ export const RunesApiService = {
         let cacheKey = `rune:info:${preferredSource}:${identifier}`;
         let data = AdvancedCacheService.get(cacheKey);
         if (data) {
-            console.log(`[RunesService] Returning cached info for ${idOrName} from ${preferredSource}`);
+            console.log(`[RunesService][Info] Returning cached info for ${idOrName} from ${preferredSource}`);
             return data;
         }
 
-        // Define API fetch functions with source name
+        // Define API fetch functions with source name, in desired fallback order
         const fetchFunctions = [
-            { source: 'ordiscan', fetch: () => OrdiscanAPI.fetchRuneInfo(idOrName) },
             { source: 'magiceden', fetch: () => MagicEdenAPI.fetchRuneInfo(idOrName) },
-            // Add other sources here in desired fallback order (e.g., OKX, GeniiData)
+            { source: 'geniidata', fetch: () => GeniiDataAPI.fetchRuneInfo(idOrName) }, // Added GeniiData
+            { source: 'ordiscan', fetch: () => OrdiscanAPI.fetchRuneInfo(idOrName) },
+            // Add other sources like OKX here when ready
         ];
 
-        // Sort fetch functions to prioritize preferredSource
+        // Adjust sort if preferredSource is different from the first element
         fetchFunctions.sort((a, b) => {
             if (a.source === preferredSource) return -1;
             if (b.source === preferredSource) return 1;
-            return 0; // Maintain original order otherwise (Ordiscan -> ME)
+            // Keep original defined order otherwise (ME -> Genii -> Ordi)
+            const order = ['magiceden', 'geniidata', 'ordiscan']; 
+            return order.indexOf(a.source) - order.indexOf(b.source);
         });
 
         // Attempt fetching from sources in order
         for (const { source, fetch } of fetchFunctions) {
-             // Check cache for this specific source before fetching
              cacheKey = `rune:info:${source}:${identifier}`;
              data = AdvancedCacheService.get(cacheKey);
              if (data) {
-                 console.log(`[RunesService] Returning cached info for ${idOrName} from ${source} (fallback cache)`);
+                 console.log(`[RunesService][Info] Returning cached info for ${idOrName} from ${source} (fallback cache)`);
                  return data;
              }
 
-            console.log(`[RunesService] Attempting to fetch rune info for ${idOrName} from ${source}...`);
+            console.log(`[RunesService][Info] Attempting to fetch rune info for ${idOrName} from ${source}...`);
             try {
                 const rawData = await fetch();
                 if (rawData) {
+                    // We need to ensure the transformer handles geniidata
                     data = Transformers.normalizeRuneInfo(rawData, source);
-                    if (data && data.id) { // Basic validation of normalized data
-                        console.log(`[RunesService] Successfully fetched and normalized info for ${idOrName} from ${source}`);
+                    if (data && data.id) { 
+                        console.log(`[RunesService][Info] Successfully fetched and normalized info for ${idOrName} from ${source}`);
                         AdvancedCacheService.set(cacheKey, data, CACHE_TTL);
                         return data;
                     } else {
-                        console.warn(`[RunesService] Normalization failed for ${idOrName} from ${source}. Raw:`, rawData, 'Normalized:', data);
-                        // Continue to next source if normalization fails
+                        console.warn(`[RunesService][Info] Normalization failed for ${idOrName} from ${source}. Raw:`, rawData, 'Normalized:', data);
                     }
                 } else {
-                     console.warn(`[RunesService] Received empty data for ${idOrName} from ${source}.`);
-                     // Continue to next source if data is empty/null
+                     console.warn(`[RunesService][Info] Received empty data for ${idOrName} from ${source}.`);
                 }
             } catch (error) {
-                console.warn(`[RunesService] Failed to fetch from ${source} for ${idOrName}:`, error.message);
-                // Continue to the next source on error
+                console.warn(`[RunesService][Info] Failed to fetch from ${source} for ${idOrName}:`, error.message);
             }
         }
 
-        // If all API sources fail, try mock data
-        console.error(`[RunesService] All API sources failed for ${idOrName}. Falling back to mock data.`);
+        // Fallback to mock data
+        console.error(`[RunesService][Info] All API sources failed for ${idOrName}. Falling back to mock data.`);
         const mockKey = String(idOrName).toUpperCase();
         const mockRune = MockData.runeDetails && MockData.runeDetails[mockKey];
         if (mockRune) {
-            console.log(`[RunesService] Returning mock data for ${idOrName}.`);
+            console.log(`[RunesService][Info] Returning mock data for ${idOrName}.`);
+            // Ensure transformer handles 'mock' source
             return Transformers.normalizeRuneInfo(mockRune, 'mock');
         } else {
-            console.error(`[RunesService] No mock data found for ${idOrName}. Returning null.`);
+            console.error(`[RunesService][Info] No mock data found for ${idOrName}. Returning null.`);
             return null;
         }
+    },
+
+    /**
+     * Fetches holder data, primarily using GeniiData.
+     * @param {string} idOrName - Rune ID or Name.
+     * @param {object} params - Optional parameters for the API call (e.g., page, limit).
+     * @returns {Promise<Array|null>} Array of holder data or null on failure.
+     */
+    async getRuneHolders(idOrName, params = {}) {
+         if (!idOrName) {
+             console.error("[RunesService][Holders] Rune ID or Name is required.");
+             return null;
+         }
+         const identifier = String(idOrName).toLowerCase();
+         const paramString = JSON.stringify(params);
+         const cacheKey = `rune:holders:${identifier}:${paramString}`;
+
+         let data = AdvancedCacheService.get(cacheKey);
+         if (data) {
+             console.log(`[RunesService][Holders] Returning cached holders for ${idOrName}`);
+             return data;
+         }
+
+         console.log(`[RunesService][Holders] Fetching holders for ${idOrName} from GeniiData...`);
+         try {
+             const rawData = await GeniiDataAPI.fetchRuneHolders(idOrName, params);
+             
+             // Use the transformer now
+             data = Transformers.normalizeHolderList(rawData, 'geniidata');
+
+             if (data) { // normalizeHolderList returns array or null
+                 AdvancedCacheService.set(cacheKey, data, HOLDER_CACHE_TTL); 
+                 console.log(`[RunesService][Holders] Successfully fetched and normalized holders for ${idOrName}. Count: ${data.length}`);
+                 return data;
+             } else {
+                  console.warn(`[RunesService][Holders] Received empty or invalid holder data for ${idOrName}, or normalization failed.`);
+                  // Potentially cache an empty result for a short time to avoid hammering API?
+                  // AdvancedCacheService.set(cacheKey, [], SHORT_TTL); 
+                  return null;
+             }
+         } catch (error) {
+             console.error(`[RunesService][Holders] Error fetching holders for ${idOrName} from GeniiData:`, error);
+             return null;
+         }
     },
 
     // Add other service methods as needed (e.g., getMarketData, getActivity)

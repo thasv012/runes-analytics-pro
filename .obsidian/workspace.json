@@ -1,0 +1,213 @@
+{
+  "main": {
+    "id": "b99b18322a01b302",
+    "type": "split",
+    "children": [
+      {
+        "id": "26761fa3224592c3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aa428ac26dc58462",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "035f2eb3242146a6",
+    "type": "split",
+    "children": [
+      {
+        "id": "538f447e19c29ad1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "463d57a08a5f4c1c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "f8bed3abde4d8da3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "08a266d996fd3353",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "90738ff606f1cd6d",
+    "type": "split",
+    "children": [
+      {
+        "id": "dc7b23a0d0b0ee27",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8afabe05ceda65ea",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "070b08cc7ad72e7f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída"
+            }
+          },
+          {
+            "id": "284b160f066f8ad1",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "c1cdf47f2cdf4984",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {},
+              "icon": "lucide-list",
+              "title": "Sumário"
+            }
+          },
+          {
+            "id": "aa71a9989f8d43f3",
+            "type": "leaf",
+            "state": {
+              "type": "smart-chat-view",
+              "state": {},
+              "icon": "message-square",
+              "title": "Smart Chat"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "open-vscode:VSCode": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "obsidian-git:Open Git source control": false,
+      "templater-obsidian:Templater": false,
+      "smart-connections:Open: View Smart Connections": false,
+      "smart-connections:Open: Smart Chat Conversation": false
+    }
+  },
+  "active": "aa428ac26dc58462",
+  "lastOpenFiles": [
+    "RUNES-Analytics-Pro-Vault/PROJECT-RUNES/watch-vault.js",
+    "node_modules/chokidar/index.d.ts",
+    "node_modules/chokidar/handler.d.ts",
+    "node_modules/chokidar/README.md",
+    "node_modules/chokidar/package.json",
+    "node_modules/chokidar/index.js",
+    "node_modules/readdirp/index.d.ts",
+    "node_modules/readdirp/README.md",
+    "node_modules/chokidar/handler.js",
+    "node_modules/readdirp/package.json",
+    "node_modules/readdirp/index.js",
+    "node_modules/chokidar/esm/index.d.ts",
+    "node_modules/chokidar/esm/package.json",
+    "RUNES-Analytics-Pro-Vault/PROJECT-RUNES/Welcome.md",
+    "integration.md",
+    "prompts-visuais-thread.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Roadmap & Releases/🌐 Visão Web3 & AI.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Roadmap & Releases/📆 Planejamento Sprint.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Roadmap & Releases/✅ Etapas Concluídas.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Prompts/compressao-avancada-cache.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Prompts/README-Generator.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Prompts/integração-cursor-gpu-mesh.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Prompts/animação-gamificação.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Snippets e Comandos/🧪 Testes de Componentes.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Snippets e Comandos/🧵 Comandos Cursor.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Snippets e Comandos/🔁 Scripts Automatizados.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Docs Técnicas/🔧 Middleware de API.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Docs Técnicas/🎮 Sistema de Gamificação.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Docs Técnicas/🧠 Arquitetura Modular.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Docs Técnicas/🧰 Sistema de Cache.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Estratégia & Apresentação/🗣️ Pitch para King Bootoshi.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Estratégia & Apresentação/📊 Apresentação em Slides.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Design & UX/📱 Responsividade Mobile.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Estratégia & Apresentação/💬 Mensagens Discord.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Design & UX/🧩 Componentes UI.md",
+    "docs/obsidian/RUNES-Analytics-Pro/Design & UX/🎨 Estilo Visual Cyberpunk.md",
+    "runecard-background.svg"
+  ]
+}

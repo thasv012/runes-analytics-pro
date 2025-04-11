@@ -1,0 +1,21 @@
+{
+  "name": "runes-vault",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node start-vault-dev.js",
+    "watch": "node watch-vault.js",
+    "fix": "node fix-vault-filenames.js",
+    "generate": "node generate-vault-dashboard.js",
+    "build": "node generate-all-md.js",
+    "init": "node create-vault-structure.js",
+    "validate": "node validate-vault-structure.js",
+    "dashboard": "node dashboard-server.js"
+  },
+  "description": "Sistema automatizado para o RUNES Analytics Vault",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "express": "^4.19.2",
+    "inquirer": "^9.3.2"
+  }
+}

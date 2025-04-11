@@ -146,7 +146,6 @@ function normalizeRuneInfo(data, source) {
     if (!data) return null;
     let normalized = null;
     try {
-         // Handle APIs that wrap results in a 'data' field
          const actualData = data.data || data;
          if (!actualData || typeof actualData !== 'object') {
               console.warn(`[Transformer] No valid data object found for ${source}`);
@@ -178,25 +177,21 @@ function normalizeRuneInfo(data, source) {
                       sourceAPI: 'MagicEden' // Keep track of source
                   };
                   break;
-             case 'geniidata': // If using info_list for single item
+             case 'geniidata': // Added GeniiData case
+                 // ASSUMPTION: Verify these field names from GeniiData API docs/response
                  normalized = {
-                    id: actualData.rune_id || actualData.rune_name,
-                    name: actualData.rune_name,
-                    number: actualData.rune_number ?? null,
-                    supply: actualData.supply_supply ?? null,
-                    burned: actualData.burned_supply ?? null,
-                    holders: actualData.holders_count ?? null,
-                    transactions: actualData.tx_count ?? null,
-                    marketCap: actualData.market_cap ?? null,
-                    priceUSD: null, // Price might not be in this list endpoint
-                    volume24hUSD: actualData.volume_24h_usd ?? null,
-                    change24hPercent: actualData.price_change_24h ?? null,
-                    sourceAPI: 'GeniiData'
+                     id: actualData.rune_id || actualData.name, // Assuming ID field
+                     name: actualData.rune_name || actualData.ticker, // Assuming name/ticker field
+                     supply: actualData.total_supply ? Number(actualData.total_supply) : null,
+                     holders: actualData.holders_count ? Number(actualData.holders_count) : null,
+                     // Price/Volume might be nested or named differently
+                     price: actualData.price_info?.usd ? Number(actualData.price_info.usd) : 0, 
+                     volume: actualData.volume_info?.usd_24h ? Number(actualData.volume_info.usd_24h) : 0,
+                     sourceAPI: 'GeniiData' 
                  };
                  break;
-             // Add OKX case if its /detail endpoint provides general info
              case 'okx':
-                 // Adjust keys based on OKX /detail response
+                  // Adjust keys based on OKX /detail response
                   normalized = {
                      id: actualData.runeId || actualData.runeName,
                      name: actualData.runeName,
@@ -468,6 +463,46 @@ function normalizeOrders(data, source) {
      return { bids: normalizedBids, asks: normalizedAsks };
 }
 
+/**
+ * Normalizes a list of rune holders.
+ * @param {Array<object>} data - The raw array of holder objects from the API.
+ * @param {string} source - The source API name (e.g., 'geniidata').
+ * @returns {Array<object>|null} Normalized list or null on error.
+ */
+function normalizeHolderList(data, source) {
+    console.log(`[Transformer] Normalizing Holder List from ${source}`);
+    if (!Array.isArray(data)) {
+        console.warn('[Transformer] Invalid data type for normalizeHolderList. Expected array, got:', typeof data);
+        // Attempt to find nested array common in some APIs
+        const nestedData = data?.data?.holders || data?.result?.list || data?.items;
+        if (Array.isArray(nestedData)) {
+             console.log('[Transformer] Found nested holder array.');
+             data = nestedData;
+        } else {
+             return []; // Return empty array if not valid
+        }
+    }
+    if (!data || data.length === 0) return []; // Return empty array if no data
+
+    try {
+        switch (source.toLowerCase()) {
+            case 'geniidata':
+                // ASSUMPTION: Verify these field names (address, amount/balance) from GeniiData API docs/response
+                return data.map(holder => ({
+                    address: holder.address,        // Assuming 'address' field
+                    amount: holder.amount ? Number(holder.amount) : (holder.balance ? Number(holder.balance) : 0), // Assuming 'amount' or 'balance'
+                    // Add other relevant fields if available (e.g., first_acquired_date, percentage_of_supply)
+                })).filter(h => h.address); // Ensure address exists
+            // Add cases for other sources if they provide holder data
+            default:
+                 console.warn(`[Transformer] Unknown source for normalizeHolderList: ${source}`);
+                 return data; // Return raw data if source unknown?
+        }
+    } catch (error) {
+         console.error('[Transformer] Error normalizing holder list:', error);
+         return null; // Indicate failure
+    }
+}
 
 export const Transformers = {
     normalizeRuneList,
@@ -475,7 +510,8 @@ export const Transformers = {
     normalizeMarketInfo,
     normalizeActivity,
     normalizeWalletBalance,
-    normalizeOrders
+    normalizeOrders,
+    normalizeHolderList
 };
 
 export default Transformers; 

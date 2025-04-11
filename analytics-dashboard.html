@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rune Holders Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --primary-color: #0f3460;
+            --secondary-color: #e94560;
+            --accent-color: #53c9c7; /* Teal accent */
+            --text-color: #e0e0e0;
+            --border-color: #53c9c7; /* Teal border */
+            --table-header-bg: #0f3460;
+            --table-row-bg: #1f4068;
+            --input-bg: #16213e;
+            --button-bg: #e94560;
+            --button-hover-bg: #f06a8a;
+            --font-family: 'Courier New', Courier, monospace; /* Or a more cyberpunk font if available */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background-color: var(--primary-color);
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 15px var(--accent-color);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            color: var(--accent-color);
+            text-align: center;
+            text-shadow: 0 0 5px var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        #runeIdInput {
+            flex-grow: 1;
+            max-width: 400px;
+            padding: 10px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            border-radius: 3px;
+        }
+
+        #loadHoldersBtn {
+            padding: 10px 20px;
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border-radius: 3px;
+        }
+
+        #loadHoldersBtn:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        #resultsArea {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 20px;
+            justify-content: space-around; /* Distribute space */
+        }
+
+        #holdersTableContainer, #chartContainer {
+            flex: 1; /* Allow flex items to grow */
+            min-width: 300px; /* Minimum width before wrapping */
+            max-width: 48%; /* Roughly half width */
+            background-color: var(--input-bg);
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+        }
+
+        #holdersTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        #holdersTable th, #holdersTable td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+            font-size: 0.9em;
+        }
+
+        #holdersTable th {
+            background-color: var(--table-header-bg);
+            color: var(--accent-color);
+        }
+
+        #holdersTable tr:nth-child(even) {
+            background-color: var(--table-row-bg);
+        }
+
+        #statusMessage {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        /* Basic responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+             #resultsArea {
+                flex-direction: column; /* Stack table and chart vertically */
+                align-items: center;
+             }
+            #holdersTableContainer, #chartContainer {
+                max-width: 95%; /* Take more width when stacked */
+                width: 100%;
+            }
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+             #runeIdInput {
+                max-width: none;
+             }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rune Holders Dashboard</h1>
+        <div class="input-group">
+            <input type="text" id="runeIdInput" placeholder="Enter Rune ID or Name (e.g., SATOSHI•NAKAMOTO)">
+            <button id="loadHoldersBtn">Load Holders</button>
+        </div>
+        <div id="statusMessage"></div>
+        <div id="resultsArea" style="display: none;"> <!-- Initially hidden -->
+            <div id="holdersTableContainer">
+                <h2>Top Holders</h2>
+                <table id="holdersTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Address</th>
+                            <th>Amount</th>
+                            <th>% of Supply</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="chartContainer">
+                <h2>Holder Distribution</h2>
+                <canvas id="holdersChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the service - Ensure path is correct relative to where this HTML file is served
+        import RunesApiService from './src/services/RunesApiService.js';
+        // Might need other imports if Transformers or MockData are used directly (unlikely here)
+
+        const runeIdInput = document.getElementById('runeIdInput');
+        const loadHoldersBtn = document.getElementById('loadHoldersBtn');
+        const holdersTableBody = document.querySelector('#holdersTable tbody');
+        const statusMessage = document.getElementById('statusMessage');
+        const resultsArea = document.getElementById('resultsArea');
+        const chartCanvas = document.getElementById('holdersChart');
+        let holdersChartInstance = null; // To hold the chart instance
+
+        const TOP_N_HOLDERS = 10; // How many top holders to show in table/chart
+
+        async function displayHolders() {
+            const runeId = runeIdInput.value.trim();
+            if (!runeId) {
+                statusMessage.textContent = 'Please enter a Rune ID or Name.';
+                resultsArea.style.display = 'none';
+                return;
+            }
+
+            statusMessage.textContent = `Loading holders for ${runeId}...`;
+            resultsArea.style.display = 'none'; // Hide results while loading
+            if (holdersChartInstance) {
+                holdersChartInstance.destroy(); // Clear previous chart
+            }
+            holdersTableBody.innerHTML = ''; // Clear previous table data
+
+            try {
+                // Fetch general rune info first to get total supply (needed for percentage)
+                const runeInfo = await RunesApiService.getRuneInfo(runeId);
+                if (!runeInfo || !runeInfo.supply) {
+                     throw new Error(`Could not get rune info or total supply for ${runeId}. Cannot calculate percentages.`);
+                }
+                const totalSupply = Number(runeInfo.supply);
+
+                // Fetch holder data - potentially needs pagination in real app
+                // Using default params for now (might fetch limited holders)
+                const holders = await RunesApiService.getRuneHolders(runeId);
+
+                if (!holders || holders.length === 0) {
+                    statusMessage.textContent = `No holders found for ${runeId} or API failed.`;
+                    resultsArea.style.display = 'none';
+                    return;
+                }
+
+                // Sort holders by amount descending
+                holders.sort((a, b) => b.amount - a.amount);
+
+                populateTable(holders, totalSupply);
+                createChart(holders, totalSupply);
+
+                statusMessage.textContent = ''; // Clear status message
+                resultsArea.style.display = 'flex'; // Show results
+
+            } catch (error) {
+                console.error("Error fetching or displaying holders:", error);
+                statusMessage.textContent = `Error: ${error.message}`;
+                resultsArea.style.display = 'none';
+            }
+        }
+
+        function populateTable(holders, totalSupply) {
+            holdersTableBody.innerHTML = ''; // Clear existing rows
+            const topHolders = holders.slice(0, TOP_N_HOLDERS);
+
+            topHolders.forEach((holder, index) => {
+                const percentage = totalSupply > 0 ? ((holder.amount / totalSupply) * 100).toFixed(4) : 'N/A';
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${holder.address}</td>
+                        <td>${holder.amount.toLocaleString()}</td>
+                        <td>${percentage}%</td>
+                    </tr>
+                `;
+                holdersTableBody.innerHTML += row;
+            });
+        }
+
+        function createChart(holders, totalSupply) {
+            const topHolders = holders.slice(0, TOP_N_HOLDERS);
+            let remainingSupply = totalSupply;
+
+            const labels = topHolders.map((holder, index) => {
+                remainingSupply -= holder.amount;
+                return `Rank ${index + 1} (${holder.address.substring(0, 4)}...${holder.address.substring(holder.address.length - 4)})`;
+            });
+            const data = topHolders.map(holder => holder.amount);
+
+            // Add "Others" category if there are more holders or remaining supply
+            if (holders.length > TOP_N_HOLDERS || remainingSupply > 0) {
+                 // Ensure remainingSupply isn't negative due to potential API rounding/data issues
+                 const othersAmount = Math.max(0, remainingSupply);
+                 if (othersAmount > 0) { // Only add "Others" if there's actually supply left
+                    labels.push('Others');
+                    data.push(othersAmount);
+                 }
+            }
+
+             // Generate cyberpunk-ish colors
+            const chartColors = generateCyberpunkColors(labels.length);
+
+
+            const chartData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Rune Distribution',
+                    data: data,
+                    backgroundColor: chartColors,
+                    borderColor: var(--border-color),
+                    borderWidth: 1
+                }]
+            };
+
+            if (holdersChartInstance) {
+                holdersChartInstance.destroy();
+            }
+
+            holdersChartInstance = new Chart(chartCanvas, {
+                type: 'pie', // Or 'doughnut' or 'bar'
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Allow chart to fill container height/width
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: var(--text-color) // Legend text color
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: `Top ${TOP_N_HOLDERS} Holders Distribution`,
+                            color: var(--text-color) // Title text color
+                        },
+                        tooltip: {
+                             callbacks: {
+                                 label: function(context) {
+                                     let label = context.label || '';
+                                     if (label) {
+                                         label += ': ';
+                                     }
+                                     const value = context.parsed;
+                                     const percentage = totalSupply > 0 ? ((value / totalSupply) * 100).toFixed(2) : 0;
+                                     label += `${value.toLocaleString()} (${percentage}%)`;
+                                     return label;
+                                 }
+                             }
+                        }
+                    }
+                }
+            });
+        }
+
+         // Helper to generate distinct colors - simple version
+         function generateCyberpunkColors(count) {
+             const baseColors = [
+                 '#e94560', // Pink/Red
+                 '#53c9c7', // Teal
+                 '#fcd900', // Yellow
+                 '#4a4a8f', // Dark Blue/Purple
+                 '#0ff',    // Cyan bright
+                 '#f0f',    // Magenta bright
+                 '#0f0',    // Green bright
+                 '#ff7f50', // Coral
+                 '#9a76af', // Purple muted
+                 '#87ceeb'  // Sky Blue
+             ];
+             const colors = [];
+             for (let i = 0; i < count; i++) {
+                 colors.push(baseColors[i % baseColors.length]);
+             }
+             return colors;
+         }
+
+
+        // Add event listener
+        loadHoldersBtn.addEventListener('click', displayHolders);
+        // Optional: Load on Enter key press in input
+        runeIdInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                displayHolders();
+            }
+        });
+
+    </script>
+</body>
+</html> 

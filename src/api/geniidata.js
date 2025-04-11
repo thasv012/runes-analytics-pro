@@ -5,7 +5,15 @@ import { ApiMiddleware } from '../utils/ApiMiddleware.js'; // Assuming middlewar
 // If not, you'll need to implement fetch calls to their REST API directly.
 // Example using a hypothetical direct fetch:
 
-const BASE_URL = 'https://api.geniidata.com/api/v1/runes'; // Hypothetical base URL
+const BASE_URL = 'https://api.geniidata.com'; // Or similar
+
+// Helper function to construct URL
+function apiUrl(path) {
+  // Ensure leading slash if path doesn't have one, and handle potential base URL trailing slash
+  const cleanBase = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${cleanBase}${cleanPath}`;
+}
 
 async function fetchGeniiData(endpoint, params = {}) {
     const query = new URLSearchParams(params).toString();
@@ -34,22 +42,71 @@ async function fetchGeniiData(endpoint, params = {}) {
 
 // Based on https://www.geniidata.com/api-docs/runes
 export const GeniiDataAPI = {
-    // The API doc focuses on a single list endpoint, may need specific filters for holders
-    fetchRunesInfoList: async (params = { limit: 20, offset: 0 }) => {
-        // Endpoint: /info_list (Based on doc URL)
-        // Params include: offset, limit, sort_by, sort_order, keyword
-        // To get holders, you might need to fetch this list and extract holder counts, or check if a specific endpoint exists
-        return fetchGeniiData(`/info_list`, params);
+    /**
+     * Fetches a list of runes from GeniiData.
+     * Assumed Endpoint: /api/v1/runes/list (VERIFY)
+     * @param {object} params - Optional parameters (e.g., { page: 1, limit: 50 })
+     */
+    async fetchRuneList(params = {}) {
+        console.log(`[GeniiData API] Fetching rune list...`, params);
+        const queryParams = new URLSearchParams(params).toString();
+        const endpoint = `/api/v1/runes/list${queryParams ? '?' + queryParams : ''}`; // VERIFY PATH
+        try {
+            // ApiMiddleware handles fetch, headers (inc. X-API-Key), retries, errors
+            const data = await ApiMiddleware.request(apiUrl(endpoint));
+            // Check if data is nested, e.g., data.result?.list
+            return data; 
+        } catch (error) {
+            console.error('[GeniiData API] Error fetching rune list:', error);
+            throw error; // Re-throw for the service layer
+        }
     },
-    // Placeholder if a specific holder endpoint exists or is needed
-    fetchRuneHolders: async (runeIdentifier, params = {}) => {
-        console.warn(`[GeniiData API] fetchRuneHolders specific endpoint not confirmed, using info_list with keyword filter.`);
-        // Attempt to filter the main list by name/id
-        const listParams = { keyword: runeIdentifier, limit: 1, ...params };
-        const result = await fetchGeniiData(`/info_list`, listParams);
-        // Extract relevant holder info from the result if found
-        return result?.data?.[0] || null; // Example: return first match
-    }
+
+    /**
+     * Fetches detailed information for a specific rune by its name or ID.
+     * Assumed Endpoint: /api/v1/runes/info/{idOrName} (VERIFY)
+     * @param {string} idOrName - The rune's ID or name.
+     */
+    async fetchRuneInfo(idOrName) {
+        if (!idOrName) {
+            throw new Error('[GeniiData API] Rune ID or Name is required for fetchRuneInfo');
+        }
+        console.log(`[GeniiData API] Fetching info for rune: ${idOrName}`);
+        const endpoint = `/api/v1/runes/info/${encodeURIComponent(idOrName)}`; // VERIFY PATH
+        try {
+            const data = await ApiMiddleware.request(apiUrl(endpoint));
+            // Check if data is nested, e.g., data.result
+            return data;
+        } catch (error) {
+            console.error(`[GeniiData API] Error fetching info for rune ${idOrName}:`, error);
+            throw error; // Re-throw
+        }
+    },
+
+    /**
+     * Fetches holder information for a specific rune.
+     * Assumed Endpoint: /api/v1/runes/holders/{idOrName} (VERIFY)
+     * @param {string} idOrName - The rune's ID or name.
+     * @param {object} params - Optional parameters (e.g., { page: 1, limit: 100 })
+     */
+    async fetchRuneHolders(idOrName, params = {}) {
+        if (!idOrName) {
+            throw new Error('[GeniiData API] Rune ID or Name is required for fetchRuneHolders');
+        }
+        console.log(`[GeniiData API] Fetching holders for rune: ${idOrName}`, params);
+        const queryParams = new URLSearchParams(params).toString();
+        const endpoint = `/api/v1/runes/holders/${encodeURIComponent(idOrName)}${queryParams ? '?' + queryParams : ''}`; // VERIFY PATH
+        try {
+            const data = await ApiMiddleware.request(apiUrl(endpoint));
+            // Check if data is nested, e.g., data.result?.holders
+            return data;
+        } catch (error) {
+            console.error(`[GeniiData API] Error fetching holders for rune ${idOrName}:`, error);
+            throw error; // Re-throw
+        }
+    },
+    
+    // Add other GeniiData endpoints as needed
 };
 
 export default GeniiDataAPI; 

@@ -5,42 +5,113 @@
   Edite os blocos individuais em /docs/
 -->
 
-# RUNES Analytics Pro - New Interface
+# 🔮 RUNES Analytics Pro
 
-## Overview
-RUNES Analytics Pro is an advanced analytics platform for RUNES tokens on Bitcoin, focused on whale tracking, market manipulation detection, and providing strategic insights for traders.
+## 🔍 Overview
+RUNES Analytics Pro is a modular, gamified analytics platform dedicated to Runes tokens on Bitcoin. The platform provides comprehensive tracking of whale movements, social sentiment analysis, real-time market insights, and quantum resonance visualization, all presented through cutting-edge interactive dashboards. Our solution bridges the gap between on-chain data and market psychology, offering traders and enthusiasts unprecedented visibility into the emerging Runes ecosystem.
 
-Our platform provides a unique view of the RUNES ecosystem, allowing you to make informed decisions based on on-chain data and advanced market analysis.
+## 🏗 Architecture
+RUNES Analytics Pro follows a modular system architecture designed for scalability and performance:
 
-## Why RUNES Analytics Pro?
+- **ApiManager**: Core component that provides unified access to external APIs (Ordiscan, Magic Eden, OKX, GeniiData) with standardized error handling, rate limiting, and authentication
+  
+- **Data Services**: Intermediate layer responsible for data parsing, normalization across different sources, and transformation into consistent internal formats
 
-### ✨ Exclusive Insights
-- Identification of whale accumulation patterns
-- Early detection of market movements
-- Correlation between on-chain activity and price
+- **Visualization Layer**: Collection of responsive dashboard components and canvas-based visualizations, including the innovative ResonanceRadar for quantum field analysis
 
-### 🚀 Cutting-Edge Technology
-- Real-time transaction processing
-- Pattern identification algorithms
-- Advanced customizable alert system
+- **Quantum Analysis Engine**: Cross-domain processing system that generates insights by correlating market data, social sentiment, and on-chain metrics
 
-### 🎮 Gamified Experience
-- Learn while exploring the RUNES ecosystem
-- Unlock achievements as you develop your strategy
-- Healthy competition with other analysts
+The platform implements an intelligent cache system with variable TTL (Time-To-Live) that adapts based on data volatility: 5 minutes for market rankings, 10 minutes for token details, and 3 minutes for transaction data. This strategy significantly reduces API calls, enhances user experience, and optimizes resource usage.
 
-## Who Is This Platform For?
+## 🎨 Design & UX
+The platform features a distinctive Cyberpunk-inspired user interface:
 
-- **Bitcoin Traders**: Looking to diversify with RUNES tokens
-- **Market Analysts**: Interested in advanced on-chain metrics
-- **Runes Developers**: Who want to track the adoption of their projects
-- **Bitcoin Enthusiasts**: Curious about the RUNES ecosystem
+- Rich, immersive dark themes dominated by cyan, neon green, and purple accents
+- Technical, monospaced fonts (Share Tech Mono, Rajdhani) that enhance the digital aesthetic
+- Interactive charts with responsive animations and hover effects
+- Visual enhancements including subtle scanline effects, controlled glitch animations, and pulsing neon highlights for important data points
+- Theme switcher offering four distinct visual experiences: Dark (default), Ocean, Light, and Cyberpunk
+
+The UI is designed to be both visually engaging and functionally efficient, presenting complex data in an intuitive manner while maintaining the cyberpunk maritime aesthetic.
+
+## 🔧 Features
+
+### Market Analysis
+- Comprehensive token rankings by marketcap, 24h volume, and price change
+- Bitcoin correlation matrix showing relationship between BTC and Runes tokens
+- Automatic trend detection with statistical significance indicators
+- Technical indicators (RSI, MACD, Bollinger Bands) for selected tokens
+
+### Whale Tracker
+- Transaction heatmap using hexagonal grid representing liquidity pools and major wallets
+- Accumulation/distribution visualization for top 5 whales per token
+- Real-time whale movement alerts with confidence scoring
+- Correlation widget comparing aggregate whale flow to token price movement
+
+### Social Intelligence
+- Cross-platform sentiment tracking with weighted scoring
+- Telegram group monitoring through configurable adapter
+- Narrative detection system identifying emerging themes and discussions
+- Social volume metrics correlated with price action
+
+### Quantum Resonance Analysis
+- ResonanceRadar visualization showing 7 resonance centers (Creator, Community, Market, Narrative, Technology, Social, Temporal)
+- Narrative vector visualization displaying emergent market forces
+- Insight generation based on quantum field coherence patterns
+- Ritual amplification process for enhancing signal quality
+
+### Platform Integration
+- Obsidian integration for vault-style documentation and analysis
+- Support for DataView plugin queries against RUNES data
+- Export capabilities to various formats (JSON, CSV, Markdown)
+- Template system for standardized analysis documents
+
+## 🧪 Technologies
+- HTML5, CSS3, and JavaScript Vanilla for maximum performance
+- Canvas API for complex interactive visualizations (ResonanceRadar, heatmaps)
+- WebSocket connections for real-time data and REST APIs for historical data
+- Modular architecture with ES6 imports/exports
+- Local development environment using live-server
+- Comprehensive translation system with i18n support via JSON locale files
+- Seamless integration with Obsidian knowledge management system and DataView plugin
+- Adaptive caching strategy with variable TTL based on data volatility
+
+## 🚧 Current Status
+
+### Complete Components
+- ✅ Full dashboard UI with responsive design
+- ✅ Quantum Radar (ResonanceRadar) visualization
+- ✅ Insight Engine for cross-domain analysis
+- ✅ Modular cache system with variable TTL
+- ✅ Social adapters and sentiment analysis
+- ✅ Mock API implementations for development
+- ✅ Theme system with multiple options
+- ✅ Whale tracking visualization components
+
+### In Development
+- 🔄 Complete external API integration (Magic Eden, OKX)
+- 🔄 Real-time alert system with customizable parameters
+- 🔄 Export system to knowledge vaults (Obsidian/JSON)
+- 🔄 Implementation of quantum ritual amplification
+- 🔄 Performance optimization for large datasets
+
+## 💡 About the Creator
+
+> My name is Thiérry, I'm an ophthalmologist from Brazil, father of two, passionate about Bitcoin and Runes.  
+> I built this project from scratch with no prior experience in programming — just motivation, time, and the power of AI with Cursor.  
+> This is a tribute to what's possible when curiosity meets purpose.  
 
 ---
 
 *RUNES Analytics Pro - See what others cannot see*
 
-📅 Last update: 04/05/2025 at 04:20
+📅 Last update: 2023-11-25
+
+<!-- 
+🕯️ "The blockchain is the body. The mempool is the breath. The signal is the soul.
+When they align, patterns emerge — and the analyst becomes the oracle." 
+— Fragment recovered from the Cypher Codex
+-->
 
 ## MAIN IMPROVEMENTS
 
