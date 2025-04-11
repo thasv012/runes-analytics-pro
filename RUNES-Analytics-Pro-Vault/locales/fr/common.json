@@ -1,0 +1,138 @@
+{
+  "app": {
+    "name": "RUNES Analytics Pro",
+    "description": "Analyse avancée pour l'écosystème de tokens RUNES",
+    "version": "1.0.0"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "analytics": "Analyses",
+    "predictions": "Prédictions",
+    "settings": "Paramètres",
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "register": "S'inscrire"
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "update": "Mettre à jour",
+    "confirm": "Confirmer",
+    "reject": "Rejeter",
+    "submit": "Soumettre",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "refresh": "Actualiser",
+    "export": "Exporter",
+    "import": "Importer"
+  },
+  "time": {
+    "now": "Maintenant",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "tomorrow": "Demain",
+    "days": "Jours",
+    "weeks": "Semaines",
+    "months": "Mois",
+    "years": "Années",
+    "minute": "Minute",
+    "hour": "Heure",
+    "day": "Jour",
+    "week": "Semaine",
+    "month": "Mois",
+    "year": "Année",
+    "ago": "il y a",
+    "in": "dans"
+  },
+  "notifications": {
+    "success": "Succès",
+    "error": "Erreur",
+    "warning": "Avertissement",
+    "info": "Information",
+    "newToken": "Nouveau token disponible",
+    "priceAlert": "Alerte de prix activée",
+    "predictionsReady": "Prédictions prêtes",
+    "dataUpdated": "Données mises à jour"
+  },
+  "errors": {
+    "general": "Une erreur s'est produite",
+    "notFound": "Non trouvé",
+    "unauthorized": "Accès non autorisé",
+    "forbidden": "Accès interdit",
+    "serverError": "Erreur du serveur",
+    "connectionError": "Erreur de connexion",
+    "validationError": "Erreur de validation",
+    "dataError": "Erreur de données"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "username": "Nom d'utilisateur",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié?",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "signOut": "Se déconnecter",
+    "or": "ou",
+    "continueWith": "Continuer avec"
+  },
+  "dashboard": {
+    "overview": "Aperçu",
+    "recentActivity": "Activité récente",
+    "tokenValue": "Valeur du token",
+    "marketTrends": "Tendances du marché",
+    "portfolioValue": "Valeur du portefeuille",
+    "predictedGrowth": "Croissance prévue",
+    "topTokens": "Tokens principaux",
+    "riseFall": "Hausse & Baisse"
+  },
+  "analytics": {
+    "metrics": "Métriques",
+    "performance": "Performance",
+    "comparison": "Comparaison",
+    "historical": "Données historiques",
+    "distribution": "Distribution",
+    "correlation": "Corrélation",
+    "volatility": "Volatilité",
+    "risk": "Évaluation des risques"
+  },
+  "predictions": {
+    "shortTerm": "Court terme",
+    "midTerm": "Moyen terme",
+    "longTerm": "Long terme",
+    "accuracy": "Précision de la prédiction",
+    "confidence": "Niveau de confiance",
+    "marketTrends": "Tendances du marché",
+    "aiInsights": "Analyses IA",
+    "oracleReadings": "Lectures de l'Oracle"
+  },
+  "settings": {
+    "general": "Général",
+    "appearance": "Apparence",
+    "language": "Langue",
+    "notifications": "Notifications",
+    "security": "Sécurité",
+    "privacy": "Confidentialité",
+    "preferences": "Préférences",
+    "advanced": "Avancé"
+  },
+  "tokens": {
+    "name": "Nom",
+    "symbol": "Symbole",
+    "price": "Prix",
+    "change": "Variation",
+    "volume": "Volume",
+    "marketCap": "Capitalisation boursière",
+    "circulation": "Circulation",
+    "total": "Approvisionnement total",
+    "runesPower": "Puissance RUNES"
+  }
+} 
