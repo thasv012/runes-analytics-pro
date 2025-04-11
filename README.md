@@ -2,6 +2,12 @@
 
 Plataforma avançada para análise de tokens RUNES no ecossistema Bitcoin, com foco em rastreamento de whales, detecção de manipulação de mercado e fornecimento de insights estratégicos para traders.
 
+## 🌍 Documentação Multilíngue
+
+Esta documentação está disponível em:
+- [Português (Atual)](./docs/00_map.md)
+- [English](./docs/en/00_map.md)
+
 ## 🧠 AwakenAI Neural Interface
 
 O módulo AwakenAI foi implementado para fornecer insights neurais e diagnósticos preditivos através de uma malha distribuída de nodes. Com o AwakenAI, você pode:
